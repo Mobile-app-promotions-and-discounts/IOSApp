@@ -1,6 +1,6 @@
 import UIKit
 
-final class MainViewController: UIViewController {
+final class ProfileViewController: UIViewController {
     private let router: NavigationRouterProtocol
 
     init(router: NavigationRouterProtocol) {

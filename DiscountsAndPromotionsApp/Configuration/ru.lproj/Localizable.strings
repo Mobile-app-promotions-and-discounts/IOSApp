@@ -1,1 +1,6 @@
+// TabBar
+"main" = "Главная";
+"catalog" = "Каталог";
+"favorites" = "Избранное";
+"profile" = "Профиль";
 

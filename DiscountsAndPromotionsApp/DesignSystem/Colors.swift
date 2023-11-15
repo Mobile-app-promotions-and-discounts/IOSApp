@@ -1,7 +1,7 @@
 import UIKit
 
 //// Пример - Базовая палитра цветов
-//struct BasicColors {
+// struct BasicColors {
 //    static let accent = UIColor(hex: "11DCE8")
 //    static let darkBG = UIColor(hex: "091522")
 //    static let active = UIColor(hex: "FFFFFF")
@@ -11,4 +11,4 @@ import UIKit
 //    static func colorWithAlpha(_ color: UIColor, withAlpha alpha: CGFloat) -> UIColor {
 //        return color.withAlphaComponent(alpha)
 //    }
-//}
+// }

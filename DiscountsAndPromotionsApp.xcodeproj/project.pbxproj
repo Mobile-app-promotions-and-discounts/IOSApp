@@ -20,6 +20,12 @@
 		BE35247D2B02B8BE00746581 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BE35247F2B02B8BE00746581 /* Localizable.strings */; };
 		BE3524832B02B92A00746581 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BE3524822B02B92A00746581 /* SnapKit */; };
 		BE3524852B02B92A00746581 /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = BE3524842B02B92A00746581 /* SnapKit-Dynamic */; };
+		BE521A822B04DEB3005F2FE7 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE521A812B04DEB3005F2FE7 /* MainTabBarController.swift */; };
+		BE521A842B04DEC4005F2FE7 /* CatalogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE521A832B04DEC4005F2FE7 /* CatalogViewController.swift */; };
+		BE521A862B04DEC8005F2FE7 /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE521A852B04DEC8005F2FE7 /* FavoritesViewController.swift */; };
+		BE521A882B04DECC005F2FE7 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE521A872B04DECC005F2FE7 /* ProfileViewController.swift */; };
+		BE521A8C2B04DF2F005F2FE7 /* ProductModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE521A8B2B04DF2F005F2FE7 /* ProductModel.swift */; };
+		BE521A8F2B04DF5D005F2FE7 /* MockDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE521A8E2B04DF5D005F2FE7 /* MockDataService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +43,12 @@
 		BE3524752B02B62B00746581 /* NavigationRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationRouter.swift; sourceTree = "<group>"; };
 		BE35247E2B02B8BE00746581 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BE3524802B02B8D200746581 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BE521A812B04DEB3005F2FE7 /* MainTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
+		BE521A832B04DEC4005F2FE7 /* CatalogViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatalogViewController.swift; sourceTree = "<group>"; };
+		BE521A852B04DEC8005F2FE7 /* FavoritesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
+		BE521A872B04DECC005F2FE7 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		BE521A8B2B04DF2F005F2FE7 /* ProductModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ProductModel.swift; path = ../../../../../Documents/ProductModel.swift; sourceTree = "<group>"; };
+		BE521A8E2B04DF5D005F2FE7 /* MockDataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockDataService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,9 +85,8 @@
 			children = (
 				BE3524642B02ACD900746581 /* Application */,
 				BE3524652B02B24100746581 /* DesignSystem */,
-				BE35246C2B02B28800746581 /* Factories */,
-				BE35246E2B02B2AF00746581 /* Data */,
 				BE35246D2B02B29F00746581 /* Navigation */,
+				BE521A892B04DF1A005F2FE7 /* Data */,
 				BE3524712B02B2E200746581 /* UI */,
 				BE3524722B02B30800746581 /* Extensions */,
 				BE3524632B02ACCB00746581 /* Resources */,
@@ -129,48 +140,22 @@
 			path = DesignSystem;
 			sourceTree = "<group>";
 		};
-		BE35246C2B02B28800746581 /* Factories */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Factories;
-			sourceTree = "<group>";
-		};
 		BE35246D2B02B29F00746581 /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
 				BE3524752B02B62B00746581 /* NavigationRouter.swift */,
+				BE521A812B04DEB3005F2FE7 /* MainTabBarController.swift */,
 			);
 			path = Navigation;
-			sourceTree = "<group>";
-		};
-		BE35246E2B02B2AF00746581 /* Data */ = {
-			isa = PBXGroup;
-			children = (
-				BE3524702B02B2C700746581 /* Services */,
-				BE35246F2B02B2BE00746581 /* Models */,
-			);
-			path = Data;
-			sourceTree = "<group>";
-		};
-		BE35246F2B02B2BE00746581 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		BE3524702B02B2C700746581 /* Services */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Services;
 			sourceTree = "<group>";
 		};
 		BE3524712B02B2E200746581 /* UI */ = {
 			isa = PBXGroup;
 			children = (
 				BE3524512B02ABA200746581 /* MainViewController.swift */,
+				BE521A832B04DEC4005F2FE7 /* CatalogViewController.swift */,
+				BE521A852B04DEC8005F2FE7 /* FavoritesViewController.swift */,
+				BE521A872B04DECC005F2FE7 /* ProfileViewController.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -183,6 +168,31 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		BE521A892B04DF1A005F2FE7 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				BE521A8A2B04DF23005F2FE7 /* Models */,
+				BE521A8D2B04DF46005F2FE7 /* Services */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		BE521A8A2B04DF23005F2FE7 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				BE521A8B2B04DF2F005F2FE7 /* ProductModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		BE521A8D2B04DF46005F2FE7 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				BE521A8E2B04DF5D005F2FE7 /* MockDataService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -193,6 +203,7 @@
 				BE3524462B02ABA200746581 /* Sources */,
 				BE3524472B02ABA200746581 /* Frameworks */,
 				BE3524482B02ABA200746581 /* Resources */,
+				BE521A802B04DD6E005F2FE7 /* Run Swiftlint */,
 			);
 			buildRules = (
 			);
@@ -257,16 +268,44 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		BE521A802B04DD6E005F2FE7 /* Run Swiftlint */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run Swiftlint";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftlint > /dev/null; then\n  swiftlint --fix && swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		BE3524462B02ABA200746581 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE521A842B04DEC4005F2FE7 /* CatalogViewController.swift in Sources */,
 				BE3524742B02B4D100746581 /* UIColor+Extension.swift in Sources */,
 				BE3524522B02ABA200746581 /* MainViewController.swift in Sources */,
+				BE521A822B04DEB3005F2FE7 /* MainTabBarController.swift in Sources */,
 				BE3524762B02B62B00746581 /* NavigationRouter.swift in Sources */,
+				BE521A8F2B04DF5D005F2FE7 /* MockDataService.swift in Sources */,
 				BE35246B2B02B28000746581 /* Colors.swift in Sources */,
+				BE521A882B04DECC005F2FE7 /* ProfileViewController.swift in Sources */,
+				BE521A862B04DEC8005F2FE7 /* FavoritesViewController.swift in Sources */,
 				BE3524692B02B27A00746581 /* Fonts.swift in Sources */,
+				BE521A8C2B04DF2F005F2FE7 /* ProductModel.swift in Sources */,
 				BE3524672B02B26F00746581 /* Images.swift in Sources */,
 				BE35244E2B02ABA200746581 /* AppDelegate.swift in Sources */,
 				BE3524502B02ABA200746581 /* SceneDelegate.swift in Sources */,
@@ -334,7 +373,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -398,7 +437,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;

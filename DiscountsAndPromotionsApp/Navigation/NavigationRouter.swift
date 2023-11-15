@@ -1,19 +1,18 @@
 import UIKit
 
 protocol NavigationRouterProtocol {
-//    func startNavigation()
+    func startNavigation()
 }
 
 final class NavigationRouter: NavigationRouterProtocol {
     private let navigationController: UINavigationController
-    
+
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
     }
-    
-    // Пример использования
-//    func startNavigation() {
-//        let rootViewController = MainViewController(router: self)
-//        navigationController.pushViewController(rootViewController, animated: false)
-//    }
+
+    func startNavigation() {
+        let tabBarController = MainTabBarController(router: self)
+        navigationController.pushViewController(tabBarController, animated: false)
+    }
 }
