@@ -1,10 +1,9 @@
 import UIKit
 
 final class MainTabBarController: UITabBarController {
-    private let router: NavigationRouterProtocol
+    weak var coordinator: MainCoordinator?
 
-    init(router: NavigationRouterProtocol) {
-        self.router = router
+    init() {
         super.init(nibName: nil, bundle: nil)
         setUpViewControllers()
     }
@@ -14,22 +13,22 @@ final class MainTabBarController: UITabBarController {
     }
 
     private func setUpViewControllers() {
-        let mainViewController = MainViewController(router: self.router)
+        let mainViewController = MainViewController()
         mainViewController.tabBarItem = UITabBarItem(title: NSLocalizedString("main", comment: ""),
                                                      image: UIImage(systemName: "mustache"),
                                                      tag: 0)
 
-        let catalogController = CatalogViewController(router: self.router)
+        let catalogController = CatalogViewController()
         catalogController.tabBarItem = UITabBarItem(title: NSLocalizedString("catalog", comment: ""),
                                                     image: UIImage(systemName: "list.bullet.rectangle"),
                                                     tag: 1)
 
-        let favoritesController = FavoritesViewController(router: self.router)
+        let favoritesController = FavoritesViewController()
         favoritesController.tabBarItem = UITabBarItem(title: NSLocalizedString("favorites", comment: ""),
                                                       image: UIImage(systemName: "star.fill"),
                                                       tag: 2)
 
-        let profileController = ProfileViewController(router: self.router)
+        let profileController = ProfileViewController()
         profileController.tabBarItem = UITabBarItem(title: NSLocalizedString("profile", comment: ""),
                                                     image: UIImage(systemName: "person.crop.circle"),
                                                     tag: 3)
