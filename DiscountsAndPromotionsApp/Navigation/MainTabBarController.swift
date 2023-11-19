@@ -1,7 +1,7 @@
 import UIKit
 
 final class MainTabBarController: UITabBarController {
-    weak var coordinator: MainCoordinator?
+    weak var mainScreenCoordinator: MainScreenCoordinator?
 
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -12,8 +12,9 @@ final class MainTabBarController: UITabBarController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func setUpViewControllers() {
+    func setUpViewControllers() {
         let mainViewController = MainViewController()
+        mainViewController.coordinator = mainScreenCoordinator
         mainViewController.tabBarItem = UITabBarItem(title: NSLocalizedString("main", comment: ""),
                                                      image: UIImage(systemName: "mustache"),
                                                      tag: 0)

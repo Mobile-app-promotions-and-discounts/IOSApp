@@ -9,8 +9,12 @@ final class MainCoordinator: Coordinator {
     }
 
     func start() {
+        let mainScreenCoordinator = MainScreenCoordinator(navigationController: navigationController)
+        childCoordinators.append(mainScreenCoordinator)
+
         let tabBarController = MainTabBarController()
-        tabBarController.coordinator = self
+        tabBarController.mainScreenCoordinator = mainScreenCoordinator
+        tabBarController.setUpViewControllers()
         navigationController.pushViewController(tabBarController, animated: false)
     }
 }
