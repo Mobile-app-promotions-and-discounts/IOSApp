@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BCA719962B0AB067008BAA74 /* ScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA719952B0AB067008BAA74 /* ScanViewController.swift */; };
 		BE35244E2B02ABA200746581 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE35244D2B02ABA200746581 /* AppDelegate.swift */; };
 		BE3524502B02ABA200746581 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE35244F2B02ABA200746581 /* SceneDelegate.swift */; };
 		BE3524522B02ABA200746581 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE3524512B02ABA200746581 /* MainViewController.swift */; };
@@ -28,6 +29,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		BCA719952B0AB067008BAA74 /* ScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanViewController.swift; sourceTree = "<group>"; };
 		BE35244A2B02ABA200746581 /* DiscountsAndPromotionsApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DiscountsAndPromotionsApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE35244D2B02ABA200746581 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BE35244F2B02ABA200746581 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -153,6 +155,7 @@
 				BE521A832B04DEC4005F2FE7 /* CatalogViewController.swift */,
 				BE521A852B04DEC8005F2FE7 /* FavoritesViewController.swift */,
 				BE521A872B04DECC005F2FE7 /* ProfileViewController.swift */,
+				BCA719952B0AB067008BAA74 /* ScanViewController.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -293,6 +296,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BE521A842B04DEC4005F2FE7 /* CatalogViewController.swift in Sources */,
+				BCA719962B0AB067008BAA74 /* ScanViewController.swift in Sources */,
 				BE3524742B02B4D100746581 /* UIColor+Extension.swift in Sources */,
 				BE3524522B02ABA200746581 /* MainViewController.swift in Sources */,
 				BE521A822B04DEB3005F2FE7 /* MainTabBarController.swift in Sources */,
