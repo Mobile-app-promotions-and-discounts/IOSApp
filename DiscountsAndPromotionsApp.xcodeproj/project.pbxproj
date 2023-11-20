@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		BC93BB692B0BC313008BE2AD /* ScanFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC93BB682B0BC313008BE2AD /* ScanFlowCoordinator.swift */; };
-		BC93BB6B2B0BCBF1008BE2AD /* BarcodeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC93BB6A2B0BCBF1008BE2AD /* BarcodeModel.swift */; };
+		BC93BB6B2B0BCBF1008BE2AD /* StringBarcodeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC93BB6A2B0BCBF1008BE2AD /* StringBarcodeExtension.swift */; };
 		BCA719962B0AB067008BAA74 /* ScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA719952B0AB067008BAA74 /* ScanViewController.swift */; };
 		BE35244E2B02ABA200746581 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE35244D2B02ABA200746581 /* AppDelegate.swift */; };
 		BE3524502B02ABA200746581 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE35244F2B02ABA200746581 /* SceneDelegate.swift */; };
@@ -44,7 +44,7 @@
 
 /* Begin PBXFileReference section */
 		BC93BB682B0BC313008BE2AD /* ScanFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanFlowCoordinator.swift; sourceTree = "<group>"; };
-		BC93BB6A2B0BCBF1008BE2AD /* BarcodeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeModel.swift; sourceTree = "<group>"; };
+		BC93BB6A2B0BCBF1008BE2AD /* StringBarcodeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringBarcodeExtension.swift; sourceTree = "<group>"; };
 		BC93BB702B0BDA0A008BE2AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BCA719952B0AB067008BAA74 /* ScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanViewController.swift; sourceTree = "<group>"; };
 		BE35244A2B02ABA200746581 /* DiscountsAndPromotionsApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DiscountsAndPromotionsApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -187,6 +187,7 @@
 		BE3524722B02B30800746581 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				BC93BB6A2B0BCBF1008BE2AD /* StringBarcodeExtension.swift */,
 				BE3524732B02B4D100746581 /* UIColor+Extension.swift */,
 			);
 			path = Extensions;
@@ -213,7 +214,6 @@
 			isa = PBXGroup;
 			children = (
 				BEBA916D2B0A9F9500C2DE96 /* ProductModel.swift */,
-				BC93BB6A2B0BCBF1008BE2AD /* BarcodeModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -334,7 +334,7 @@
 				BE521A862B04DEC8005F2FE7 /* FavoritesViewController.swift in Sources */,
 				BE3524692B02B27A00746581 /* Fonts.swift in Sources */,
 				BE35244E2B02ABA200746581 /* AppDelegate.swift in Sources */,
-				BC93BB6B2B0BCBF1008BE2AD /* BarcodeModel.swift in Sources */,
+				BC93BB6B2B0BCBF1008BE2AD /* StringBarcodeExtension.swift in Sources */,
 				BE3524502B02ABA200746581 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

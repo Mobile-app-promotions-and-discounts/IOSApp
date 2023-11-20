@@ -73,7 +73,7 @@ final class ScanViewController: UIViewController, AVCaptureMetadataOutputObjects
     
     func setupUI() {
         let tf = UITextField()
-        tf.backgroundColor = .red
+        tf.backgroundColor = .systemBackground
         view.addSubview(tf)
         tf.snp.makeConstraints{ (maker) in
             maker.center.equalToSuperview()
