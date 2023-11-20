@@ -6,21 +6,101 @@
 //
 
 import AVFoundation
+import SnapKit
 import UIKit
 
+enum BarcodeInput {
+    case scan
+    case manual
+}
+
 final class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
-    var captureSession: AVCaptureSession!
-    var previewLayer: AVCaptureVideoPreviewLayer!
+//    private var mode: BarcodeInput = .scan {
+//        didSet {
+//            switch mode {
+//            case .manual:
+//                
+//            case .scan:
+//            }
+//        }
+//    }
+    
+    private var captureSession: AVCaptureSession!
+    private var previewLayer: AVCaptureVideoPreviewLayer!
+    
+    private var flashButton = {
+        let flashButton = UIButton(type: .custom)
+    flashButton.backgroundColor = .systemBackground
+    flashButton.setImage(UIImage.init(systemName: "bolt"), for: .normal)
+    flashButton.setImage(UIImage.init(systemName: "bolt.fill"), for: .selected)
+        flashButton.snp.makeConstraints{ (maker) in
+            maker.height.equalTo(44)
+            maker.width.equalTo(44)
+        }
+        flashButton.clipsToBounds = true
+            flashButton.layer.cornerRadius = 22
+    return flashButton
+    }()
+    
+    private var buttonStack: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .horizontal
+        stack.alignment = .fill
+        stack.distribution = .fillEqually
+        stack.spacing = 12
+        stack.backgroundColor = .systemBackground
+        return stack
+    }()
+    
+    private var scanButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("SCAN", for: .normal)
+        return button
+    }()
+    
+    private var manualButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("MANUAL", for: .normal)
+        return button
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+                
+        setupCaptureSession()
+        setupUI()
+    }
+    
+    func setupUI() {
+        let tf = UITextField()
+        tf.backgroundColor = .red
+        view.addSubview(tf)
+        tf.snp.makeConstraints{ (maker) in
+            maker.center.equalToSuperview()
+            maker.height.equalTo(80)
+            maker.width.equalTo(260)
+        }
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage.init(systemName: "bolt"),
-                                                            style: .plain,
-                                                            target: self,
-                                                            action: #selector(toggleFlash))
-        
-        view.backgroundColor = UIColor.black
+        flashButton.addTarget(self,
+                              action: #selector(toggleFlash),
+                              for: .touchUpInside)
+            
+            navigationItem.rightBarButtonItem = UIBarButtonItem(customView: flashButton)
+        navigationItem.backButtonDisplayMode = .minimal
+            
+            view.backgroundColor = .systemBackground
+            view.addSubview(buttonStack)
+            buttonStack.addArrangedSubview(scanButton)
+            buttonStack.addArrangedSubview(manualButton)
+            buttonStack.snp.makeConstraints{ (maker) in
+                maker.height.equalTo(60)
+                maker.width.equalTo(view)
+                maker.centerX.equalTo(view)
+                maker.centerY.equalTo(view.keyboardLayoutGuide).offset(-40)
+            }
+        }
+    
+    func setupCaptureSession() {
         captureSession = AVCaptureSession()
         
         guard let videoCaptureDevice = AVCaptureDevice.default(for: .video) else { return }
@@ -81,6 +161,7 @@ final class ScanViewController: UIViewController, AVCaptureMetadataOutputObjects
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
+        flashOff()
         if (captureSession?.isRunning == true) {
             captureSession.stopRunning()
         }
@@ -94,6 +175,7 @@ final class ScanViewController: UIViewController, AVCaptureMetadataOutputObjects
             print(readableObject.type)
             guard let stringValue = readableObject.stringValue else { return }
             AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
+            flashOff()
             found(code: stringValue)
         }
         
@@ -109,9 +191,9 @@ final class ScanViewController: UIViewController, AVCaptureMetadataOutputObjects
     }
 }
 
+//MARK: - Flashlight
 extension ScanViewController {
-    @objc
-    func toggleFlash() {
+    func flashOff() {
         guard let device = AVCaptureDevice.default(for: AVMediaType.video) else { return }
         guard device.hasTorch else { return }
 
@@ -120,17 +202,35 @@ extension ScanViewController {
 
             if (device.torchMode == AVCaptureDevice.TorchMode.on) {
                 device.torchMode = AVCaptureDevice.TorchMode.off
+            }
+            
+            device.unlockForConfiguration()
+        } catch {
+            assertionFailure(error.localizedDescription)
+        }
+    }
+    
+    @objc
+    func toggleFlash() {
+        guard let device = AVCaptureDevice.default(for: AVMediaType.video) else { return }
+        guard device.hasTorch else { return }
+        do {
+            try device.lockForConfiguration()
+
+            if (device.torchMode == AVCaptureDevice.TorchMode.on) {
+                device.torchMode = AVCaptureDevice.TorchMode.off
+                flashButton.isSelected = false
             } else {
                 do {
                     try device.setTorchModeOn(level: 1.0)
+                    flashButton.isSelected = true
                 } catch {
-                    print(error)
+                    assertionFailure(error.localizedDescription)
                 }
             }
-
             device.unlockForConfiguration()
         } catch {
-            print(error)
+            assertionFailure(error.localizedDescription)
         }
     }
 }

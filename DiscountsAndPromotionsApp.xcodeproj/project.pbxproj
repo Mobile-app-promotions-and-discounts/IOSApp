@@ -45,6 +45,7 @@
 /* Begin PBXFileReference section */
 		BC93BB682B0BC313008BE2AD /* ScanFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanFlowCoordinator.swift; sourceTree = "<group>"; };
 		BC93BB6A2B0BCBF1008BE2AD /* BarcodeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeModel.swift; sourceTree = "<group>"; };
+		BC93BB702B0BDA0A008BE2AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BCA719952B0AB067008BAA74 /* ScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanViewController.swift; sourceTree = "<group>"; };
 		BE35244A2B02ABA200746581 /* DiscountsAndPromotionsApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DiscountsAndPromotionsApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE35244D2B02ABA200746581 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -52,7 +53,6 @@
 		BE3524512B02ABA200746581 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		BE3524562B02ABA300746581 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BE3524592B02ABA300746581 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		BE35245B2B02ABA300746581 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BE3524682B02B27A00746581 /* Fonts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		BE3524732B02B4D100746581 /* UIColor+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		BE3524752B02B62B00746581 /* MainCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
@@ -124,7 +124,7 @@
 			isa = PBXGroup;
 			children = (
 				BE35247F2B02B8BE00746581 /* Localizable.strings */,
-				BE35245B2B02ABA300746581 /* Info.plist */,
+				BC93BB702B0BDA0A008BE2AD /* Info.plist */,
 			);
 			path = Configuration;
 			sourceTree = "<group>";
