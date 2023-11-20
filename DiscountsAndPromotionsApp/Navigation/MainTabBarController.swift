@@ -2,6 +2,13 @@ import UIKit
 
 final class MainTabBarController: UITabBarController {
     weak var coordinator: MainCoordinator?
+    
+    //MARK: - временное решение для быстрой проверки сканера
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        coordinator?.startScanFlow()
+    }
 
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -13,12 +20,6 @@ final class MainTabBarController: UITabBarController {
     }
 
     private func setUpViewControllers() {
-        //MARK: - временное решение для быстрой проверки сканера
-        let scanController = ScanViewController()
-        scanController.tabBarItem = UITabBarItem(title: "Сканер",
-                                                 image: UIImage(systemName: "barcode.viewfinder"),
-                                                 tag: 4)
-        
         let mainViewController = MainViewController()
         mainViewController.tabBarItem = UITabBarItem(title: NSLocalizedString("main", comment: ""),
                                                      image: UIImage(systemName: "mustache"),
@@ -39,6 +40,6 @@ final class MainTabBarController: UITabBarController {
                                                     image: UIImage(systemName: "person.crop.circle"),
                                                     tag: 3)
 
-        viewControllers = [scanController, mainViewController, catalogController, favoritesController, profileController]
+        viewControllers = [mainViewController, catalogController, favoritesController, profileController]
     }
 }

@@ -8,7 +8,7 @@
 import AVFoundation
 import UIKit
 
-class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
+final class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
     var captureSession: AVCaptureSession!
     var previewLayer: AVCaptureVideoPreviewLayer!
     
@@ -18,7 +18,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage.init(systemName: "bolt"),
                                                             style: .plain,
                                                             target: self,
-                                                            action: nil)
+                                                            action: #selector(toggleFlash))
         
         view.backgroundColor = UIColor.black
         captureSession = AVCaptureSession()
@@ -45,7 +45,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
             captureSession.addOutput(metadataOutput)
             
             metadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
-            metadataOutput.metadataObjectTypes = [.ean8, .ean13, .pdf417]
+            metadataOutput.metadataObjectTypes = [.ean8, .ean13, .upce]
         } else {
             failed()
             return
@@ -56,7 +56,10 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         previewLayer.videoGravity = .resizeAspectFill
         view.layer.addSublayer(previewLayer)
         
-        captureSession.startRunning()
+        let background = DispatchQueue(label: "capture_session_queue")
+        background.async { [weak self] in
+            self?.captureSession.startRunning()
+        }
     }
     
     //TODO: Handle Errors and strings
@@ -88,6 +91,7 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
         
         if let metadataObject = metadataObjects.first {
             guard let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject else { return }
+            print(readableObject.type)
             guard let stringValue = readableObject.stringValue else { return }
             AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
             found(code: stringValue)
@@ -103,8 +107,30 @@ class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelega
     override var prefersStatusBarHidden: Bool {
         return true
     }
-    
-//    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-//        return .portrait
-//    }
+}
+
+extension ScanViewController {
+    @objc
+    func toggleFlash() {
+        guard let device = AVCaptureDevice.default(for: AVMediaType.video) else { return }
+        guard device.hasTorch else { return }
+
+        do {
+            try device.lockForConfiguration()
+
+            if (device.torchMode == AVCaptureDevice.TorchMode.on) {
+                device.torchMode = AVCaptureDevice.TorchMode.off
+            } else {
+                do {
+                    try device.setTorchModeOn(level: 1.0)
+                } catch {
+                    print(error)
+                }
+            }
+
+            device.unlockForConfiguration()
+        } catch {
+            print(error)
+        }
+    }
 }

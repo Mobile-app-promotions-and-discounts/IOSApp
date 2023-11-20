@@ -13,4 +13,9 @@ final class MainCoordinator: Coordinator {
         tabBarController.coordinator = self
         navigationController.pushViewController(tabBarController, animated: false)
     }
+    
+    func startScanFlow() {
+        let scanCoordinator = ScanFlowCoordinator(navigation: navigationController)
+        scanCoordinator.start()
+    }
 }
