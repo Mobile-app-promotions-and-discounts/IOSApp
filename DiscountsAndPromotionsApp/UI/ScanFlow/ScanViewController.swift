@@ -28,6 +28,19 @@ final class ScanViewController: UIViewController, AVCaptureMetadataOutputObjects
     private var captureSession: AVCaptureSession!
     private var previewLayer: AVCaptureVideoPreviewLayer!
     
+    //MARK: - UI elements
+    private let scanFrame: UIView = {
+        return ScanFrameView()
+    }()
+    
+    private lazy var textField = {
+        let tf = UITextField()
+        tf.backgroundColor = .systemBackground
+        tf.keyboardType = .numberPad
+        tf.doneAccessory = true
+       return tf
+    }()
+    
     private var flashButton = {
         let flashButton = UIButton(type: .custom)
     flashButton.backgroundColor = .systemBackground
@@ -63,7 +76,8 @@ final class ScanViewController: UIViewController, AVCaptureMetadataOutputObjects
     
     private lazy var manualButton: UIButton = {
         let button = CherryButton(type: .custom)
-        button.setTitle("MANUAL", for: .normal)
+        button.setTitle(NSLocalizedString("barcodeEntry", tableName: "ScanFlow", comment: ""),
+                        for: .normal)
         button.addTarget(self,
                          action: #selector(manualButtonTapped),
                          for: .touchUpInside)
@@ -80,15 +94,19 @@ final class ScanViewController: UIViewController, AVCaptureMetadataOutputObjects
     
     //MARK: - Setup UI
     func setupUI() {
-        let tf = UITextField()
-        tf.backgroundColor = .systemBackground
-        tf.keyboardType = .numberPad
-        tf.doneAccessory = true
-        view.addSubview(tf)
-        tf.snp.makeConstraints{ (maker) in
-            maker.center.equalToSuperview()
-            maker.height.equalTo(80)
-            maker.width.equalTo(260)
+//        view.addSubview(textField)
+//        textField.snp.makeConstraints{ make in
+//            make.center.equalToSuperview()
+//            make.height.equalTo(80)
+//            make.width.equalTo(260)
+//        }
+        
+        view.addSubview(scanFrame)
+        scanFrame.snp.makeConstraints{ make in
+            make.center.equalToSuperview()
+            make.height.equalTo(164)
+            make.leading.equalToSuperview().offset(58)
+            make.trailing.equalToSuperview().offset(-58)
         }
         
         flashButton.addTarget(self,
@@ -103,7 +121,7 @@ final class ScanViewController: UIViewController, AVCaptureMetadataOutputObjects
             buttonStack.addArrangedSubview(scanButton)
             buttonStack.addArrangedSubview(manualButton)
             buttonStack.snp.makeConstraints{ make in
-                make.height.equalTo(60)
+                make.height.equalTo(44)
                 make.leading.equalTo(view).offset(18)
                 make.trailing.equalTo(view).offset(-18)
                 make.centerX.equalTo(view)
@@ -260,35 +278,4 @@ extension ScanViewController {
     }
 }
 
-extension UITextField{
-    @IBInspectable var doneAccessory: Bool{
-        get{
-            return self.doneAccessory
-        }
-        set (hasDone) {
-            if hasDone{
-                addDoneButtonOnKeyboard()
-            }
-        }
-    }
 
-    func addDoneButtonOnKeyboard()
-    {
-        let doneToolbar: UIToolbar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
-        doneToolbar.barStyle = .default
-
-        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let done: UIBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.doneButtonAction))
-
-        let items = [flexSpace, done]
-        doneToolbar.items = items
-        doneToolbar.sizeToFit()
-
-        self.inputAccessoryView = doneToolbar
-    }
-
-    @objc func doneButtonAction()
-    {
-        self.resignFirstResponder()
-    }
-}
