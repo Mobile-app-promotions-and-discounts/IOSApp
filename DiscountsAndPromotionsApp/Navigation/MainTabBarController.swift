@@ -13,7 +13,8 @@ final class MainTabBarController: UITabBarController {
     }
 
     func setUpViewControllers() {
-        let mainViewController = MainViewController()
+        let mainViewModel = MainViewModel()
+        let mainViewController = MainViewController(viewModel: mainViewModel)
         mainViewController.coordinator = mainScreenCoordinator
         mainViewController.tabBarItem = UITabBarItem(title: NSLocalizedString("main", comment: ""),
                                                      image: UIImage(systemName: "mustache"),

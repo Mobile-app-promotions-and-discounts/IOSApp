@@ -4,3 +4,5 @@
 "favorites" = "Избранное";
 "profile" = "Профиль";
 
+// SearchBar
+"searchBarPlaceholder" = "Найти";
