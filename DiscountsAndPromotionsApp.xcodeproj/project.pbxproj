@@ -9,7 +9,11 @@
 /* Begin PBXBuildFile section */
 		BC93BB692B0BC313008BE2AD /* ScanFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC93BB682B0BC313008BE2AD /* ScanFlowCoordinator.swift */; };
 		BC93BB6B2B0BCBF1008BE2AD /* StringBarcodeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC93BB6A2B0BCBF1008BE2AD /* StringBarcodeExtension.swift */; };
+		BC93BB722B0C814F008BE2AD /* CherryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC93BB712B0C814F008BE2AD /* CherryButton.swift */; };
+		BC93BB742B0C8166008BE2AD /* CherryNavButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC93BB732B0C8166008BE2AD /* CherryNavButton.swift */; };
+		BC93BB762B0C8327008BE2AD /* ScanViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC93BB752B0C8327008BE2AD /* ScanViewModel.swift */; };
 		BCA719962B0AB067008BAA74 /* ScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA719952B0AB067008BAA74 /* ScanViewController.swift */; };
+		BCB7F91E2B0C89B500EE20A0 /* ScanFlow.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = BCB7F91D2B0C89B500EE20A0 /* ScanFlow.xcstrings */; };
 		BE35244E2B02ABA200746581 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE35244D2B02ABA200746581 /* AppDelegate.swift */; };
 		BE3524502B02ABA200746581 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE35244F2B02ABA200746581 /* SceneDelegate.swift */; };
 		BE3524522B02ABA200746581 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE3524512B02ABA200746581 /* MainViewController.swift */; };
@@ -46,7 +50,11 @@
 		BC93BB682B0BC313008BE2AD /* ScanFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanFlowCoordinator.swift; sourceTree = "<group>"; };
 		BC93BB6A2B0BCBF1008BE2AD /* StringBarcodeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringBarcodeExtension.swift; sourceTree = "<group>"; };
 		BC93BB702B0BDA0A008BE2AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BC93BB712B0C814F008BE2AD /* CherryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CherryButton.swift; sourceTree = "<group>"; };
+		BC93BB732B0C8166008BE2AD /* CherryNavButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CherryNavButton.swift; sourceTree = "<group>"; };
+		BC93BB752B0C8327008BE2AD /* ScanViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanViewModel.swift; sourceTree = "<group>"; };
 		BCA719952B0AB067008BAA74 /* ScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanViewController.swift; sourceTree = "<group>"; };
+		BCB7F91D2B0C89B500EE20A0 /* ScanFlow.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = ScanFlow.xcstrings; sourceTree = "<group>"; };
 		BE35244A2B02ABA200746581 /* DiscountsAndPromotionsApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DiscountsAndPromotionsApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE35244D2B02ABA200746581 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BE35244F2B02ABA200746581 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -84,6 +92,7 @@
 			children = (
 				BCA719952B0AB067008BAA74 /* ScanViewController.swift */,
 				BC93BB682B0BC313008BE2AD /* ScanFlowCoordinator.swift */,
+				BC93BB752B0C8327008BE2AD /* ScanViewModel.swift */,
 			);
 			path = ScanFlow;
 			sourceTree = "<group>";
@@ -125,6 +134,7 @@
 			children = (
 				BE35247F2B02B8BE00746581 /* Localizable.strings */,
 				BC93BB702B0BDA0A008BE2AD /* Info.plist */,
+				BCB7F91D2B0C89B500EE20A0 /* ScanFlow.xcstrings */,
 			);
 			path = Configuration;
 			sourceTree = "<group>";
@@ -158,6 +168,8 @@
 			isa = PBXGroup;
 			children = (
 				BE3524682B02B27A00746581 /* Fonts.swift */,
+				BC93BB712B0C814F008BE2AD /* CherryButton.swift */,
+				BC93BB732B0C8166008BE2AD /* CherryNavButton.swift */,
 			);
 			path = DesignSystem;
 			sourceTree = "<group>";
@@ -287,6 +299,7 @@
 			files = (
 				BE35245A2B02ABA300746581 /* LaunchScreen.storyboard in Resources */,
 				BE35247D2B02B8BE00746581 /* Localizable.strings in Resources */,
+				BCB7F91E2B0C89B500EE20A0 /* ScanFlow.xcstrings in Resources */,
 				BE3524572B02ABA300746581 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -324,6 +337,7 @@
 				BCA719962B0AB067008BAA74 /* ScanViewController.swift in Sources */,
 				BE3524742B02B4D100746581 /* UIColor+Extension.swift in Sources */,
 				BE3524522B02ABA200746581 /* MainViewController.swift in Sources */,
+				BC93BB742B0C8166008BE2AD /* CherryNavButton.swift in Sources */,
 				BE521A822B04DEB3005F2FE7 /* MainTabBarController.swift in Sources */,
 				BEBA916E2B0A9F9500C2DE96 /* ProductModel.swift in Sources */,
 				BC93BB692B0BC313008BE2AD /* ScanFlowCoordinator.swift in Sources */,
@@ -331,6 +345,8 @@
 				BE521A8F2B04DF5D005F2FE7 /* MockDataService.swift in Sources */,
 				BEBA916C2B0A9D0000C2DE96 /* Coordinator.swift in Sources */,
 				BE521A882B04DECC005F2FE7 /* ProfileViewController.swift in Sources */,
+				BC93BB722B0C814F008BE2AD /* CherryButton.swift in Sources */,
+				BC93BB762B0C8327008BE2AD /* ScanViewModel.swift in Sources */,
 				BE521A862B04DEC8005F2FE7 /* FavoritesViewController.swift in Sources */,
 				BE3524692B02B27A00746581 /* Fonts.swift in Sources */,
 				BE35244E2B02ABA200746581 /* AppDelegate.swift in Sources */,

@@ -48,22 +48,29 @@ final class ScanViewController: UIViewController, AVCaptureMetadataOutputObjects
         stack.alignment = .fill
         stack.distribution = .fillEqually
         stack.spacing = 12
-        stack.backgroundColor = .systemBackground
         return stack
     }()
     
-    private var scanButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("SCAN", for: .normal)
+    private lazy var scanButton: UIButton = {
+        let button = CherryButton(type: .custom)
+        button.setTitle(NSLocalizedString("barcodeScan", tableName: "ScanFlow", comment: ""),
+                        for: .normal)
+        button.addTarget(self,
+                         action: #selector(scanButtonTapped),
+                         for: .touchUpInside)
         return button
     }()
     
-    private var manualButton: UIButton = {
-        let button = UIButton(type: .system)
+    private lazy var manualButton: UIButton = {
+        let button = CherryButton(type: .custom)
         button.setTitle("MANUAL", for: .normal)
+        button.addTarget(self,
+                         action: #selector(manualButtonTapped),
+                         for: .touchUpInside)
         return button
     }()
     
+    //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
                 
@@ -71,9 +78,12 @@ final class ScanViewController: UIViewController, AVCaptureMetadataOutputObjects
         setupUI()
     }
     
+    //MARK: - Setup UI
     func setupUI() {
         let tf = UITextField()
         tf.backgroundColor = .systemBackground
+        tf.keyboardType = .numberPad
+        tf.doneAccessory = true
         view.addSubview(tf)
         tf.snp.makeConstraints{ (maker) in
             maker.center.equalToSuperview()
@@ -92,14 +102,16 @@ final class ScanViewController: UIViewController, AVCaptureMetadataOutputObjects
             view.addSubview(buttonStack)
             buttonStack.addArrangedSubview(scanButton)
             buttonStack.addArrangedSubview(manualButton)
-            buttonStack.snp.makeConstraints{ (maker) in
-                maker.height.equalTo(60)
-                maker.width.equalTo(view)
-                maker.centerX.equalTo(view)
-                maker.centerY.equalTo(view.keyboardLayoutGuide).offset(-40)
+            buttonStack.snp.makeConstraints{ make in
+                make.height.equalTo(60)
+                make.leading.equalTo(view).offset(18)
+                make.trailing.equalTo(view).offset(-18)
+                make.centerX.equalTo(view)
+                make.bottom.equalTo(view.keyboardLayoutGuide.snp.top).offset(-24)
             }
         }
     
+    //MARK: - Capture Session
     func setupCaptureSession() {
         captureSession = AVCaptureSession()
         
@@ -179,7 +191,7 @@ final class ScanViewController: UIViewController, AVCaptureMetadataOutputObjects
             found(code: stringValue)
         }
         
-        dismiss(animated: true)
+//        dismiss(animated: true)
     }
     
     func found(code: String) {
@@ -232,5 +244,51 @@ extension ScanViewController {
         } catch {
             assertionFailure(error.localizedDescription)
         }
+    }
+}
+
+//MARK: - Button selectors
+extension ScanViewController {
+    @objc
+    func scanButtonTapped() {
+        scanButton.isSelected.toggle()
+    }
+    
+    @objc
+    func manualButtonTapped() {
+        manualButton.isSelected.toggle()
+    }
+}
+
+extension UITextField{
+    @IBInspectable var doneAccessory: Bool{
+        get{
+            return self.doneAccessory
+        }
+        set (hasDone) {
+            if hasDone{
+                addDoneButtonOnKeyboard()
+            }
+        }
+    }
+
+    func addDoneButtonOnKeyboard()
+    {
+        let doneToolbar: UIToolbar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
+        doneToolbar.barStyle = .default
+
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let done: UIBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.doneButtonAction))
+
+        let items = [flexSpace, done]
+        doneToolbar.items = items
+        doneToolbar.sizeToFit()
+
+        self.inputAccessoryView = doneToolbar
+    }
+
+    @objc func doneButtonAction()
+    {
+        self.resignFirstResponder()
     }
 }
