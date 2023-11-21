@@ -17,10 +17,9 @@ class CherryButton: UIButton {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        backgroundColor = isSelected ? .systemFill : .systemBackground
-        titleLabel?.textColor = isSelected ? .systemBackground : .systemFill
+        backgroundColor = isSelected ? .tintColor : .systemBackground
+        titleLabel?.textColor = isSelected ? .systemBackground : .tintColor
         layer.cornerRadius = 10
         clipsToBounds = true
     }
-
 }

@@ -35,6 +35,23 @@
         }
       }
     },
+    "barcodePlaceholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter code"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Введите код"
+          }
+        }
+      }
+    },
     "barcodeScan" : {
       "extractionState" : "manual",
       "localizations" : {

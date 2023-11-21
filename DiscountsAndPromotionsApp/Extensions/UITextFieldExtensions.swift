@@ -5,6 +5,7 @@
 //  Created by Aleksey Yakushev on 21.11.2023.
 //
 
+import Combine
 import UIKit
 
 extension UITextField{
@@ -41,5 +42,14 @@ extension UITextField{
     {
         delegate?.textFieldDidEndEditing?(self)
         self.resignFirstResponder()
+    }
+}
+
+extension UITextField {
+    var textPublisher: AnyPublisher<String, Never> {
+        NotificationCenter.default.publisher(for: UITextField.textDidChangeNotification, object: self)
+            .compactMap { $0.object as? UITextField }
+            .map { $0.text ?? "" }
+            .eraseToAnyPublisher()
     }
 }

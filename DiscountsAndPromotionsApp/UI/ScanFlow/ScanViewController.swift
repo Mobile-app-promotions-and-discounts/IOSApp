@@ -6,25 +6,20 @@
 //
 
 import AVFoundation
+import Combine
 import SnapKit
 import UIKit
 
-enum BarcodeInput {
-    case scan
-    case manual
-}
-
 final class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
-//    private var mode: BarcodeInput = .scan {
-//        didSet {
-//            switch mode {
-//            case .manual:
-//                
-//            case .scan:
-//            }
-//        }
-//    }
-    
+    @Published private var manualInputMode = false
+    private var uiSubscriber: AnyCancellable?
+    private var isShowingScanUI: AnyPublisher<Bool, Never> {
+        $manualInputMode.map { value in
+            return !value
+        }
+        .eraseToAnyPublisher()
+    }
+        
     private var captureSession: AVCaptureSession!
     private var previewLayer: AVCaptureVideoPreviewLayer!
     
@@ -38,6 +33,10 @@ final class ScanViewController: UIViewController, AVCaptureMetadataOutputObjects
         tf.backgroundColor = .systemBackground
         tf.keyboardType = .numberPad
         tf.doneAccessory = true
+        tf.clipsToBounds = true
+        tf.layer.cornerRadius = 10
+        tf.placeholder = NSLocalizedString("barcodePlaceholder", tableName: "ScanFlow", comment: "")
+        tf.textAlignment = .center
        return tf
     }()
     
@@ -71,6 +70,7 @@ final class ScanViewController: UIViewController, AVCaptureMetadataOutputObjects
         button.addTarget(self,
                          action: #selector(scanButtonTapped),
                          for: .touchUpInside)
+        button.isSelected = !manualInputMode
         return button
     }()
     
@@ -81,6 +81,7 @@ final class ScanViewController: UIViewController, AVCaptureMetadataOutputObjects
         button.addTarget(self,
                          action: #selector(manualButtonTapped),
                          for: .touchUpInside)
+        button.isSelected = manualInputMode
         return button
     }()
     
@@ -90,16 +91,24 @@ final class ScanViewController: UIViewController, AVCaptureMetadataOutputObjects
                 
         setupCaptureSession()
         setupUI()
+        makeUIBinding()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        startSessionRoutine()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        stopSessionRoutine()
     }
     
     //MARK: - Setup UI
     func setupUI() {
-//        view.addSubview(textField)
-//        textField.snp.makeConstraints{ make in
-//            make.center.equalToSuperview()
-//            make.height.equalTo(80)
-//            make.width.equalTo(260)
-//        }
+        view.backgroundColor = .systemFill
         
         view.addSubview(scanFrame)
         scanFrame.snp.makeConstraints{ make in
@@ -112,25 +121,87 @@ final class ScanViewController: UIViewController, AVCaptureMetadataOutputObjects
         flashButton.addTarget(self,
                               action: #selector(toggleFlash),
                               for: .touchUpInside)
-            
-            navigationItem.rightBarButtonItem = UIBarButtonItem(customView: flashButton)
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: flashButton)
         navigationItem.backButtonDisplayMode = .minimal
-            
-            view.backgroundColor = .systemBackground
-            view.addSubview(buttonStack)
-            buttonStack.addArrangedSubview(scanButton)
-            buttonStack.addArrangedSubview(manualButton)
-            buttonStack.snp.makeConstraints{ make in
-                make.height.equalTo(44)
-                make.leading.equalTo(view).offset(18)
-                make.trailing.equalTo(view).offset(-18)
-                make.centerX.equalTo(view)
-                make.bottom.equalTo(view.keyboardLayoutGuide.snp.top).offset(-24)
-            }
+        
+        view.addSubview(buttonStack)
+        buttonStack.addArrangedSubview(scanButton)
+        buttonStack.addArrangedSubview(manualButton)
+        buttonStack.snp.makeConstraints{ make in
+            make.height.equalTo(44)
+            make.leading.equalTo(view).offset(18)
+            make.trailing.equalTo(view).offset(-18)
+            make.centerX.equalTo(view)
+            make.bottom.equalTo(view.keyboardLayoutGuide.snp.top)
         }
+        
+        view.addSubview(textField)
+        textField.snp.makeConstraints{ make in
+            make.bottom.equalTo(buttonStack.snp.top).offset(-80)
+            make.height.equalTo(68)
+            make.width.equalTo(buttonStack)
+            make.centerX.equalTo(buttonStack)
+        }
+        textField.isHidden = !manualInputMode
+    }
+    
+    //MARK: UI Binding
+    func makeUIBinding() {
+        uiSubscriber = isShowingScanUI
+            .receive(on: RunLoop.main)
+            .sink(receiveCompletion: { _ in
+                
+            }, receiveValue: { [weak self] scanUI in
+                guard let self else { return }
+                self.scanButton.isSelected = scanUI
+                self.manualButton.isSelected = !scanUI
+                self.scanFrame.isHidden = !scanUI
+                self.textField.isHidden = scanUI
+                if scanUI {
+                    textField.resignFirstResponder()
+                    self.buttonStack.snp.remakeConstraints{ make in
+                        make.height.equalTo(44)
+                        make.leading.equalTo(self.view).offset(18)
+                        make.trailing.equalTo(self.view).offset(-18)
+                        make.centerX.equalTo(self.view)
+                        make.bottom.equalTo(self.view.keyboardLayoutGuide.snp.top).offset(0.0)
+                    }
+                    startSessionRoutine()
+                } else {
+                    textField.becomeFirstResponder()
+                    self.buttonStack.snp.remakeConstraints{ make in
+                        make.height.equalTo(44)
+                        make.leading.equalTo(self.view).offset(18)
+                        make.trailing.equalTo(self.view).offset(-18)
+                        make.centerX.equalTo(self.view)
+                        make.bottom.equalTo(self.view.keyboardLayoutGuide.snp.top).offset(-24.0)
+                    }
+                    stopSessionRoutine()
+                }
+                flashButton.isEnabled = scanUI
+                previewLayer.isHidden = !scanUI
+            })
+    }
     
     //MARK: - Capture Session
-    func setupCaptureSession() {
+    private func startSessionRoutine() {
+        if (captureSession?.isRunning == false) {
+            let background = DispatchQueue(label: "capture_session_queue")
+            background.async { [weak self] in
+                self?.captureSession.startRunning()
+            }
+        }
+    }
+    
+    private func stopSessionRoutine() {
+        flashOff()
+        if (captureSession?.isRunning == true) {
+            captureSession.stopRunning()
+        }
+    }
+    
+    private func setupCaptureSession() {
         captureSession = AVCaptureSession()
         
         guard let videoCaptureDevice = AVCaptureDevice.default(for: .video) else { return }
@@ -180,23 +251,6 @@ final class ScanViewController: UIViewController, AVCaptureMetadataOutputObjects
         captureSession = nil
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        if (captureSession?.isRunning == false) {
-            captureSession.startRunning()
-        }
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        flashOff()
-        if (captureSession?.isRunning == true) {
-            captureSession.stopRunning()
-        }
-    }
-    
     func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
         captureSession.stopRunning()
         
@@ -208,8 +262,6 @@ final class ScanViewController: UIViewController, AVCaptureMetadataOutputObjects
             flashOff()
             found(code: stringValue)
         }
-        
-//        dismiss(animated: true)
     }
     
     func found(code: String) {
@@ -232,6 +284,7 @@ extension ScanViewController {
 
             if (device.torchMode == AVCaptureDevice.TorchMode.on) {
                 device.torchMode = AVCaptureDevice.TorchMode.off
+                flashButton.isSelected = false
             }
             
             device.unlockForConfiguration()
@@ -269,12 +322,12 @@ extension ScanViewController {
 extension ScanViewController {
     @objc
     func scanButtonTapped() {
-        scanButton.isSelected.toggle()
+        manualInputMode = false
     }
     
     @objc
     func manualButtonTapped() {
-        manualButton.isSelected.toggle()
+        manualInputMode = true
     }
 }
 
