@@ -35,6 +35,39 @@
         }
       }
     },
+    "barcodeFail" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scanning not supported"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Сканирование невозможно"
+          }
+        }
+      }
+    },
+    "barcodeFailMessage" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Can't access the camera"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Камера недоступна"
+          }
+        }
+      }
+    },
     "barcodePlaceholder" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -48,6 +81,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Введите код"
+          }
+        }
+      }
+    },
+    "barcodeReminder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Barcode consists of 8 or 13 digits"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Штрих-код содержит 8 или 13 цифр"
           }
         }
       }

@@ -3,7 +3,7 @@ import UIKit
 final class MainCoordinator: Coordinator {
     var childCoordinators = [Coordinator]()
     var navigationController: UINavigationController
-    
+
     var scanCoordinator: ScanFlowCoordinatorProtocol?
 
     init(navigationController: UINavigationController) {
@@ -15,7 +15,7 @@ final class MainCoordinator: Coordinator {
         tabBarController.coordinator = self
         navigationController.pushViewController(tabBarController, animated: false)
     }
-    
+
     func startScanFlow() {
         scanCoordinator = ScanFlowCoordinator(navigation: navigationController)
         scanCoordinator?.start()

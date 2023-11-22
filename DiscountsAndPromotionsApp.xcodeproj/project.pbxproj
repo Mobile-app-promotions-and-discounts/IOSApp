@@ -137,9 +137,9 @@
 		BE3524612B02AC8600746581 /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
+				BCB7F91D2B0C89B500EE20A0 /* ScanFlow.xcstrings */,
 				BE35247F2B02B8BE00746581 /* Localizable.strings */,
 				BC93BB702B0BDA0A008BE2AD /* Info.plist */,
-				BCB7F91D2B0C89B500EE20A0 /* ScanFlow.xcstrings */,
 			);
 			path = Configuration;
 			sourceTree = "<group>";
@@ -246,10 +246,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BE35245E2B02ABA300746581 /* Build configuration list for PBXNativeTarget "DiscountsAndPromotionsApp" */;
 			buildPhases = (
+				BE521A802B04DD6E005F2FE7 /* Run Swiftlint */,
 				BE3524462B02ABA200746581 /* Sources */,
 				BE3524472B02ABA200746581 /* Frameworks */,
 				BE3524482B02ABA200746581 /* Resources */,
-				BE521A802B04DD6E005F2FE7 /* Run Swiftlint */,
 				BC9B4D5D2B0B45310045B6E0 /* Embed Frameworks */,
 			);
 			buildRules = (

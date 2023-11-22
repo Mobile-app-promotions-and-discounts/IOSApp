@@ -8,7 +8,7 @@
 import UIKit
 
 class CherryButton: UIButton {
-    
+
     override var isSelected: Bool {
         didSet {
             layoutSubviews()

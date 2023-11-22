@@ -2,11 +2,11 @@ import UIKit
 
 final class MainTabBarController: UITabBarController {
     weak var coordinator: MainCoordinator?
-    
-    //MARK: - временное решение для быстрой проверки сканера
+
+    // MARK: - временное решение для быстрой проверки сканера
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+
         coordinator?.startScanFlow()
     }
 
