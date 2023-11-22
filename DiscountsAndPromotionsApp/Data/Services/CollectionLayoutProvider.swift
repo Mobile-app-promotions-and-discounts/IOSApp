@@ -1,11 +1,25 @@
 import UIKit
 
-class CollectionLayoutProvider {
+final class CollectionLayoutProvider {
     func createLayoutForMainScreen() -> UICollectionViewLayout {
         return UICollectionViewCompositionalLayout { [weak self] (sectionIndex, _) -> NSCollectionLayoutSection? in
-            // Возвращаем различные макеты секций в зависимости от индекса секции
-            return self?.createSectionLayout(for: sectionIndex)
+            guard let self = self else { return nil }
+            return self.createSectionLayout(for: sectionIndex)
         }
+    }
+
+    func createLayoutForCategoryScreen(for collectionView: UICollectionView, in view: UIView) {
+        guard let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else {
+            return
+        }
+
+        let spacing: CGFloat = 12
+        let totalSpacing = spacing * 3
+        let itemWidth = (view.bounds.width - totalSpacing) / 2
+
+        layout.itemSize = CGSize(width: itemWidth, height: 243)
+        layout.minimumLineSpacing = spacing
+        layout.minimumInteritemSpacing = spacing
     }
 
     private func createSectionLayout(for sectionIndex: Int) -> NSCollectionLayoutSection {

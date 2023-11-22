@@ -9,4 +9,10 @@ final class MainScreenCoordinator: Coordinator {
     }
 
     func start() {}
+
+    func navigateToCategoryScreen() {
+        let viewModel = CategoryViewModel()
+        let categoryVC = CategoryViewController(viewModel: viewModel)
+        navigationController.pushViewController(categoryVC, animated: true)
+    }
 }

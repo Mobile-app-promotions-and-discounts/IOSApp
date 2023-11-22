@@ -66,6 +66,16 @@ extension MainViewController: UICollectionViewDataSource {
     }
 }
 
-extension MainViewController: UICollectionViewDelegateFlowLayout {
+// MARK: - UICollectionViewDelegate
 
+extension MainViewController: UICollectionViewDelegate {
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        switch indexPath.row {
+        case 0:
+            self.coordinator?.navigateToCategoryScreen()
+        default:
+            print("Будет реализовано позже")
+        }
+    }
 }

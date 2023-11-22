@@ -1,7 +1,7 @@
 import UIKit
 import SnapKit
 
-class FiltersCell: UICollectionViewCell {
+final class FiltersCell: UICollectionViewCell {
     static let reuseIdentifier = "FiltersCell"
 
     override init(frame: CGRect) {
@@ -13,7 +13,7 @@ class FiltersCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private var cellTitle: UILabel = {
+    private lazy var cellTitle: UILabel = {
         let title = UILabel()
         title.font = .systemFont(ofSize: 14, weight: .medium)
         title.numberOfLines = 1
