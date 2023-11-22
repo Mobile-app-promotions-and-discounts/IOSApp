@@ -139,7 +139,7 @@ final class ScanViewController: UIViewController, AVCaptureMetadataOutputObjects
     }
 
     // MARK: - Setup UI
-    func setupUI() {
+    private func setupUI() {
         view.backgroundColor = .systemFill
 
         view.addSubview(scanFrame)
@@ -183,7 +183,7 @@ final class ScanViewController: UIViewController, AVCaptureMetadataOutputObjects
     }
 
     // MARK: UI Binding
-    func makeUIBinding() {
+    private func makeUIBinding() {
         let uiStateConfugurator = viewModel.$isManualInputActive.map { value in
             return !value
         }
@@ -288,12 +288,12 @@ extension ScanViewController {
         }
     }
 
-    func failed() {
+    private func failed() {
         captureSession = nil
         coordinator?.scanError()
     }
 
-    func metadataOutput(_ output: AVCaptureMetadataOutput,
+    private func metadataOutput(_ output: AVCaptureMetadataOutput,
                         didOutput metadataObjects: [AVMetadataObject],
                         from connection: AVCaptureConnection) {
         captureSession.stopRunning()
@@ -310,7 +310,7 @@ extension ScanViewController {
 
 // MARK: - Flashlight
 extension ScanViewController {
-    func flashOff() {
+    private func flashOff() {
         guard let device = AVCaptureDevice.default(for: AVMediaType.video) else { return }
         guard device.hasTorch else { return }
 
@@ -329,7 +329,7 @@ extension ScanViewController {
     }
 
     @objc
-    func toggleFlash() {
+    private func toggleFlash() {
         guard let device = AVCaptureDevice.default(for: AVMediaType.video) else { return }
         guard device.hasTorch else { return }
         do {
@@ -356,22 +356,22 @@ extension ScanViewController {
 // MARK: - Button selectors
 extension ScanViewController {
     @objc
-    func goBack() {
+    private func goBack() {
         coordinator?.goBack()
     }
 
     @objc
-    func doneButtonTapped() {
+    private func doneButtonTapped() {
         viewModel.checkBarcode()
     }
 
     @objc
-    func scanButtonTapped() {
+    private func scanButtonTapped() {
         viewModel.isManualInputActive = false
     }
 
     @objc
-    func manualButtonTapped() {
+    private func manualButtonTapped() {
         viewModel.isManualInputActive = true
     }
 }
