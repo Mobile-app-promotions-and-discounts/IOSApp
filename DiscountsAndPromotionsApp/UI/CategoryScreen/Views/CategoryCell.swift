@@ -24,6 +24,7 @@ final class CategoryCell: UICollectionViewCell {
 
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
+        label.numberOfLines = 2
         label.font = UIFont.systemFont(ofSize: 14, weight: .light)
         return label
     }()
@@ -37,7 +38,7 @@ final class CategoryCell: UICollectionViewCell {
     private lazy var nameAndDescriptionStackView: UIStackView = {
         let stack = UIStackView(arrangedSubviews: [nameLabel, descriptionLabel])
         stack.axis = .vertical
-        stack.distribution = .fillEqually
+        stack.distribution = .fill
         stack.spacing = 4
         return stack
     }()
