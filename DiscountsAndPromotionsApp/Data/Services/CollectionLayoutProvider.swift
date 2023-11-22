@@ -23,22 +23,46 @@ final class CollectionLayoutProvider {
     }
 
     private func createSectionLayout(for sectionIndex: Int) -> NSCollectionLayoutSection {
-        // Настройка размеров элемента в зависимости от секции
-        let itemHeight: CGFloat = (sectionIndex == 0) ? 40 : 228
+        switch sectionIndex {
+        case 0:
+            let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(100),
+                                                  heightDimension: .absolute(40))
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
-        let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(100),
-                                              heightDimension: .absolute(itemHeight))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+            let groupSize = NSCollectionLayoutSize(widthDimension: .estimated(1000),
+                                                   heightDimension: .absolute(40))
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
 
-        let groupSize = NSCollectionLayoutSize(widthDimension: .estimated(1000),
-                                               heightDimension: .absolute(itemHeight))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+            let section = NSCollectionLayoutSection(group: group)
+            section.interGroupSpacing = 8
+            section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 18, trailing: 0)
+            section.orthogonalScrollingBehavior = .continuous
 
-        let section = NSCollectionLayoutSection(group: group)
-        section.interGroupSpacing = 8
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 0)
-        section.orthogonalScrollingBehavior = .continuous
+            return section
 
-        return section
+        default:
+            let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                    heightDimension: .estimated(44)) // Примерная высота заголовка
+
+            let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize,
+                                                                     elementKind: UICollectionView.elementKindSectionHeader,
+                                                                     alignment: .top)
+
+            let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(216),
+                                                  heightDimension: .absolute(228))
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+            let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(216),
+                                                   heightDimension: .absolute(228))
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 1)
+
+            let section = NSCollectionLayoutSection(group: group)
+            section.boundarySupplementaryItems = [header]
+            section.interGroupSpacing = 8
+            section.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 16, bottom: 18, trailing: 0)
+            section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
+
+            return section
+        }
     }
 }

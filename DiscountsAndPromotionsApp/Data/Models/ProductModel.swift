@@ -65,18 +65,25 @@ struct ProductImage: Codable {
 struct Store: Codable {
     let id: UUID
     let name: String
+    let image: StoreImage?
     let location: StoreLocation
     let chainStore: ChainStore?
 
     init(id: UUID = UUID(),
          name: String,
+         image: StoreImage?,
          location: StoreLocation,
          chainStore: ChainStore?) {
         self.id = id
         self.name = name
+        self.image = image
         self.location = location
         self.chainStore = chainStore
     }
+}
+
+struct StoreImage: Codable {
+    let mainImage: String
 }
 
 struct StoreLocation: Codable {

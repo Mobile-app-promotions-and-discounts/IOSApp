@@ -5,6 +5,8 @@ import Foundation
 final class MockDataService {
     static let shared = MockDataService()
 
+    private var productsList = [Product]()
+
     private init() {}
 
     func getCategoriesList() -> [Category] {
@@ -29,6 +31,7 @@ final class MockDataService {
                                 offers: [Offer(price: 150,
                                                discount: nil,
                                                store: Store(name: "Пятерочка",
+                                                            image: nil,
                                                             location: StoreLocation(region: "Москва",
                                                                                     city: "Москва",
                                                                                     street: "Ленина",
@@ -38,6 +41,7 @@ final class MockDataService {
                                          Offer(price: 290,
                                                discount: nil,
                                                store: Store(name: "Дикси",
+                                                            image: nil,
                                                             location: StoreLocation(region: "Москва",
                                                                                     city: "Москва",
                                                                                     street: "Герасимова",
@@ -53,6 +57,7 @@ final class MockDataService {
                                 offers: [Offer(price: 90,
                                                discount: nil,
                                                store: Store(name: "Пятерочка",
+                                                            image: nil,
                                                             location: StoreLocation(region: "Москва",
                                                                                     city: "Москва",
                                                                                     street: "Ленина",
@@ -62,6 +67,7 @@ final class MockDataService {
                                          Offer(price: 150,
                                                discount: nil,
                                                store: Store(name: "Дикси",
+                                                            image: nil,
                                                             location: StoreLocation(region: "Москва",
                                                                                     city: "Москва",
                                                                                     street: "Герасимова",
@@ -77,6 +83,7 @@ final class MockDataService {
                                 offers: [Offer(price: 40,
                                                discount: nil,
                                                store: Store(name: "Пятерочка",
+                                                            image: nil,
                                                             location: StoreLocation(region: "Москва",
                                                                                     city: "Москва",
                                                                                     street: "Ленина",
@@ -86,6 +93,7 @@ final class MockDataService {
                                          Offer(price: 100,
                                                discount: nil,
                                                store: Store(name: "Дикси",
+                                                            image: nil,
                                                             location: StoreLocation(region: "Москва",
                                                                                     city: "Москва",
                                                                                     street: "Герасимова",
@@ -101,6 +109,7 @@ final class MockDataService {
                                 offers: [Offer(price: 300,
                                                discount: nil,
                                                store: Store(name: "Пятерочка",
+                                                            image: nil,
                                                             location: StoreLocation(region: "Москва",
                                                                                     city: "Москва",
                                                                                     street: "Ленина",
@@ -110,6 +119,7 @@ final class MockDataService {
                                          Offer(price: 400,
                                                discount: nil,
                                                store: Store(name: "Дикси",
+                                                            image: nil,
                                                             location: StoreLocation(region: "Москва",
                                                                                     city: "Москва",
                                                                                     street: "Герасимова",
@@ -125,6 +135,7 @@ final class MockDataService {
                                 offers: [Offer(price: 220,
                                                discount: nil,
                                                store: Store(name: "Пятерочка",
+                                                            image: nil,
                                                             location: StoreLocation(region: "Москва",
                                                                                     city: "Москва",
                                                                                     street: "Ленина",
@@ -134,6 +145,7 @@ final class MockDataService {
                                          Offer(price: 280,
                                                discount: nil,
                                                store: Store(name: "Дикси",
+                                                            image: nil,
                                                             location: StoreLocation(region: "Москва",
                                                                                     city: "Москва",
                                                                                     street: "Герасимова",
@@ -149,6 +161,7 @@ final class MockDataService {
                                 offers: [Offer(price: 120,
                                                discount: nil,
                                                store: Store(name: "Пятерочка",
+                                                            image: nil,
                                                             location: StoreLocation(region: "Москва",
                                                                                     city: "Москва",
                                                                                     street: "Ленина",
@@ -158,6 +171,7 @@ final class MockDataService {
                                          Offer(price: 200,
                                                discount: nil,
                                                store: Store(name: "Дикси",
+                                                            image: nil,
                                                             location: StoreLocation(region: "Москва",
                                                                                     city: "Москва",
                                                                                     street: "Герасимова",
@@ -173,6 +187,7 @@ final class MockDataService {
                                 offers: [Offer(price: 40,
                                                discount: nil,
                                                store: Store(name: "Пятерочка",
+                                                            image: nil,
                                                             location: StoreLocation(region: "Москва",
                                                                                     city: "Москва",
                                                                                     street: "Ленина",
@@ -182,6 +197,7 @@ final class MockDataService {
                                          Offer(price: 100,
                                                discount: nil,
                                                store: Store(name: "Дикси",
+                                                            image: nil,
                                                             location: StoreLocation(region: "Москва",
                                                                                     city: "Москва",
                                                                                     street: "Герасимова",
@@ -197,6 +213,7 @@ final class MockDataService {
                                 offers: [Offer(price: 99.99,
                                                discount: nil,
                                                store: Store(name: "Пятерочка",
+                                                            image: nil,
                                                             location: StoreLocation(region: "Москва",
                                                                                     city: "Москва",
                                                                                     street: "Ленина",
@@ -206,13 +223,28 @@ final class MockDataService {
                                          Offer(price: 200.20,
                                                discount: nil,
                                                store: Store(name: "Дикси",
+                                                            image: nil,
                                                             location: StoreLocation(region: "Москва",
                                                                                     city: "Москва",
                                                                                     street: "Герасимова",
                                                                                     building: 10,
                                                                                     postalIndex: 117099),
                                                             chainStore: nil))])]
+        self.productsList = products
         return products
+    }
+
+    func getStoresList() -> [Store] {
+        var uniqueStores: [String: Store] = [:]
+
+            for product in self.productsList {
+                for offer in product.offers {
+                    let store = offer.store
+                    uniqueStores[store.name] = store
+                }
+            }
+
+            return Array(uniqueStores.values)
     }
 }
 //    swiftlint:enable function_body_length

@@ -12,6 +12,11 @@ final class MainViewController: UIViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.showsVerticalScrollIndicator = false
         collectionView.register(FiltersCell.self, forCellWithReuseIdentifier: FiltersCell.reuseIdentifier)
+        collectionView.register(PromotionCell.self, forCellWithReuseIdentifier: PromotionCell.reuseIdentifier)
+        collectionView.register(PromotionHeader.self,
+                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                                withReuseIdentifier: PromotionHeader.reuseIdentifier)
+        collectionView.register(StoresCell.self, forCellWithReuseIdentifier: StoresCell.reuseIdentifier)
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.backgroundColor = .clear
@@ -51,20 +56,66 @@ final class MainViewController: UIViewController {
 // MARK: - UICollectionViewDataSource
 
 extension MainViewController: UICollectionViewDataSource {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 3
+    }
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.getNumberOfItemsInSection(section: section)
     }
 
     func collectionView(_ collectionView: UICollectionView,
-                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FiltersCell.reuseIdentifier,
-                                                            for: indexPath) as? FiltersCell else {
-            return UICollectionViewCell()
+                        viewForSupplementaryElementOfKind kind: String,
+                        at indexPath: IndexPath) -> UICollectionReusableView {
+        guard kind == UICollectionView.elementKindSectionHeader else {
+            return UICollectionReusableView()
         }
 
-        let title = viewModel.getTitleForItemAt(indexPath: indexPath)
-        cell.configure(with: title)
-        return cell
+        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+                                                                           withReuseIdentifier: PromotionHeader.reuseIdentifier,
+                                                                           for: indexPath) as? PromotionHeader else {
+            return UICollectionReusableView()
+        }
+        let headerName = viewModel.getTitleFor(indexPath: indexPath)
+        header.configure(with: headerName)
+        return header
+    }
+
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+
+        switch indexPath.section {
+        case 0:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FiltersCell.reuseIdentifier,
+                                                                for: indexPath) as? FiltersCell else {
+                return UICollectionViewCell()
+            }
+
+            let title = viewModel.getTitleFor(indexPath: indexPath)
+            cell.configure(with: title)
+            return cell
+
+        case 1:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PromotionCell.reuseIdentifier,
+                                                                for: indexPath) as? PromotionCell else {
+                return UICollectionViewCell()
+            }
+            let promotion = viewModel.getPromotion(for: indexPath.row)
+            cell.configure(with: promotion)
+            return cell
+        case 2:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: StoresCell.reuseIdentifier,
+                                                                for: indexPath) as? StoresCell else {
+                return UICollectionViewCell()
+            }
+            let store = viewModel.getStore(for: indexPath.row)
+            cell.configure(with: store)
+            return cell
+
+        default:
+            print("default - UICollectionViewCell")
+            return UICollectionViewCell()
+        }
     }
 }
 
@@ -73,11 +124,10 @@ extension MainViewController: UICollectionViewDataSource {
 extension MainViewController: UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        switch indexPath.row {
-        case 0:
+        if indexPath.section == 0 && indexPath.row == 0 {
             self.coordinator?.navigateToCategoryScreen()
-        default:
-            print("Будет реализовано позже")
+        } else {
+            print("Для других ячеек обработка нажатия будет реализована позже")
         }
     }
 }
