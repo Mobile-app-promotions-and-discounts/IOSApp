@@ -293,7 +293,7 @@ extension ScanViewController {
         coordinator?.scanError()
     }
 
-    private func metadataOutput(_ output: AVCaptureMetadataOutput,
+    internal func metadataOutput(_ output: AVCaptureMetadataOutput,
                         didOutput metadataObjects: [AVMetadataObject],
                         from connection: AVCaptureConnection) {
         captureSession.stopRunning()

@@ -7,6 +7,8 @@
 
 import Combine
 import Foundation
+// временное решение для показа штрих-кода
+import UIKit
 
 final class ScanFlowViewModel {
     @Published var isManualInputActive: Bool = false
@@ -44,5 +46,15 @@ final class ScanFlowViewModel {
     private func makeBarcodeRequest(code: String) {
         // TODO: связать с сетевым слоем
         print("Barcode for \(code)")
+        // временное наглядное решение
+        if let window = UIApplication.shared.windows.first(where: { $0.isKeyWindow }),
+           let navigationController = window.rootViewController as? UINavigationController {
+            let topController = navigationController.viewControllers.last
+            let alert = UIAlertController(title: "Код отсканирован",
+                                          message: "\(code)",
+                                          preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            topController?.present(alert, animated: true)
+        }
     }
 }
