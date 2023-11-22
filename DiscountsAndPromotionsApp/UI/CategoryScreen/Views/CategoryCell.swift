@@ -93,7 +93,7 @@ final class CategoryCell: UICollectionViewCell {
     }
 
     private func setupViews() {
-        contentView.backgroundColor = .filterCellBG
+        contentView.backgroundColor = .productCell
         contentView.layer.cornerRadius = 10
 
         [productImageView,

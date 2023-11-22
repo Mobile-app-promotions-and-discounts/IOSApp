@@ -8,11 +8,17 @@ final class MainScreenCoordinator: Coordinator {
         self.navigationController = navigationController
     }
 
-    func start() {}
+    func start() {
+        let mainViewModel = MainViewModel()
+        let mainViewController = MainViewController(viewModel: mainViewModel)
+        mainViewController.coordinator = self
+        navigationController.pushViewController(mainViewController, animated: false)
+    }
 
     func navigateToCategoryScreen() {
-        let viewModel = CategoryViewModel()
-        let categoryVC = CategoryViewController(viewModel: viewModel)
-        navigationController.pushViewController(categoryVC, animated: true)
+        let categoryViewModel = CategoryViewModel()
+        let categoryViewController = CategoryViewController(viewModel: categoryViewModel)
+        categoryViewController.coordinator = self
+        navigationController.pushViewController(categoryViewController, animated: true)
     }
 }

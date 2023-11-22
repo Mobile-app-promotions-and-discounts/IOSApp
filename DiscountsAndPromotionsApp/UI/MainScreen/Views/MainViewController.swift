@@ -1,4 +1,5 @@
 import UIKit
+import SnapKit
 
 final class MainViewController: UIViewController {
     weak var coordinator: MainScreenCoordinator?
@@ -13,6 +14,7 @@ final class MainViewController: UIViewController {
         collectionView.register(FiltersCell.self, forCellWithReuseIdentifier: FiltersCell.reuseIdentifier)
         collectionView.dataSource = self
         collectionView.delegate = self
+        collectionView.backgroundColor = .clear
         return collectionView
     }()
 
@@ -34,7 +36,7 @@ final class MainViewController: UIViewController {
 
     private func setupViews() {
         // ToDo: цвет фона временный, для отладки
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor.mainBG
 
         view.addSubview(mainCollectionView)
 

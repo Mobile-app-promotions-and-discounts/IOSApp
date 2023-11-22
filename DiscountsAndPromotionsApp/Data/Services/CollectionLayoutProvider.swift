@@ -24,7 +24,7 @@ final class CollectionLayoutProvider {
 
     private func createSectionLayout(for sectionIndex: Int) -> NSCollectionLayoutSection {
         // Настройка размеров элемента в зависимости от секции
-        let itemHeight: CGFloat = (sectionIndex == 0) ? 32 : 228
+        let itemHeight: CGFloat = (sectionIndex == 0) ? 40 : 228
 
         let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(100),
                                               heightDimension: .absolute(itemHeight))

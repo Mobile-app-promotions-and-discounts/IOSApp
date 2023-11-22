@@ -22,7 +22,6 @@
 		BE3A55972B0BF01F0053C851 /* MainViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE3A55962B0BF01F0053C851 /* MainViewModelProtocol.swift */; };
 		BE3A559D2B0BF7BE0053C851 /* FiltersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE3A559C2B0BF7BE0053C851 /* FiltersCell.swift */; };
 		BE521A822B04DEB3005F2FE7 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE521A812B04DEB3005F2FE7 /* MainTabBarController.swift */; };
-		BE521A842B04DEC4005F2FE7 /* CatalogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE521A832B04DEC4005F2FE7 /* CatalogViewController.swift */; };
 		BE521A862B04DEC8005F2FE7 /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE521A852B04DEC8005F2FE7 /* FavoritesViewController.swift */; };
 		BE521A882B04DECC005F2FE7 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE521A872B04DECC005F2FE7 /* ProfileViewController.swift */; };
 		BE521A8F2B04DF5D005F2FE7 /* MockDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE521A8E2B04DF5D005F2FE7 /* MockDataService.swift */; };
@@ -33,6 +32,8 @@
 		BE8E70A82B0D4E8800BEAA5A /* CategoryViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8E70A72B0D4E8800BEAA5A /* CategoryViewModelProtocol.swift */; };
 		BE8E70AA2B0E1CED00BEAA5A /* CategoryCellUIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8E70A92B0E1CED00BEAA5A /* CategoryCellUIModel.swift */; };
 		BE8E70B02B0E250100BEAA5A /* Double+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8E70AF2B0E250100BEAA5A /* Double+Extension.swift */; };
+		BE8E70B22B0E558300BEAA5A /* FavoritesScreenCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8E70B12B0E558300BEAA5A /* FavoritesScreenCoordinator.swift */; };
+		BE8E70B42B0E74F600BEAA5A /* ProfileScreenCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8E70B32B0E74F600BEAA5A /* ProfileScreenCoordinator.swift */; };
 		BEBA916C2B0A9D0000C2DE96 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBA916B2B0A9D0000C2DE96 /* Coordinator.swift */; };
 		BEBA916E2B0A9F9500C2DE96 /* ProductModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBA916D2B0A9F9500C2DE96 /* ProductModel.swift */; };
 		BEBA91712B0AA7F800C2DE96 /* MainScreenCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBA91702B0AA7F800C2DE96 /* MainScreenCoordinator.swift */; };
@@ -55,7 +56,6 @@
 		BE3A55962B0BF01F0053C851 /* MainViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModelProtocol.swift; sourceTree = "<group>"; };
 		BE3A559C2B0BF7BE0053C851 /* FiltersCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersCell.swift; sourceTree = "<group>"; };
 		BE521A812B04DEB3005F2FE7 /* MainTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
-		BE521A832B04DEC4005F2FE7 /* CatalogViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatalogViewController.swift; sourceTree = "<group>"; };
 		BE521A852B04DEC8005F2FE7 /* FavoritesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
 		BE521A872B04DECC005F2FE7 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		BE521A8E2B04DF5D005F2FE7 /* MockDataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockDataService.swift; sourceTree = "<group>"; };
@@ -66,6 +66,8 @@
 		BE8E70A72B0D4E8800BEAA5A /* CategoryViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewModelProtocol.swift; sourceTree = "<group>"; };
 		BE8E70A92B0E1CED00BEAA5A /* CategoryCellUIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCellUIModel.swift; sourceTree = "<group>"; };
 		BE8E70AF2B0E250100BEAA5A /* Double+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extension.swift"; sourceTree = "<group>"; };
+		BE8E70B12B0E558300BEAA5A /* FavoritesScreenCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesScreenCoordinator.swift; sourceTree = "<group>"; };
+		BE8E70B32B0E74F600BEAA5A /* ProfileScreenCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileScreenCoordinator.swift; sourceTree = "<group>"; };
 		BEBA916B2B0A9D0000C2DE96 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		BEBA916D2B0A9F9500C2DE96 /* ProductModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductModel.swift; sourceTree = "<group>"; };
 		BEBA91702B0AA7F800C2DE96 /* MainScreenCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenCoordinator.swift; sourceTree = "<group>"; };
@@ -164,6 +166,8 @@
 				BEBA916B2B0A9D0000C2DE96 /* Coordinator.swift */,
 				BE3524752B02B62B00746581 /* MainCoordinator.swift */,
 				BEBA91702B0AA7F800C2DE96 /* MainScreenCoordinator.swift */,
+				BE8E70B12B0E558300BEAA5A /* FavoritesScreenCoordinator.swift */,
+				BE8E70B32B0E74F600BEAA5A /* ProfileScreenCoordinator.swift */,
 				BE521A812B04DEB3005F2FE7 /* MainTabBarController.swift */,
 			);
 			path = Navigation;
@@ -174,7 +178,6 @@
 			children = (
 				BEBA91722B0AAF7900C2DE96 /* MainScreen */,
 				BE8E70A02B0D450400BEAA5A /* CategoryScreen */,
-				BE521A832B04DEC4005F2FE7 /* CatalogViewController.swift */,
 				BE521A852B04DEC8005F2FE7 /* FavoritesViewController.swift */,
 				BE521A872B04DECC005F2FE7 /* ProfileViewController.swift */,
 			);
@@ -381,7 +384,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BE521A842B04DEC4005F2FE7 /* CatalogViewController.swift in Sources */,
 				BE3524742B02B4D100746581 /* UIColor+Extension.swift in Sources */,
 				BE3524522B02ABA200746581 /* MainViewController.swift in Sources */,
 				BEBA91712B0AA7F800C2DE96 /* MainScreenCoordinator.swift in Sources */,
@@ -394,7 +396,9 @@
 				BE521A8F2B04DF5D005F2FE7 /* MockDataService.swift in Sources */,
 				BE3A55972B0BF01F0053C851 /* MainViewModelProtocol.swift in Sources */,
 				BEBA916C2B0A9D0000C2DE96 /* Coordinator.swift in Sources */,
+				BE8E70B22B0E558300BEAA5A /* FavoritesScreenCoordinator.swift in Sources */,
 				BE521A882B04DECC005F2FE7 /* ProfileViewController.swift in Sources */,
+				BE8E70B42B0E74F600BEAA5A /* ProfileScreenCoordinator.swift in Sources */,
 				BE8E70A62B0D4E5200BEAA5A /* CategoryViewModel.swift in Sources */,
 				BE8E709F2B0D345700BEAA5A /* CategoryCell.swift in Sources */,
 				BE521A862B04DEC8005F2FE7 /* FavoritesViewController.swift in Sources */,

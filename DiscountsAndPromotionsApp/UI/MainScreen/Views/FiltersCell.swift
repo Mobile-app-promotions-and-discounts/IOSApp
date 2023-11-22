@@ -27,8 +27,8 @@ final class FiltersCell: UICollectionViewCell {
     private func setupViews() {
         contentView.addSubview(cellTitle)
 
-        contentView.backgroundColor = UIColor.filterCellBG
-        contentView.layer.cornerRadius = 15
+        contentView.backgroundColor = UIColor.productCell
+        contentView.layer.cornerRadius = 20
 
         cellTitle.snp.makeConstraints { make in
             make.top.bottom.equalToSuperview().inset(8)

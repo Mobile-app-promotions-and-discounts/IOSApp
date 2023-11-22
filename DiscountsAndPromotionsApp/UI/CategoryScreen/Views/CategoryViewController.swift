@@ -2,6 +2,7 @@ import UIKit
 import SnapKit
 
 final class CategoryViewController: UIViewController {
+    weak var coordinator: MainScreenCoordinator?
 
     private let viewModel: CategoryViewModelProtocol
     private let layoutProvider: CollectionLayoutProvider
@@ -12,6 +13,7 @@ final class CategoryViewController: UIViewController {
         collectionView.register(CategoryCell.self, forCellWithReuseIdentifier: CategoryCell.reuseIdentifier)
         collectionView.dataSource = self
         collectionView.delegate = self
+        collectionView.backgroundColor = .clear
         return collectionView
     }()
 
@@ -34,7 +36,7 @@ final class CategoryViewController: UIViewController {
     private func setupViews() {
         layoutProvider.createLayoutForCategoryScreen(for: categoryCollectionView, in: view)
         // ToDo: цвет фона временный, для отладки
-        view.backgroundColor = .white
+        view.backgroundColor = .mainBG
 
         view.addSubview(categoryCollectionView)
 
