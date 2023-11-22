@@ -7,10 +7,17 @@
 
 import UIKit
 
-final class ScanFlowCoordinator {
+protocol ScanFlowCoordinatorProtocol: AnyObject {
+    var navigation: UINavigationController {get set}
+    func start()
+    func goBack()
+    func scanError()
+}
+
+final class ScanFlowCoordinator: ScanFlowCoordinatorProtocol {
     var navigation: UINavigationController
     
-    var scanVC = ScanViewController()
+    let scanVC = ScanViewController()
     
     init(navigation: UINavigationController) {
         self.navigation = navigation
@@ -18,7 +25,16 @@ final class ScanFlowCoordinator {
     
     func start() {
         scanVC.hidesBottomBarWhenPushed = true
+        scanVC.coordinator = self
         navigation.pushViewController(scanVC,
                                       animated: true)
+    }
+    
+    func goBack() {
+        navigation.popViewController(animated: true)
+    }
+    
+    func scanError() {
+        
     }
 }

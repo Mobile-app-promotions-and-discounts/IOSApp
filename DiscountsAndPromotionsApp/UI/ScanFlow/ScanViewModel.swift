@@ -6,3 +6,11 @@
 //
 
 import Foundation
+
+protocol ScanFlowViewModelProtocol {
+    
+}
+
+final class ScanFlowViewModel: ScanFlowViewModelProtocol {
+    
+}

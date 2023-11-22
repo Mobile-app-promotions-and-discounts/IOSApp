@@ -11,7 +11,10 @@ import SnapKit
 import UIKit
 
 final class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
+    weak var coordinator: ScanFlowCoordinatorProtocol?
+    
     @Published private var manualInputMode = false
+    
     private var uiSubscriber: AnyCancellable?
     private var isShowingScanUI: AnyPublisher<Bool, Never> {
         $manualInputMode.map { value in
@@ -40,18 +43,31 @@ final class ScanViewController: UIViewController, AVCaptureMetadataOutputObjects
        return tf
     }()
     
-    private var flashButton = {
-        let flashButton = UIButton(type: .custom)
-    flashButton.backgroundColor = .systemBackground
-    flashButton.setImage(UIImage.init(systemName: "bolt"), for: .normal)
-    flashButton.setImage(UIImage.init(systemName: "bolt.fill"), for: .selected)
+    private lazy var flashButton = {
+        let flashButton = CherryNavButton(type: .custom)
+        flashButton.setImage(UIImage.init(systemName: "bolt"), for: .normal)
+        flashButton.setImage(UIImage.init(systemName: "bolt.fill"), for: .selected)
         flashButton.snp.makeConstraints{ (maker) in
             maker.height.equalTo(44)
             maker.width.equalTo(44)
         }
-        flashButton.clipsToBounds = true
-            flashButton.layer.cornerRadius = 22
-    return flashButton
+        flashButton.addTarget(self,
+                              action: #selector(toggleFlash),
+                              for: .touchUpInside)
+        return flashButton
+    }()
+    
+    private lazy var backButton = {
+        let backButton = CherryNavButton(type: .system)
+        backButton.setImage(UIImage(systemName: "arrow.backward"), for: .normal)
+        backButton.snp.makeConstraints{ (maker) in
+            maker.height.equalTo(44)
+            maker.width.equalTo(44)
+        }
+        backButton.addTarget(self,
+                              action: #selector(goBack),
+                              for: .touchUpInside)
+        return backButton
     }()
     
     private var buttonStack: UIStackView = {
@@ -118,12 +134,9 @@ final class ScanViewController: UIViewController, AVCaptureMetadataOutputObjects
             make.trailing.equalToSuperview().offset(-58)
         }
         
-        flashButton.addTarget(self,
-                              action: #selector(toggleFlash),
-                              for: .touchUpInside)
-        
+//        navigationItem.hidesBackButton = true
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: flashButton)
-        navigationItem.backButtonDisplayMode = .minimal
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
         
         view.addSubview(buttonStack)
         buttonStack.addArrangedSubview(scanButton)
@@ -320,6 +333,11 @@ extension ScanViewController {
 
 //MARK: - Button selectors
 extension ScanViewController {
+    @objc
+    func goBack() {
+        coordinator?.goBack()
+    }
+    
     @objc
     func scanButtonTapped() {
         manualInputMode = false

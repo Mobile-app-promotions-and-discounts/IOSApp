@@ -97,7 +97,6 @@
 			isa = PBXGroup;
 			children = (
 				BCA719952B0AB067008BAA74 /* ScanViewController.swift */,
-				BC93BB682B0BC313008BE2AD /* ScanFlowCoordinator.swift */,
 				BC93BB752B0C8327008BE2AD /* ScanViewModel.swift */,
 			);
 			path = ScanFlow;
@@ -184,6 +183,7 @@
 		BE35246D2B02B29F00746581 /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
+				BC93BB682B0BC313008BE2AD /* ScanFlowCoordinator.swift */,
 				BEBA916B2B0A9D0000C2DE96 /* Coordinator.swift */,
 				BE3524752B02B62B00746581 /* MainCoordinator.swift */,
 				BE521A812B04DEB3005F2FE7 /* MainTabBarController.swift */,
