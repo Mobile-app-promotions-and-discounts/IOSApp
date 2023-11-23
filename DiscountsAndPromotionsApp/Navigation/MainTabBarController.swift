@@ -9,8 +9,11 @@ final class MainTabBarController: UITabBarController {
             return
         }
 
-        let items = ["main", "favorites", "profile"]
-        let images = [UIImage.mainIcon, UIImage.favoritesIcon, UIImage.profileIcon]
+        let items = ["main", "favorites", "profile", "Scan"]
+        let images = [UIImage.mainIcon,
+                      UIImage.favoritesIcon,
+                      UIImage.profileIcon,
+                      UIImage(systemName: "barcode.viewfinder")]
 
         for (index, viewController) in viewControllers.enumerated() {
             let title = NSLocalizedString(items[index], comment: "")
