@@ -1,10 +1,3 @@
-//
-//  BarcodeModel.swift
-//  DiscountsAndPromotionsApp
-//
-//  Created by Aleksey Yakushev on 20.11.2023.
-//
-
 import Foundation
 
 extension String {

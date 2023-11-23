@@ -1,10 +1,3 @@
-//
-//  ScanViewController.swift
-//  DiscountsAndPromotionsApp
-//
-//  Created by Aleksey Yakushev on 20.11.2023.
-//
-
 import AVFoundation
 import Combine
 import SnapKit
@@ -15,8 +8,8 @@ final class ScanViewController: UIViewController, AVCaptureMetadataOutputObjects
     private let viewModel: ScanFlowViewModel
     private var subscriptions = Set<AnyCancellable>()
 
-    private var captureSession: AVCaptureSession!
-    private var previewLayer: AVCaptureVideoPreviewLayer!
+    private var captureSession: AVCaptureSession
+    private var previewLayer: AVCaptureVideoPreviewLayer
 
     // MARK: - UI elements
     private let scanFrame: UIView = {
@@ -50,13 +43,9 @@ final class ScanViewController: UIViewController, AVCaptureMetadataOutputObjects
     }()
 
     private lazy var flashButton = {
-        let flashButton = CherryNavButton(type: .custom)
+        let flashButton = GenericNavButton(type: .custom)
         flashButton.setImage(UIImage.init(systemName: "bolt"), for: .normal)
         flashButton.setImage(UIImage.init(systemName: "bolt.fill"), for: .selected)
-        flashButton.snp.makeConstraints { (maker) in
-            maker.height.equalTo(44)
-            maker.width.equalTo(44)
-        }
         flashButton.addTarget(self,
                               action: #selector(toggleFlash),
                               for: .touchUpInside)
@@ -64,20 +53,16 @@ final class ScanViewController: UIViewController, AVCaptureMetadataOutputObjects
     }()
 
     private lazy var backButton = {
-        let backButton = CherryNavButton(type: .system)
+        let backButton = GenericNavButton(type: .system)
         backButton.setImage(UIImage(systemName: "arrow.backward"), for: .normal)
-        backButton.snp.makeConstraints { (maker) in
-            maker.height.equalTo(44)
-            maker.width.equalTo(44)
-        }
         backButton.addTarget(self,
                               action: #selector(goBack),
                               for: .touchUpInside)
         return backButton
     }()
 
-    private var buttonStack: UIStackView = {
-        let stack = UIStackView()
+    private lazy var buttonStack: UIStackView = {
+        let stack = UIStackView(arrangedSubviews: [scanButton, manualButton])
         stack.axis = .horizontal
         stack.alignment = .fill
         stack.distribution = .fillEqually
@@ -86,7 +71,7 @@ final class ScanViewController: UIViewController, AVCaptureMetadataOutputObjects
     }()
 
     private lazy var scanButton: UIButton = {
-        let button = CherryButton(type: .custom)
+        let button = GenericButton(type: .custom)
         button.setTitle(NSLocalizedString("barcodeScan", tableName: "ScanFlow", comment: ""),
                         for: .normal)
         button.addTarget(self,
@@ -97,7 +82,7 @@ final class ScanViewController: UIViewController, AVCaptureMetadataOutputObjects
     }()
 
     private lazy var manualButton: UIButton = {
-        let button = CherryButton(type: .custom)
+        let button = GenericButton(type: .custom)
         button.setTitle(NSLocalizedString("barcodeEntry", tableName: "ScanFlow", comment: ""),
                         for: .normal)
         button.addTarget(self,
@@ -111,6 +96,8 @@ final class ScanViewController: UIViewController, AVCaptureMetadataOutputObjects
     init(coordinator: ScanFlowCoordinatorProtocol? = nil, viewModel: ScanFlowViewModel = ScanFlowViewModel()) {
         self.coordinator = coordinator
         self.viewModel = viewModel
+        self.captureSession = AVCaptureSession()
+        self.previewLayer = AVCaptureVideoPreviewLayer(session: self.captureSession)
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -142,7 +129,22 @@ final class ScanViewController: UIViewController, AVCaptureMetadataOutputObjects
     private func setupUI() {
         view.backgroundColor = .systemFill
 
-        view.addSubview(scanFrame)
+        [scanFrame,
+         buttonStack,
+         textField,
+         barcodeReminderLabel]
+            .forEach {
+                view.addSubview($0)
+            }
+
+        flashButton.snp.makeConstraints { make in
+            make.height.width.equalTo(44)
+        }
+
+        backButton.snp.makeConstraints { make in
+            make.height.width.equalTo(44)
+        }
+
         scanFrame.snp.makeConstraints { make in
             make.center.equalToSuperview()
             make.height.equalTo(164)
@@ -153,9 +155,6 @@ final class ScanViewController: UIViewController, AVCaptureMetadataOutputObjects
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: flashButton)
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
 
-        view.addSubview(buttonStack)
-        buttonStack.addArrangedSubview(scanButton)
-        buttonStack.addArrangedSubview(manualButton)
         buttonStack.snp.makeConstraints { make in
             make.height.equalTo(44)
             make.leading.equalTo(view).offset(18)
@@ -164,7 +163,6 @@ final class ScanViewController: UIViewController, AVCaptureMetadataOutputObjects
             make.bottom.equalTo(view.keyboardLayoutGuide.snp.top)
         }
 
-        view.addSubview(textField)
         textField.snp.makeConstraints { make in
             make.bottom.equalTo(buttonStack.snp.top).offset(-80)
             make.height.equalTo(68)
@@ -173,7 +171,6 @@ final class ScanViewController: UIViewController, AVCaptureMetadataOutputObjects
         }
         textField.isHidden = !viewModel.isManualInputActive
 
-        view.addSubview(barcodeReminderLabel)
         barcodeReminderLabel.snp.makeConstraints { make in
             make.size.equalTo(textField)
             make.centerX.equalTo(textField)
@@ -184,6 +181,7 @@ final class ScanViewController: UIViewController, AVCaptureMetadataOutputObjects
 
     // MARK: UI Binding
     private func makeUIBinding() {
+        // TODO: планирую поработать над более изящной реализацией Combine в этом методе
         let uiStateConfugurator = viewModel.$isManualInputActive.map { value in
             return !value
         }
@@ -231,7 +229,7 @@ final class ScanViewController: UIViewController, AVCaptureMetadataOutputObjects
 // MARK: - Capture Session
 extension ScanViewController {
     private func startSessionRoutine() {
-        if captureSession?.isRunning == false {
+        if captureSession.isRunning == false {
             let background = DispatchQueue(label: "capture_session_queue")
             background.async { [weak self] in
                 self?.captureSession.startRunning()
@@ -241,14 +239,12 @@ extension ScanViewController {
 
     private func stopSessionRoutine() {
         flashOff()
-        if captureSession?.isRunning == true {
+        if captureSession.isRunning == true {
             captureSession.stopRunning()
         }
     }
 
     private func setupCaptureSession() {
-        captureSession = AVCaptureSession()
-
         guard let videoCaptureDevice = AVCaptureDevice.default(for: .video) else { return }
         let videoInput: AVCaptureDeviceInput
 
@@ -277,7 +273,6 @@ extension ScanViewController {
             return
         }
 
-        previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
         previewLayer.frame = view.layer.bounds
         previewLayer.videoGravity = .resizeAspectFill
         view.layer.addSublayer(previewLayer)
@@ -289,11 +284,10 @@ extension ScanViewController {
     }
 
     private func failed() {
-        captureSession = nil
         coordinator?.scanError()
     }
 
-    internal func metadataOutput(_ output: AVCaptureMetadataOutput,
+    func metadataOutput(_ output: AVCaptureMetadataOutput,
                         didOutput metadataObjects: [AVMetadataObject],
                         from connection: AVCaptureConnection) {
         captureSession.stopRunning()
@@ -367,11 +361,11 @@ extension ScanViewController {
 
     @objc
     private func scanButtonTapped() {
-        viewModel.isManualInputActive = false
+        viewModel.setManualInputActive(to: false)
     }
 
     @objc
     private func manualButtonTapped() {
-        viewModel.isManualInputActive = true
+        viewModel.setManualInputActive(to: true)
     }
 }

@@ -1,17 +1,10 @@
-//
-//  ScanViewModel.swift
-//  DiscountsAndPromotionsApp
-//
-//  Created by Aleksey Yakushev on 21.11.2023.
-//
-
 import Combine
 import Foundation
 // временное решение для показа штрих-кода
 import UIKit
 
 final class ScanFlowViewModel {
-    @Published var isManualInputActive: Bool = false
+    @Published private(set) var isManualInputActive: Bool = false
     @Published var isValidBarcode: Bool = false
     private var currentBarcode: String = ""
 
@@ -56,5 +49,9 @@ final class ScanFlowViewModel {
             alert.addAction(UIAlertAction(title: "OK", style: .default))
             topController?.present(alert, animated: true)
         }
+    }
+
+    func setManualInputActive(to input: Bool) {
+        isManualInputActive = input
     }
 }

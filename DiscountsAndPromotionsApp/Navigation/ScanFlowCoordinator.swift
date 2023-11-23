@@ -1,10 +1,3 @@
-//
-//  ScanFlowCoordinator.swift
-//  DiscountsAndPromotionsApp
-//
-//  Created by Aleksey Yakushev on 20.11.2023.
-//
-
 import UIKit
 
 protocol ScanFlowCoordinatorProtocol: AnyObject {

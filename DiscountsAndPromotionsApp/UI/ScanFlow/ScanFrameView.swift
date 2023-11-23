@@ -1,15 +1,9 @@
 //
-//  ScanFrameView.swift
-//  DiscountsAndPromotionsApp
-//
-//  Created by Aleksey Yakushev on 21.11.2023.
-//
-
 import UIKit
 
 final class ScanFrameView: UIView {
-    private let cornerFrameTop: UIImage = UIImage(named: "ScannerCorner") ?? UIImage()
-    private lazy var cornerFrameBottom: UIImage = cornerFrameTop.withVerticalyFlippedOrientation()
+    private let cornerFrameTop: UIImage = UIImage.scannerCorner
+    private lazy var cornerFrameBottom: UIImage = cornerFrameTop.withVerticallyFlippedOrientation()
 
     private lazy var topL = UIImageView(image: cornerFrameTop)
     private lazy var topR = UIImageView(image: cornerFrameTop.withHorizontallyFlippedOrientation())
@@ -21,20 +15,16 @@ final class ScanFrameView: UIView {
             addSubview(cornerView)
         }
         topL.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.leading.equalToSuperview()
+            make.top.leading.equalToSuperview()
         }
         topR.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.trailing.equalToSuperview()
+            make.top.trailing.equalToSuperview()
         }
         bottomL.snp.makeConstraints { make in
-            make.bottom.equalToSuperview()
-            make.leading.equalToSuperview()
+            make.bottom.leading.equalToSuperview()
         }
         bottomR.snp.makeConstraints { make in
-            make.bottom.equalToSuperview()
-            make.trailing.equalToSuperview()
+            make.bottom.trailing.equalToSuperview()
         }
     }
 }
