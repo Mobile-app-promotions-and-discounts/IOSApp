@@ -1,38 +1,21 @@
 import UIKit
 
 final class MainTabBarController: UITabBarController {
-    weak var coordinator: MainCoordinator?
 
-    init() {
-        super.init(nibName: nil, bundle: nil)
-        setUpViewControllers()
-    }
+    // Настройка вкладок UITabBarController
+    func setUpTabBarItems() {
+        guard let viewControllers = viewControllers else {
+            print("Ошибка с viewControllers")
+            return
+        }
 
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+        let items = ["main", "favorites", "profile"]
+        let images = [UIImage.mainIcon, UIImage.favoritesIcon, UIImage.profileIcon]
 
-    private func setUpViewControllers() {
-        let mainViewController = MainViewController()
-        mainViewController.tabBarItem = UITabBarItem(title: NSLocalizedString("main", comment: ""),
-                                                     image: UIImage(systemName: "mustache"),
-                                                     tag: 0)
-
-        let catalogController = CatalogViewController()
-        catalogController.tabBarItem = UITabBarItem(title: NSLocalizedString("catalog", comment: ""),
-                                                    image: UIImage(systemName: "list.bullet.rectangle"),
-                                                    tag: 1)
-
-        let favoritesController = FavoritesViewController()
-        favoritesController.tabBarItem = UITabBarItem(title: NSLocalizedString("favorites", comment: ""),
-                                                      image: UIImage(systemName: "star.fill"),
-                                                      tag: 2)
-
-        let profileController = ProfileViewController()
-        profileController.tabBarItem = UITabBarItem(title: NSLocalizedString("profile", comment: ""),
-                                                    image: UIImage(systemName: "person.crop.circle"),
-                                                    tag: 3)
-
-        viewControllers = [mainViewController, catalogController, favoritesController, profileController]
+        for (index, viewController) in viewControllers.enumerated() {
+            let title = NSLocalizedString(items[index], comment: "")
+            let image = images[index]
+            viewController.tabBarItem = UITabBarItem(title: title, image: image, tag: index)
+        }
     }
 }

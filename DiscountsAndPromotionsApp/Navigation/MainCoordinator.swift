@@ -6,11 +6,28 @@ final class MainCoordinator: Coordinator {
 
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
+        self.navigationController.navigationBar.isHidden = true
     }
 
     func start() {
-        let tabBarController = MainTabBarController()
-        tabBarController.coordinator = self
-        navigationController.pushViewController(tabBarController, animated: false)
+        let mainTabBarController = MainTabBarController()
+        let mainScreenCoordinator = MainScreenCoordinator(navigationController: UINavigationController())
+        let favoritesScreenCoordinator = FavoritesScreenCoordinator(navigationController: UINavigationController())
+        let profileScreenCoordinator = ProfileScreenCoordinator(navigationController: UINavigationController())
+
+        mainScreenCoordinator.start()
+        favoritesScreenCoordinator.start()
+        profileScreenCoordinator.start()
+
+        childCoordinators.append(mainScreenCoordinator)
+        childCoordinators.append(favoritesScreenCoordinator)
+        childCoordinators.append(profileScreenCoordinator)
+
+        mainTabBarController.viewControllers = [mainScreenCoordinator.navigationController,
+                                                favoritesScreenCoordinator.navigationController,
+                                                profileScreenCoordinator.navigationController]
+        mainTabBarController.setUpTabBarItems()
+
+        navigationController.viewControllers = [mainTabBarController]
     }
 }
