@@ -1,6 +1,6 @@
 import Foundation
 
-//    Отключил swiftlint для функции с моковыми данными ниже
+//    Отключил swiftlint для класса с моковыми данными ниже
 //    swiftlint:disable function_body_length
 final class MockDataService {
     static let shared = MockDataService()

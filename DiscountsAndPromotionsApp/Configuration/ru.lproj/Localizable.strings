@@ -1,8 +1,0 @@
-// TabBar
-"main" = "Главная";
-"catalog" = "Каталог";
-"favorites" = "Избранное";
-"profile" = "Профиль";
-
-// SearchBar
-"searchBarPlaceholder" = "Найти";

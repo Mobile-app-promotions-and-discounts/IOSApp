@@ -13,5 +13,4 @@ class GenericNavButton: UIButton {
         layer.cornerRadius = 22
         clipsToBounds = true
     }
-
 }
