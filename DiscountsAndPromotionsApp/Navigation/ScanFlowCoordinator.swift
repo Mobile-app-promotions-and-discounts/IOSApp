@@ -1,30 +1,31 @@
 import UIKit
 
 protocol ScanFlowCoordinatorProtocol: AnyObject {
-    var navigation: UINavigationController {get set}
-    func start()
+    func showScanner()
     func goBack()
     func scanError()
 }
 
-final class ScanFlowCoordinator: ScanFlowCoordinatorProtocol {
-    var navigation: UINavigationController
+final class ScanFlowCoordinator: Coordinator, ScanFlowCoordinatorProtocol {
+    var childCoordinators: [Coordinator] = []
+    var navigationController: UINavigationController
+    var scanVC = UIViewController()
 
-    let scanVC = ScanViewController()
-
-    init(navigation: UINavigationController) {
-        self.navigation = navigation
+    init(navigationController: UINavigationController) {
+        self.navigationController = navigationController
     }
 
     func start() {
+        scanVC = ScanViewController(coordinator: self)
         scanVC.hidesBottomBarWhenPushed = true
-        scanVC.coordinator = self
-        navigation.pushViewController(scanVC,
-                                      animated: true)
+    }
+
+    func showScanner() {
+        navigationController.pushViewController(scanVC, animated: true)
     }
 
     func goBack() {
-        navigation.popViewController(animated: true)
+        navigationController.popViewController(animated: true)
     }
 
     func scanError() {

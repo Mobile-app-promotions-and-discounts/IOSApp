@@ -4,3 +4,5 @@
 "favorites" = "Favorites";
 "profile" = "Profile";
 
+// SearchBar
+"searchBarPlaceholder" = "Search";
