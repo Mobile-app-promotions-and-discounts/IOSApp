@@ -1,8 +1,0 @@
-// TabBar
-"main" = "Main";
-"catalog" = "Catalog";
-"favorites" = "Favorites";
-"profile" = "Profile";
-
-// SearchBar
-"searchBarPlaceholder" = "Search";

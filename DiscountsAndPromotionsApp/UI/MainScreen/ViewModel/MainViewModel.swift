@@ -30,9 +30,9 @@ final class MainViewModel: MainViewModelProtocol {
         case 0:
             return categoriesList[indexPath.row].name
         case 1:
-            return "Акции"
+            return NSLocalizedString("Promotions", tableName: "MainFlow", comment: "")
         case 2:
-            return "Магазины"
+            return NSLocalizedString("Shops", tableName: "MainFlow", comment: "")
         default:
             return ""
         }

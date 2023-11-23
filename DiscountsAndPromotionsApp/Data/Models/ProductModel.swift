@@ -113,17 +113,8 @@ extension Product {
     func findMinMaxOffers() -> (minOffer: Offer?, maxOffer: Offer?) {
         guard !offers.isEmpty else { return (nil, nil) }
 
-        var minOffer: Offer = offers[0]
-        var maxOffer: Offer = offers[0]
-
-        for offer in offers {
-            if offer.price < minOffer.price {
-                minOffer = offer
-            }
-            if offer.price > maxOffer.price {
-                maxOffer = offer
-            }
-        }
+        let minOffer = offers.min(by: { $0.price < $1.price })
+        let maxOffer = offers.max(by: { $0.price < $1.price })
 
         return (minOffer, maxOffer)
     }

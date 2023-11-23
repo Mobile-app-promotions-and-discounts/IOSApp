@@ -39,7 +39,7 @@ final class ScanViewController: UIViewController, AVCaptureMetadataOutputObjects
         barcodeField.layer.cornerRadius = 10
         barcodeField.placeholder = NSLocalizedString("barcodePlaceholder", tableName: "ScanFlow", comment: "")
         barcodeField.textAlignment = .center
-       return barcodeField
+        return barcodeField
     }()
 
     private lazy var flashButton = {
@@ -56,8 +56,8 @@ final class ScanViewController: UIViewController, AVCaptureMetadataOutputObjects
         let backButton = GenericNavButton(type: .system)
         backButton.setImage(UIImage(systemName: "arrow.backward"), for: .normal)
         backButton.addTarget(self,
-                              action: #selector(goBack),
-                              for: .touchUpInside)
+                             action: #selector(goBack),
+                             for: .touchUpInside)
         return backButton
     }()
 
