@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		927EC2DE2B0FA01A005C100B /* ProductCardCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927EC2DD2B0FA01A005C100B /* ProductCardCoordinator.swift */; };
+		927EC2E02B0FA058005C100B /* ProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927EC2DF2B0FA058005C100B /* ProductViewController.swift */; };
+		927EC2E32B0FA1FE005C100B /* ImageGalleryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927EC2E22B0FA1FE005C100B /* ImageGalleryCell.swift */; };
+		927EC2E52B0FA2C0005C100B /* PriceInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927EC2E42B0FA2C0005C100B /* PriceInfoCell.swift */; };
+		927EC2E72B0FA2E0005C100B /* ProductTitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927EC2E62B0FA2E0005C100B /* ProductTitleCell.swift */; };
+		927EC2E92B0FA306005C100B /* RatingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927EC2E82B0FA306005C100B /* RatingCell.swift */; };
+		927EC2EB2B0FA324005C100B /* ReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927EC2EA2B0FA324005C100B /* ReviewCell.swift */; };
+		927EC2ED2B0FA404005C100B /* StoreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927EC2EC2B0FA404005C100B /* StoreCell.swift */; };
 		BC4DE3852B0F7DFF00135A12 /* ScanDummyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4DE3842B0F7DFF00135A12 /* ScanDummyViewController.swift */; };
 		BC93BB692B0BC313008BE2AD /* ScanFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC93BB682B0BC313008BE2AD /* ScanFlowCoordinator.swift */; };
 		BC93BB6B2B0BCBF1008BE2AD /* StringBarcodeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC93BB6A2B0BCBF1008BE2AD /* StringBarcodeExtension.swift */; };
@@ -68,6 +76,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		927EC2DD2B0FA01A005C100B /* ProductCardCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCardCoordinator.swift; sourceTree = "<group>"; };
+		927EC2DF2B0FA058005C100B /* ProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductViewController.swift; sourceTree = "<group>"; };
+		927EC2E22B0FA1FE005C100B /* ImageGalleryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageGalleryCell.swift; sourceTree = "<group>"; };
+		927EC2E42B0FA2C0005C100B /* PriceInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceInfoCell.swift; sourceTree = "<group>"; };
+		927EC2E62B0FA2E0005C100B /* ProductTitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductTitleCell.swift; sourceTree = "<group>"; };
+		927EC2E82B0FA306005C100B /* RatingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingCell.swift; sourceTree = "<group>"; };
+		927EC2EA2B0FA324005C100B /* ReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCell.swift; sourceTree = "<group>"; };
+		927EC2EC2B0FA404005C100B /* StoreCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreCell.swift; sourceTree = "<group>"; };
 		BC4DE3842B0F7DFF00135A12 /* ScanDummyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanDummyViewController.swift; sourceTree = "<group>"; };
 		BC93BB682B0BC313008BE2AD /* ScanFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanFlowCoordinator.swift; sourceTree = "<group>"; };
 		BC93BB6A2B0BCBF1008BE2AD /* StringBarcodeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringBarcodeExtension.swift; sourceTree = "<group>"; };
@@ -129,6 +145,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		927EC2DC2B0F9FC4005C100B /* ProductCardScreen */ = {
+			isa = PBXGroup;
+			children = (
+				927EC2E12B0FA1E5005C100B /* Views */,
+			);
+			path = ProductCardScreen;
+			sourceTree = "<group>";
+		};
+		927EC2E12B0FA1E5005C100B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				927EC2DF2B0FA058005C100B /* ProductViewController.swift */,
+				927EC2E22B0FA1FE005C100B /* ImageGalleryCell.swift */,
+				927EC2E42B0FA2C0005C100B /* PriceInfoCell.swift */,
+				927EC2E62B0FA2E0005C100B /* ProductTitleCell.swift */,
+				927EC2E82B0FA306005C100B /* RatingCell.swift */,
+				927EC2EA2B0FA324005C100B /* ReviewCell.swift */,
+				927EC2EC2B0FA404005C100B /* StoreCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		BC4DE3832B0F7DA000135A12 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -172,6 +210,7 @@
 				BE35246D2B02B29F00746581 /* Navigation */,
 				BE521A892B04DF1A005F2FE7 /* Data */,
 				BE3524712B02B2E200746581 /* UI */,
+				927EC2DC2B0F9FC4005C100B /* ProductCardScreen */,
 				BE3524722B02B30800746581 /* Extensions */,
 				BE3524632B02ACCB00746581 /* Resources */,
 				BE3524622B02ACBF00746581 /* Storybords */,
@@ -235,6 +274,7 @@
 				BE8E70B12B0E558300BEAA5A /* FavoritesScreenCoordinator.swift */,
 				BE8E70B32B0E74F600BEAA5A /* ProfileScreenCoordinator.swift */,
 				BE521A812B04DEB3005F2FE7 /* MainTabBarController.swift */,
+				927EC2DD2B0FA01A005C100B /* ProductCardCoordinator.swift */,
 			);
 			path = Navigation;
 			sourceTree = "<group>";
@@ -472,6 +512,7 @@
 				BE3524522B02ABA200746581 /* MainViewController.swift in Sources */,
 				BE8E70BD2B0E90C500BEAA5A /* StoresCell.swift in Sources */,
 				BEBA91712B0AA7F800C2DE96 /* MainScreenCoordinator.swift in Sources */,
+				927EC2E72B0FA2E0005C100B /* ProductTitleCell.swift in Sources */,
 				BCB7F9202B0D150700EE20A0 /* UITextFieldExtensions.swift in Sources */,
 				BCA719962B0AB067008BAA74 /* ScanViewController.swift in Sources */,
 				BE3524522B02ABA200746581 /* MainViewController.swift in Sources */,
@@ -480,8 +521,11 @@
 				BE3A55952B0BEF680053C851 /* MainViewModel.swift in Sources */,
 				BE8E709D2B0D275300BEAA5A /* CollectionLayoutProvider.swift in Sources */,
 				BE8E70A82B0D4E8800BEAA5A /* CategoryViewModelProtocol.swift in Sources */,
+				927EC2EB2B0FA324005C100B /* ReviewCell.swift in Sources */,
+				927EC2E52B0FA2C0005C100B /* PriceInfoCell.swift in Sources */,
 				BEBA916E2B0A9F9500C2DE96 /* ProductModel.swift in Sources */,
 				BC93BB692B0BC313008BE2AD /* ScanFlowCoordinator.swift in Sources */,
+				927EC2DE2B0FA01A005C100B /* ProductCardCoordinator.swift in Sources */,
 				BE3524762B02B62B00746581 /* MainCoordinator.swift in Sources */,
 				BE521A8F2B04DF5D005F2FE7 /* MockDataService.swift in Sources */,
 				BE3A55972B0BF01F0053C851 /* MainViewModelProtocol.swift in Sources */,
@@ -491,8 +535,10 @@
 				BE521A882B04DECC005F2FE7 /* ProfileViewController.swift in Sources */,
 				BE8E70B42B0E74F600BEAA5A /* ProfileScreenCoordinator.swift in Sources */,
 				BE8E70A62B0D4E5200BEAA5A /* CategoryViewModel.swift in Sources */,
+				927EC2E32B0FA1FE005C100B /* ImageGalleryCell.swift in Sources */,
 				BE8E709F2B0D345700BEAA5A /* CategoryCell.swift in Sources */,
 				BC93BB722B0C814F008BE2AD /* GenericButton.swift in Sources */,
+				927EC2E02B0FA058005C100B /* ProductViewController.swift in Sources */,
 				BC93BB762B0C8327008BE2AD /* ScanViewModel.swift in Sources */,
 				BE521A862B04DEC8005F2FE7 /* FavoritesViewController.swift in Sources */,
 				BC4DE3852B0F7DFF00135A12 /* ScanDummyViewController.swift in Sources */,
@@ -500,11 +546,13 @@
 				BE8E70A32B0D457400BEAA5A /* CategoryViewController.swift in Sources */,
 				BE3524692B02B27A00746581 /* Fonts.swift in Sources */,
 				BE8E70AA2B0E1CED00BEAA5A /* CategoryCellUIModel.swift in Sources */,
+				927EC2ED2B0FA404005C100B /* StoreCell.swift in Sources */,
 				BE8E70B02B0E250100BEAA5A /* Double+Extension.swift in Sources */,
 				BE8E70BB2B0E8BED00BEAA5A /* PromotionHeader.swift in Sources */,
 				BE35244E2B02ABA200746581 /* AppDelegate.swift in Sources */,
 				BE8E70BF2B0E921900BEAA5A /* StoreUIModel.swift in Sources */,
 				BCB7F9242B0D255600EE20A0 /* UIImageExtensions.swift in Sources */,
+				927EC2E92B0FA306005C100B /* RatingCell.swift in Sources */,
 				BCB7F9222B0D153000EE20A0 /* ScanFrameView.swift in Sources */,
 				BC93BB6B2B0BCBF1008BE2AD /* StringBarcodeExtension.swift in Sources */,
 				BE3524502B02ABA200746581 /* SceneDelegate.swift in Sources */,
