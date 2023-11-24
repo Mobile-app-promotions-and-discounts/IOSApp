@@ -60,6 +60,7 @@ class ProductCardViewController: UIViewController {
         contentView.addSubview(titleView)
         titleView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(ratingView)
+        ratingView.delegate = self
         ratingView.translatesAutoresizingMaskIntoConstraints = false
 
         // Ограничения для ScrollView
@@ -91,14 +92,17 @@ class ProductCardViewController: UIViewController {
         NSLayoutConstraint.activate([
             titleView.topAnchor.constraint(equalTo: galleryView.bottomAnchor, constant: 16),
             titleView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-//            titleView.trailingAnchor.constraint(equalTo: productScrollView.frameLayoutGuide.trailingAnchor),
-            titleView.heightAnchor.constraint(equalToConstant: 100) // Примерная высота, если не определена внутри TitleView
+            titleView.heightAnchor.constraint(equalToConstant: 43),
+            // Примерная высота, если не определена внутри TitleView
+            titleView.widthAnchor.constraint(equalToConstant: contentView.frame.width)
         ])
 
         NSLayoutConstraint.activate([
             ratingView.topAnchor.constraint(equalTo: titleView.bottomAnchor, constant: 16),
             ratingView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            ratingView.heightAnchor.constraint(equalToConstant: 100)
+            ratingView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            ratingView.heightAnchor.constraint(equalToConstant: 36),
+            ratingView.widthAnchor.constraint(equalToConstant: contentView.frame.width)
         ])
     }
 
@@ -120,5 +124,12 @@ class ProductCardViewController: UIViewController {
         } else {
             ratingView.configure(with: 1.0, numberOfReviews: 1)
         }
+    }
+}
+
+extension ProductCardViewController: RatingViewDelegate {
+    func reviewsButtonTapped() {
+        // сюда координатора бахнуть
+        print("Нажатие кнопки перехода к комментариям")
     }
 }

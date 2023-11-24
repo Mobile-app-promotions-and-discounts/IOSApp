@@ -5,13 +5,32 @@
 //  Created by Денис on 23.11.2023.
 //
 
+protocol RatingViewDelegate: AnyObject {
+    func reviewsButtonTapped()
+}
+
 import UIKit
 class RatingView: UIView {
 
-    private let starsStackView = UIStackView()
+    weak var delegate: RatingViewDelegate?
+
+    private let starsStackView =  UIStackView()
     private let ratingLabel = UILabel()
     private let numberOfReviewsLabel = UILabel()
-    private let reviewsButton = UIButton()
+
+    private lazy var reviewsButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "chevron.forward"), for: .normal)
+        button.addTarget(self,
+                         action: #selector(reviewsButtonTapped),
+                         for: .touchUpInside)
+        button.tintColor = .black
+        button.clipsToBounds = true
+        button.layer.cornerRadius = 14
+        button.backgroundColor = .lightGray
+        button.isUserInteractionEnabled = true
+        return button
+    }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -32,17 +51,16 @@ class RatingView: UIView {
 
         numberOfReviewsLabel.text = "\(numberOfReviews) отзывов"
 
-        reviewsButton.setImage(UIImage(systemName: "checron.right"), for: .normal)
+//        reviewsButton.setImage(UIImage(systemName: "checron.right"), for: .normal)
     }
 
     private func setupLayout() {
-        // Настройка стэка для звезд
         starsStackView.axis = .horizontal
         starsStackView.distribution = .fillEqually
-
-        [starsStackView, ratingLabel, numberOfReviewsLabel, reviewsButton].forEach {
-            addSubview($0)
-        }
+        addSubview(starsStackView)
+        addSubview(ratingLabel)
+        addSubview(numberOfReviewsLabel)
+        addSubview(reviewsButton)
 
         [starsStackView, ratingLabel, numberOfReviewsLabel, reviewsButton].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
@@ -51,7 +69,7 @@ class RatingView: UIView {
         NSLayoutConstraint.activate([
             starsStackView.topAnchor.constraint(equalTo: topAnchor),
             starsStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            starsStackView.heightAnchor.constraint(equalToConstant: 20), // Примерная высота
+            starsStackView.heightAnchor.constraint(equalToConstant: 16), // Примерная высота
 
             ratingLabel.centerYAnchor.constraint(equalTo: starsStackView.centerYAnchor),
             ratingLabel.leadingAnchor.constraint(equalTo: starsStackView.trailingAnchor, constant: 8),
@@ -60,9 +78,9 @@ class RatingView: UIView {
             numberOfReviewsLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             numberOfReviewsLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
 
-            reviewsButton.trailingAnchor.constraint(equalTo: trailingAnchor),
+            reviewsButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             reviewsButton.centerYAnchor.constraint(equalTo: centerYAnchor),
-            reviewsButton.widthAnchor.constraint(equalToConstant: 30), // Примерная ширина
+            reviewsButton.widthAnchor.constraint(equalToConstant: 28), // Примерная ширина
             reviewsButton.heightAnchor.constraint(equalTo: reviewsButton.widthAnchor) // Круглая кнопка
         ])
     }
@@ -74,6 +92,11 @@ class RatingView: UIView {
             star.isHidden = true
             starsStackView.addArrangedSubview(star)
         }
+    }
+
+    @objc private func reviewsButtonTapped() {
+        print("Нажатие")
+        delegate?.reviewsButtonTapped()
     }
 
 }
