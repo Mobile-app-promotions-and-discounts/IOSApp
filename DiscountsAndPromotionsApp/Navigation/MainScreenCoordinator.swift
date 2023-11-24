@@ -21,4 +21,10 @@ final class MainScreenCoordinator: Coordinator {
         categoryViewController.coordinator = self
         navigationController.pushViewController(categoryViewController, animated: true)
     }
+
+    func navigateToProductScreen(for product: Product) {
+        let productVC = ProductCardViewController(product: product)
+        productVC.coordinator = self
+        navigationController.pushViewController(productVC, animated: true)
+    }
 }
