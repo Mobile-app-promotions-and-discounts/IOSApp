@@ -33,6 +33,7 @@ class ProductCardViewController: UIViewController {
 
     private let galleryView = ImageGalleryView()
     private let titleView = ProductTitleView()
+    private let ratingView = RatingView()
 
     init(product: Product) {
         self.product = product
@@ -58,6 +59,8 @@ class ProductCardViewController: UIViewController {
         galleryView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(titleView)
         titleView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(ratingView)
+        ratingView.translatesAutoresizingMaskIntoConstraints = false
 
         // Ограничения для ScrollView
         NSLayoutConstraint.activate([
@@ -87,9 +90,15 @@ class ProductCardViewController: UIViewController {
 //        // Ограничения для TitleView
         NSLayoutConstraint.activate([
             titleView.topAnchor.constraint(equalTo: galleryView.bottomAnchor, constant: 16),
-            titleView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor)
+            titleView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
 //            titleView.trailingAnchor.constraint(equalTo: productScrollView.frameLayoutGuide.trailingAnchor),
-//            titleView.heightAnchor.constraint(equalToConstant: 100) // Примерная высота, если не определена внутри TitleView
+            titleView.heightAnchor.constraint(equalToConstant: 100) // Примерная высота, если не определена внутри TitleView
+        ])
+
+        NSLayoutConstraint.activate([
+            ratingView.topAnchor.constraint(equalTo: titleView.bottomAnchor, constant: 16),
+            ratingView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            ratingView.heightAnchor.constraint(equalToConstant: 100)
         ])
     }
 
@@ -104,6 +113,12 @@ class ProductCardViewController: UIViewController {
             titleView.configure(with: titleLabelText, weight: weightLabelText)
         } else {
             titleView.configure(with: "Title", weight: "Weight")
+        }
+
+        if let rating = product?.rating {
+            ratingView.configure(with: rating, numberOfReviews: 0)
+        } else {
+            ratingView.configure(with: 1.0, numberOfReviews: 1)
         }
     }
 }
