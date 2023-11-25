@@ -1,38 +1,27 @@
 import UIKit
 
 final class MainTabBarController: UITabBarController {
-    weak var coordinator: MainCoordinator?
 
-    init() {
-        super.init(nibName: nil, bundle: nil)
-        setUpViewControllers()
-    }
+    // Настройка вкладок UITabBarController
+    func setUpTabBarItems() {
+        guard let viewControllers = viewControllers, viewControllers.count >= 4 else {
+            print("Ошибка: недостаточно viewControllers")
+            return
+        }
 
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+        let mainTitle = NSLocalizedString("Main", tableName: "MainFlow", comment: "")
+        let favoritesTitle = NSLocalizedString("Favorites", tableName: "MainFlow", comment: "")
+        let profileTitle = NSLocalizedString("Profile", tableName: "MainFlow", comment: "")
+        let scanTitle = NSLocalizedString("Scan", tableName: "MainFlow", comment: "")
 
-    private func setUpViewControllers() {
-        let mainViewController = MainViewController()
-        mainViewController.tabBarItem = UITabBarItem(title: NSLocalizedString("main", comment: ""),
-                                                     image: UIImage(systemName: "mustache"),
-                                                     tag: 0)
+        let mainImage = UIImage.mainIcon
+        let favoritesImage = UIImage.favoritesIcon
+        let profileImage = UIImage.profileIcon
+        let scanImage = UIImage(systemName: "barcode.viewfinder")
 
-        let catalogController = CatalogViewController()
-        catalogController.tabBarItem = UITabBarItem(title: NSLocalizedString("catalog", comment: ""),
-                                                    image: UIImage(systemName: "list.bullet.rectangle"),
-                                                    tag: 1)
-
-        let favoritesController = FavoritesViewController()
-        favoritesController.tabBarItem = UITabBarItem(title: NSLocalizedString("favorites", comment: ""),
-                                                      image: UIImage(systemName: "star.fill"),
-                                                      tag: 2)
-
-        let profileController = ProfileViewController()
-        profileController.tabBarItem = UITabBarItem(title: NSLocalizedString("profile", comment: ""),
-                                                    image: UIImage(systemName: "person.crop.circle"),
-                                                    tag: 3)
-
-        viewControllers = [mainViewController, catalogController, favoritesController, profileController]
+        viewControllers[0].tabBarItem = UITabBarItem(title: mainTitle, image: mainImage, tag: 0)
+        viewControllers[1].tabBarItem = UITabBarItem(title: favoritesTitle, image: favoritesImage, tag: 1)
+        viewControllers[2].tabBarItem = UITabBarItem(title: profileTitle, image: profileImage, tag: 2)
+        viewControllers[3].tabBarItem = UITabBarItem(title: scanTitle, image: scanImage, tag: 3)
     }
 }
