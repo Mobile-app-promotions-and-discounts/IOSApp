@@ -3,13 +3,13 @@ import Combine
 import SnapKit
 import UIKit
 
-final class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
+final class ScanViewController: UIViewController {
     weak var coordinator: ScanFlowCoordinatorProtocol?
     private let viewModel: ScanFlowViewModel
     private var subscriptions = Set<AnyCancellable>()
+    private var captureSessionController: ScanCaptureSessionController
 
-    private var captureSession: AVCaptureSession
-    private var previewLayer: AVCaptureVideoPreviewLayer
+    private var scanPreviewLayer: AVCaptureVideoPreviewLayer
 
     // MARK: - UI elements
     private let scanFrame: UIView = {
@@ -96,8 +96,8 @@ final class ScanViewController: UIViewController, AVCaptureMetadataOutputObjects
     init(coordinator: ScanFlowCoordinatorProtocol? = nil, viewModel: ScanFlowViewModel = ScanFlowViewModel()) {
         self.coordinator = coordinator
         self.viewModel = viewModel
-        self.captureSession = AVCaptureSession()
-        self.previewLayer = AVCaptureVideoPreviewLayer(session: self.captureSession)
+        self.captureSessionController = ScanCaptureSessionController(coordinator: self.coordinator)
+        self.scanPreviewLayer = self.captureSessionController.previewLayer
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -108,21 +108,34 @@ final class ScanViewController: UIViewController, AVCaptureMetadataOutputObjects
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setupCaptureSession()
+        captureSessionController.setupCaptureSession()
+
+        scanPreviewLayer.frame = view.layer.bounds
+        scanPreviewLayer.videoGravity = .resizeAspectFill
+        view.layer.addSublayer(scanPreviewLayer)
+
         setupUI()
         makeUIBinding()
+
+        let scannedBarcode = captureSessionController.$barcode
+            .sink { [weak self] code in
+                if let code {
+                    self?.viewModel.checkBarcode(code: code)
+                }
+            }
+            .store(in: &subscriptions)
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        startSessionRoutine()
+        captureSessionController.startSessionRoutine()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
-        stopSessionRoutine()
+        captureSessionController.stopSessionRoutine()
     }
 
     // MARK: - Setup UI
@@ -201,7 +214,7 @@ final class ScanViewController: UIViewController, AVCaptureMetadataOutputObjects
                         make.centerX.equalTo(self.view)
                         make.bottom.equalTo(self.view.keyboardLayoutGuide.snp.top).offset(0.0)
                     }
-                    startSessionRoutine()
+                    captureSessionController.startSessionRoutine()
                 } else {
                     textField.becomeFirstResponder()
                     self.buttonStack.snp.remakeConstraints { make in
@@ -211,116 +224,31 @@ final class ScanViewController: UIViewController, AVCaptureMetadataOutputObjects
                         make.centerX.equalTo(self.view)
                         make.bottom.equalTo(self.view.keyboardLayoutGuide.snp.top).offset(-24.0)
                     }
-                    stopSessionRoutine()
+                    captureSessionController.stopSessionRoutine()
                 }
                 flashButton.isEnabled = scanUI
-                previewLayer.isHidden = !scanUI
+                scanPreviewLayer.isHidden = !scanUI
+                if !scanUI {
+                    flashButton.isSelected = false
+                }
             }
 
         let isReminderVisible = viewModel.bindBarcode(code: textField.textPublisher)
             .receive(on: DispatchQueue.main)
             .assign(to: \.isHidden, on: barcodeReminderLabel)
+            .store(in: &subscriptions)
 
         subscriptions.insert(uiStateConfugurator)
-        subscriptions.insert(isReminderVisible)
     }
 }
 
 // MARK: - Capture Session
 extension ScanViewController {
-    private func startSessionRoutine() {
-        if captureSession.isRunning == false {
-            let background = DispatchQueue(label: "capture_session_queue")
-            background.async { [weak self] in
-                self?.captureSession.startRunning()
-            }
-        }
-    }
 
-    private func stopSessionRoutine() {
-        flashOff()
-        if captureSession.isRunning == true {
-            captureSession.stopRunning()
-        }
-    }
-
-    private func setupCaptureSession() {
-        guard let videoCaptureDevice = AVCaptureDevice.default(for: .video) else { return }
-        let videoInput: AVCaptureDeviceInput
-
-        do {
-            videoInput = try AVCaptureDeviceInput(device: videoCaptureDevice)
-        } catch {
-            return
-        }
-
-        if captureSession.canAddInput(videoInput) {
-            captureSession.addInput(videoInput)
-        } else {
-            failed()
-            return
-        }
-
-        let metadataOutput = AVCaptureMetadataOutput()
-
-        if captureSession.canAddOutput(metadataOutput) {
-            captureSession.addOutput(metadataOutput)
-
-            metadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
-            metadataOutput.metadataObjectTypes = [.ean8, .ean13, .upce]
-        } else {
-            failed()
-            return
-        }
-
-        previewLayer.frame = view.layer.bounds
-        previewLayer.videoGravity = .resizeAspectFill
-        view.layer.addSublayer(previewLayer)
-
-        let background = DispatchQueue(label: "capture_session_queue")
-        background.async { [weak self] in
-            self?.captureSession.startRunning()
-        }
-    }
-
-    private func failed() {
-        coordinator?.scanError()
-    }
-
-    func metadataOutput(_ output: AVCaptureMetadataOutput,
-                        didOutput metadataObjects: [AVMetadataObject],
-                        from connection: AVCaptureConnection) {
-        captureSession.stopRunning()
-
-        if let metadataObject = metadataObjects.first {
-            guard let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject else { return }
-            guard let stringValue = readableObject.stringValue else { return }
-            AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
-            flashOff()
-            viewModel.checkBarcode(code: stringValue)
-        }
-    }
 }
 
 // MARK: - Flashlight
 extension ScanViewController {
-    private func flashOff() {
-        guard let device = AVCaptureDevice.default(for: AVMediaType.video) else { return }
-        guard device.hasTorch else { return }
-
-        do {
-            try device.lockForConfiguration()
-
-            if device.torchMode == AVCaptureDevice.TorchMode.on {
-                device.torchMode = AVCaptureDevice.TorchMode.off
-                flashButton.isSelected = false
-            }
-
-            device.unlockForConfiguration()
-        } catch {
-            assertionFailure(error.localizedDescription)
-        }
-    }
 
     @objc
     private func toggleFlash() {
