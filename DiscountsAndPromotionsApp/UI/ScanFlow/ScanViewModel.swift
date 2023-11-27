@@ -3,9 +3,29 @@ import Foundation
 // временное решение для показа штрих-кода
 import UIKit
 
-final class ScanFlowViewModel {
-    @Published private(set) var isManualInputActive: Bool = false
-    @Published var isValidBarcode: Bool = false
+protocol ScanFlowViewModelProtocol {
+    var manualInputUpdate: PassthroughSubject<Bool, Never> { get }
+    var validBarcodeUpdate: PassthroughSubject<Bool, Never> { get }
+
+    func bindBarcode(code: AnyPublisher<String, Never>) -> AnyPublisher<Bool, Never>
+    func checkBarcode()
+    func checkBarcode(code: String)
+    func setManualInputActive(to input: Bool)
+}
+
+final class ScanFlowViewModel: ScanFlowViewModelProtocol {
+    private (set) var manualInputUpdate = PassthroughSubject<Bool, Never>()
+    private (set) var validBarcodeUpdate = PassthroughSubject<Bool, Never>()
+    @Published private var isManualInputActive: Bool = false {
+        didSet {
+            manualInputUpdate.send(isManualInputActive)
+        }
+    }
+    @Published private var isValidBarcode: Bool = false {
+        didSet {
+            validBarcodeUpdate.send(isValidBarcode)
+        }
+    }
     private var currentBarcode: String = ""
 
     private var barcodeSubscription: AnyCancellable?
@@ -36,6 +56,10 @@ final class ScanFlowViewModel {
         makeBarcodeRequest(code: code)
     }
 
+    func setManualInputActive(to input: Bool) {
+        isManualInputActive = input
+    }
+
     private func makeBarcodeRequest(code: String) {
         // TODO: связать с сетевым слоем
         print("Barcode for \(code)")
@@ -49,9 +73,5 @@ final class ScanFlowViewModel {
             alert.addAction(UIAlertAction(title: "OK", style: .default))
             topController?.present(alert, animated: true)
         }
-    }
-
-    func setManualInputActive(to input: Bool) {
-        isManualInputActive = input
     }
 }

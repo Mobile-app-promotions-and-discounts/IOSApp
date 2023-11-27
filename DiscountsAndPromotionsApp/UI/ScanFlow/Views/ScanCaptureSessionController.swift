@@ -4,9 +4,11 @@ import Foundation
 
 final class ScanCaptureSessionController: NSObject, AVCaptureMetadataOutputObjectsDelegate {
     @Published var barcode: String?
+    @Published var isFlashOn: Bool = false
     weak var coordinator: ScanFlowCoordinatorProtocol?
     private var captureSession: AVCaptureSession
     private (set) var previewLayer: AVCaptureVideoPreviewLayer
+    private let background = DispatchQueue.global()
 
     init(coordinator: ScanFlowCoordinatorProtocol?) {
         self.coordinator = coordinator
@@ -16,7 +18,6 @@ final class ScanCaptureSessionController: NSObject, AVCaptureMetadataOutputObjec
 
     func startSessionRoutine() {
         if captureSession.isRunning == false {
-            let background = DispatchQueue(label: "capture_session_queue")
             background.async { [weak self] in
                 self?.captureSession.startRunning()
             }
@@ -59,9 +60,31 @@ final class ScanCaptureSessionController: NSObject, AVCaptureMetadataOutputObjec
             return
         }
 
-        let background = DispatchQueue(label: "capture_session_queue")
         background.async { [weak self] in
             self?.captureSession.startRunning()
+        }
+    }
+
+    func toggleFlash() {
+        guard let device = AVCaptureDevice.default(for: AVMediaType.video) else { return }
+        guard device.hasTorch else { return }
+        do {
+            try device.lockForConfiguration()
+
+            if device.torchMode == AVCaptureDevice.TorchMode.on {
+                device.torchMode = AVCaptureDevice.TorchMode.off
+                isFlashOn = false
+            } else {
+                do {
+                    try device.setTorchModeOn(level: 1.0)
+                    isFlashOn = true
+                } catch {
+                    assertionFailure(error.localizedDescription)
+                }
+            }
+            device.unlockForConfiguration()
+        } catch {
+            assertionFailure(error.localizedDescription)
         }
     }
 
@@ -80,7 +103,6 @@ final class ScanCaptureSessionController: NSObject, AVCaptureMetadataOutputObjec
             AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
             flashOff()
             barcode = stringValue
-//            viewModel.checkBarcode(code: stringValue)
         }
     }
 
@@ -93,7 +115,6 @@ final class ScanCaptureSessionController: NSObject, AVCaptureMetadataOutputObjec
 
             if device.torchMode == AVCaptureDevice.TorchMode.on {
                 device.torchMode = AVCaptureDevice.TorchMode.off
-//                flashButton.isSelected = false
             }
 
             device.unlockForConfiguration()

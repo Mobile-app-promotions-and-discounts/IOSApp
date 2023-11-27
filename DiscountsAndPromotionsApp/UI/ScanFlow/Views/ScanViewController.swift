@@ -5,7 +5,7 @@ import UIKit
 
 final class ScanViewController: UIViewController {
     weak var coordinator: ScanFlowCoordinatorProtocol?
-    private let viewModel: ScanFlowViewModel
+    private let viewModel: ScanFlowViewModelProtocol
     private var subscriptions = Set<AnyCancellable>()
     private var captureSessionController: ScanCaptureSessionController
 
@@ -77,7 +77,7 @@ final class ScanViewController: UIViewController {
         button.addTarget(self,
                          action: #selector(scanButtonTapped),
                          for: .touchUpInside)
-        button.isSelected = !viewModel.isManualInputActive
+        button.isSelected = true
         return button
     }()
 
@@ -88,7 +88,7 @@ final class ScanViewController: UIViewController {
         button.addTarget(self,
                          action: #selector(manualButtonTapped),
                          for: .touchUpInside)
-        button.isSelected = viewModel.isManualInputActive
+        button.isSelected = false
         return button
     }()
 
@@ -109,21 +109,9 @@ final class ScanViewController: UIViewController {
         super.viewDidLoad()
 
         captureSessionController.setupCaptureSession()
-
-        scanPreviewLayer.frame = view.layer.bounds
-        scanPreviewLayer.videoGravity = .resizeAspectFill
-        view.layer.addSublayer(scanPreviewLayer)
-
         setupUI()
-        makeUIBinding()
-
-        let scannedBarcode = captureSessionController.$barcode
-            .sink { [weak self] code in
-                if let code {
-                    self?.viewModel.checkBarcode(code: code)
-                }
-            }
-            .store(in: &subscriptions)
+        bindViewModel()
+        bindCaptureSession()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -141,6 +129,10 @@ final class ScanViewController: UIViewController {
     // MARK: - Setup UI
     private func setupUI() {
         view.backgroundColor = .systemFill
+
+        scanPreviewLayer.frame = view.layer.bounds
+        scanPreviewLayer.videoGravity = .resizeAspectFill
+        view.layer.addSublayer(scanPreviewLayer)
 
         [scanFrame,
          buttonStack,
@@ -182,7 +174,7 @@ final class ScanViewController: UIViewController {
             make.width.equalTo(buttonStack)
             make.centerX.equalTo(buttonStack)
         }
-        textField.isHidden = !viewModel.isManualInputActive
+        textField.isHidden = true
 
         barcodeReminderLabel.snp.makeConstraints { make in
             make.size.equalTo(textField)
@@ -193,19 +185,62 @@ final class ScanViewController: UIViewController {
     }
 
     // MARK: UI Binding
-    private func makeUIBinding() {
-        // TODO: планирую поработать над более изящной реализацией Combine в этом методе
-        let uiStateConfugurator = viewModel.$isManualInputActive.map { value in
-            return !value
-        }
+    private func bindCaptureSession() {
+        // поведение кнопки вспышки
+        captureSessionController.$isFlashOn
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] scanUI in
+            .assign(to: \.isSelected, on: flashButton)
+            .store(in: &subscriptions)
+
+        // подписка на распознанный сканером штрих-код
+        captureSessionController.$barcode
+            .sink { [weak self] code in
+                if let code {
+                    self?.viewModel.checkBarcode(code: code)
+                }
+            }
+            .store(in: &subscriptions)
+    }
+
+    private func bindViewModel() {
+        // поведение кнопок выбора режима
+        viewModel.manualInputUpdate
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] manualInputUI in
                 guard let self else { return }
-                self.scanButton.isSelected = scanUI
-                self.manualButton.isSelected = !scanUI
-                self.scanFrame.isHidden = !scanUI
-                self.textField.isHidden = scanUI
-                if scanUI {
+                self.scanButton.isSelected = !manualInputUI
+                self.manualButton.isSelected = manualInputUI
+            }
+            .store(in: &subscriptions)
+
+        // поведение интерфейса ввода штрихкода
+        viewModel.manualInputUpdate
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] manualInputUI in
+                guard let self else { return }
+                self.scanFrame.isHidden = manualInputUI
+                self.textField.isHidden = !manualInputUI
+                scanPreviewLayer.isHidden = manualInputUI
+            }
+            .store(in: &subscriptions)
+
+        // поведение кнопки вспышки
+        viewModel.manualInputUpdate
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] manualInputUI in
+                if manualInputUI {
+                    self?.flashButton.isSelected = false
+                    self?.flashButton.isEnabled = !manualInputUI
+                }
+            }
+            .store(in: &subscriptions)
+
+        // настройка привязки кнопок к клавиатуре
+        viewModel.manualInputUpdate
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] manualInputUI in
+                guard let self else { return }
+                if !manualInputUI {
                     textField.resignFirstResponder()
                     self.buttonStack.snp.remakeConstraints { make in
                         make.height.equalTo(44)
@@ -226,57 +261,24 @@ final class ScanViewController: UIViewController {
                     }
                     captureSessionController.stopSessionRoutine()
                 }
-                flashButton.isEnabled = scanUI
-                scanPreviewLayer.isHidden = !scanUI
-                if !scanUI {
-                    flashButton.isSelected = false
-                }
             }
+            .store(in: &subscriptions)
 
-        let isReminderVisible = viewModel.bindBarcode(code: textField.textPublisher)
+        // подписка на штрих-код, введенный вручная
+        viewModel.bindBarcode(code: textField.textPublisher)
             .receive(on: DispatchQueue.main)
             .assign(to: \.isHidden, on: barcodeReminderLabel)
             .store(in: &subscriptions)
-
-        subscriptions.insert(uiStateConfugurator)
-    }
-}
-
-// MARK: - Capture Session
-extension ScanViewController {
-
-}
-
-// MARK: - Flashlight
-extension ScanViewController {
-
-    @objc
-    private func toggleFlash() {
-        guard let device = AVCaptureDevice.default(for: AVMediaType.video) else { return }
-        guard device.hasTorch else { return }
-        do {
-            try device.lockForConfiguration()
-
-            if device.torchMode == AVCaptureDevice.TorchMode.on {
-                device.torchMode = AVCaptureDevice.TorchMode.off
-                flashButton.isSelected = false
-            } else {
-                do {
-                    try device.setTorchModeOn(level: 1.0)
-                    flashButton.isSelected = true
-                } catch {
-                    assertionFailure(error.localizedDescription)
-                }
-            }
-            device.unlockForConfiguration()
-        } catch {
-            assertionFailure(error.localizedDescription)
-        }
     }
 }
 
 // MARK: - Button selectors
 extension ScanViewController {
+    @objc
+    private func toggleFlash() {
+        captureSessionController.toggleFlash()
+    }
+
     @objc
     private func goBack() {
         coordinator?.goBack()
