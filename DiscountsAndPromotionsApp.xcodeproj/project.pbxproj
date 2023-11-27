@@ -14,7 +14,7 @@
 		927EC2E72B0FA2E0005C100B /* ProductTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927EC2E62B0FA2E0005C100B /* ProductTitleView.swift */; };
 		927EC2E92B0FA306005C100B /* RatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927EC2E82B0FA306005C100B /* RatingView.swift */; };
 		927EC2EB2B0FA324005C100B /* ReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927EC2EA2B0FA324005C100B /* ReviewCell.swift */; };
-		927EC2ED2B0FA404005C100B /* StoreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927EC2EC2B0FA404005C100B /* StoreCell.swift */; };
+		927EC2EF2B149CBC005C100B /* OfferCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927EC2EE2B149CBC005C100B /* OfferCell.swift */; };
 		BC4DE3852B0F7DFF00135A12 /* ScanDummyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4DE3842B0F7DFF00135A12 /* ScanDummyViewController.swift */; };
 		BC93BB692B0BC313008BE2AD /* ScanFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC93BB682B0BC313008BE2AD /* ScanFlowCoordinator.swift */; };
 		BC93BB6B2B0BCBF1008BE2AD /* StringBarcodeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC93BB6A2B0BCBF1008BE2AD /* StringBarcodeExtension.swift */; };
@@ -83,7 +83,7 @@
 		927EC2E62B0FA2E0005C100B /* ProductTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductTitleView.swift; sourceTree = "<group>"; };
 		927EC2E82B0FA306005C100B /* RatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingView.swift; sourceTree = "<group>"; };
 		927EC2EA2B0FA324005C100B /* ReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCell.swift; sourceTree = "<group>"; };
-		927EC2EC2B0FA404005C100B /* StoreCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreCell.swift; sourceTree = "<group>"; };
+		927EC2EE2B149CBC005C100B /* OfferCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferCell.swift; sourceTree = "<group>"; };
 		BC4DE3842B0F7DFF00135A12 /* ScanDummyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanDummyViewController.swift; sourceTree = "<group>"; };
 		BC93BB682B0BC313008BE2AD /* ScanFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanFlowCoordinator.swift; sourceTree = "<group>"; };
 		BC93BB6A2B0BCBF1008BE2AD /* StringBarcodeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringBarcodeExtension.swift; sourceTree = "<group>"; };
@@ -160,7 +160,7 @@
 				927EC2E22B0FA1FE005C100B /* ImageGalleryView.swift */,
 				927EC2E62B0FA2E0005C100B /* ProductTitleView.swift */,
 				927EC2E82B0FA306005C100B /* RatingView.swift */,
-				927EC2EC2B0FA404005C100B /* StoreCell.swift */,
+				927EC2EE2B149CBC005C100B /* OfferCell.swift */,
 				927EC2EA2B0FA324005C100B /* ReviewCell.swift */,
 				927EC2E42B0FA2C0005C100B /* PriceInfoCell.swift */,
 			);
@@ -539,6 +539,7 @@
 				BE8E709F2B0D345700BEAA5A /* CategoryCell.swift in Sources */,
 				BC93BB722B0C814F008BE2AD /* GenericButton.swift in Sources */,
 				927EC2E02B0FA058005C100B /* ProductViewController.swift in Sources */,
+				927EC2EF2B149CBC005C100B /* OfferCell.swift in Sources */,
 				BC93BB762B0C8327008BE2AD /* ScanViewModel.swift in Sources */,
 				BE521A862B04DEC8005F2FE7 /* FavoritesViewController.swift in Sources */,
 				BC4DE3852B0F7DFF00135A12 /* ScanDummyViewController.swift in Sources */,
@@ -546,7 +547,6 @@
 				BE8E70A32B0D457400BEAA5A /* CategoryViewController.swift in Sources */,
 				BE3524692B02B27A00746581 /* Fonts.swift in Sources */,
 				BE8E70AA2B0E1CED00BEAA5A /* CategoryCellUIModel.swift in Sources */,
-				927EC2ED2B0FA404005C100B /* StoreCell.swift in Sources */,
 				BE8E70B02B0E250100BEAA5A /* Double+Extension.swift in Sources */,
 				BE8E70BB2B0E8BED00BEAA5A /* PromotionHeader.swift in Sources */,
 				BE35244E2B02ABA200746581 /* AppDelegate.swift in Sources */,

@@ -28,12 +28,13 @@ class ProductCardViewController: UIViewController {
     }()
 
         private var contentSize: CGSize {
-            CGSize(width: view.frame.width, height: view.frame.height + 300)
+            CGSize(width: view.frame.width, height: view.frame.height + 900)
         }
 
     private let galleryView = ImageGalleryView()
     private let titleView = ProductTitleView()
     private let ratingView = RatingView()
+    private let offersTableView = UITableView()
 
     init(product: Product) {
         self.product = product
@@ -63,12 +64,20 @@ class ProductCardViewController: UIViewController {
         ratingView.delegate = self
         ratingView.translatesAutoresizingMaskIntoConstraints = false
 
+        // Таблица Магазинов
+        contentView.addSubview(offersTableView)
+        offersTableView.translatesAutoresizingMaskIntoConstraints = false
+        offersTableView.register(OfferTableViewCell.self, forCellReuseIdentifier: "OfferTableViewCell")
+        offersTableView.dataSource = self
+        offersTableView.delegate = self
+        offersTableView.isScrollEnabled = false
+
         // Ограничения для ScrollView
         NSLayoutConstraint.activate([
             productScrollView.topAnchor.constraint(equalTo: view.topAnchor),
             productScrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             productScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            productScrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            productScrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
 
         NSLayoutConstraint.activate([
@@ -104,6 +113,29 @@ class ProductCardViewController: UIViewController {
             ratingView.heightAnchor.constraint(equalToConstant: 36),
             ratingView.widthAnchor.constraint(equalToConstant: contentView.frame.width)
         ])
+
+        // Работа с размером таблицы таблицей
+        let headerHeight: CGFloat = 19
+            let topPadding: CGFloat = 12
+            let cellHeight: CGFloat = 71
+            let cellSpacing: CGFloat = 8
+            let numberOfCells: CGFloat = 3
+            let tableViewHeight = headerHeight + topPadding + (cellHeight + cellSpacing) * numberOfCells - cellSpacing // Вычитаем последнее пространство между ячейками
+
+        // Ограничения для storesTableView
+        NSLayoutConstraint.activate([
+            offersTableView.topAnchor.constraint(equalTo: ratingView.bottomAnchor, constant: 16),
+            offersTableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            offersTableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            offersTableView.heightAnchor.constraint(equalToConstant: tableViewHeight),
+            offersTableView.widthAnchor.constraint(equalTo: contentView.widthAnchor)
+        ])
+//
+//        // Устанавливаем ограничение bottomAnchor для contentView
+//        // Это важно, чтобы scrollView знал, где находится конец содержимого
+//        NSLayoutConstraint.activate([
+//            contentView.bottomAnchor.constraint(greaterThanOrEqualTo: storesTableView.bottomAnchor, constant: 16)
+//        ])
     }
 
     private func configureViews() {
@@ -131,5 +163,60 @@ extension ProductCardViewController: RatingViewDelegate {
     func reviewsButtonTapped() {
         // сюда координатора бахнуть
         print("Нажатие кнопки перехода к комментариям")
+    }
+}
+
+extension ProductCardViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return product?.offers.count ?? 3 // Нужно сделать только чтобы максимум три магазина
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: "OfferTableViewCell",
+            for: indexPath) as? OfferTableViewCell,
+              let store = product?.offers[indexPath.row] else {
+            return UITableViewCell()
+        }
+        // Здесь конфигурируем ячейку с данными о магазине
+        cell.configure(with: store)
+        return cell
+    }
+
+}
+
+extension ProductCardViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 71 // высота каждой ячейки
+    }
+
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 19
+    }
+
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = UIView()
+        headerView.backgroundColor = .clear
+
+        let headerLabel = UILabel()
+        headerLabel.translatesAutoresizingMaskIntoConstraints = false
+        headerLabel.text = "Предложения магазинов"
+        headerLabel.font = UIFont.boldSystemFont(ofSize: 16)
+        headerLabel.textColor = .black
+
+        headerView.addSubview(headerLabel)
+
+        NSLayoutConstraint.activate([
+            headerLabel.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
+            headerLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 16)
+
+        ])
+
+        return headerView
+
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        coordinator.goToStoreDetails(for: product?.stores[indexPath.row])
     }
 }

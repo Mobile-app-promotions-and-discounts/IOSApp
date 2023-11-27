@@ -93,7 +93,7 @@ class RatingView: UIView {
             starsStackView.addArrangedSubview(star)
         }
     }
-
+    // TODO: - КНОПКА НЕ РАБОТАЕТ! Не нажимается на главном экране
     @objc private func reviewsButtonTapped() {
         print("Нажатие")
         delegate?.reviewsButtonTapped()
