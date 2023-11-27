@@ -54,6 +54,9 @@
 		BEBA91712B0AA7F800C2DE96 /* MainScreenCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBA91702B0AA7F800C2DE96 /* MainScreenCoordinator.swift */; };
 		BEBA94482B137B7E00ABE1AD /* DataServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBA94472B137B7E00ABE1AD /* DataServiceProtocol.swift */; };
 		BEBA944A2B13B9F800ABE1AD /* MainScreenSections.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBA94492B13B9F800ABE1AD /* MainScreenSections.swift */; };
+		BEBA944D2B14D93800ABE1AD /* ErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBA944C2B14D93800ABE1AD /* ErrorHandler.swift */; };
+		BEBA944F2B14E1DC00ABE1AD /* ErrorHandler.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = BEBA944E2B14E1DC00ABE1AD /* ErrorHandler.xcstrings */; };
+		BEBA94512B14E4B900ABE1AD /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBA94502B14E4B900ABE1AD /* UIViewController+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -118,6 +121,9 @@
 		BEBA91702B0AA7F800C2DE96 /* MainScreenCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenCoordinator.swift; sourceTree = "<group>"; };
 		BEBA94472B137B7E00ABE1AD /* DataServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataServiceProtocol.swift; sourceTree = "<group>"; };
 		BEBA94492B13B9F800ABE1AD /* MainScreenSections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenSections.swift; sourceTree = "<group>"; };
+		BEBA944C2B14D93800ABE1AD /* ErrorHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHandler.swift; sourceTree = "<group>"; };
+		BEBA944E2B14E1DC00ABE1AD /* ErrorHandler.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = ErrorHandler.xcstrings; sourceTree = "<group>"; };
+		BEBA94502B14E4B900ABE1AD /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,6 +180,7 @@
 				BE3524652B02B24100746581 /* DesignSystem */,
 				BE35246D2B02B29F00746581 /* Navigation */,
 				BE521A892B04DF1A005F2FE7 /* Data */,
+				BEBA944B2B14D8FA00ABE1AD /* Services */,
 				BE3524712B02B2E200746581 /* UI */,
 				BE3524722B02B30800746581 /* Extensions */,
 				BE3524632B02ACCB00746581 /* Resources */,
@@ -188,6 +195,7 @@
 			children = (
 				BC93BB702B0BDA0A008BE2AD /* Info.plist */,
 				BCB7F91D2B0C89B500EE20A0 /* ScanFlow.xcstrings */,
+				BEBA944E2B14E1DC00ABE1AD /* ErrorHandler.xcstrings */,
 				BE2774BB2B0FD0890000C8C2 /* MainFlow.xcstrings */,
 			);
 			path = Configuration;
@@ -262,6 +270,7 @@
 				BC93BB6A2B0BCBF1008BE2AD /* StringBarcodeExtension.swift */,
 				BCB7F91F2B0D150700EE20A0 /* UITextFieldExtensions.swift */,
 				BCB7F9232B0D255600EE20A0 /* UIImageExtensions.swift */,
+				BEBA94502B14E4B900ABE1AD /* UIViewController+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -300,7 +309,6 @@
 			isa = PBXGroup;
 			children = (
 				BEBA94472B137B7E00ABE1AD /* DataServiceProtocol.swift */,
-				BE8E709C2B0D275300BEAA5A /* CollectionLayoutProvider.swift */,
 				BE521A8E2B04DF5D005F2FE7 /* MockDataService.swift */,
 			);
 			path = Services;
@@ -370,6 +378,15 @@
 			path = MainScreen;
 			sourceTree = "<group>";
 		};
+		BEBA944B2B14D8FA00ABE1AD /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				BE8E709C2B0D275300BEAA5A /* CollectionLayoutProvider.swift */,
+				BEBA944C2B14D93800ABE1AD /* ErrorHandler.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -437,6 +454,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BEBA944F2B14E1DC00ABE1AD /* ErrorHandler.xcstrings in Resources */,
 				BE35245A2B02ABA300746581 /* LaunchScreen.storyboard in Resources */,
 				BCB7F91E2B0C89B500EE20A0 /* ScanFlow.xcstrings in Resources */,
 				BE2774BC2B0FD0890000C8C2 /* MainFlow.xcstrings in Resources */,
@@ -481,9 +499,11 @@
 				BCA719962B0AB067008BAA74 /* ScanViewController.swift in Sources */,
 				BC93BB742B0C8166008BE2AD /* GenericNavButton.swift in Sources */,
 				BE521A822B04DEB3005F2FE7 /* MainTabBarController.swift in Sources */,
+				BEBA944D2B14D93800ABE1AD /* ErrorHandler.swift in Sources */,
 				BE3A55952B0BEF680053C851 /* MainViewModel.swift in Sources */,
 				BE8E709D2B0D275300BEAA5A /* CollectionLayoutProvider.swift in Sources */,
 				BE8E70A82B0D4E8800BEAA5A /* CategoryViewModelProtocol.swift in Sources */,
+				BEBA94512B14E4B900ABE1AD /* UIViewController+Extension.swift in Sources */,
 				BEBA916E2B0A9F9500C2DE96 /* ProductModel.swift in Sources */,
 				BC93BB692B0BC313008BE2AD /* ScanFlowCoordinator.swift in Sources */,
 				BE3524762B02B62B00746581 /* MainCoordinator.swift in Sources */,
