@@ -52,6 +52,13 @@
 		BEBA916C2B0A9D0000C2DE96 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBA916B2B0A9D0000C2DE96 /* Coordinator.swift */; };
 		BEBA916E2B0A9F9500C2DE96 /* ProductModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBA916D2B0A9F9500C2DE96 /* ProductModel.swift */; };
 		BEBA91712B0AA7F800C2DE96 /* MainScreenCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBA91702B0AA7F800C2DE96 /* MainScreenCoordinator.swift */; };
+		D060E4412B0FB3B200C5E77C /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D060E4402B0FB3B200C5E77C /* ProfileView.swift */; };
+		D060E4432B0FB48E00C5E77C /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D060E4422B0FB48E00C5E77C /* ProfileViewModel.swift */; };
+		D060E4462B0FB7F000C5E77C /* ProfileUIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D060E4452B0FB7F000C5E77C /* ProfileUIModel.swift */; };
+		D0F82FB42B121BEC0097063C /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F82FB32B121BEC0097063C /* EditProfileViewController.swift */; };
+		D0F82FB62B121C0F0097063C /* EditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F82FB52B121C0F0097063C /* EditProfileView.swift */; };
+		D0F82FB82B1224A80097063C /* ProfileFlow.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = D0F82FB72B1224A80097063C /* ProfileFlow.xcstrings */; };
+		D0F82FBC2B122CA90097063C /* ProfileAssetButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F82FBB2B122CA90097063C /* ProfileAssetButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -114,6 +121,13 @@
 		BEBA916B2B0A9D0000C2DE96 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		BEBA916D2B0A9F9500C2DE96 /* ProductModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductModel.swift; sourceTree = "<group>"; };
 		BEBA91702B0AA7F800C2DE96 /* MainScreenCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenCoordinator.swift; sourceTree = "<group>"; };
+		D060E4402B0FB3B200C5E77C /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		D060E4422B0FB48E00C5E77C /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		D060E4452B0FB7F000C5E77C /* ProfileUIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileUIModel.swift; sourceTree = "<group>"; };
+		D0F82FB32B121BEC0097063C /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
+		D0F82FB52B121C0F0097063C /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
+		D0F82FB72B1224A80097063C /* ProfileFlow.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = ProfileFlow.xcstrings; sourceTree = "<group>"; };
+		D0F82FBB2B122CA90097063C /* ProfileAssetButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileAssetButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -185,6 +199,7 @@
 				BC93BB702B0BDA0A008BE2AD /* Info.plist */,
 				BCB7F91D2B0C89B500EE20A0 /* ScanFlow.xcstrings */,
 				BE2774BB2B0FD0890000C8C2 /* MainFlow.xcstrings */,
+				D0F82FB72B1224A80097063C /* ProfileFlow.xcstrings */,
 			);
 			path = Configuration;
 			sourceTree = "<group>";
@@ -244,8 +259,8 @@
 				BEBA91722B0AAF7900C2DE96 /* MainScreen */,
 				BE8E70A02B0D450400BEAA5A /* CategoryScreen */,
 				BCA719972B0B3EE9008BAA74 /* ScanFlow */,
+				D060E43F2B0FB36D00C5E77C /* ProfileScreen */,
 				BE521A852B04DEC8005F2FE7 /* FavoritesViewController.swift */,
-				BE521A872B04DECC005F2FE7 /* ProfileViewController.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -364,6 +379,52 @@
 			path = MainScreen;
 			sourceTree = "<group>";
 		};
+		D060E43F2B0FB36D00C5E77C /* ProfileScreen */ = {
+			isa = PBXGroup;
+			children = (
+				D060E4442B0FB7DA00C5E77C /* Model */,
+				D0F82FB22B121AA00097063C /* Views */,
+				D060E4422B0FB48E00C5E77C /* ProfileViewModel.swift */,
+			);
+			path = ProfileScreen;
+			sourceTree = "<group>";
+		};
+		D060E4442B0FB7DA00C5E77C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D060E4452B0FB7F000C5E77C /* ProfileUIModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		D0F82FB22B121AA00097063C /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				D0F82FB92B122C3B0097063C /* MainProfile */,
+				D0F82FBA2B122C730097063C /* EditProfile */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		D0F82FB92B122C3B0097063C /* MainProfile */ = {
+			isa = PBXGroup;
+			children = (
+				BE521A872B04DECC005F2FE7 /* ProfileViewController.swift */,
+				D060E4402B0FB3B200C5E77C /* ProfileView.swift */,
+				D0F82FBB2B122CA90097063C /* ProfileAssetButton.swift */,
+			);
+			path = MainProfile;
+			sourceTree = "<group>";
+		};
+		D0F82FBA2B122C730097063C /* EditProfile */ = {
+			isa = PBXGroup;
+			children = (
+				D0F82FB32B121BEC0097063C /* EditProfileViewController.swift */,
+				D0F82FB52B121C0F0097063C /* EditProfileView.swift */,
+			);
+			path = EditProfile;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -432,6 +493,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BE35245A2B02ABA300746581 /* LaunchScreen.storyboard in Resources */,
+				D0F82FB82B1224A80097063C /* ProfileFlow.xcstrings in Resources */,
 				BCB7F91E2B0C89B500EE20A0 /* ScanFlow.xcstrings in Resources */,
 				BE2774BC2B0FD0890000C8C2 /* MainFlow.xcstrings in Resources */,
 				BE3524572B02ABA300746581 /* Assets.xcassets in Resources */,
@@ -467,6 +529,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0F82FB62B121C0F0097063C /* EditProfileView.swift in Sources */,
+				D0F82FB42B121BEC0097063C /* EditProfileViewController.swift in Sources */,
 				BE3524742B02B4D100746581 /* UIColor+Extension.swift in Sources */,
 				BE8E70BD2B0E90C500BEAA5A /* StoresCell.swift in Sources */,
 				BEBA91712B0AA7F800C2DE96 /* MainScreenCoordinator.swift in Sources */,
@@ -484,6 +548,7 @@
 				BE3A55972B0BF01F0053C851 /* MainViewModelProtocol.swift in Sources */,
 				BE8E70B62B0E7A7E00BEAA5A /* PromotionCell.swift in Sources */,
 				BEBA916C2B0A9D0000C2DE96 /* Coordinator.swift in Sources */,
+				D060E4462B0FB7F000C5E77C /* ProfileUIModel.swift in Sources */,
 				BE8E70B22B0E558300BEAA5A /* FavoritesScreenCoordinator.swift in Sources */,
 				BE521A882B04DECC005F2FE7 /* ProfileViewController.swift in Sources */,
 				BE8E70B42B0E74F600BEAA5A /* ProfileScreenCoordinator.swift in Sources */,
@@ -493,10 +558,12 @@
 				BC93BB762B0C8327008BE2AD /* ScanViewModel.swift in Sources */,
 				BE521A862B04DEC8005F2FE7 /* FavoritesViewController.swift in Sources */,
 				BC4DE3852B0F7DFF00135A12 /* ScanDummyViewController.swift in Sources */,
+				D060E4432B0FB48E00C5E77C /* ProfileViewModel.swift in Sources */,
 				BE8E70B92B0E827200BEAA5A /* PromotionUIModel.swift in Sources */,
 				BE8E70A32B0D457400BEAA5A /* CategoryViewController.swift in Sources */,
 				BE3524692B02B27A00746581 /* Fonts.swift in Sources */,
 				BE8E70AA2B0E1CED00BEAA5A /* CategoryCellUIModel.swift in Sources */,
+				D0F82FBC2B122CA90097063C /* ProfileAssetButton.swift in Sources */,
 				BE8E70B02B0E250100BEAA5A /* Double+Extension.swift in Sources */,
 				BE8E70BB2B0E8BED00BEAA5A /* PromotionHeader.swift in Sources */,
 				BE35244E2B02ABA200746581 /* AppDelegate.swift in Sources */,
@@ -505,6 +572,7 @@
 				BCB7F9222B0D153000EE20A0 /* ScanFrameView.swift in Sources */,
 				BC93BB6B2B0BCBF1008BE2AD /* StringBarcodeExtension.swift in Sources */,
 				BE3524502B02ABA200746581 /* SceneDelegate.swift in Sources */,
+				D060E4412B0FB3B200C5E77C /* ProfileView.swift in Sources */,
 				BE3A559D2B0BF7BE0053C851 /* FiltersCell.swift in Sources */,
 				BE2774BA2B0FC3A40000C8C2 /* MainViewController.swift in Sources */,
 			);
@@ -654,7 +722,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 3YZWNV863X;
+				DEVELOPMENT_TEAM = 6P6HF74P83;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DiscountsAndPromotionsApp/Configuration/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -684,7 +752,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 3YZWNV863X;
+				DEVELOPMENT_TEAM = 6P6HF74P83;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DiscountsAndPromotionsApp/Configuration/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

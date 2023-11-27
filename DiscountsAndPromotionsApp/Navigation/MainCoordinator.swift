@@ -16,7 +16,9 @@ final class MainCoordinator: Coordinator {
         let mainScreenCoordinator = MainScreenCoordinator(navigationController: UINavigationController())
         let favoritesScreenCoordinator = FavoritesScreenCoordinator(navigationController: UINavigationController())
         let profileScreenCoordinator = ProfileScreenCoordinator(navigationController: UINavigationController())
-        let scanCoordinator = ScanFlowCoordinator(navigationController: UINavigationController(rootViewController: scanDummy)) // Временно, пока некуда сканер запихнуть
+        let scanCoordinator = ScanFlowCoordinator(navigationController: UINavigationController(
+            rootViewController: scanDummy
+        )) // Временно, пока некуда сканер запихнуть
 
         mainScreenCoordinator.start()
         favoritesScreenCoordinator.start()

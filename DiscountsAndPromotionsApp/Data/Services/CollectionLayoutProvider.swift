@@ -44,9 +44,11 @@ final class CollectionLayoutProvider {
             let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                     heightDimension: .estimated(44)) // Примерная высота заголовка
 
-            let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize,
-                                                                     elementKind: UICollectionView.elementKindSectionHeader,
-                                                                     alignment: .top)
+            let header = NSCollectionLayoutBoundarySupplementaryItem(
+                layoutSize: headerSize,
+                elementKind: UICollectionView.elementKindSectionHeader,
+                alignment: .top
+            )
 
             let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(216),
                                                   heightDimension: .absolute(228))

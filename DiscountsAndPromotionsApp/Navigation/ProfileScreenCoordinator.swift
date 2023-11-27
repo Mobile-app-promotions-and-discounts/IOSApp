@@ -9,7 +9,7 @@ final class ProfileScreenCoordinator: Coordinator {
     }
 
     func start() {
-        let profileViewController = ProfileViewController()
+        let profileViewController = ProfileViewController(viewModel: ProfileViewModel())
         navigationController.pushViewController(profileViewController, animated: false)
     }
 }

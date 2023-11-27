@@ -71,9 +71,11 @@ extension MainViewController: UICollectionViewDataSource {
             return UICollectionReusableView()
         }
 
-        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
-                                                                           withReuseIdentifier: PromotionHeader.reuseIdentifier,
-                                                                           for: indexPath) as? PromotionHeader else {
+        guard let header = collectionView.dequeueReusableSupplementaryView(
+            ofKind: kind,
+            withReuseIdentifier: PromotionHeader.reuseIdentifier,
+            for: indexPath
+        ) as? PromotionHeader else {
             return UICollectionReusableView()
         }
         let headerName = viewModel.getTitleFor(indexPath: indexPath)
