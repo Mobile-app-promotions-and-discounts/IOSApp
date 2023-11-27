@@ -1,11 +1,14 @@
 import UIKit
 import SnapKit
+import Combine
 
 final class MainViewController: UIViewController {
     weak var coordinator: MainScreenCoordinator?
 
     private let viewModel: MainViewModelProtocol
     private let layoutProvider: CollectionLayoutProvider
+
+    private var cancellables = Set<AnyCancellable>()
 
     private lazy var mainCollectionView: UICollectionView = {
         let layout = layoutProvider.createLayoutForMainScreen()
@@ -37,6 +40,7 @@ final class MainViewController: UIViewController {
         super.viewDidLoad()
         viewModel.viewDidLoad()
         setupViews()
+        setupBindings()
     }
 
     private func setupViews() {
@@ -51,17 +55,47 @@ final class MainViewController: UIViewController {
             make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
         }
     }
+
+    private func setupBindings() {
+        // Подписка на обновления категорий
+        viewModel.categoriesUpdate
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                guard let self = self else { return }
+                self.mainCollectionView.reloadData()
+            }
+            .store(in: &cancellables)
+
+        // Подписка на обновления продуктов
+        viewModel.productsUpdate
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                guard let self = self else { return }
+                self.mainCollectionView.reloadData()
+            }
+            .store(in: &cancellables)
+
+        // Подписка на обновления магазинов
+        viewModel.storesUpdate
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                guard let self = self else { return }
+                self.mainCollectionView.reloadData()
+            }
+            .store(in: &cancellables)
+    }
 }
 
 // MARK: - UICollectionViewDataSource
 
 extension MainViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 3
+        return viewModel.numberOfSections
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.getNumberOfItemsInSection(section: section)
+        guard let mainSection = MainSection(rawValue: section) else { return 0 }
+        return viewModel.numberOfItems(inSection: mainSection)
     }
 
     func collectionView(_ collectionView: UICollectionView,
@@ -84,8 +118,12 @@ extension MainViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
-        switch indexPath.section {
-        case 0:
+        guard let mainSection = MainSection(rawValue: indexPath.section) else {
+            return UICollectionViewCell()
+        }
+
+        switch mainSection {
+        case .categories:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FiltersCell.reuseIdentifier,
                                                                 for: indexPath) as? FiltersCell else {
                 return UICollectionViewCell()
@@ -95,7 +133,7 @@ extension MainViewController: UICollectionViewDataSource {
             cell.configure(with: title)
             return cell
 
-        case 1:
+        case .promotions:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PromotionCell.reuseIdentifier,
                                                                 for: indexPath) as? PromotionCell else {
                 return UICollectionViewCell()
@@ -103,7 +141,7 @@ extension MainViewController: UICollectionViewDataSource {
             let promotion = viewModel.getPromotion(for: indexPath.row)
             cell.configure(with: promotion)
             return cell
-        case 2:
+        case .stores:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: StoresCell.reuseIdentifier,
                                                                 for: indexPath) as? StoresCell else {
                 return UICollectionViewCell()
@@ -111,10 +149,6 @@ extension MainViewController: UICollectionViewDataSource {
             let store = viewModel.getStore(for: indexPath.row)
             cell.configure(with: store)
             return cell
-
-        default:
-            print("default - UICollectionViewCell")
-            return UICollectionViewCell()
         }
     }
 }

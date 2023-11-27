@@ -5,8 +5,7 @@ final class MainTabBarController: UITabBarController {
     // Настройка вкладок UITabBarController
     func setUpTabBarItems() {
         guard let viewControllers = viewControllers, viewControllers.count >= 4 else {
-            print("Ошибка: недостаточно viewControllers")
-            return
+            fatalError("Ошибка: недостаточно viewControllers")
         }
 
         let mainTitle = NSLocalizedString("Main", tableName: "MainFlow", comment: "")

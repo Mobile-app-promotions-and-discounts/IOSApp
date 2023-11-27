@@ -1,12 +1,14 @@
 import Foundation
+import Combine
 
 protocol MainViewModelProtocol {
-    var categoriesList: [Category] { get }
+    var categoriesUpdate: PassthroughSubject<[Category], Never> { get }
+    var productsUpdate: PassthroughSubject<[Product], Never> { get }
+    var storesUpdate: PassthroughSubject<[Store], Never> { get }
+    var numberOfSections: Int { get }
 
     func viewDidLoad()
-
-    func getNumberOfItemsInSection(section: Int) -> Int
-
+    func numberOfItems(inSection section: MainSection) -> Int
     func getTitleFor(indexPath: IndexPath) -> String
     func getPromotion(for index: Int) -> PromotionUIModel
     func getStore(for index: Int) -> StoreUIModel

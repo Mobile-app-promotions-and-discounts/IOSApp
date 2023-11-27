@@ -1,11 +1,14 @@
 import UIKit
 import SnapKit
+import Combine
 
 final class CategoryViewController: UIViewController {
     weak var coordinator: MainScreenCoordinator?
 
     private let viewModel: CategoryViewModelProtocol
     private let layoutProvider: CollectionLayoutProvider
+
+    private var cancellables = Set<AnyCancellable>()
 
     private lazy var categoryCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
@@ -31,6 +34,7 @@ final class CategoryViewController: UIViewController {
         super.viewDidLoad()
         viewModel.viewDidLoad()
         setupViews()
+        setupBindings()
     }
 
     private func setupViews() {
@@ -46,13 +50,23 @@ final class CategoryViewController: UIViewController {
             make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
         }
     }
+
+    private func setupBindings() {
+        viewModel.productsUpdate
+               .receive(on: RunLoop.main)
+               .sink { [weak self] _ in
+                   guard let self = self else { return }
+                   self.categoryCollectionView.reloadData()
+               }
+               .store(in: &cancellables)
+       }
 }
 
 // MARK: - UICollectionViewDataSource
 
 extension CategoryViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.productsList.count
+        return viewModel.numberOfItems()
     }
 
     func collectionView(_ collectionView: UICollectionView,
