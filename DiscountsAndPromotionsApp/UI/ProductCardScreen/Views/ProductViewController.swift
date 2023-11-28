@@ -59,10 +59,13 @@ class ProductCardViewController: UIViewController {
     private func setupProductLayout() {
         view.addSubview(productScrollView)
         productScrollView.addSubview(contentView)
+
         contentView.addSubview(galleryView)
         galleryView.translatesAutoresizingMaskIntoConstraints = false
+
         contentView.addSubview(titleView)
         titleView.translatesAutoresizingMaskIntoConstraints = false
+
         contentView.addSubview(ratingView)
         ratingView.delegate = self
         ratingView.translatesAutoresizingMaskIntoConstraints = false
@@ -167,11 +170,36 @@ class ProductCardViewController: UIViewController {
     }
 
     private func configureViews() {
-        if let imageName = product?.image?.mainImage, let image = UIImage(named: imageName) {
-            galleryView.configure(with: image)
-        } else {
-            galleryView.configure(with: UIImage(named: "placeholder")!)
+
+        var images: [UIImage] = []
+
+        // Добавление основного изображения
+        if let mainImageName = product?.image?.mainImage, let mainImage = UIImage(named: mainImageName) {
+               images.append(mainImage)
+           }
+        // Добавление дополнительных изображений
+         if let additionalPhotos = product?.image?.additionalPhoto {
+             for photoName in additionalPhotos {
+                 if let image = UIImage(named: photoName) {
+                     images.append(image)
+                 }
+             }
+         }
+
+        // Если основное и дополнительные изображения отсутствуют, используем заглушку
+        if images.isEmpty, let placeholderImage = UIImage(named: "placeholder") {
+            images.append(placeholderImage)
+            images.append(placeholderImage)
         }
+
+        galleryView.configure(with: images)
+
+//        if let imageName = product?.image?.mainImage + product?.image?.additionalPhoto,
+//            let images = UIImage(named: imageName) {
+//            galleryView.configure(with: image)
+//        } else {
+//            galleryView.configure(with: [UIImage(named: "placeholder")])
+//        }
 
         if let titleLabelText = product?.name, let weightLabelText = product?.description {
             titleView.configure(with: titleLabelText, weight: weightLabelText)
