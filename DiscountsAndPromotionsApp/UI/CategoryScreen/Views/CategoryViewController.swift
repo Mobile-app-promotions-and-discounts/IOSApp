@@ -1,7 +1,7 @@
 import UIKit
 import SnapKit
 
-final class CategoryViewController: UIViewController {
+final class CategoryViewController: CoordinatedViewController {
     weak var coordinator: MainScreenCoordinator?
 
     private let viewModel: CategoryViewModelProtocol

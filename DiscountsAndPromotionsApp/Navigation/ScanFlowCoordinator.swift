@@ -1,6 +1,7 @@
 import UIKit
 
 protocol ScanFlowCoordinatorProtocol: AnyObject {
+    func start()
     func showScanner()
     func goBack()
     func scanError()

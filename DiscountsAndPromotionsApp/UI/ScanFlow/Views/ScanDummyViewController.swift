@@ -24,3 +24,36 @@ class ScanDummyViewController: UIViewController {
         coordinator?.showScanner()
     }
 }
+
+class CoordinatedViewController: UIViewController {
+    weak var scanDelegate: ScanDelegateProtocol? = ScanDelegate.shared
+
+    override func viewDidLoad() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "barcode.viewfinder"),
+                                                            style: .plain,
+                                                            target: self,
+                                                            action: #selector(showScanner))
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+    }
+
+    @objc
+    private func showScanner() {
+        print("scan")
+        scanDelegate?.startScanFlow()
+    }
+}
+
+protocol ScanDelegateProtocol: AnyObject {
+    func startScanFlow()
+}
+
+final class ScanDelegate: ScanDelegateProtocol {
+    var coordinator: ScanFlowCoordinatorProtocol?
+    static let shared = ScanDelegate()
+
+    private init() { }
+
+    func startScanFlow() {
+        coordinator?.showScanner()
+    }
+}

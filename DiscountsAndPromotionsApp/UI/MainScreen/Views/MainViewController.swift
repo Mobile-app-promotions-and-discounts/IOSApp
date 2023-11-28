@@ -1,7 +1,7 @@
 import UIKit
 import SnapKit
 
-final class MainViewController: UIViewController {
+final class MainViewController: CoordinatedViewController {
     weak var coordinator: MainScreenCoordinator?
 
     private let viewModel: MainViewModelProtocol
@@ -20,6 +20,10 @@ final class MainViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.backgroundColor = .clear
+        collectionView.contentInset = UIEdgeInsets(top: CornerRadius.regular.cgFloat(),
+                                                   left: 0,
+                                                   bottom: 0,
+                                                   right: 0)
         return collectionView
     }()
 
