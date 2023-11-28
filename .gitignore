@@ -99,8 +99,6 @@ iOSInjectionProject/
 **/xcshareddata/WorkspaceSettings.xcsettings
 
 # End of https://www.toptal.com/developers/gitignore/api/swift,xcode
-DiscountsAndPromotionsApp.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
 DiscountsAndPromotionsApp.xcworkspace
 Pods
-Podfile.lock
 Podfile

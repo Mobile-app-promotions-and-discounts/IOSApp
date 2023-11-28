@@ -1,16 +1,27 @@
 import Foundation
+import Combine
 
 //    Отключил swiftlint для класса с моковыми данными ниже
 //    swiftlint:disable function_body_length
-final class MockDataService {
-    static let shared = MockDataService()
+final class MockDataService: DataServiceProtocol {
 
-    private var productsList = [Product]()
+    func getCategoriesList() -> AnyPublisher<[Category], Never> {
+            Just(generateCategories())
+                .eraseToAnyPublisher()
+        }
 
-    private init() {}
+    func getProductsList() -> AnyPublisher<[Product], Never> {
+           Just(generateProducts())
+               .eraseToAnyPublisher()
+       }
 
-    func getCategoriesList() -> [Category] {
-        let categoriesList = [Category(name: "Продукты"),
+    func getStoresList() -> AnyPublisher<[Store], Never> {
+            Just(generateStores())
+                .eraseToAnyPublisher()
+        }
+
+    private func generateCategories() -> [Category] {
+        return [Category(name: "Продукты"),
                               Category(name: "Одежда и обувь"),
                               Category(name: "Для дома и сада"),
                               Category(name: "Косметика и гигиена"),
@@ -18,11 +29,10 @@ final class MockDataService {
                               Category(name: "Зоотовары"),
                               Category(name: "Авто"),
                               Category(name: "К празднику")]
-        return categoriesList
     }
 
-    func getProductsList() -> [Product] {
-        let products = [Product(barcode: "",
+    private func generateProducts() -> [Product] {
+        return [Product(barcode: "",
                                 name: "Томаты сливовидные",
                                 description: "1 кг",
                                 category: Category(name: "Продукты"),
@@ -230,21 +240,26 @@ final class MockDataService {
                                                                                     building: 10,
                                                                                     postalIndex: 117099),
                                                             chainStore: nil))])]
-        self.productsList = products
-        return products
     }
 
-    func getStoresList() -> [Store] {
-        var uniqueStores: [String: Store] = [:]
-
-            for product in self.productsList {
-                for offer in product.offers {
-                    let store = offer.store
-                    uniqueStores[store.name] = store
-                }
-            }
-
-            return Array(uniqueStores.values)
+    func generateStores() -> [Store] {
+        return [ Store(name: "Дикси",
+                       image: nil,
+                       location: StoreLocation(region: "Москва",
+                                               city: "Москва",
+                                               street: "Герасимова",
+                                               building: 10,
+                                               postalIndex: 117099),
+                       chainStore: nil),
+                 Store(name: "Пятерочка",
+                              image: nil,
+                              location: StoreLocation(region: "Москва",
+                                                      city: "Москва",
+                                                      street: "Ленина",
+                                                      building: 15,
+                                                      postalIndex: 117899),
+                              chainStore: nil)
+        ]
     }
 }
 //    swiftlint:enable function_body_length
