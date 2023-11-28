@@ -32,6 +32,7 @@ class ProductCardViewController: UIViewController {
     }
 
     // Все кастомные вьюхи
+    //    private let navigationBar = CustomNavigationBarView()
     private let galleryView = ImageGalleryView()
     private let titleView = ProductTitleView()
     private let ratingView = RatingView()
@@ -52,13 +53,41 @@ class ProductCardViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
 
+        setupNavigationbar()
         setupProductLayout()
         configureViews()
+    }
+
+    private func setupNavigationbar() {
+        let backButton = UIButton(type: .system)
+        backButton.setImage(UIImage(named: "backImage"), for: .normal)
+        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+        let backButtonItem = UIBarButtonItem(customView: backButton)
+
+        let uploadButton = UIButton(type: .system)
+        uploadButton.setImage(UIImage(named: "sendImage"), for: .normal)
+        uploadButton.addTarget(self, action: #selector(sendButtonTapped), for: .touchUpInside)
+        let uploadButtonItem = UIBarButtonItem(customView: uploadButton)
+
+        [backButton, uploadButton].forEach {
+            $0.backgroundColor = .mainBG
+            $0.widthAnchor.constraint(equalToConstant: 30).isActive = true
+            $0.heightAnchor.constraint(equalToConstant: 30).isActive = true
+            $0.layer.cornerRadius = 15
+            $0.clipsToBounds = true
+            $0.tintColor = .black
+        }
+
+        navigationItem.leftBarButtonItem = backButtonItem
+        navigationItem.rightBarButtonItem = uploadButtonItem
     }
 
     private func setupProductLayout() {
         view.addSubview(productScrollView)
         productScrollView.addSubview(contentView)
+
+        //        contentView.addSubview(navigationBar)
+        //        navigationBar.translatesAutoresizingMaskIntoConstraints = false
 
         contentView.addSubview(galleryView)
         galleryView.translatesAutoresizingMaskIntoConstraints = false
@@ -101,6 +130,13 @@ class ProductCardViewController: UIViewController {
             contentView.trailingAnchor.constraint(equalTo: productScrollView.trailingAnchor),
             contentView.bottomAnchor.constraint(equalTo: productScrollView.bottomAnchor)
         ])
+
+        //        NSLayoutConstraint.activate([
+        //            navigationBar.topAnchor.constraint(equalTo: contentView.topAnchor),
+        //            navigationBar.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+        //            navigationBar.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+        //            navigationBar.heightAnchor.constraint(equalToConstant: 30)
+        //        ])
 
         // Ограничения для GalleryView
         NSLayoutConstraint.activate([
@@ -175,16 +211,16 @@ class ProductCardViewController: UIViewController {
 
         // Добавление основного изображения
         if let mainImageName = product?.image?.mainImage, let mainImage = UIImage(named: mainImageName) {
-               images.append(mainImage)
-           }
+            images.append(mainImage)
+        }
         // Добавление дополнительных изображений
-         if let additionalPhotos = product?.image?.additionalPhoto {
-             for photoName in additionalPhotos {
-                 if let image = UIImage(named: photoName) {
-                     images.append(image)
-                 }
-             }
-         }
+        if let additionalPhotos = product?.image?.additionalPhoto {
+            for photoName in additionalPhotos {
+                if let image = UIImage(named: photoName) {
+                    images.append(image)
+                }
+            }
+        }
 
         // Если основное и дополнительные изображения отсутствуют, используем заглушку
         if images.isEmpty, let placeholderImage = UIImage(named: "placeholder") {
@@ -194,12 +230,12 @@ class ProductCardViewController: UIViewController {
 
         galleryView.configure(with: images)
 
-//        if let imageName = product?.image?.mainImage + product?.image?.additionalPhoto,
-//            let images = UIImage(named: imageName) {
-//            galleryView.configure(with: image)
-//        } else {
-//            galleryView.configure(with: [UIImage(named: "placeholder")])
-//        }
+        //        if let imageName = product?.image?.mainImage + product?.image?.additionalPhoto,
+        //            let images = UIImage(named: imageName) {
+        //            galleryView.configure(with: image)
+        //        } else {
+        //            galleryView.configure(with: [UIImage(named: "placeholder")])
+        //        }
 
         if let titleLabelText = product?.name, let weightLabelText = product?.description {
             titleView.configure(with: titleLabelText, weight: weightLabelText)
@@ -212,6 +248,15 @@ class ProductCardViewController: UIViewController {
         } else {
             ratingView.configure(with: 1.0, numberOfReviews: 1)
         }
+    }
+
+    @objc func backButtonTapped() {
+        navigationController?.popViewController(animated: true)
+        print("Закрытие экрана")
+    }
+
+    @objc func sendButtonTapped() {
+        print("Отправить другу")
     }
 }
 

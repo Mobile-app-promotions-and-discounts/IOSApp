@@ -27,7 +27,7 @@ class RatingView: UIView {
         button.tintColor = .black
         button.clipsToBounds = true
         button.layer.cornerRadius = 14
-        button.backgroundColor = .lightGray
+        button.backgroundColor = .mainBG
         button.isUserInteractionEnabled = true
         return button
     }()
