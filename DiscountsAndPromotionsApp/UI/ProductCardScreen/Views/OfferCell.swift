@@ -8,6 +8,7 @@
 import UIKit
 
 class OfferTableViewCell: UITableViewCell {
+    private let backgroundViewBoard = UIView()
     private let logoImageView = UIImageView()
     private let storeNameLabel = UILabel()
     private let addressLabel = UILabel()

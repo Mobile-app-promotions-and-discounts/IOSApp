@@ -27,14 +27,17 @@ class ProductCardViewController: UIViewController {
         return view
     }()
 
-        private var contentSize: CGSize {
-            CGSize(width: view.frame.width, height: view.frame.height + 900)
-        }
+    private var contentSize: CGSize {
+        CGSize(width: view.frame.width, height: view.frame.height + 900)
+    }
 
+    // Все кастомные вьюхи
     private let galleryView = ImageGalleryView()
     private let titleView = ProductTitleView()
     private let ratingView = RatingView()
     private let offersTableView = UITableView()
+    private let reviewView = ProductReviewView()
+    private let priceInfoView = PriceInfoView()
 
     init(product: Product) {
         self.product = product
@@ -72,14 +75,23 @@ class ProductCardViewController: UIViewController {
         offersTableView.delegate = self
         offersTableView.isScrollEnabled = false
 
-        // Ограничения для ScrollView
+        //
+        contentView.addSubview(reviewView)
+        ratingView.delegate = self
+        reviewView.translatesAutoresizingMaskIntoConstraints = false
+
+        //
+        contentView.addSubview(priceInfoView)
+        priceInfoView.delegate = self
+        priceInfoView.translatesAutoresizingMaskIntoConstraints = false
+
+        // Ограничения для ScrollView и ContentView
         NSLayoutConstraint.activate([
             productScrollView.topAnchor.constraint(equalTo: view.topAnchor),
             productScrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             productScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             productScrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
-
         NSLayoutConstraint.activate([
             contentView.topAnchor.constraint(equalTo: productScrollView.topAnchor),
             contentView.leadingAnchor.constraint(equalTo: productScrollView.leadingAnchor),
@@ -97,7 +109,7 @@ class ProductCardViewController: UIViewController {
             // Высота должна быть задана
         ])
 
-//        // Ограничения для TitleView
+        //        // Ограничения для TitleView
         NSLayoutConstraint.activate([
             titleView.topAnchor.constraint(equalTo: galleryView.bottomAnchor, constant: 16),
             titleView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
@@ -116,13 +128,13 @@ class ProductCardViewController: UIViewController {
 
         // Работа с размером таблицы таблицей
         let headerHeight: CGFloat = 19
-            let topPadding: CGFloat = 12
-            let cellHeight: CGFloat = 71
-            let cellSpacing: CGFloat = 8
-            let numberOfCells: CGFloat = 3
-            let tableViewHeight = headerHeight + topPadding + (cellHeight + cellSpacing) * numberOfCells - cellSpacing // Вычитаем последнее пространство между ячейками
+        let topPadding: CGFloat = 12
+        let cellHeight: CGFloat = 71
+        let cellSpacing: CGFloat = 8
+        let numberOfCells: CGFloat = 3
+        let tableViewHeight = headerHeight + topPadding + (cellHeight + cellSpacing) * numberOfCells - cellSpacing // Вычитаем последнее пространство между ячейками
 
-        // Ограничения для storesTableView
+        // Ограничения для StoresTableView
         NSLayoutConstraint.activate([
             offersTableView.topAnchor.constraint(equalTo: ratingView.bottomAnchor, constant: 16),
             offersTableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
@@ -130,12 +142,28 @@ class ProductCardViewController: UIViewController {
             offersTableView.heightAnchor.constraint(equalToConstant: tableViewHeight),
             offersTableView.widthAnchor.constraint(equalTo: contentView.widthAnchor)
         ])
-//
-//        // Устанавливаем ограничение bottomAnchor для contentView
-//        // Это важно, чтобы scrollView знал, где находится конец содержимого
-//        NSLayoutConstraint.activate([
-//            contentView.bottomAnchor.constraint(greaterThanOrEqualTo: storesTableView.bottomAnchor, constant: 16)
-//        ])
+
+        // Ограничения для ReviewView
+        NSLayoutConstraint.activate([
+            reviewView.topAnchor.constraint(equalTo: offersTableView.bottomAnchor, constant: 16),
+            reviewView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            reviewView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
+        ])
+
+        // Ограничения для PriceInfoView
+        NSLayoutConstraint.activate([
+            priceInfoView.topAnchor.constraint(equalTo: reviewView.bottomAnchor, constant: 8),
+            priceInfoView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            priceInfoView.heightAnchor.constraint(equalToConstant: 87),
+            priceInfoView.widthAnchor.constraint(equalTo: contentView.widthAnchor)
+
+        ])
+
+        // Устанавливаем ограничение bottomAnchor для contentView
+        // Это важно, чтобы scrollView знал, где находится конец содержимого
+        NSLayoutConstraint.activate([
+            contentView.bottomAnchor.constraint(greaterThanOrEqualTo: priceInfoView.bottomAnchor, constant: 16)
+        ])
     }
 
     private func configureViews() {
@@ -163,6 +191,13 @@ extension ProductCardViewController: RatingViewDelegate {
     func reviewsButtonTapped() {
         // сюда координатора бахнуть
         print("Нажатие кнопки перехода к комментариям")
+    }
+}
+
+extension ProductCardViewController: PriceInfoViewDelegate {
+    func addToFavorites() {
+        dismiss(animated: true)
+        print("Нажатие кнопки В избранное")
     }
 }
 
@@ -211,12 +246,10 @@ extension ProductCardViewController: UITableViewDelegate {
             headerLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 16)
 
         ])
-
         return headerView
-
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        coordinator.goToStoreDetails(for: product?.stores[indexPath.row])
+        //        coordinator.goToStoreDetails(for: product?.stores[indexPath.row])
     }
 }
