@@ -2,7 +2,7 @@ import UIKit
 
 final class EditProfileViewController: UIViewController {
 
-    // MARK: - Properties
+    // MARK: - Private properties
     private let viewModel: ProfileViewModelProtocol
 
     // MARK: - Layout elements

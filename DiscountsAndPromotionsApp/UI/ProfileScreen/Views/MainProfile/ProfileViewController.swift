@@ -3,6 +3,8 @@ import UIKit
 final class ProfileViewController: UIViewController {
 
     // MARK: - Properties
+    weak var coordinator: ProfileScreenCoordinator?
+
     private var profileView: ProfileView?
     private var viewModel: ProfileViewModelProtocol
 
@@ -17,9 +19,11 @@ final class ProfileViewController: UIViewController {
     init(viewModel: ProfileViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
+
         self.profileView = ProfileView(frame: .zero, viewModel: self.viewModel, viewController: self)
 
-        self.navigationController?.navigationBar.backgroundColor = .red
+        bind()
+        viewModel.getProfileData()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -28,15 +32,49 @@ final class ProfileViewController: UIViewController {
 
     // MARK: - Public methods
     func editDidTap() {
-        let editProfileViewController = EditProfileViewController(viewModel: ProfileViewModel())
-        navigationController?.pushViewController(editProfileViewController, animated: true)
+        coordinator?.navigateToEditProfileScreen()
     }
 
-    @objc
     func regionDidTap() {
-        print("Tap!")
+        coordinator?.navigateToRegionScreen()
+    }
+
+    func reviewsDidTap() {
+        coordinator?.navigateToReviewsScreen()
+    }
+
+    func notificationsDidTap() {
+        coordinator?.navigateToNotificationsScreen()
+    }
+
+    func supportDidTap() {
+        coordinator?.navigateToSupportScreen()
+    }
+
+    func deleteAccountDidTap() {
+        coordinator?.navigateToDeleteAccountScreen()
+    }
+
+    func exitAccountDidTap() {
+        coordinator?.navigateToExitAccountScreen()
     }
 
     // MARK: - Private methods
+    private func bind() {
+        viewModel.onChange = { [weak self] in
+            guard let profile = self?.viewModel.profile else { return }
+            self?.profileView?.updateViews(
+                avatar: profile.avatar,
+                firstName: profile.firstName,
+                lastName: profile.lastName,
+                phone: profile.phone
+            )
+        }
+
+        viewModel.onError = { [weak self] in
+            guard let error = self?.viewModel.error else { return }
+            print(error.localizedDescription)
+        }
+    }
 
 }

@@ -51,7 +51,7 @@ final class ProfileView: UIView {
         regionButton.buttonTitle.text = NSLocalizedString("Your region", tableName: "ProfileFlow", comment: "")
         regionButton.buttonSubtitle.text = "Moscow"
         regionButton.backgroundColor = .buttonBG
-        regionButton.addTarget(self, action: #selector(editDidTap), for: .touchUpInside)
+        regionButton.addTarget(self, action: #selector(regionDidTap), for: .touchUpInside)
         return regionButton
     }()
 
@@ -60,7 +60,7 @@ final class ProfileView: UIView {
         reviewsButton.translatesAutoresizingMaskIntoConstraints = false
         reviewsButton.buttonTitle.text = NSLocalizedString("My reviews", tableName: "ProfileFlow", comment: "")
         reviewsButton.backgroundColor = .buttonBG
-        reviewsButton.addTarget(self, action: #selector(editDidTap), for: .touchUpInside)
+        reviewsButton.addTarget(self, action: #selector(reviewsDidTap), for: .touchUpInside)
         return reviewsButton
     }()
 
@@ -69,7 +69,7 @@ final class ProfileView: UIView {
         notificationsButton.translatesAutoresizingMaskIntoConstraints = false
         notificationsButton.buttonTitle.text = NSLocalizedString("Notifications", tableName: "ProfileFlow", comment: "")
         notificationsButton.backgroundColor = .buttonBG
-        notificationsButton.addTarget(self, action: #selector(editDidTap), for: .touchUpInside)
+        notificationsButton.addTarget(self, action: #selector(notificationsDidTap), for: .touchUpInside)
         return notificationsButton
     }()
 
@@ -78,15 +78,19 @@ final class ProfileView: UIView {
         supportButton.translatesAutoresizingMaskIntoConstraints = false
         supportButton.buttonTitle.text = NSLocalizedString("Support", tableName: "ProfileFlow", comment: "")
         supportButton.backgroundColor = .buttonBG
-        supportButton.addTarget(self, action: #selector(editDidTap), for: .touchUpInside)
+        supportButton.addTarget(self, action: #selector(supportDidTap), for: .touchUpInside)
         return supportButton
     }()
 
     private lazy var deleteAccountButton: ProfileAssetButton = {
         let deleteAccountButton = ProfileAssetButton()
         deleteAccountButton.translatesAutoresizingMaskIntoConstraints = false
-        deleteAccountButton.buttonTitle.text = NSLocalizedString("Delete account", tableName: "ProfileFlow", comment: "")
-        deleteAccountButton.addTarget(self, action: #selector(editDidTap), for: .touchUpInside)
+        deleteAccountButton.buttonTitle.text = NSLocalizedString(
+            "Delete account",
+            tableName: "ProfileFlow",
+            comment: ""
+        )
+        deleteAccountButton.addTarget(self, action: #selector(deleteAccountDidTap), for: .touchUpInside)
         return deleteAccountButton
     }()
 
@@ -94,7 +98,7 @@ final class ProfileView: UIView {
         let exitProfileButton = ProfileAssetButton()
         exitProfileButton.translatesAutoresizingMaskIntoConstraints = false
         exitProfileButton.buttonTitle.text = NSLocalizedString("Exit profile", tableName: "ProfileFlow", comment: "")
-        exitProfileButton.addTarget(self, action: #selector(editDidTap), for: .touchUpInside)
+        exitProfileButton.addTarget(self, action: #selector(exitAccountDidTap), for: .touchUpInside)
         return exitProfileButton
     }()
 
@@ -118,10 +122,51 @@ final class ProfileView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
+    // MARK: - Public Methods
+    func updateViews(
+        avatar: String?,
+        firstName: String?,
+        lastName: String?,
+        phone: String?
+    ) {
+        nameLabel.text = "\(firstName ?? "") \(lastName ?? "")"
+        phoneLabel.text = phone ?? ""
+    }
+
     // MARK: - Private Methods
     @objc
     private func editDidTap() {
         viewController.editDidTap()
+    }
+
+    @objc
+    private func regionDidTap() {
+        viewController.regionDidTap()
+    }
+
+    @objc
+    private func reviewsDidTap() {
+        viewController.reviewsDidTap()
+    }
+
+    @objc
+    func notificationsDidTap() {
+        viewController.notificationsDidTap()
+    }
+
+    @objc
+    func supportDidTap() {
+        viewController.supportDidTap()
+    }
+
+    @objc
+    func deleteAccountDidTap() {
+        viewController.deleteAccountDidTap()
+    }
+
+    @objc
+    func exitAccountDidTap() {
+        viewController.exitAccountDidTap()
     }
 
     // MARK: - Layout methods
