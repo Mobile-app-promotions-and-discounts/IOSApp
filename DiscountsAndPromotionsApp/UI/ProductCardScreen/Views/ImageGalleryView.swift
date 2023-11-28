@@ -9,15 +9,6 @@ import UIKit
 
 class ImageGalleryView: UIView {
 
-    //    private var imageView: UIImageView = {
-    //        let imageView = UIImageView()
-    //        imageView.contentMode = .scaleToFill
-    //        imageView.clipsToBounds = true
-    //        imageView.layer.cornerRadius = 12
-    //        imageView.translatesAutoresizingMaskIntoConstraints = false
-    //        return imageView
-    //    }()
-
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.isPagingEnabled = true
@@ -70,26 +61,26 @@ class ImageGalleryView: UIView {
     func configure(with images: [UIImage]) {
         self.images = images
         scrollView.delegate = self
-        setupImagesInScrollView(images)
+//        setupImagesInScrollView(images)
         pageControl.currentPage = 0
         pageControl.numberOfPages = images.count
     }
 
     private func setupImagesInScrollView(_ images: [UIImage]) {
-        scrollView.contentSize = CGSize(width: bounds.width * CGFloat(images.count), height: bounds.height)
+//        scrollView.contentSize = CGSize(width: bounds.width * CGFloat(images.count), height: bounds.height)
+//
+//        scrollView.subviews.forEach {
+//            $0.removeFromSuperview()
+//        }
 
-        scrollView.subviews.forEach {
-            $0.removeFromSuperview()
-        }
-
-        for (index, image) in images.enumerated() {
-            let imageView = UIImageView(image: image)
-            imageView.contentMode = .scaleAspectFill
-            imageView.clipsToBounds = true
-            imageView.layer.cornerRadius = 12
-            imageView.frame = CGRect(x: bounds.width * CGFloat(index), y: 0, width: bounds.width, height: bounds.height)
-            scrollView.addSubview(imageView)
-        }
+//        for (index, image) in images.enumerated() {
+//            let imageView = UIImageView(image: image)
+//            imageView.contentMode = .scaleAspectFill
+//            imageView.clipsToBounds = true
+//            imageView.layer.cornerRadius = 12
+//            imageView.frame = CGRect(x: bounds.width * CGFloat(index), y: 0, width: bounds.width, height: bounds.height)
+//            scrollView.addSubview(imageView)
+//        }
     }
 
     override func layoutSubviews() {
