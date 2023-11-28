@@ -52,6 +52,22 @@
         }
       }
     },
+    "searchPlaceholder" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Найти"
+          }
+        }
+      }
+    },
     "Shops" : {
       "localizations" : {
         "ru" : {

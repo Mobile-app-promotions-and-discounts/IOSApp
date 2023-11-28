@@ -4,8 +4,6 @@ final class MainCoordinator: Coordinator {
     var childCoordinators = [Coordinator]()
     var navigationController: UINavigationController
 
-    var scanCoordinator: ScanFlowCoordinatorProtocol?
-
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
         self.navigationController.navigationBar.isHidden = true
@@ -18,10 +16,10 @@ final class MainCoordinator: Coordinator {
         let favoritesScreenCoordinator = FavoritesScreenCoordinator(navigationController: UINavigationController())
         let profileScreenCoordinator = ProfileScreenCoordinator(navigationController: UINavigationController())
 
-        scanCoordinator = ScanFlowCoordinator(navigationController: UINavigationController())
-        ScanDelegate.shared.coordinator = scanCoordinator
+        let scanCoordinator = ScanFlowCoordinator()
+        ScanFlowDelegate.shared.coordinator = scanCoordinator
 
-        scanCoordinator?.start()
+        scanCoordinator.start()
         mainScreenCoordinator.start()
         favoritesScreenCoordinator.start()
         profileScreenCoordinator.start()

@@ -7,14 +7,9 @@ protocol ScanFlowCoordinatorProtocol: AnyObject {
     func scanError()
 }
 
-final class ScanFlowCoordinator: Coordinator, ScanFlowCoordinatorProtocol {
-    var childCoordinators: [Coordinator] = []
-    var navigationController: UINavigationController
+final class ScanFlowCoordinator: ScanFlowCoordinatorProtocol {
     var scanVC = UIViewController()
-
-    init(navigationController: UINavigationController) {
-        self.navigationController = navigationController
-    }
+    private var scanNavigationController = UINavigationController()
 
     func start() {
         scanVC = ScanViewController(coordinator: self)
@@ -22,11 +17,13 @@ final class ScanFlowCoordinator: Coordinator, ScanFlowCoordinatorProtocol {
     }
 
     func showScanner() {
-        navigationController.pushViewController(scanVC, animated: true)
+        scanNavigationController = UINavigationController(rootViewController: scanVC)
+        scanNavigationController.modalPresentationStyle = .fullScreen
+        UIViewController.topMostViewController()?.show(scanNavigationController, sender: nil)
     }
 
     func goBack() {
-        navigationController.popViewController(animated: true)
+        scanNavigationController.dismiss(animated: true)
     }
 
     func scanError() {

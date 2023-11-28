@@ -2,7 +2,7 @@ import UIKit
 import SnapKit
 import Combine
 
-final class MainViewController: CoordinatedViewController {
+final class MainViewController: ScannerEnabledViewController {
     weak var coordinator: MainScreenCoordinator?
 
     private let viewModel: MainViewModelProtocol
