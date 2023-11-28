@@ -106,6 +106,7 @@ class ProductCardViewController: UIViewController {
         offersTableView.dataSource = self
         offersTableView.delegate = self
         offersTableView.isScrollEnabled = false
+        offersTableView.separatorStyle = .none
 
         //
         contentView.addSubview(reviewView)
@@ -170,7 +171,7 @@ class ProductCardViewController: UIViewController {
         let topPadding: CGFloat = 12
         let cellHeight: CGFloat = 71
         let cellSpacing: CGFloat = 8
-        let numberOfCells: CGFloat = 3
+        let numberOfCells: CGFloat = CGFloat(product?.offers.count ?? 0)
         let tableViewHeight = headerHeight + topPadding + (cellHeight + cellSpacing) * numberOfCells - cellSpacing // Вычитаем последнее пространство между ячейками
 
         // Ограничения для StoresTableView
@@ -315,8 +316,9 @@ extension ProductCardViewController: UITableViewDelegate {
         headerView.addSubview(headerLabel)
 
         NSLayoutConstraint.activate([
-            headerLabel.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
-            headerLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 16)
+//            headerLabel.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
+            headerLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 16),
+            headerLabel.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: -8)
 
         ])
         return headerView

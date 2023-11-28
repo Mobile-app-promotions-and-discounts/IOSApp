@@ -30,16 +30,17 @@ class OfferTableViewCell: UITableViewCell {
         let paddingH: CGFloat = 12
         let paddingV: CGFloat = 8
 
-        logoImageView.layer.cornerRadius = logoImageView.frame.height / 2
+        logoImageView.layer.cornerRadius = 14
         logoImageView.clipsToBounds = true
         logoImageView.backgroundColor = .lightGray
 
         goToStoreButton.setTitle("В магазин", for: .normal)
+        goToStoreButton.titleLabel?.font = .boldSystemFont(ofSize: 12)
         goToStoreButton.backgroundColor = .lightGray
         goToStoreButton.layer.cornerRadius = 10
 
-        storeNameLabel.font = .boldSystemFont(ofSize: 16)
-        addressLabel.font = .boldSystemFont(ofSize: 14)
+        storeNameLabel.font = .boldSystemFont(ofSize: 14)
+        addressLabel.font = .systemFont(ofSize: 12)
         priceLabel.font = .boldSystemFont(ofSize: 16)
         originalPriceLabel.font = .systemFont(ofSize: 14)
         discountLabel.font = .systemFont(ofSize: 14)
@@ -52,6 +53,12 @@ class OfferTableViewCell: UITableViewCell {
 
         discountLabel.textColor = .red
 
+        backgroundViewBoard.backgroundColor = .mainBG
+        backgroundViewBoard.layer.cornerRadius = 10
+        backgroundViewBoard.clipsToBounds = true
+        backgroundViewBoard.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(backgroundViewBoard)
+
         let views = [
             logoImageView,
             storeNameLabel,
@@ -62,27 +69,33 @@ class OfferTableViewCell: UITableViewCell {
             goToStoreButton]
         views.forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
-            contentView.addSubview($0)
+            backgroundViewBoard.addSubview($0)
         }
 
         NSLayoutConstraint.activate([
+
+            backgroundViewBoard.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4),
+            backgroundViewBoard.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            backgroundViewBoard.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            backgroundViewBoard.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4),
             // Logo Image View
-            logoImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: paddingH),
-            logoImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            logoImageView.leadingAnchor.constraint(equalTo: backgroundViewBoard.leadingAnchor, constant: paddingH),
+            logoImageView.centerYAnchor.constraint(equalTo: backgroundViewBoard.centerYAnchor),
             logoImageView.widthAnchor.constraint(equalToConstant: 28),
             logoImageView.heightAnchor.constraint(equalToConstant: 28),
 
             // Name Label
-            storeNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: paddingV),
+            storeNameLabel.topAnchor.constraint(equalTo: backgroundViewBoard.topAnchor, constant: paddingV),
             storeNameLabel.leadingAnchor.constraint(equalTo: logoImageView.trailingAnchor, constant: 16),
             storeNameLabel.trailingAnchor.constraint(lessThanOrEqualTo: goToStoreButton.leadingAnchor),
 
-            addressLabel.topAnchor.constraint(equalTo: storeNameLabel.bottomAnchor, constant: 4),
+            addressLabel.topAnchor.constraint(equalTo: storeNameLabel.bottomAnchor, constant: 2),
             addressLabel.leadingAnchor.constraint(equalTo: storeNameLabel.leadingAnchor),
             addressLabel.trailingAnchor.constraint(equalTo: storeNameLabel.trailingAnchor),
 
+            priceLabel.topAnchor.constraint(equalTo: addressLabel.bottomAnchor, constant: 2),
             priceLabel.leadingAnchor.constraint(equalTo: storeNameLabel.leadingAnchor),
-            priceLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -paddingV),
+            priceLabel.bottomAnchor.constraint(equalTo: backgroundViewBoard.bottomAnchor, constant: -paddingV),
 
             originalPriceLabel.leadingAnchor.constraint(equalTo: priceLabel.trailingAnchor, constant: 4),
             originalPriceLabel.bottomAnchor.constraint(equalTo: priceLabel.bottomAnchor),
@@ -90,8 +103,8 @@ class OfferTableViewCell: UITableViewCell {
             discountLabel.leadingAnchor.constraint(equalTo: originalPriceLabel.trailingAnchor, constant: 4),
             discountLabel.bottomAnchor.constraint(equalTo: priceLabel.bottomAnchor),
 
-            goToStoreButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -paddingH),
-            goToStoreButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            goToStoreButton.trailingAnchor.constraint(equalTo: backgroundViewBoard.trailingAnchor, constant: -paddingH),
+            goToStoreButton.centerYAnchor.constraint(equalTo: backgroundViewBoard.centerYAnchor),
             goToStoreButton.widthAnchor.constraint(equalToConstant: 84),
             goToStoreButton.heightAnchor.constraint(equalToConstant: 30)
         ])
