@@ -21,4 +21,9 @@ final class MainScreenCoordinator: Coordinator {
         categoryViewController.coordinator = self
         navigationController.pushViewController(categoryViewController, animated: true)
     }
+
+    func navigateToSearchScreen() {
+        let searchController = SearchViewController()
+        navigationController.pushViewController(searchController, animated: true)
+    }
 }

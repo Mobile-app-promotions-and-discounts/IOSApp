@@ -128,7 +128,7 @@ final class ScanViewController: UIViewController {
 
     // MARK: - Setup UI
     private func setupUI() {
-        view.backgroundColor = .mainBG
+        view.backgroundColor = .cherryLightBlue
 
         scanPreviewLayer.frame = view.layer.bounds
         scanPreviewLayer.videoGravity = .resizeAspectFill

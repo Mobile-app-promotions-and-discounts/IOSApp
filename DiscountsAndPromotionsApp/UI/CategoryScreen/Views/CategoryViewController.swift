@@ -39,8 +39,7 @@ final class CategoryViewController: ScannerEnabledViewController {
 
     private func setupViews() {
         layoutProvider.createLayoutForCategoryScreen(for: categoryCollectionView, in: view)
-        // ToDo: цвет фона временный, для отладки
-        view.backgroundColor = .mainBG
+        view.backgroundColor = .cherryLightBlue
 
         view.addSubview(categoryCollectionView)
 

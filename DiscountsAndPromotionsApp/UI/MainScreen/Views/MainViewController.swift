@@ -168,3 +168,11 @@ extension MainViewController: UICollectionViewDelegate {
         }
     }
 }
+
+// MARK: - UISearchBarDelegate
+extension MainViewController {
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchBar.endEditing(true)
+        coordinator?.navigateToSearchScreen()
+    }
+}

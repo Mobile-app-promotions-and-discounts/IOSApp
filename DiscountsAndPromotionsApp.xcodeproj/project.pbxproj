@@ -23,7 +23,6 @@
 		BCB7F9242B0D255600EE20A0 /* UIImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB7F9232B0D255600EE20A0 /* UIImageExtensions.swift */; };
 		BCC3090C2B167493009607DC /* ScanFlowDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC3090B2B167493009607DC /* ScanFlowDelegate.swift */; };
 		BCC3090F2B17AB0A009607DC /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC3090E2B17AB0A009607DC /* SearchViewController.swift */; };
-		BCC309112B17ACD8009607DC /* SearchFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC309102B17ACD8009607DC /* SearchFlowCoordinator.swift */; };
 		BCC309132B17AE32009607DC /* SearchEnabledViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC309122B17AE32009607DC /* SearchEnabledViewController.swift */; };
 		BE2774BA2B0FC3A40000C8C2 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2774B92B0FC3A40000C8C2 /* MainViewController.swift */; };
 		BE2774BC2B0FD0890000C8C2 /* MainFlow.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = BE2774BB2B0FD0890000C8C2 /* MainFlow.xcstrings */; };
@@ -97,7 +96,6 @@
 		BCB7F9232B0D255600EE20A0 /* UIImageExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtensions.swift; sourceTree = "<group>"; };
 		BCC3090B2B167493009607DC /* ScanFlowDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanFlowDelegate.swift; sourceTree = "<group>"; };
 		BCC3090E2B17AB0A009607DC /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
-		BCC309102B17ACD8009607DC /* SearchFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFlowCoordinator.swift; sourceTree = "<group>"; };
 		BCC309122B17AE32009607DC /* SearchEnabledViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchEnabledViewController.swift; sourceTree = "<group>"; };
 		BE2774B92B0FC3A40000C8C2 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		BE2774BB2B0FD0890000C8C2 /* MainFlow.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = MainFlow.xcstrings; sourceTree = "<group>"; };
@@ -280,7 +278,6 @@
 				BE8E70B12B0E558300BEAA5A /* FavoritesScreenCoordinator.swift */,
 				BE8E70B32B0E74F600BEAA5A /* ProfileScreenCoordinator.swift */,
 				BE521A812B04DEB3005F2FE7 /* MainTabBarController.swift */,
-				BCC309102B17ACD8009607DC /* SearchFlowCoordinator.swift */,
 			);
 			path = Navigation;
 			sourceTree = "<group>";
@@ -575,7 +572,6 @@
 				BCC3090F2B17AB0A009607DC /* SearchViewController.swift in Sources */,
 				BCB7F9222B0D153000EE20A0 /* ScanFrameView.swift in Sources */,
 				BC93BB6B2B0BCBF1008BE2AD /* StringBarcodeExtension.swift in Sources */,
-				BCC309112B17ACD8009607DC /* SearchFlowCoordinator.swift in Sources */,
 				BE3524502B02ABA200746581 /* SceneDelegate.swift in Sources */,
 				BE3A559D2B0BF7BE0053C851 /* FiltersCell.swift in Sources */,
 				BE2774BA2B0FC3A40000C8C2 /* MainViewController.swift in Sources */,
