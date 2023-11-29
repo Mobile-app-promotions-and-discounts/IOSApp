@@ -22,12 +22,9 @@ final class EditProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.view = EditProfileView(frame: .zero, viewController: self, viewModel: viewModel)
-
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
         setupNavBar()
+        guard let profile = viewModel.profile else { return }
+        self.view = EditProfileView(frame: .zero, viewController: self, profile: profile)
     }
 
     init(viewModel: ProfileViewModelProtocol) {
@@ -39,6 +36,11 @@ final class EditProfileViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
+    // MARK: - Public Methods
+    func changeAvatarDidTap() {
+        print("Change")
+    }
+
     // MARK: - Private Methods
     @objc
     private func didTapCancelButton() {
@@ -48,14 +50,16 @@ final class EditProfileViewController: UIViewController {
 
     @objc
     private func didTapDoneButton() {
+        let view = self.view as? EditProfileView
+        print(view?.collectFieldsToProfile())
+
         self.navigationController?.navigationBar.isHidden = true
         navigationController?.popViewController(animated: true)
     }
 
     private func setupNavBar() {
-//        navigationController?.navigationBar.tintColor = .black
+        self.navigationController?.navigationBar.isHidden = false
         navigationItem.leftBarButtonItem = cancelButton
         navigationItem.rightBarButtonItem = doneButton
-        self.navigationController?.navigationBar.isHidden = false
     }
 }

@@ -8,6 +8,7 @@ final class ProfileViewController: UIViewController {
     private var profileView: ProfileView?
     private var viewModel: ProfileViewModelProtocol
 
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -16,7 +17,7 @@ final class ProfileViewController: UIViewController {
 
     }
 
-    init(viewModel: ProfileViewModel) {
+    init(viewModel: ProfileViewModelProtocol) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
 

@@ -55,6 +55,7 @@
 		D060E4412B0FB3B200C5E77C /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D060E4402B0FB3B200C5E77C /* ProfileView.swift */; };
 		D060E4432B0FB48E00C5E77C /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D060E4422B0FB48E00C5E77C /* ProfileViewModel.swift */; };
 		D060E4462B0FB7F000C5E77C /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D060E4452B0FB7F000C5E77C /* ProfileModel.swift */; };
+		D07AC7C52B17A2A30078233F /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07AC7C42B17A2A30078233F /* TextField.swift */; };
 		D0F82FB42B121BEC0097063C /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F82FB32B121BEC0097063C /* EditProfileViewController.swift */; };
 		D0F82FB62B121C0F0097063C /* EditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F82FB52B121C0F0097063C /* EditProfileView.swift */; };
 		D0F82FB82B1224A80097063C /* ProfileFlow.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = D0F82FB72B1224A80097063C /* ProfileFlow.xcstrings */; };
@@ -124,6 +125,7 @@
 		D060E4402B0FB3B200C5E77C /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		D060E4422B0FB48E00C5E77C /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		D060E4452B0FB7F000C5E77C /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
+		D07AC7C42B17A2A30078233F /* TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
 		D0F82FB32B121BEC0097063C /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		D0F82FB52B121C0F0097063C /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
 		D0F82FB72B1224A80097063C /* ProfileFlow.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = ProfileFlow.xcstrings; sourceTree = "<group>"; };
@@ -235,6 +237,7 @@
 				BE3524682B02B27A00746581 /* Fonts.swift */,
 				BC93BB712B0C814F008BE2AD /* GenericButton.swift */,
 				BC93BB732B0C8166008BE2AD /* GenericNavButton.swift */,
+				D07AC7C42B17A2A30078233F /* TextField.swift */,
 			);
 			path = DesignSystem;
 			sourceTree = "<group>";
@@ -570,6 +573,7 @@
 				BE8E70BF2B0E921900BEAA5A /* StoreUIModel.swift in Sources */,
 				BCB7F9242B0D255600EE20A0 /* UIImageExtensions.swift in Sources */,
 				BCB7F9222B0D153000EE20A0 /* ScanFrameView.swift in Sources */,
+				D07AC7C52B17A2A30078233F /* TextField.swift in Sources */,
 				BC93BB6B2B0BCBF1008BE2AD /* StringBarcodeExtension.swift in Sources */,
 				BE3524502B02ABA200746581 /* SceneDelegate.swift in Sources */,
 				D060E4412B0FB3B200C5E77C /* ProfileView.swift in Sources */,

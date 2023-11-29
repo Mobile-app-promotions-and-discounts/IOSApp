@@ -6,6 +6,9 @@ protocol ProfileViewModelProtocol: AnyObject {
 
     var profile: ProfileModel? { get }
     var error: Error? { get }
+
+    func getProfileData()
+    func putProfileData(profile: ProfileModel)
 }
 
 final class ProfileViewModel: ProfileViewModelProtocol {

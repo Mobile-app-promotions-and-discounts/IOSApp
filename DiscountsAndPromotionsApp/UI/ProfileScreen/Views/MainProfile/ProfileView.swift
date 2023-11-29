@@ -48,8 +48,9 @@ final class ProfileView: UIView {
     private lazy var regionButton: ProfileAssetButton = {
         let regionButton = ProfileAssetButton()
         regionButton.translatesAutoresizingMaskIntoConstraints = false
-        regionButton.buttonTitle.text = NSLocalizedString("Your region", tableName: "ProfileFlow", comment: "")
+        regionButton.buttonTitle.text = NSLocalizedString("Region", tableName: "ProfileFlow", comment: "")
         regionButton.buttonSubtitle.text = "Moscow"
+
         regionButton.backgroundColor = .buttonBG
         regionButton.addTarget(self, action: #selector(regionDidTap), for: .touchUpInside)
         return regionButton
@@ -58,7 +59,7 @@ final class ProfileView: UIView {
     private lazy var reviewsButton: ProfileAssetButton = {
         let reviewsButton = ProfileAssetButton()
         reviewsButton.translatesAutoresizingMaskIntoConstraints = false
-        reviewsButton.buttonTitle.text = NSLocalizedString("My reviews", tableName: "ProfileFlow", comment: "")
+        reviewsButton.buttonTitle.text = NSLocalizedString("MyReviews", tableName: "ProfileFlow", comment: "")
         reviewsButton.backgroundColor = .buttonBG
         reviewsButton.addTarget(self, action: #selector(reviewsDidTap), for: .touchUpInside)
         return reviewsButton
@@ -85,11 +86,7 @@ final class ProfileView: UIView {
     private lazy var deleteAccountButton: ProfileAssetButton = {
         let deleteAccountButton = ProfileAssetButton()
         deleteAccountButton.translatesAutoresizingMaskIntoConstraints = false
-        deleteAccountButton.buttonTitle.text = NSLocalizedString(
-            "Delete account",
-            tableName: "ProfileFlow",
-            comment: ""
-        )
+        deleteAccountButton.buttonTitle.text = NSLocalizedString("DeleteAccount", tableName: "ProfileFlow", comment: "")
         deleteAccountButton.addTarget(self, action: #selector(deleteAccountDidTap), for: .touchUpInside)
         return deleteAccountButton
     }()
@@ -97,7 +94,7 @@ final class ProfileView: UIView {
     private lazy var exitProfileButton: ProfileAssetButton = {
         let exitProfileButton = ProfileAssetButton()
         exitProfileButton.translatesAutoresizingMaskIntoConstraints = false
-        exitProfileButton.buttonTitle.text = NSLocalizedString("Exit profile", tableName: "ProfileFlow", comment: "")
+        exitProfileButton.buttonTitle.text = NSLocalizedString("ExitProfile", tableName: "ProfileFlow", comment: "")
         exitProfileButton.addTarget(self, action: #selector(exitAccountDidTap), for: .touchUpInside)
         return exitProfileButton
     }()
@@ -115,7 +112,6 @@ final class ProfileView: UIView {
         addNameLabel()
         addPhoneLabel()
         addButtons()
-        addActions()
     }
 
     required init?(coder: NSCoder) {
@@ -206,9 +202,5 @@ final class ProfileView: UIView {
             buttonStack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             buttonStack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16)
         ])
-    }
-
-    private func addActions() {
-
     }
 }
