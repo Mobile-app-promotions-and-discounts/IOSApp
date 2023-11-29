@@ -1,8 +1,16 @@
 import UIKit
 import SnapKit
+import Combine
 
-final class CategoryCell: UICollectionViewCell {
-    static let reuseIdentifier = "CategoryCell"
+final class ProductCell: UICollectionViewCell {
+    static let reuseIdentifier = "ProductCell"
+
+    var cancellable: AnyCancellable?
+
+    // PassthroughSubject для события нажатия кнопки
+    private (set) var likeButtonTappedPublisher = PassthroughSubject<UUID, Never>()
+
+    private var productID: UUID?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -65,16 +73,22 @@ final class CategoryCell: UICollectionViewCell {
 
     private lazy var likeButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setImage(UIImage(systemName: "heart"), for: .normal)
         button.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)
         return button
     }()
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        cancellable?.cancel()
+    }
+
     // MARK: - Public methods
 
-    func configure(with model: CategoryCellUIModel) {
-        self.nameLabel.text = model.name
-        self.descriptionLabel.text = model.description
+    func configure(with model: ProductCellUIModel) {
+        self.productID = model.id
+        nameLabel.text = model.name
+        descriptionLabel.text = model.description
+        likeButton.setImage(model.isFavorite ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart"), for: .normal)
 
         guard
             let lowerPrice = model.lowerPrice,
@@ -82,15 +96,21 @@ final class CategoryCell: UICollectionViewCell {
             return
         }
 
-        self.lowPriceLabel.text = "от \(String(describing: lowerPrice.customFormatted())) ₽"
-        self.highPriceLabel.text = "от \(String(describing: higherPrice.customFormatted())) ₽"
+        lowPriceLabel.text = "от \(String(describing: lowerPrice.customFormatted())) ₽"
+        highPriceLabel.text = "от \(String(describing: higherPrice.customFormatted())) ₽"
     }
 
     // MARK: - Private methods
 
     @objc
     private func likeButtonTapped() {
-        print("likeButtonTapped")
+        // Переключение изображения кнопки "лайк"
+        let isFavoriteNow = likeButton.currentImage == UIImage(systemName: "heart")
+        likeButton.setImage(isFavoriteNow ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart"), for: .normal)
+
+        if let productID = productID {
+            likeButtonTappedPublisher.send(productID)
+        }
     }
 
     private func setupViews() {

@@ -1,16 +1,15 @@
 import UIKit
-import SnapKit
 import Combine
 
-final class CategoryViewController: UIViewController {
-    weak var coordinator: MainScreenCoordinator?
+final class FavoritesViewController: UIViewController {
+    weak var coordinator: FavoritesScreenCoordinator?
 
-    private let viewModel: CategoryViewModelProtocol
+    private let viewModel: FavoritesViewModelProtocol
     private let layoutProvider: CollectionLayoutProvider
 
     private var cancellables = Set<AnyCancellable>()
 
-    private lazy var categoryCollectionView: UICollectionView = {
+    private lazy var favoritesCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.showsVerticalScrollIndicator = false
         collectionView.register(ProductCell.self, forCellWithReuseIdentifier: ProductCell.reuseIdentifier)
@@ -20,8 +19,7 @@ final class CategoryViewController: UIViewController {
         return collectionView
     }()
 
-    init(viewModel: CategoryViewModelProtocol,
-         layoutProvider: CollectionLayoutProvider = CollectionLayoutProvider()) {
+    init(viewModel: FavoritesViewModelProtocol, layoutProvider: CollectionLayoutProvider = CollectionLayoutProvider()) {
         self.viewModel = viewModel
         self.layoutProvider = layoutProvider
         super.init(nibName: nil, bundle: nil)
@@ -37,20 +35,14 @@ final class CategoryViewController: UIViewController {
         setupBindings()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        // Временное решение для обновления списка избранного на данном экране.
-        categoryCollectionView.reloadData()
-    }
-
     private func setupViews() {
-        layoutProvider.createLayoutForCategoryScreen(for: categoryCollectionView, in: view)
+        layoutProvider.createLayoutForCategoryScreen(for: favoritesCollectionView, in: view)
         // ToDo: цвет фона временный, для отладки
         view.backgroundColor = .mainBG
 
-        view.addSubview(categoryCollectionView)
+        view.addSubview(favoritesCollectionView)
 
-        categoryCollectionView.snp.makeConstraints { make in
+        favoritesCollectionView.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(12)
             make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
             make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
@@ -58,11 +50,11 @@ final class CategoryViewController: UIViewController {
     }
 
     private func setupBindings() {
-        viewModel.productsUpdate
+        viewModel.favoriteProductsUpdate
             .receive(on: RunLoop.main)
             .sink { [weak self] _ in
                 guard let self = self else { return }
-                self.categoryCollectionView.reloadData()
+                self.favoritesCollectionView.reloadData()
             }
             .store(in: &cancellables)
     }
@@ -70,15 +62,16 @@ final class CategoryViewController: UIViewController {
 
 // MARK: - UICollectionViewDataSource
 
-extension CategoryViewController: UICollectionViewDataSource {
+extension FavoritesViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.numberOfItems()
+        viewModel.numberOfItems()
     }
 
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductCell.reuseIdentifier,
                                                             for: indexPath) as? ProductCell else {
+            ErrorHandler.handle(error: .customError("Ошибка получения cell"))
             return UICollectionViewCell()
         }
 
@@ -90,11 +83,11 @@ extension CategoryViewController: UICollectionViewDataSource {
 
         let product = viewModel.getProduct(for: indexPath.row)
         cell.configure(with: product)
-
         return cell
     }
+
 }
 
-// MARK: - UICollectionViewDelegate
+// MARK: - UICollectionViewDelegateFlowLayout
 
-extension CategoryViewController: UICollectionViewDelegate {}
+extension FavoritesViewController: UICollectionViewDelegateFlowLayout { }
