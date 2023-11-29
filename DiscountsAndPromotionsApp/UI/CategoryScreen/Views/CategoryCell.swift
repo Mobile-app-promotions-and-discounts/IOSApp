@@ -17,7 +17,7 @@ final class CategoryCell: UICollectionViewCell {
 
     private lazy var productImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = .white
+        imageView.backgroundColor = .cherryGrayBlue
         imageView.layer.cornerRadius = 10
         return imageView
     }()
@@ -94,7 +94,7 @@ final class CategoryCell: UICollectionViewCell {
     }
 
     private func setupViews() {
-        contentView.backgroundColor = .productCell
+        contentView.backgroundColor = .cherryWhite
         contentView.layer.cornerRadius = 10
 
         [productImageView,

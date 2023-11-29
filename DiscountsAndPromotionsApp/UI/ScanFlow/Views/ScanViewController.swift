@@ -18,7 +18,7 @@ final class ScanViewController: UIViewController {
 
     private lazy var barcodeReminderLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .mainAccent
+        label.textColor = .cherryMainAccent
         label.text = NSLocalizedString("barcodeReminder", tableName: "ScanFlow", comment: "")
         label.textAlignment = .center
         return label

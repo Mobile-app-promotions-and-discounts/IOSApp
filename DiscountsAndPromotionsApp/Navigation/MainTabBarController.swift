@@ -9,7 +9,7 @@ final class MainTabBarController: UITabBarController {
             return
         }
 
-        tabBar.tintColor = UIColor.mainAccent
+        tabBar.tintColor = UIColor.cherryMainAccent
 
         let mainTitle = NSLocalizedString("Main", tableName: "MainFlow", comment: "")
         let favoritesTitle = NSLocalizedString("Favorites", tableName: "MainFlow", comment: "")

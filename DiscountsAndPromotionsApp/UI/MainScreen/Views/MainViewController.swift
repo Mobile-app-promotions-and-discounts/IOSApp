@@ -48,8 +48,7 @@ final class MainViewController: ScannerEnabledViewController {
     }
 
     private func setupViews() {
-        // ToDo: цвет фона временный, для отладки
-        view.backgroundColor = UIColor.mainBG
+        view.backgroundColor = UIColor.cherryLightBlue
 
         view.addSubview(mainCollectionView)
 

@@ -9,16 +9,16 @@ final class GenericNavigationController: UINavigationController {
         super.viewDidLoad()
         let appearence = UINavigationBarAppearance()
         appearence.configureWithTransparentBackground()
-        appearence.backgroundColor = .mainAccent
+        appearence.backgroundColor = .cherryMainAccent
 
         navigationBar.standardAppearance = appearence
         navigationBar.scrollEdgeAppearance = appearence
         navigationBar.compactAppearance = appearence
 
-        navigationBar.tintColor = .white
+        navigationBar.tintColor = .cherryWhite
 
         navigationBar.addSubview(roundedBackground)
-        roundedBackground.backgroundColor = UIColor.mainAccent
+        roundedBackground.backgroundColor = UIColor.cherryMainAccent
         roundedBackground.layer.cornerRadius = cornerRadius
         roundedBackground.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
     }

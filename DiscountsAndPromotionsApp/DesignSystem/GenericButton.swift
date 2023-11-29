@@ -10,8 +10,8 @@ class GenericButton: UIButton {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        backgroundColor = isSelected ? .mainAccent : .systemBackground
-        titleLabel?.textColor = isSelected ? .systemBackground : .mainAccent
+        backgroundColor = isSelected ? .cherryMainAccent : .systemBackground
+        titleLabel?.textColor = isSelected ? .systemBackground : .cherryMainAccent
         layer.cornerRadius = 10
         clipsToBounds = true
     }
