@@ -1,7 +1,7 @@
 import UIKit
 
 class ScannerEnabledViewController: SearchEnabledViewController {
-    weak var scanDelegate: ScanDelegateProtocol? = ScanFlowDelegate.shared
+    weak var scanCoordinator: ScanFlowCoordinator?
     private var scanButton = UIButton(type: .infoDark)
 
     override func viewDidLoad() {
@@ -21,6 +21,6 @@ class ScannerEnabledViewController: SearchEnabledViewController {
 
     @objc
     private func showScanner() {
-        scanDelegate?.startScanFlow()
+        scanCoordinator?.showScanner()
     }
 }

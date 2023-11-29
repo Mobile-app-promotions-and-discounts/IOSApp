@@ -13,13 +13,13 @@ final class MainCoordinator: Coordinator {
         let mainTabBarController = MainTabBarController()
 
         let mainScreenCoordinator = MainScreenCoordinator(navigationController: GenericNavigationController())
-        let favoritesScreenCoordinator = FavoritesScreenCoordinator(navigationController: UINavigationController())
-        let profileScreenCoordinator = ProfileScreenCoordinator(navigationController: UINavigationController())
+        let favoritesScreenCoordinator = FavoritesScreenCoordinator(navigationController: GenericNavigationController())
+        let profileScreenCoordinator = ProfileScreenCoordinator(navigationController: GenericNavigationController())
 
         let scanCoordinator = ScanFlowCoordinator(navigationController: navigationController)
-        ScanFlowDelegate.shared.coordinator = scanCoordinator
+        mainScreenCoordinator.scanCoordinator = scanCoordinator
+        favoritesScreenCoordinator.scanCoordinator = scanCoordinator
 
-        scanCoordinator.start()
         mainScreenCoordinator.start()
         favoritesScreenCoordinator.start()
         profileScreenCoordinator.start()

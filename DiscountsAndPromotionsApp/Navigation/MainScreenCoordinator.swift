@@ -4,6 +4,8 @@ final class MainScreenCoordinator: Coordinator {
     var childCoordinators = [Coordinator]()
     var navigationController: UINavigationController
 
+    var scanCoordinator: ScanFlowCoordinator?
+
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
     }
@@ -11,6 +13,7 @@ final class MainScreenCoordinator: Coordinator {
     func start() {
         let mainViewModel = MainViewModel()
         let mainViewController = MainViewController(viewModel: mainViewModel)
+        mainViewController.scanCoordinator = scanCoordinator
         mainViewController.coordinator = self
         navigationController.pushViewController(mainViewController, animated: false)
     }

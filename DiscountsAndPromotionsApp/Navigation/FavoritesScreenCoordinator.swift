@@ -4,6 +4,8 @@ final class FavoritesScreenCoordinator: Coordinator {
     var childCoordinators = [Coordinator]()
     var navigationController: UINavigationController
 
+    var scanCoordinator: ScanFlowCoordinator?
+
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
     }

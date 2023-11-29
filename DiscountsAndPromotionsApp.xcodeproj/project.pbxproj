@@ -21,7 +21,6 @@
 		BCB7F9202B0D150700EE20A0 /* UITextFieldExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB7F91F2B0D150700EE20A0 /* UITextFieldExtensions.swift */; };
 		BCB7F9222B0D153000EE20A0 /* ScanFrameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB7F9212B0D153000EE20A0 /* ScanFrameView.swift */; };
 		BCB7F9242B0D255600EE20A0 /* UIImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB7F9232B0D255600EE20A0 /* UIImageExtensions.swift */; };
-		BCC3090C2B167493009607DC /* ScanFlowDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC3090B2B167493009607DC /* ScanFlowDelegate.swift */; };
 		BCC3090F2B17AB0A009607DC /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC3090E2B17AB0A009607DC /* SearchViewController.swift */; };
 		BCC309132B17AE32009607DC /* SearchEnabledViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC309122B17AE32009607DC /* SearchEnabledViewController.swift */; };
 		BE2774BA2B0FC3A40000C8C2 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2774B92B0FC3A40000C8C2 /* MainViewController.swift */; };
@@ -94,7 +93,6 @@
 		BCB7F91F2B0D150700EE20A0 /* UITextFieldExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextFieldExtensions.swift; sourceTree = "<group>"; };
 		BCB7F9212B0D153000EE20A0 /* ScanFrameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanFrameView.swift; sourceTree = "<group>"; };
 		BCB7F9232B0D255600EE20A0 /* UIImageExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtensions.swift; sourceTree = "<group>"; };
-		BCC3090B2B167493009607DC /* ScanFlowDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanFlowDelegate.swift; sourceTree = "<group>"; };
 		BCC3090E2B17AB0A009607DC /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		BCC309122B17AE32009607DC /* SearchEnabledViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchEnabledViewController.swift; sourceTree = "<group>"; };
 		BE2774B92B0FC3A40000C8C2 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -271,7 +269,6 @@
 			isa = PBXGroup;
 			children = (
 				BC93BB682B0BC313008BE2AD /* ScanFlowCoordinator.swift */,
-				BCC3090B2B167493009607DC /* ScanFlowDelegate.swift */,
 				BEBA916B2B0A9D0000C2DE96 /* Coordinator.swift */,
 				BE3524752B02B62B00746581 /* MainCoordinator.swift */,
 				BEBA91702B0AA7F800C2DE96 /* MainScreenCoordinator.swift */,
@@ -567,7 +564,6 @@
 				BE8E70BB2B0E8BED00BEAA5A /* PromotionHeader.swift in Sources */,
 				BE35244E2B02ABA200746581 /* AppDelegate.swift in Sources */,
 				BE8E70BF2B0E921900BEAA5A /* StoreUIModel.swift in Sources */,
-				BCC3090C2B167493009607DC /* ScanFlowDelegate.swift in Sources */,
 				BCB7F9242B0D255600EE20A0 /* UIImageExtensions.swift in Sources */,
 				BCC3090F2B17AB0A009607DC /* SearchViewController.swift in Sources */,
 				BCB7F9222B0D153000EE20A0 /* ScanFrameView.swift in Sources */,
