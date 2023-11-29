@@ -13,10 +13,11 @@ class ScannerEnabledViewController: SearchEnabledViewController {
         searchBar.addSubview(scanButton)
         scanButton.addTarget(self, action: #selector(showScanner), for: .touchUpInside)
         scanButton.tintColor = .cherryMainAccent
-        scanButton.setImage(UIImage(systemName: "barcode.viewfinder"), for: .normal)
-        scanButton.translatesAutoresizingMaskIntoConstraints = false
-        scanButton.centerYAnchor.constraint(equalTo: searchBar.centerYAnchor).isActive = true
-        scanButton.trailingAnchor.constraint(equalTo: searchBar.trailingAnchor, constant: -40).isActive = true
+        scanButton.setImage(UIImage.scannerIcon, for: .normal)
+        scanButton.snp.makeConstraints { make in
+            make.centerY.equalTo(searchBar.snp.centerY)
+            make.trailing.equalTo(searchBar.snp.trailing).offset(-40)
+        }
     }
 
     @objc
