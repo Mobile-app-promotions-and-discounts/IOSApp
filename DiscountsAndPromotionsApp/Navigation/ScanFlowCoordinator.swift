@@ -24,7 +24,7 @@ final class ScanFlowCoordinator: Coordinator {
         let scanNavigationController = UINavigationController(rootViewController: scanVC)
         scanNavigationController.modalPresentationStyle = .fullScreen
 
-        UIViewController.topMostViewController()?.show(scanNavigationController, sender: nil)
+        navigationController.show(scanNavigationController, sender: nil)
     }
 
     func goBack() {
