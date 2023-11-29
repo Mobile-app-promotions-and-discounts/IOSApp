@@ -32,7 +32,6 @@ class ProductCardViewController: UIViewController {
     }
 
     // Все кастомные вьюхи
-    //    private let navigationBar = CustomNavigationBarView()
     private let galleryView = ImageGalleryView()
     private let titleView = ProductTitleView()
     private let ratingView = RatingView()
@@ -136,7 +135,7 @@ class ProductCardViewController: UIViewController {
             productScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             productScrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
-
+        
         NSLayoutConstraint.activate([
             contentView.topAnchor.constraint(equalTo: productScrollView.topAnchor),
             contentView.leadingAnchor.constraint(equalTo: productScrollView.leadingAnchor),
@@ -159,7 +158,6 @@ class ProductCardViewController: UIViewController {
             titleView.topAnchor.constraint(equalTo: galleryView.bottomAnchor, constant: 16),
             titleView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             titleView.heightAnchor.constraint(equalToConstant: 43),
-            // Примерная высота, если не определена внутри TitleView
             titleView.widthAnchor.constraint(equalToConstant: contentView.frame.width)
         ])
 
@@ -171,13 +169,13 @@ class ProductCardViewController: UIViewController {
             ratingView.widthAnchor.constraint(equalToConstant: contentView.frame.width)
         ])
 
-        // Работа с размером таблицы таблицей
+        // Работа с размером таблицы
         let headerHeight: CGFloat = 19
         let topPadding: CGFloat = 12
         let cellHeight: CGFloat = 71
         let cellSpacing: CGFloat = 8
         let numberOfCells: CGFloat = CGFloat(product?.offers.count ?? 0)
-        let tableViewHeight = headerHeight + topPadding + (cellHeight + cellSpacing) * numberOfCells - cellSpacing // Вычитаем последнее пространство между ячейками
+        let tableViewHeight = headerHeight + topPadding + (cellHeight + cellSpacing) * numberOfCells - cellSpacing
 
         // Ограничения для StoresTableView
         NSLayoutConstraint.activate([
@@ -203,8 +201,6 @@ class ProductCardViewController: UIViewController {
             priceInfoView.widthAnchor.constraint(equalTo: contentView.widthAnchor)
         ])
 
-        // Устанавливаем ограничение bottomAnchor для contentView
-        // Это важно, чтобы scrollView знал, где находится конец содержимого
         NSLayoutConstraint.activate([
             contentView.bottomAnchor.constraint(greaterThanOrEqualTo: priceInfoView.bottomAnchor, constant: 16)
         ])
@@ -311,7 +307,7 @@ extension ProductCardViewController {
 
 extension ProductCardViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return product?.offers.count ?? 3 // Нужно сделать только чтобы максимум три магазина
+        return product?.offers.count ?? 3 // TODO: Нужно сделать только чтобы максимум три магазина
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
