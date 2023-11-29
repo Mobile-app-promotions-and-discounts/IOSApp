@@ -94,7 +94,7 @@ class ImageGalleryView: UIView {
             imageView.contentMode = .scaleAspectFill
             imageView.clipsToBounds = true
             imageView.layer.cornerRadius = 12
-            imageView.frame = CGRect(x: bounds.width * CGFloat(index), y: 0, width: bounds.width, height: bounds.height)
+            imageView.frame = CGRect(x: bounds.width * CGFloat(index) + 16, y: 0, width: bounds.width - 32, height: bounds.height)
             scrollView.addSubview(imageView)
         }
         scrollView.contentSize = CGSize(width: bounds.width * CGFloat(images.count), height: bounds.height)

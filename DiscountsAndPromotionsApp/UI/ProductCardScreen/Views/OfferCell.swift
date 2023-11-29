@@ -36,8 +36,10 @@ class OfferTableViewCell: UITableViewCell {
 
         goToStoreButton.setTitle("В магазин", for: .normal)
         goToStoreButton.titleLabel?.font = .boldSystemFont(ofSize: 12)
-        goToStoreButton.backgroundColor = .lightGray
+        goToStoreButton.backgroundColor = .white
+        goToStoreButton.setTitleColor(.black, for: .normal)
         goToStoreButton.layer.cornerRadius = 10
+        goToStoreButton.addTarget(self, action: #selector(goToStoreCard), for: .touchUpInside)
 
         storeNameLabel.font = .boldSystemFont(ofSize: 14)
         addressLabel.font = .systemFont(ofSize: 12)
@@ -95,7 +97,7 @@ class OfferTableViewCell: UITableViewCell {
 
             priceLabel.topAnchor.constraint(equalTo: addressLabel.bottomAnchor, constant: 2),
             priceLabel.leadingAnchor.constraint(equalTo: storeNameLabel.leadingAnchor),
-            priceLabel.bottomAnchor.constraint(equalTo: backgroundViewBoard.bottomAnchor, constant: -paddingV),
+            priceLabel.bottomAnchor.constraint(equalTo: backgroundViewBoard.bottomAnchor, constant: -6),
 
             originalPriceLabel.leadingAnchor.constraint(equalTo: priceLabel.trailingAnchor, constant: 4),
             originalPriceLabel.bottomAnchor.constraint(equalTo: priceLabel.bottomAnchor),
@@ -116,5 +118,9 @@ class OfferTableViewCell: UITableViewCell {
         addressLabel.text = offer.store.location.street
         priceLabel.text = "\(offer.price)"
         discountLabel.text = "\(String(describing: offer.discount?.discountRate))"
+    }
+
+    @objc func goToStoreCard() {
+        print("идем на карточку магазина")
     }
 }

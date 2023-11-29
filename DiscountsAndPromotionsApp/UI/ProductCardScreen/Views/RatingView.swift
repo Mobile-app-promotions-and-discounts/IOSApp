@@ -57,6 +57,8 @@ class RatingView: UIView {
     private func setupLayout() {
         starsStackView.axis = .horizontal
         starsStackView.distribution = .fillEqually
+        ratingLabel.font = .systemFont(ofSize: 14)
+        numberOfReviewsLabel.font = .systemFont(ofSize: 14)
         addSubview(starsStackView)
         addSubview(ratingLabel)
         addSubview(numberOfReviewsLabel)

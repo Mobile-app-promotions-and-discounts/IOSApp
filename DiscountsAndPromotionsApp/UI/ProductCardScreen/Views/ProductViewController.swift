@@ -49,6 +49,11 @@ class ProductCardViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -56,6 +61,15 @@ class ProductCardViewController: UIViewController {
         setupNavigationbar()
         setupProductLayout()
         configureViews()
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow(notification: )),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide(notification: )),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
     }
 
     private func setupNavigationbar() {
@@ -85,9 +99,6 @@ class ProductCardViewController: UIViewController {
     private func setupProductLayout() {
         view.addSubview(productScrollView)
         productScrollView.addSubview(contentView)
-
-        //        contentView.addSubview(navigationBar)
-        //        navigationBar.translatesAutoresizingMaskIntoConstraints = false
 
         contentView.addSubview(galleryView)
         galleryView.translatesAutoresizingMaskIntoConstraints = false
@@ -125,19 +136,13 @@ class ProductCardViewController: UIViewController {
             productScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             productScrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+
         NSLayoutConstraint.activate([
             contentView.topAnchor.constraint(equalTo: productScrollView.topAnchor),
             contentView.leadingAnchor.constraint(equalTo: productScrollView.leadingAnchor),
             contentView.trailingAnchor.constraint(equalTo: productScrollView.trailingAnchor),
             contentView.bottomAnchor.constraint(equalTo: productScrollView.bottomAnchor)
         ])
-
-        //        NSLayoutConstraint.activate([
-        //            navigationBar.topAnchor.constraint(equalTo: contentView.topAnchor),
-        //            navigationBar.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-        //            navigationBar.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-        //            navigationBar.heightAnchor.constraint(equalToConstant: 30)
-        //        ])
 
         // Ограничения для GalleryView
         NSLayoutConstraint.activate([
@@ -149,7 +154,7 @@ class ProductCardViewController: UIViewController {
             // Высота должна быть задана
         ])
 
-        //        // Ограничения для TitleView
+        // Ограничения для TitleView
         NSLayoutConstraint.activate([
             titleView.topAnchor.constraint(equalTo: galleryView.bottomAnchor, constant: 16),
             titleView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
@@ -196,7 +201,6 @@ class ProductCardViewController: UIViewController {
             priceInfoView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             priceInfoView.heightAnchor.constraint(equalToConstant: 87),
             priceInfoView.widthAnchor.constraint(equalTo: contentView.widthAnchor)
-
         ])
 
         // Устанавливаем ограничение bottomAnchor для contentView
@@ -275,6 +279,36 @@ extension ProductCardViewController: PriceInfoViewDelegate {
     }
 }
 
+// MARK: - Клавиатура прыг-прыг
+extension ProductCardViewController {
+
+    @objc func keyboardWillShow(notification: NSNotification) {
+        guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
+            return
+        }
+
+        let keyboardHeight = keyboardSize.height
+        productScrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardHeight, right: 0)
+        productScrollView.scrollIndicatorInsets = productScrollView.contentInset
+
+        // Проверяем, активен ли UITextView внутри ProductReviewView
+        if reviewView.isFirstResponder {
+            let rectInScrollView = productScrollView.convert(reviewView.frame, from: contentView)
+            let offset = rectInScrollView.maxY - (view.bounds.height - keyboardHeight)
+            let adjustedOffset = offset + 16
+            if offset > 0 {
+                productScrollView.setContentOffset(CGPoint(x: 0, y: adjustedOffset), animated: true)
+            }
+        }
+    }
+
+    @objc func keyboardWillHide(notification: NSNotification) {
+        productScrollView.contentInset = UIEdgeInsets.zero
+        productScrollView.scrollIndicatorInsets = UIEdgeInsets.zero
+    }
+
+}
+
 extension ProductCardViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return product?.offers.count ?? 3 // Нужно сделать только чтобы максимум три магазина
@@ -288,6 +322,7 @@ extension ProductCardViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         // Здесь конфигурируем ячейку с данными о магазине
+        cell.selectionStyle = .none
         cell.configure(with: store)
         return cell
     }
