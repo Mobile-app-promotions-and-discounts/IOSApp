@@ -4,7 +4,7 @@ import SnapKit
 import UIKit
 
 final class ScanViewController: UIViewController {
-    weak var coordinator: ScanFlowCoordinatorProtocol?
+    weak var coordinator: ScanFlowCoordinator?
     private let viewModel: ScanFlowViewModelProtocol
     private var subscriptions = Set<AnyCancellable>()
     private var captureSessionController: ScanCaptureSessionController
@@ -93,11 +93,12 @@ final class ScanViewController: UIViewController {
     }()
 
     // MARK: - Lifecycle
-    init(coordinator: ScanFlowCoordinatorProtocol? = nil, viewModel: ScanFlowViewModel = ScanFlowViewModel()) {
-        self.coordinator = coordinator
+    init(viewModel: ScanFlowViewModel,
+         captureSessionController: ScanCaptureSessionController,
+         scanPreviewLayer: AVCaptureVideoPreviewLayer) {
         self.viewModel = viewModel
-        self.captureSessionController = ScanCaptureSessionController(coordinator: self.coordinator)
-        self.scanPreviewLayer = self.captureSessionController.previewLayer
+        self.captureSessionController = captureSessionController
+        self.scanPreviewLayer = scanPreviewLayer
         super.init(nibName: nil, bundle: nil)
     }
 

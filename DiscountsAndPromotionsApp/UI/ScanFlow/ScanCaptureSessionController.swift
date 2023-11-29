@@ -5,12 +5,12 @@ import Foundation
 final class ScanCaptureSessionController: NSObject, AVCaptureMetadataOutputObjectsDelegate {
     @Published var barcode: String?
     @Published var isFlashOn: Bool = false
-    weak var coordinator: ScanFlowCoordinatorProtocol?
+    weak var coordinator: ScanFlowCoordinator?
     private var captureSession: AVCaptureSession
     private (set) var previewLayer: AVCaptureVideoPreviewLayer
     private let background = DispatchQueue.global()
 
-    init(coordinator: ScanFlowCoordinatorProtocol?) {
+    init(coordinator: ScanFlowCoordinator?) {
         self.coordinator = coordinator
         self.captureSession = AVCaptureSession()
         self.previewLayer = AVCaptureVideoPreviewLayer(session: self.captureSession)
@@ -32,12 +32,17 @@ final class ScanCaptureSessionController: NSObject, AVCaptureMetadataOutputObjec
     }
 
     func setupCaptureSession() {
-        guard let videoCaptureDevice = AVCaptureDevice.default(for: .video) else { return }
+        guard let videoCaptureDevice = AVCaptureDevice.default(for: .video)
+            else {
+            failed()
+            return
+        }
         let videoInput: AVCaptureDeviceInput
 
         do {
             videoInput = try AVCaptureDeviceInput(device: videoCaptureDevice)
         } catch {
+            failed()
             return
         }
 
@@ -89,6 +94,7 @@ final class ScanCaptureSessionController: NSObject, AVCaptureMetadataOutputObjec
     }
 
     private func failed() {
+        coordinator?.goBack()
         coordinator?.scanError()
     }
 

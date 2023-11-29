@@ -3,7 +3,7 @@ protocol ScanDelegateProtocol: AnyObject {
 }
 
 final class ScanFlowDelegate: ScanDelegateProtocol {
-    var coordinator: ScanFlowCoordinatorProtocol?
+    var coordinator: ScanFlowCoordinator?
     static let shared = ScanFlowDelegate()
 
     private init() { }

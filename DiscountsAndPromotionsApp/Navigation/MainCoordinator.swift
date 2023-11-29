@@ -16,7 +16,7 @@ final class MainCoordinator: Coordinator {
         let favoritesScreenCoordinator = FavoritesScreenCoordinator(navigationController: UINavigationController())
         let profileScreenCoordinator = ProfileScreenCoordinator(navigationController: UINavigationController())
 
-        let scanCoordinator = ScanFlowCoordinator()
+        let scanCoordinator = ScanFlowCoordinator(navigationController: navigationController)
         ScanFlowDelegate.shared.coordinator = scanCoordinator
 
         scanCoordinator.start()
