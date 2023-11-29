@@ -18,7 +18,7 @@ final class ScanViewController: UIViewController {
 
     private lazy var barcodeReminderLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .systemRed
+        label.textColor = .mainAccent
         label.text = NSLocalizedString("barcodeReminder", tableName: "ScanFlow", comment: "")
         label.textAlignment = .center
         return label
@@ -128,7 +128,7 @@ final class ScanViewController: UIViewController {
 
     // MARK: - Setup UI
     private func setupUI() {
-        view.backgroundColor = .systemFill
+        view.backgroundColor = .mainBG
 
         scanPreviewLayer.frame = view.layer.bounds
         scanPreviewLayer.videoGravity = .resizeAspectFill

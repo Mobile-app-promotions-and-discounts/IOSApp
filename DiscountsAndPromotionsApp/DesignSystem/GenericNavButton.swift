@@ -9,6 +9,7 @@ class GenericNavButton: UIButton {
 
     override func layoutSubviews() {
         super.layoutSubviews()
+        tintColor = .mainAccent
         backgroundColor = .systemBackground
         layer.cornerRadius = 22
         clipsToBounds = true
