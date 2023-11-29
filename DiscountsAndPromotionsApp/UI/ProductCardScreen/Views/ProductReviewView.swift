@@ -36,15 +36,13 @@ class ProductReviewView: UIView {
     }
 
     private func setupLayout() {
-        // Общий вид компонента
+
         backgroundColor = .mainBG
         layer.cornerRadius = 12
 
-        // Настройка заголовка
         titleLabel.text = "Как Вам этот товар?"
         titleLabel.font = .boldSystemFont(ofSize: 18)
 
-        // Настройка стека звезд
         starsStackView.axis = .horizontal
         starsStackView.distribution = .fillEqually
         for _ in 0..<5 {
@@ -62,14 +60,13 @@ class ProductReviewView: UIView {
         reviewTextView.layer.borderColor = UIColor.gray.cgColor
         reviewTextView.layer.borderWidth = 1.0
         reviewTextView.layer.cornerRadius = 5
-        reviewTextView.textContainerInset = UIEdgeInsets(top: 8, left: 5, bottom: 8, right: 5) // Отступы текста
+        reviewTextView.textContainerInset = UIEdgeInsets(top: 8, left: 5, bottom: 8, right: 5)
         reviewTextView.isScrollEnabled = false
         reviewTextView.delegate = self
-        // Настройка кнопки отправки
+
         submitButton.setImage(UIImage(named: "submitReview"), for: .normal)
         submitButton.tintColor = .black
 
-        // Добавляем элементы в компонент
         addSubview(titleLabel)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         addSubview(starsStackView)
@@ -103,14 +100,14 @@ class ProductReviewView: UIView {
     }
 
     private func setupActions() {
-        // Настройка событий нажатия на звезды
+        // Настройка нажатия на звезды
         for (index, button) in starsStackView.arrangedSubviews.enumerated() {
             if let button = button as? UIButton {
                 button.tag = index + 1 // Теги начинаются с 1
                 button.addTarget(self, action: #selector(starTapped), for: .touchUpInside)
             }
         }
-        // Настройка события нажатия на кнопку отправки
+        // Настройка нажатия на кнопку отправки
         submitButton.addTarget(self, action: #selector(submitButtonTapped), for: .touchUpInside)
     }
 
@@ -141,7 +138,7 @@ class ProductReviewView: UIView {
         let selectedRating = sender.tag
         rating = selectedRating
 
-        // Обновляем вид звезд
+        // Обновляем вид звезд-баллов
         for (index, button) in starsStackView.arrangedSubviews.enumerated() {
             if let button = button as? UIButton {
                 button.setImage(UIImage(systemName: index < selectedRating ? "star.fill" : "star"), for: .normal)

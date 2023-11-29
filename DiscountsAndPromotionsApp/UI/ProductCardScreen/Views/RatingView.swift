@@ -82,8 +82,8 @@ class RatingView: UIView {
 
             reviewsButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             reviewsButton.centerYAnchor.constraint(equalTo: centerYAnchor),
-            reviewsButton.widthAnchor.constraint(equalToConstant: 28), // Примерная ширина
-            reviewsButton.heightAnchor.constraint(equalTo: reviewsButton.widthAnchor) // Круглая кнопка
+            reviewsButton.widthAnchor.constraint(equalToConstant: 28),
+            reviewsButton.heightAnchor.constraint(equalTo: reviewsButton.widthAnchor)
         ])
     }
 
@@ -95,7 +95,7 @@ class RatingView: UIView {
             starsStackView.addArrangedSubview(star)
         }
     }
-    // TODO: - КНОПКА НЕ РАБОТАЕТ! Не нажимается на главном экране
+
     @objc private func reviewsButtonTapped() {
         print("Нажатие")
         delegate?.reviewsButtonTapped()

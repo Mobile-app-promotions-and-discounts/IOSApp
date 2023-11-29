@@ -54,7 +54,7 @@ class ImageGalleryView: UIView {
 
             pageControl.centerXAnchor.constraint(equalTo: centerXAnchor),
             pageControl.heightAnchor.constraint(equalToConstant: 20),
-            pageControl.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16) // Добавлено ограничение
+            pageControl.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16)
         ])
     }
 
