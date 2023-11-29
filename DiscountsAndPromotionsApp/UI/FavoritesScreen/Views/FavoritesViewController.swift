@@ -1,5 +1,6 @@
 import UIKit
 import Combine
+import SnapKit
 
 final class FavoritesViewController: UIViewController {
     weak var coordinator: FavoritesScreenCoordinator?
@@ -13,6 +14,9 @@ final class FavoritesViewController: UIViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.showsVerticalScrollIndicator = false
         collectionView.register(ProductCell.self, forCellWithReuseIdentifier: ProductCell.reuseIdentifier)
+        collectionView.register(PromotionHeader.self,
+                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                                withReuseIdentifier: PromotionHeader.reuseIdentifier)
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.backgroundColor = .clear
@@ -68,6 +72,23 @@ extension FavoritesViewController: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView,
+                        viewForSupplementaryElementOfKind kind: String,
+                        at indexPath: IndexPath) -> UICollectionReusableView {
+        guard kind == UICollectionView.elementKindSectionHeader else {
+            return UICollectionReusableView()
+        }
+
+        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+                                                                           withReuseIdentifier: PromotionHeader.reuseIdentifier,
+                                                                           for: indexPath) as? PromotionHeader else {
+            return UICollectionReusableView()
+        }
+        let headerName = viewModel.getTitleForHeader()
+        header.configure(with: headerName)
+        return header
+    }
+
+    func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductCell.reuseIdentifier,
                                                             for: indexPath) as? ProductCell else {
@@ -90,4 +111,11 @@ extension FavoritesViewController: UICollectionViewDataSource {
 
 // MARK: - UICollectionViewDelegateFlowLayout
 
-extension FavoritesViewController: UICollectionViewDelegateFlowLayout { }
+extension FavoritesViewController: UICollectionViewDelegateFlowLayout {
+
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: collectionView.bounds.width, height: 50)
+    }
+}

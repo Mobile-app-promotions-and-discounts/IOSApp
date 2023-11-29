@@ -44,6 +44,10 @@ final class FavoritesViewModel: FavoritesViewModelProtocol {
         }
     }
 
+    func getTitleForHeader() -> String {
+        return NSLocalizedString("Favorites", tableName: "FavoritesFlow", comment: "")
+    }
+
     private func setupBindings() {
         profileService.updatedProfile
             .sink { [weak self] updatedProfile in
