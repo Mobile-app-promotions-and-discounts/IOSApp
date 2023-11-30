@@ -4,10 +4,11 @@ final class EditProfileView: UIView {
     // MARK: - Properties
     private var viewController: EditProfileViewController
 
+    private let noImage = UIImage(systemName: "person.circle")?.withTintColor(.buttonBG, renderingMode: .alwaysOriginal)
+
     // MARK: - Layout elements
     private lazy var avatarImage: UIImageView = {
-        let placeholder = UIImage(systemName: "person.circle")?.withTintColor(.buttonBG, renderingMode: .alwaysOriginal)
-        let avatarImage = UIImageView(image: placeholder)
+        let avatarImage = UIImageView(image: noImage)
         avatarImage.translatesAutoresizingMaskIntoConstraints = false
         avatarImage.layer.cornerRadius = 65
         avatarImage.layer.masksToBounds = true
@@ -145,7 +146,7 @@ final class EditProfileView: UIView {
     func collectFieldsToProfile() -> ProfileModel {
         let profile = ProfileModel(
             id: nil,
-            avatar: nil,
+            avatar: avatarImage.image?.pngData(),
             firstName: firstNameTextField.text,
             lastName: lastNameTextField.text,
             phone: phoneTextField.text,
@@ -157,14 +158,12 @@ final class EditProfileView: UIView {
     }
 
     func setAvatarImage(image: UIImage?) {
-        avatarImage.image = image ?? UIImage(
-            systemName: "person.circle")?.withTintColor(.buttonBG, renderingMode: .alwaysOriginal
-            )
+        avatarImage.image = image ?? noImage
     }
 
     // MARK: - Private methods
     private func prefillFields(profile: ProfileModel) {
-
+        if let avatar = profile.avatar { avatarImage.image = UIImage(data: avatar) }
         if let firstName = profile.firstName { firstNameTextField.text = firstName }
         if let lastName = profile.lastName { lastNameTextField.text = lastName }
         if let phone = profile.phone { phoneTextField.text = phone }

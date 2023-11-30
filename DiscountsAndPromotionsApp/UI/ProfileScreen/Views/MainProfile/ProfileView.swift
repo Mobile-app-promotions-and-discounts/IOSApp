@@ -19,6 +19,15 @@ final class ProfileView: UIView {
         return editButton
     }()
 
+    private lazy var avatarImage: UIImageView = {
+        let noImage = UIImage(systemName: "person.circle")?.withTintColor(.buttonBG, renderingMode: .alwaysOriginal)
+        let avatarImage = UIImageView(image: noImage)
+        avatarImage.translatesAutoresizingMaskIntoConstraints = false
+        avatarImage.layer.cornerRadius = 23
+        avatarImage.layer.masksToBounds = true
+        return avatarImage
+    }()
+
     private lazy var nameLabel: UILabel = {
         let nameLabel = UILabel()
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -109,6 +118,7 @@ final class ProfileView: UIView {
         self.backgroundColor = .mainBG
 
         addEditButton()
+        addAvatar()
         addNameLabel()
         addPhoneLabel()
         addButtons()
@@ -120,11 +130,16 @@ final class ProfileView: UIView {
 
     // MARK: - Public Methods
     func updateViews(
-        avatar: String?,
+        avatar: Data?,
         firstName: String?,
         lastName: String?,
         phone: String?
     ) {
+
+        if let avatar = avatar {
+            avatarImage.image = UIImage(data: avatar)
+        }
+
         nameLabel.text = "\(firstName ?? "") \(lastName ?? "")"
         phoneLabel.text = phone ?? ""
     }
@@ -176,10 +191,20 @@ final class ProfileView: UIView {
         ])
     }
 
+    private func addAvatar() {
+        self.addSubview(avatarImage)
+        NSLayoutConstraint.activate([
+            avatarImage.heightAnchor.constraint(equalToConstant: 46),
+            avatarImage.widthAnchor.constraint(equalToConstant: 46),
+            avatarImage.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 12),
+            avatarImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16)
+        ])
+    }
+
     private func addNameLabel() {
         self.addSubview(nameLabel)
         nameLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 12).isActive = true
-        nameLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16).isActive = true
+        nameLabel.leadingAnchor.constraint(equalTo: avatarImage.trailingAnchor, constant: 12).isActive = true
     }
 
     private func addPhoneLabel() {

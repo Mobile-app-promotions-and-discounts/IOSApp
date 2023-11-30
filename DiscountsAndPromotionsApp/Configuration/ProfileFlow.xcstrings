@@ -13,7 +13,15 @@
       }
     },
     "Camera" : {
-      "extractionState" : "manual"
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Камера"
+          }
+        }
+      }
     },
     "Cancel" : {
       "extractionState" : "manual",
@@ -82,7 +90,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "DeletePhoto"
+            "value" : "Delete photo"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалить фото"
           }
         }
       }
@@ -138,6 +152,12 @@
             "state" : "translated",
             "value" : "Open gallery"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Открыть галерею"
+          }
         }
       }
     },
@@ -179,7 +199,7 @@
         },
         "ru" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Мои отзывы"
           }
         }

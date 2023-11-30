@@ -2,7 +2,7 @@ import UIKit
 
 struct ProfileModel: Codable {
     let id: String?
-    let avatar: String?
+    let avatar: Data?
     let firstName: String?
     let lastName: String?
     let phone: String?
