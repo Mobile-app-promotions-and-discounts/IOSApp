@@ -1,12 +1,12 @@
 import Foundation
 import Combine
 
-final class CategoryViewModel: CategoryViewModelProtocol {
-    private (set) var productsUpdate = PassthroughSubject<[Product], Never>()
+final class FavoritesViewModel: FavoritesViewModelProtocol {
+    private (set) var favoriteProductsUpdate = PassthroughSubject<[Product], Never>()
 
-    private var products = [Product]() {
+    private var favoriteProducts = [Product]() {
         didSet {
-            productsUpdate.send(products)
+            favoriteProductsUpdate.send(favoriteProducts)
         }
     }
 
@@ -22,21 +22,21 @@ final class CategoryViewModel: CategoryViewModelProtocol {
     }
 
     func numberOfItems() -> Int {
-        return products.count
+        return favoriteProducts.count
     }
 
     func getProduct(for index: Int) -> ProductCellUIModel {
-        let product = products[index]
+        let product = favoriteProducts[index]
         return convertModels(for: product)
     }
 
     func likeButtonTapped(for productID: UUID) {
-        guard let productIndex = products.firstIndex(where: { $0.id == productID }) else {
+        guard let productIndex = favoriteProducts.firstIndex(where: { $0.id == productID }) else {
             ErrorHandler.handle(error: .customError("Продукт с ID \(productID) не найден"))
             return
         }
 
-        let product = products[productIndex]
+        let product = favoriteProducts[productIndex]
         if profileService.isFavorite(product) {
             profileService.removeFavorite(product)
         } else {
@@ -44,12 +44,15 @@ final class CategoryViewModel: CategoryViewModelProtocol {
         }
     }
 
+    func getTitleForHeader() -> String {
+        return NSLocalizedString("Favorites", tableName: "FavoritesFlow", comment: "")
+    }
+
     private func setupBindings() {
-        // Доработать под каждую категорию, с новым методом в дата сервисе
-        dataService.actualProductsList
-            .sink { [weak self] productsList in
+        profileService.updatedProfile
+            .sink { [weak self] updatedProfile in
                 guard let self = self else { return }
-                self.products = productsList
+                self.favoriteProducts = updatedProfile.favoritesProducts
             }
             .store(in: &cancellables)
     }
