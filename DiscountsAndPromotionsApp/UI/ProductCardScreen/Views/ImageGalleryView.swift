@@ -42,7 +42,7 @@ class ImageGalleryView: UIView {
     func setupLayout() {
         addSubview(scrollView)
         addSubview(pageControl)
-        
+
         scrollView.snp.makeConstraints { make in
             make.top.trailing.leading.bottom.equalToSuperview()
         }

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 
 class ProductTitleView: UIView {
 
@@ -38,16 +39,18 @@ class ProductTitleView: UIView {
         addSubview(titleLabel)
         addSubview(weightLabel)
 
-        NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: topAnchor),
-            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+        titleLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.leading.equalToSuperview().offset(16)
+            make.trailing.equalToSuperview().offset(-16)
+        }
 
-            weightLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4),
-            weightLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            weightLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
-            weightLabel.bottomAnchor.constraint(equalTo: bottomAnchor)
-        ])
+        weightLabel.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(4)
+            make.leading.trailing.equalTo(titleLabel)
+            make.bottom.equalToSuperview()
+
+        }
     }
 
     func configure(with title: String, weight: String) {

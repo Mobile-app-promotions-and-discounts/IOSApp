@@ -4,12 +4,13 @@
 //
 //  Created by Денис on 23.11.2023.
 //
+import UIKit
+import SnapKit
 
 protocol RatingViewDelegate: AnyObject {
     func reviewsButtonTapped()
 }
 
-import UIKit
 class RatingView: UIView {
 
     weak var delegate: RatingViewDelegate?
@@ -46,12 +47,8 @@ class RatingView: UIView {
         for (index, star) in starsStackView.arrangedSubviews.enumerated() {
             star.isHidden = index >= Int(rating)
         }
-
         ratingLabel.text = "\(rating)"
-
         numberOfReviewsLabel.text = "\(numberOfReviews) отзывов"
-
-//        reviewsButton.setImage(UIImage(systemName: "checron.right"), for: .normal)
     }
 
     private func setupLayout() {
@@ -68,23 +65,29 @@ class RatingView: UIView {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
 
-        NSLayoutConstraint.activate([
-            starsStackView.topAnchor.constraint(equalTo: topAnchor),
-            starsStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            starsStackView.heightAnchor.constraint(equalToConstant: 16), // Примерная высота
+        starsStackView.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.leading.equalToSuperview().offset(16)
+            make.height.equalTo(16)
+        }
 
-            ratingLabel.centerYAnchor.constraint(equalTo: starsStackView.centerYAnchor),
-            ratingLabel.leadingAnchor.constraint(equalTo: starsStackView.trailingAnchor, constant: 8),
+        ratingLabel.snp.makeConstraints { make in
+            make.centerY.equalTo(starsStackView)
+            make.leading.equalTo(starsStackView.snp.trailing).offset(8)
+        }
 
-            numberOfReviewsLabel.topAnchor.constraint(equalTo: starsStackView.bottomAnchor, constant: 4),
-            numberOfReviewsLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            numberOfReviewsLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
+        numberOfReviewsLabel.snp.makeConstraints { make in
+            make.top.equalTo(starsStackView.snp.bottom).offset(4)
+            make.leading.equalToSuperview().offset(16)
+            make.bottom.equalToSuperview()
+        }
 
-            reviewsButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            reviewsButton.centerYAnchor.constraint(equalTo: centerYAnchor),
-            reviewsButton.widthAnchor.constraint(equalToConstant: 28),
-            reviewsButton.heightAnchor.constraint(equalTo: reviewsButton.widthAnchor)
-        ])
+        reviewsButton.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().offset(-16)
+            make.centerY.equalToSuperview()
+            make.width.equalTo(28)
+            make.height.equalTo(28)
+        }
     }
 
     private func configureStars() {
@@ -100,5 +103,4 @@ class RatingView: UIView {
         print("Нажатие")
         delegate?.reviewsButtonTapped()
     }
-
 }
