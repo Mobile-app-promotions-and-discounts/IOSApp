@@ -1,7 +1,7 @@
 import Foundation
 import Combine
 
-final class MainViewModel: MainViewModelProtocol, ObservableObject {
+final class MainViewModel: MainViewModelProtocol {
     var numberOfSections: Int {
         return MainSection.allCases.count
     }
@@ -10,19 +10,19 @@ final class MainViewModel: MainViewModelProtocol, ObservableObject {
     private (set) var productsUpdate = PassthroughSubject<[Product], Never>()
     private (set) var storesUpdate = PassthroughSubject<[Store], Never>()
 
-    @Published private var categories = [Category]() {
+    private var categories = [Category]() {
         didSet {
             categoriesUpdate.send(categories)
         }
     }
 
-    @Published private var products = [Product]() {
+    private var products = [Product]() {
         didSet {
             productsUpdate.send(products)
         }
     }
 
-    @Published private var stores = [Store]() {
+    private var stores = [Store]() {
         didSet {
             storesUpdate.send(stores)
         }
@@ -31,12 +31,13 @@ final class MainViewModel: MainViewModelProtocol, ObservableObject {
     private var dataService: DataServiceProtocol
     private var cancellables = Set<AnyCancellable>()
 
-    init(dataService: DataServiceProtocol = MockDataService()) {
+    init(dataService: DataServiceProtocol) {
         self.dataService = dataService
+        setupBindings()
     }
 
     func viewDidLoad() {
-        fetchData()
+        dataService.loadData()
     }
 
     func numberOfItems(inSection section: MainSection) -> Int {
@@ -73,20 +74,26 @@ final class MainViewModel: MainViewModelProtocol, ObservableObject {
         return convertStoreModel(for: store)
     }
 
-    private func fetchData() {
-        dataService.getCategoriesList()
-            .receive(on: RunLoop.main)
-            .assign(to: \.categories, on: self)
+    private func setupBindings() {
+        dataService.actualProductsList
+            .sink { [weak self] productsList in
+                guard let self = self else { return }
+                self.products = productsList
+            }
             .store(in: &cancellables)
 
-        dataService.getProductsList()
-            .receive(on: RunLoop.main)
-            .assign(to: \.products, on: self)
+        dataService.actualCategoryList
+            .sink { [weak self] categoryList in
+                guard let self = self else { return }
+                self.categories = categoryList
+            }
             .store(in: &cancellables)
 
-        dataService.getStoresList()
-            .receive(on: RunLoop.main)
-            .assign(to: \.stores, on: self)
+        dataService.actualStoreList
+            .sink { [weak self] storeList in
+                guard let self = self else { return }
+                self.stores = storeList
+            }
             .store(in: &cancellables)
     }
 

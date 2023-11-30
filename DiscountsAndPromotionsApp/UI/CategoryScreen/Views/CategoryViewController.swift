@@ -13,14 +13,15 @@ final class CategoryViewController: ScannerEnabledViewController {
     private lazy var categoryCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.showsVerticalScrollIndicator = false
-        collectionView.register(CategoryCell.self, forCellWithReuseIdentifier: CategoryCell.reuseIdentifier)
+        collectionView.register(ProductCell.self, forCellWithReuseIdentifier: ProductCell.reuseIdentifier)
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.backgroundColor = .clear
         return collectionView
     }()
 
-    init(viewModel: CategoryViewModelProtocol, layoutProvider: CollectionLayoutProvider = CollectionLayoutProvider()) {
+    init(viewModel: CategoryViewModelProtocol,
+         layoutProvider: CollectionLayoutProvider = CollectionLayoutProvider()) {
         self.viewModel = viewModel
         self.layoutProvider = layoutProvider
         super.init(nibName: nil, bundle: nil)
@@ -32,9 +33,14 @@ final class CategoryViewController: ScannerEnabledViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel.viewDidLoad()
         setupViews()
         setupBindings()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // Временное решение для обновления списка избранного на данном экране.
+        categoryCollectionView.reloadData()
     }
 
     private func setupViews() {
@@ -52,13 +58,13 @@ final class CategoryViewController: ScannerEnabledViewController {
 
     private func setupBindings() {
         viewModel.productsUpdate
-               .receive(on: RunLoop.main)
-               .sink { [weak self] _ in
-                   guard let self = self else { return }
-                   self.categoryCollectionView.reloadData()
-               }
-               .store(in: &cancellables)
-       }
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                guard let self = self else { return }
+                self.categoryCollectionView.reloadData()
+            }
+            .store(in: &cancellables)
+    }
 }
 
 // MARK: - UICollectionViewDataSource
@@ -70,10 +76,16 @@ extension CategoryViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryCell.reuseIdentifier,
-                                                            for: indexPath) as? CategoryCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductCell.reuseIdentifier,
+                                                            for: indexPath) as? ProductCell else {
             return UICollectionViewCell()
         }
+
+        cell.cancellable = cell.likeButtonTappedPublisher
+            .sink { [weak self] productID in
+                guard let self = self else { return }
+                self.viewModel.likeButtonTapped(for: productID)
+            }
 
         let product = viewModel.getProduct(for: indexPath.row)
         cell.configure(with: product)

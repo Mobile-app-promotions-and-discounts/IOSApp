@@ -4,18 +4,31 @@ final class MainCoordinator: Coordinator {
     var childCoordinators = [Coordinator]()
     var navigationController: UINavigationController
 
+    private let dataService: DataServiceProtocol
+    private let profileService: ProfileServiceProtocol
+
     init(navigationController: UINavigationController) {
+        self.dataService = MockDataService()
+        self.profileService = MockProfileService()
         self.navigationController = navigationController
         self.navigationController.navigationBar.isHidden = true
     }
 
     func start() {
         let mainTabBarController = MainTabBarController()
+        configureChildCoordinators(with: mainTabBarController)
+        navigationController.viewControllers = [mainTabBarController]
+    }
 
-        let mainScreenCoordinator = MainScreenCoordinator(navigationController: GenericNavigationController())
-        let favoritesScreenCoordinator = FavoritesScreenCoordinator(navigationController: GenericNavigationController())
+    private func configureChildCoordinators(with tabBarController: MainTabBarController) {
+        // Создание и запуск дочерних координаторов
+        let mainScreenCoordinator = MainScreenCoordinator(navigationController: GenericNavigationController(),
+                                                          dataService: dataService,
+                                                          profileService: profileService)
+        let favoritesScreenCoordinator = FavoritesScreenCoordinator(navigationController: GenericNavigationController(),
+                                                                    dataService: dataService,
+                                                                    profileService: profileService)
         let profileScreenCoordinator = ProfileScreenCoordinator(navigationController: GenericNavigationController())
-
         let scanCoordinator = ScanFlowCoordinator(navigationController: navigationController)
         mainScreenCoordinator.scanCoordinator = scanCoordinator
         favoritesScreenCoordinator.scanCoordinator = scanCoordinator
@@ -24,15 +37,12 @@ final class MainCoordinator: Coordinator {
         favoritesScreenCoordinator.start()
         profileScreenCoordinator.start()
 
-        childCoordinators.append(mainScreenCoordinator)
-        childCoordinators.append(favoritesScreenCoordinator)
-        childCoordinators.append(profileScreenCoordinator)
+        childCoordinators.append(contentsOf: [mainScreenCoordinator,
+                                              favoritesScreenCoordinator,
+                                              profileScreenCoordinator,
+                                              scanCoordinator] as [Coordinator])
 
-        mainTabBarController.viewControllers = [mainScreenCoordinator.navigationController,
-                                                favoritesScreenCoordinator.navigationController,
-                                                profileScreenCoordinator.navigationController]
-        mainTabBarController.setUpTabBarItems()
-
-        navigationController.viewControllers = [mainTabBarController]
+        tabBarController.viewControllers = childCoordinators.map { $0.navigationController }
+        tabBarController.setUpTabBarItems()
     }
 }
