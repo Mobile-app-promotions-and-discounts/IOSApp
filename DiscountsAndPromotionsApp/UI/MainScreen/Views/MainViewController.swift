@@ -2,7 +2,7 @@ import UIKit
 import SnapKit
 import Combine
 
-final class MainViewController: UIViewController {
+final class MainViewController: ScannerEnabledViewController {
     weak var coordinator: MainScreenCoordinator?
 
     private let viewModel: MainViewModelProtocol
@@ -23,6 +23,10 @@ final class MainViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.backgroundColor = .clear
+        collectionView.contentInset = UIEdgeInsets(top: CornerRadius.regular.cgFloat(),
+                                                   left: 0,
+                                                   bottom: 0,
+                                                   right: 0)
         return collectionView
     }()
 
@@ -44,8 +48,7 @@ final class MainViewController: UIViewController {
     }
 
     private func setupViews() {
-        // ToDo: цвет фона временный, для отладки
-        view.backgroundColor = UIColor.mainBG
+        view.backgroundColor = UIColor.cherryLightBlue
 
         view.addSubview(mainCollectionView)
 
@@ -163,5 +166,13 @@ extension MainViewController: UICollectionViewDelegate {
         } else {
             print("Для других ячеек обработка нажатия будет реализована позже")
         }
+    }
+}
+
+// MARK: - UISearchBarDelegate
+extension MainViewController {
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchBar.endEditing(true)
+        coordinator?.navigateToSearchScreen()
     }
 }

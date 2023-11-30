@@ -3,6 +3,7 @@ import UIKit
 final class FavoritesScreenCoordinator: Coordinator {
     var childCoordinators = [Coordinator]()
     var navigationController: UINavigationController
+    var scanCoordinator: ScanFlowCoordinator?
 
     private let dataService: DataServiceProtocol
     private let profileService: ProfileServiceProtocol

@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "state=Default.png",
+      "filename" : "heart-circle.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "state=Default@2x.png",
+      "filename" : "heart-circle@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "state=Default@3x.png",
+      "filename" : "heart-circle@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

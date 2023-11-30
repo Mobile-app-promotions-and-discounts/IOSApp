@@ -2,7 +2,7 @@ import UIKit
 import SnapKit
 import Combine
 
-final class CategoryViewController: UIViewController {
+final class CategoryViewController: ScannerEnabledViewController {
     weak var coordinator: MainScreenCoordinator?
 
     private let viewModel: CategoryViewModelProtocol
@@ -45,8 +45,7 @@ final class CategoryViewController: UIViewController {
 
     private func setupViews() {
         layoutProvider.createLayoutForCategoryScreen(for: categoryCollectionView, in: view)
-        // ToDo: цвет фона временный, для отладки
-        view.backgroundColor = .mainBG
+        view.backgroundColor = .cherryLightBlue
 
         view.addSubview(categoryCollectionView)
 

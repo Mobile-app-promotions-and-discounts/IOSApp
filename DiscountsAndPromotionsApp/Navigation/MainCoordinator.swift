@@ -22,24 +22,24 @@ final class MainCoordinator: Coordinator {
 
     private func configureChildCoordinators(with tabBarController: MainTabBarController) {
         // Создание и запуск дочерних координаторов
-        let mainScreenCoordinator = MainScreenCoordinator(navigationController: UINavigationController(),
+        let mainScreenCoordinator = MainScreenCoordinator(navigationController: GenericNavigationController(),
                                                           dataService: dataService,
                                                           profileService: profileService)
-        let favoritesScreenCoordinator = FavoritesScreenCoordinator(navigationController: UINavigationController(),
+        let favoritesScreenCoordinator = FavoritesScreenCoordinator(navigationController: GenericNavigationController(),
                                                                     dataService: dataService,
                                                                     profileService: profileService)
-        let profileScreenCoordinator = ProfileScreenCoordinator(navigationController: UINavigationController())
-        let scanCoordinator = ScanFlowCoordinator(navigationController: UINavigationController(rootViewController: ScanDummyViewController()))
+        let profileScreenCoordinator = ProfileScreenCoordinator(navigationController: GenericNavigationController())
+        let scanCoordinator = ScanFlowCoordinator(navigationController: navigationController)
+        mainScreenCoordinator.scanCoordinator = scanCoordinator
+        favoritesScreenCoordinator.scanCoordinator = scanCoordinator
 
         mainScreenCoordinator.start()
         favoritesScreenCoordinator.start()
         profileScreenCoordinator.start()
-        scanCoordinator.start()
 
         childCoordinators.append(contentsOf: [mainScreenCoordinator,
                                               favoritesScreenCoordinator,
-                                              profileScreenCoordinator,
-                                              scanCoordinator] as [Coordinator])
+                                              profileScreenCoordinator] as [Coordinator])
 
         tabBarController.viewControllers = childCoordinators.map { $0.navigationController }
         tabBarController.setUpTabBarItems()
