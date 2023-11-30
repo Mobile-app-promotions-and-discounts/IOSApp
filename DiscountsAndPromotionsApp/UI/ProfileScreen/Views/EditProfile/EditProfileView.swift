@@ -85,6 +85,7 @@ final class EditProfileView: UIView {
         emailTextField.font = .systemFont(ofSize: 14)
         emailTextField.textColor = .black
         emailTextField.insets = UIEdgeInsets(top: 0, left: 12, bottom: 0, right: 12)
+        emailTextField.isUserInteractionEnabled = false
         return emailTextField
     }()
 
@@ -153,6 +154,12 @@ final class EditProfileView: UIView {
             gender: genderTextField.text == "🙎🏼‍♂️")
 
         return profile
+    }
+
+    func setAvatarImage(image: UIImage?) {
+        avatarImage.image = image ?? UIImage(
+            systemName: "person.circle")?.withTintColor(.buttonBG, renderingMode: .alwaysOriginal
+            )
     }
 
     // MARK: - Private methods

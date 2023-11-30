@@ -54,6 +54,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
         do {
             let profileToStore = try JSONEncoder().encode(profile)
             UserDefaults.standard.set(profileToStore, forKey: "storedProfile")
+            getProfileData()
         } catch {
             self.error = error
         }

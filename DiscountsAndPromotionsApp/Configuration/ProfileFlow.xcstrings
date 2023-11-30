@@ -12,6 +12,9 @@
         }
       }
     },
+    "Camera" : {
+      "extractionState" : "manual"
+    },
     "Cancel" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -73,6 +76,17 @@
         }
       }
     },
+    "DeletePhoto" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DeletePhoto"
+          }
+        }
+      }
+    },
     "Done" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -112,6 +126,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Имя"
+          }
+        }
+      }
+    },
+    "Gallery" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open gallery"
           }
         }
       }
