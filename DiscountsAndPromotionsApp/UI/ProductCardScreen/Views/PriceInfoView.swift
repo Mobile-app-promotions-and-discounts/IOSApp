@@ -4,8 +4,8 @@
 //
 //  Created by Денис on 23.11.2023.
 //
-
 import UIKit
+import SnapKit
 
 protocol PriceInfoViewDelegate: AnyObject {
     func addToFavorites()
@@ -16,7 +16,7 @@ class PriceInfoView: UIView {
     weak var delegate: PriceInfoViewDelegate?
     private let toFavoritesButton = UIButton()
     private let worstOriginPrice = UILabel()
-    private let bestDiscoutPrice = UILabel()
+    private let bestDiscountPrice = UILabel()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -33,56 +33,68 @@ class PriceInfoView: UIView {
             attributes: [NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.single.rawValue]
         )
 
-        bestDiscoutPrice.text = "от \(discountPrice)р"
-
+        bestDiscountPrice.text = "от \(discountPrice)р"
     }
 
-    func setupLayout() {
+    private func setupLayout() {
+        setupWorstOriginPriceLabel()
+        setupBestDiscountPriceLabel()
+        setupToFavoritesButton()
+        setupConstraints()
+    }
+
+    private func setupWorstOriginPriceLabel() {
         worstOriginPrice.textColor = .gray
         worstOriginPrice.font = .systemFont(ofSize: 14)
         worstOriginPrice.attributedText = NSAttributedString(
             string: "300р",
             attributes: [NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.single.rawValue]
         )
+        addSubview(worstOriginPrice)
+    }
 
-        bestDiscoutPrice.textColor = .black
-        bestDiscoutPrice.font = .boldSystemFont(ofSize: 24)
-        bestDiscoutPrice.text = "от 150р"
+    private func setupBestDiscountPriceLabel() {
+        bestDiscountPrice.textColor = .black
+        bestDiscountPrice.font = .boldSystemFont(ofSize: 24)
+        bestDiscountPrice.text = "от 150р"
+        addSubview(bestDiscountPrice)
+    }
 
+    private func setupToFavoritesButton() {
         toFavoritesButton.setTitle("В Избранное", for: .normal)
         toFavoritesButton.backgroundColor = .lightGray
         toFavoritesButton.layer.cornerRadius = 10
         toFavoritesButton.titleLabel?.font = .boldSystemFont(ofSize: 16)
         toFavoritesButton.tintColor = .black
         toFavoritesButton.addTarget(self, action: #selector(addToFavorite), for: .touchUpInside)
+        addSubview(toFavoritesButton)
+    }
 
-        [worstOriginPrice, bestDiscoutPrice, toFavoritesButton].forEach { view in
-            addSubview(view)
-            view.translatesAutoresizingMaskIntoConstraints = false
+    private func setupConstraints() {
+        worstOriginPrice.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(12)
+            make.leading.equalToSuperview().offset(16)
+            make.height.equalTo(16)
         }
 
-        NSLayoutConstraint.activate([
-            worstOriginPrice.topAnchor.constraint(equalTo: topAnchor, constant: 12),
-            worstOriginPrice.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            worstOriginPrice.heightAnchor.constraint(equalToConstant: 16),
+        bestDiscountPrice.snp.makeConstraints { make in
+            make.top.equalTo(worstOriginPrice.snp.bottom).offset(4)
+            make.leading.equalTo(worstOriginPrice.snp.leading)
+            make.bottom.equalToSuperview().offset(-24)
+            make.height.equalTo(28)
+            make.trailing.lessThanOrEqualTo(toFavoritesButton.snp.leading).offset(-16)
+        }
 
-            bestDiscoutPrice.topAnchor.constraint(equalTo: worstOriginPrice.bottomAnchor, constant: 4),
-            bestDiscoutPrice.leadingAnchor.constraint(equalTo: worstOriginPrice.leadingAnchor),
-            bestDiscoutPrice.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -24),
-            bestDiscoutPrice.heightAnchor.constraint(equalToConstant: 28),
-            bestDiscoutPrice.trailingAnchor.constraint(lessThanOrEqualTo: toFavoritesButton.leadingAnchor, constant: -16),
-
-            toFavoritesButton.topAnchor.constraint(equalTo: topAnchor, constant: 12),
-            toFavoritesButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            toFavoritesButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -24),
-            toFavoritesButton.widthAnchor.constraint(equalToConstant: 165),
-            toFavoritesButton.heightAnchor.constraint(equalToConstant: 51)
-        ])
-
+        toFavoritesButton.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(12)
+            make.trailing.equalToSuperview().offset(-16)
+            make.bottom.equalToSuperview().offset(-24)
+            make.width.equalTo(165)
+            make.height.equalTo(51)
+        }
     }
 
     @objc func addToFavorite() {
         delegate?.addToFavorites()
     }
-
 }

@@ -61,10 +61,6 @@ class RatingView: UIView {
         addSubview(numberOfReviewsLabel)
         addSubview(reviewsButton)
 
-        [starsStackView, ratingLabel, numberOfReviewsLabel, reviewsButton].forEach {
-            $0.translatesAutoresizingMaskIntoConstraints = false
-        }
-
         starsStackView.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.leading.equalToSuperview().offset(16)

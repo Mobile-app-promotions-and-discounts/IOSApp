@@ -7,8 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		927EC2DE2B0FA01A005C100B /* ProductCardCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927EC2DD2B0FA01A005C100B /* ProductCardCoordinator.swift */; };
-		927EC2E02B0FA058005C100B /* ProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927EC2DF2B0FA058005C100B /* ProductViewController.swift */; };
+		927EC2E02B0FA058005C100B /* ProductCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927EC2DF2B0FA058005C100B /* ProductCardViewController.swift */; };
 		927EC2E32B0FA1FE005C100B /* ImageGalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927EC2E22B0FA1FE005C100B /* ImageGalleryView.swift */; };
 		927EC2E52B0FA2C0005C100B /* PriceInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927EC2E42B0FA2C0005C100B /* PriceInfoView.swift */; };
 		927EC2E72B0FA2E0005C100B /* ProductTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927EC2E62B0FA2E0005C100B /* ProductTitleView.swift */; };
@@ -76,8 +75,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		927EC2DD2B0FA01A005C100B /* ProductCardCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCardCoordinator.swift; sourceTree = "<group>"; };
-		927EC2DF2B0FA058005C100B /* ProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductViewController.swift; sourceTree = "<group>"; };
+		927EC2DF2B0FA058005C100B /* ProductCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCardViewController.swift; sourceTree = "<group>"; };
 		927EC2E22B0FA1FE005C100B /* ImageGalleryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageGalleryView.swift; sourceTree = "<group>"; };
 		927EC2E42B0FA2C0005C100B /* PriceInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceInfoView.swift; sourceTree = "<group>"; };
 		927EC2E62B0FA2E0005C100B /* ProductTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductTitleView.swift; sourceTree = "<group>"; };
@@ -156,7 +154,7 @@
 		927EC2E12B0FA1E5005C100B /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				927EC2DF2B0FA058005C100B /* ProductViewController.swift */,
+				927EC2DF2B0FA058005C100B /* ProductCardViewController.swift */,
 				927EC2E22B0FA1FE005C100B /* ImageGalleryView.swift */,
 				927EC2E62B0FA2E0005C100B /* ProductTitleView.swift */,
 				927EC2E82B0FA306005C100B /* RatingView.swift */,
@@ -273,7 +271,6 @@
 				BE8E70B12B0E558300BEAA5A /* FavoritesScreenCoordinator.swift */,
 				BE8E70B32B0E74F600BEAA5A /* ProfileScreenCoordinator.swift */,
 				BE521A812B04DEB3005F2FE7 /* MainTabBarController.swift */,
-				927EC2DD2B0FA01A005C100B /* ProductCardCoordinator.swift */,
 			);
 			path = Navigation;
 			sourceTree = "<group>";
@@ -525,7 +522,6 @@
 				927EC2E52B0FA2C0005C100B /* PriceInfoView.swift in Sources */,
 				BEBA916E2B0A9F9500C2DE96 /* ProductModel.swift in Sources */,
 				BC93BB692B0BC313008BE2AD /* ScanFlowCoordinator.swift in Sources */,
-				927EC2DE2B0FA01A005C100B /* ProductCardCoordinator.swift in Sources */,
 				BE3524762B02B62B00746581 /* MainCoordinator.swift in Sources */,
 				BE521A8F2B04DF5D005F2FE7 /* MockDataService.swift in Sources */,
 				BE3A55972B0BF01F0053C851 /* MainViewModelProtocol.swift in Sources */,
@@ -538,7 +534,7 @@
 				927EC2E32B0FA1FE005C100B /* ImageGalleryView.swift in Sources */,
 				BE8E709F2B0D345700BEAA5A /* CategoryCell.swift in Sources */,
 				BC93BB722B0C814F008BE2AD /* GenericButton.swift in Sources */,
-				927EC2E02B0FA058005C100B /* ProductViewController.swift in Sources */,
+				927EC2E02B0FA058005C100B /* ProductCardViewController.swift in Sources */,
 				927EC2EF2B149CBC005C100B /* OfferCell.swift in Sources */,
 				BC93BB762B0C8327008BE2AD /* ScanViewModel.swift in Sources */,
 				BE521A862B04DEC8005F2FE7 /* FavoritesViewController.swift in Sources */,

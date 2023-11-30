@@ -4,8 +4,8 @@
 //
 //  Created by Денис on 27.11.2023.
 //
-
 import UIKit
+import SnapKit
 
 class OfferTableViewCell: UITableViewCell {
     private let backgroundViewBoard = UIView()
@@ -19,101 +19,121 @@ class OfferTableViewCell: UITableViewCell {
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setupLayout()
+        setupBackgroundView()
+        addSubviews()
+        configureLogoImageView()
+        configureGoToStoreButton()
+        configureLabels()
+        setupConstraints()
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func setupLayout() {
-        let paddingH: CGFloat = 12
-        let paddingV: CGFloat = 8
+    private func setupBackgroundView() {
+        backgroundViewBoard.backgroundColor = .mainBG // Убедитесь, что у вас есть этот цвет в вашем расширении UIColor
+        backgroundViewBoard.layer.cornerRadius = 10
+        backgroundViewBoard.clipsToBounds = true
+        contentView.addSubview(backgroundViewBoard)
+    }
 
+    private func addSubviews() {
+        [logoImageView,
+         storeNameLabel,
+         addressLabel,
+         priceLabel,
+         originalPriceLabel,
+         discountLabel,
+         goToStoreButton].forEach {
+            backgroundViewBoard.addSubview($0)
+        }
+    }
+
+    private func configureLogoImageView() {
         logoImageView.layer.cornerRadius = 14
         logoImageView.clipsToBounds = true
         logoImageView.backgroundColor = .lightGray
+    }
 
+    private func configureGoToStoreButton() {
         goToStoreButton.setTitle("В магазин", for: .normal)
         goToStoreButton.titleLabel?.font = .boldSystemFont(ofSize: 12)
         goToStoreButton.backgroundColor = .white
         goToStoreButton.setTitleColor(.black, for: .normal)
         goToStoreButton.layer.cornerRadius = 10
         goToStoreButton.addTarget(self, action: #selector(goToStoreCard), for: .touchUpInside)
+    }
 
+    private func configureLabels() {
         storeNameLabel.font = .boldSystemFont(ofSize: 14)
         addressLabel.font = .systemFont(ofSize: 12)
         priceLabel.font = .boldSystemFont(ofSize: 16)
         originalPriceLabel.font = .systemFont(ofSize: 14)
-        discountLabel.font = .systemFont(ofSize: 14)
-
         originalPriceLabel.textColor = .gray
         originalPriceLabel.attributedText = NSAttributedString(
             string: "180р",
             attributes: [NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.single.rawValue]
         )
-
+        discountLabel.font = .systemFont(ofSize: 14)
         discountLabel.textColor = .red
+    }
 
-        backgroundViewBoard.backgroundColor = .mainBG
-        backgroundViewBoard.layer.cornerRadius = 10
-        backgroundViewBoard.clipsToBounds = true
-        backgroundViewBoard.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(backgroundViewBoard)
+    private func setupConstraints() {
+        let paddingH: CGFloat = 12
+        let paddingV: CGFloat = 8
 
-        let views = [
-            logoImageView,
-            storeNameLabel,
-            addressLabel,
-            priceLabel,
-            originalPriceLabel,
-            discountLabel,
-            goToStoreButton]
-        views.forEach {
-            $0.translatesAutoresizingMaskIntoConstraints = false
-            backgroundViewBoard.addSubview($0)
+        backgroundViewBoard.snp.makeConstraints { make in
+            make.top.equalTo(contentView.snp.top).offset(4)
+            make.leading.equalTo(contentView.snp.leading).offset(16)
+            make.trailing.equalTo(contentView.snp.trailing).offset(-16)
+            make.bottom.equalTo(contentView.snp.bottom).offset(-4)
         }
 
-        NSLayoutConstraint.activate([
+        logoImageView.snp.makeConstraints { make in
+            make.leading.equalTo(backgroundViewBoard.snp.leading).offset(paddingH)
+            make.centerY.equalTo(backgroundViewBoard.snp.centerY)
+            make.width.height.equalTo(28)
+        }
 
-            backgroundViewBoard.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4),
-            backgroundViewBoard.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            backgroundViewBoard.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            backgroundViewBoard.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4),
-            // Logo Image View
-            logoImageView.leadingAnchor.constraint(equalTo: backgroundViewBoard.leadingAnchor, constant: paddingH),
-            logoImageView.centerYAnchor.constraint(equalTo: backgroundViewBoard.centerYAnchor),
-            logoImageView.widthAnchor.constraint(equalToConstant: 28),
-            logoImageView.heightAnchor.constraint(equalToConstant: 28),
+        storeNameLabel.snp.makeConstraints { make in
+            make.top.equalTo(backgroundViewBoard.snp.top).offset(paddingV)
+            make.leading.equalTo(logoImageView.snp.trailing).offset(16)
+            make.trailing.lessThanOrEqualTo(goToStoreButton.snp.leading)
+        }
 
-            // Name Label
-            storeNameLabel.topAnchor.constraint(equalTo: backgroundViewBoard.topAnchor, constant: paddingV),
-            storeNameLabel.leadingAnchor.constraint(equalTo: logoImageView.trailingAnchor, constant: 16),
-            storeNameLabel.trailingAnchor.constraint(lessThanOrEqualTo: goToStoreButton.leadingAnchor),
+        addressLabel.snp.makeConstraints { make in
+            make.top.equalTo(storeNameLabel.snp.bottom).offset(2)
+            make.leading.equalTo(storeNameLabel.snp.leading)
+            make.trailing.equalTo(storeNameLabel.snp.trailing)
+        }
 
-            addressLabel.topAnchor.constraint(equalTo: storeNameLabel.bottomAnchor, constant: 2),
-            addressLabel.leadingAnchor.constraint(equalTo: storeNameLabel.leadingAnchor),
-            addressLabel.trailingAnchor.constraint(equalTo: storeNameLabel.trailingAnchor),
+        priceLabel.snp.makeConstraints { make in
+            make.top.equalTo(addressLabel.snp.bottom).offset(2)
+            make.leading.equalTo(storeNameLabel.snp.leading)
+            make.bottom.equalTo(backgroundViewBoard.snp.bottom).offset(-6)
+        }
 
-            priceLabel.topAnchor.constraint(equalTo: addressLabel.bottomAnchor, constant: 2),
-            priceLabel.leadingAnchor.constraint(equalTo: storeNameLabel.leadingAnchor),
-            priceLabel.bottomAnchor.constraint(equalTo: backgroundViewBoard.bottomAnchor, constant: -6),
+        originalPriceLabel.snp.makeConstraints { make in
+            make.leading.equalTo(priceLabel.snp.trailing).offset(4)
+            make.bottom.equalTo(priceLabel.snp.bottom)
+        }
 
-            originalPriceLabel.leadingAnchor.constraint(equalTo: priceLabel.trailingAnchor, constant: 4),
-            originalPriceLabel.bottomAnchor.constraint(equalTo: priceLabel.bottomAnchor),
+        discountLabel.snp.makeConstraints { make in
+            make.leading.equalTo(originalPriceLabel.snp.trailing).offset(4)
+            make.bottom.equalTo(priceLabel.snp.bottom)
+        }
 
-            discountLabel.leadingAnchor.constraint(equalTo: originalPriceLabel.trailingAnchor, constant: 4),
-            discountLabel.bottomAnchor.constraint(equalTo: priceLabel.bottomAnchor),
-
-            goToStoreButton.trailingAnchor.constraint(equalTo: backgroundViewBoard.trailingAnchor, constant: -paddingH),
-            goToStoreButton.centerYAnchor.constraint(equalTo: backgroundViewBoard.centerYAnchor),
-            goToStoreButton.widthAnchor.constraint(equalToConstant: 84),
-            goToStoreButton.heightAnchor.constraint(equalToConstant: 30)
-        ])
-
+        goToStoreButton.snp.makeConstraints { make in
+            make.trailing.equalTo(backgroundViewBoard.snp.trailing).offset(-paddingH)
+            make.centerY.equalTo(backgroundViewBoard.snp.centerY)
+            make.width.equalTo(84)
+            make.height.equalTo(30)
+        }
     }
 
     func configure(with offer: Offer) {
+        // Сюда добавьте конфигурацию вашего предложения
         storeNameLabel.text = offer.store.name
         addressLabel.text = offer.store.location.street
         priceLabel.text = "\(offer.price)"
@@ -121,6 +141,6 @@ class OfferTableViewCell: UITableViewCell {
     }
 
     @objc func goToStoreCard() {
-        print("идем на карточку магазина")
+        print("Переход на карточку магазина")
     }
 }

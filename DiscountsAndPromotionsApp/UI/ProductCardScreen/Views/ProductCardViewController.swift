@@ -9,7 +9,7 @@ import SnapKit
 
 class ProductCardViewController: UIViewController {
 
-    var product: Product?
+    private var product: Product?
     weak var coordinator: MainScreenCoordinator?
 
     private lazy var productScrollView: UIScrollView = {
@@ -99,65 +99,47 @@ class ProductCardViewController: UIViewController {
     private func setupProductLayout() {
         view.addSubview(productScrollView)
         productScrollView.addSubview(contentView)
-
         contentView.addSubview(galleryView)
-        galleryView.translatesAutoresizingMaskIntoConstraints = false
-
         contentView.addSubview(titleView)
-        titleView.translatesAutoresizingMaskIntoConstraints = false
-
         contentView.addSubview(ratingView)
         ratingView.delegate = self
-        ratingView.translatesAutoresizingMaskIntoConstraints = false
-
         // Таблица Магазинов
         contentView.addSubview(offersTableView)
-        offersTableView.translatesAutoresizingMaskIntoConstraints = false
         offersTableView.register(OfferTableViewCell.self, forCellReuseIdentifier: "OfferTableViewCell")
         offersTableView.dataSource = self
         offersTableView.delegate = self
         offersTableView.isScrollEnabled = false
         offersTableView.separatorStyle = .none
-
         contentView.addSubview(reviewView)
         ratingView.delegate = self
-        reviewView.translatesAutoresizingMaskIntoConstraints = false
-
         contentView.addSubview(priceInfoView)
         priceInfoView.delegate = self
-        priceInfoView.translatesAutoresizingMaskIntoConstraints = false
-
         // Ограничения SNAPkit
         productScrollView.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
-
         contentView.snp.makeConstraints { make in
             make.top.leading.bottom.trailing.equalTo(productScrollView)
             make.bottom.greaterThanOrEqualTo(priceInfoView.snp.bottom).offset(16)
         }
-
         galleryView.snp.makeConstraints { make in
             make.top.leading.trailing.equalTo(contentView)
             make.height.equalTo(316)
             make.width.equalTo(contentView.frame.width)
         }
-
         titleView.snp.makeConstraints { make in
             make.top.equalTo(galleryView.snp.bottom).offset(16)
             make.leading.equalTo(contentView)
             make.height.equalTo(43)
             make.width.equalTo(contentView.frame.width)
         }
-
         ratingView.snp.makeConstraints { make in
             make.top.equalTo(titleView.snp.bottom).offset(16)
             make.leading.trailing.equalTo(contentView)
             make.height.equalTo(36)
             make.width.equalTo(contentView.frame.width)
         }
-
         // Доп. настройка размеров таблицы
         let headerHeight: CGFloat = 19
         let topPadding: CGFloat = 12
@@ -172,13 +154,11 @@ class ProductCardViewController: UIViewController {
             make.height.equalTo(tableViewHeight)
             make.width.equalTo(contentView.frame.width)
         }
-
         reviewView.snp.makeConstraints { make in
             make.top.equalTo(offersTableView.snp.bottom).offset(16)
             make.leading.equalTo(16)
             make.trailing.equalTo(-16)
         }
-
         priceInfoView.snp.makeConstraints { make in
             make.top.equalTo(reviewView.snp.bottom).offset(8)
             make.leading.equalTo(contentView)
