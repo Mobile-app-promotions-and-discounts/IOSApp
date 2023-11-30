@@ -5,6 +5,7 @@
 //  Created by Денис on 23.11.2023.
 //
 import UIKit
+import SnapKit
 
 class ProductCardViewController: UIViewController {
 
@@ -118,58 +119,46 @@ class ProductCardViewController: UIViewController {
         offersTableView.isScrollEnabled = false
         offersTableView.separatorStyle = .none
 
-        //
         contentView.addSubview(reviewView)
         ratingView.delegate = self
         reviewView.translatesAutoresizingMaskIntoConstraints = false
 
-        //
         contentView.addSubview(priceInfoView)
         priceInfoView.delegate = self
         priceInfoView.translatesAutoresizingMaskIntoConstraints = false
 
-        // Ограничения для ScrollView и ContentView
-        NSLayoutConstraint.activate([
-            productScrollView.topAnchor.constraint(equalTo: view.topAnchor),
-            productScrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            productScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            productScrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        ])
-        
-        NSLayoutConstraint.activate([
-            contentView.topAnchor.constraint(equalTo: productScrollView.topAnchor),
-            contentView.leadingAnchor.constraint(equalTo: productScrollView.leadingAnchor),
-            contentView.trailingAnchor.constraint(equalTo: productScrollView.trailingAnchor),
-            contentView.bottomAnchor.constraint(equalTo: productScrollView.bottomAnchor)
-        ])
+        // Ограничения SNAPkit
+        productScrollView.snp.makeConstraints { make in
+            make.top.leading.trailing.equalToSuperview()
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+        }
 
-        // Ограничения для GalleryView
-        NSLayoutConstraint.activate([
-            galleryView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            galleryView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            galleryView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            galleryView.heightAnchor.constraint(equalToConstant: 316),
-            galleryView.widthAnchor.constraint(equalToConstant: contentView.frame.width)
-            // Высота должна быть задана
-        ])
+        contentView.snp.makeConstraints { make in
+            make.top.leading.bottom.trailing.equalTo(productScrollView)
+            make.bottom.greaterThanOrEqualTo(priceInfoView.snp.bottom).offset(16)
+        }
 
-        // Ограничения для TitleView
-        NSLayoutConstraint.activate([
-            titleView.topAnchor.constraint(equalTo: galleryView.bottomAnchor, constant: 16),
-            titleView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            titleView.heightAnchor.constraint(equalToConstant: 43),
-            titleView.widthAnchor.constraint(equalToConstant: contentView.frame.width)
-        ])
+        galleryView.snp.makeConstraints { make in
+            make.top.leading.trailing.equalTo(contentView)
+            make.height.equalTo(316)
+            make.width.equalTo(contentView.frame.width)
+        }
 
-        NSLayoutConstraint.activate([
-            ratingView.topAnchor.constraint(equalTo: titleView.bottomAnchor, constant: 16),
-            ratingView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            ratingView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            ratingView.heightAnchor.constraint(equalToConstant: 36),
-            ratingView.widthAnchor.constraint(equalToConstant: contentView.frame.width)
-        ])
+        titleView.snp.makeConstraints { make in
+            make.top.equalTo(galleryView.snp.bottom).offset(16)
+            make.leading.equalTo(contentView)
+            make.height.equalTo(43)
+            make.width.equalTo(contentView.frame.width)
+        }
 
-        // Работа с размером таблицы
+        ratingView.snp.makeConstraints { make in
+            make.top.equalTo(titleView.snp.bottom).offset(16)
+            make.leading.trailing.equalTo(contentView)
+            make.height.equalTo(36)
+            make.width.equalTo(contentView.frame.width)
+        }
+
+        // Доп. настройка размеров таблицы
         let headerHeight: CGFloat = 19
         let topPadding: CGFloat = 12
         let cellHeight: CGFloat = 71
@@ -177,33 +166,25 @@ class ProductCardViewController: UIViewController {
         let numberOfCells: CGFloat = CGFloat(product?.offers.count ?? 0)
         let tableViewHeight = headerHeight + topPadding + (cellHeight + cellSpacing) * numberOfCells - cellSpacing
 
-        // Ограничения для StoresTableView
-        NSLayoutConstraint.activate([
-            offersTableView.topAnchor.constraint(equalTo: ratingView.bottomAnchor, constant: 16),
-            offersTableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            offersTableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            offersTableView.heightAnchor.constraint(equalToConstant: tableViewHeight),
-            offersTableView.widthAnchor.constraint(equalTo: contentView.widthAnchor)
-        ])
+        offersTableView.snp.makeConstraints { make in
+            make.top.equalTo(ratingView.snp.bottom).offset(16)
+            make.leading.trailing.equalTo(contentView)
+            make.height.equalTo(tableViewHeight)
+            make.width.equalTo(contentView.frame.width)
+        }
 
-        // Ограничения для ReviewView
-        NSLayoutConstraint.activate([
-            reviewView.topAnchor.constraint(equalTo: offersTableView.bottomAnchor, constant: 16),
-            reviewView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            reviewView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
-        ])
+        reviewView.snp.makeConstraints { make in
+            make.top.equalTo(offersTableView.snp.bottom).offset(16)
+            make.leading.equalTo(16)
+            make.trailing.equalTo(-16)
+        }
 
-        // Ограничения для PriceInfoView
-        NSLayoutConstraint.activate([
-            priceInfoView.topAnchor.constraint(equalTo: reviewView.bottomAnchor, constant: 8),
-            priceInfoView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            priceInfoView.heightAnchor.constraint(equalToConstant: 87),
-            priceInfoView.widthAnchor.constraint(equalTo: contentView.widthAnchor)
-        ])
-
-        NSLayoutConstraint.activate([
-            contentView.bottomAnchor.constraint(greaterThanOrEqualTo: priceInfoView.bottomAnchor, constant: 16)
-        ])
+        priceInfoView.snp.makeConstraints { make in
+            make.top.equalTo(reviewView.snp.bottom).offset(8)
+            make.leading.equalTo(contentView)
+            make.height.equalTo(87)
+            make.width.equalTo(contentView.frame.width)
+        }
     }
 
     private func configureViews() {
@@ -230,13 +211,6 @@ class ProductCardViewController: UIViewController {
         }
 
         galleryView.configure(with: images)
-
-        //        if let imageName = product?.image?.mainImage + product?.image?.additionalPhoto,
-        //            let images = UIImage(named: imageName) {
-        //            galleryView.configure(with: image)
-        //        } else {
-        //            galleryView.configure(with: [UIImage(named: "placeholder")])
-        //        }
 
         if let titleLabelText = product?.name, let weightLabelText = product?.description {
             titleView.configure(with: titleLabelText, weight: weightLabelText)
@@ -284,7 +258,11 @@ extension ProductCardViewController {
         }
 
         let keyboardHeight = keyboardSize.height
-        productScrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardHeight, right: 0)
+        productScrollView.contentInset = UIEdgeInsets(
+            top: 0,
+            left: 0,
+            bottom: keyboardHeight,
+            right: 0)
         productScrollView.scrollIndicatorInsets = productScrollView.contentInset
 
         // Проверяем, активен ли UITextView внутри ProductReviewView
@@ -347,7 +325,7 @@ extension ProductCardViewController: UITableViewDelegate {
         headerView.addSubview(headerLabel)
 
         NSLayoutConstraint.activate([
-//            headerLabel.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
+            //            headerLabel.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
             headerLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 16),
             headerLabel.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: -8)
 

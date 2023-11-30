@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 
 class ImageGalleryView: UIView {
 
@@ -21,6 +22,7 @@ class ImageGalleryView: UIView {
         let pageControl = UIPageControl()
         pageControl.currentPageIndicatorTintColor = .white
         pageControl.pageIndicatorTintColor = .lightGray
+        pageControl.isUserInteractionEnabled = false
         pageControl.translatesAutoresizingMaskIntoConstraints = false
         return pageControl
     }()
@@ -40,47 +42,22 @@ class ImageGalleryView: UIView {
     func setupLayout() {
         addSubview(scrollView)
         addSubview(pageControl)
-
-        NSLayoutConstraint.activate([
-            //            imageView.topAnchor.constraint(equalTo: topAnchor, constant: 16), // Добавлено ограничение
-            //            imageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            //            imageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            //            imageView.heightAnchor.constraint(equalToConstant: 288),
-
-            scrollView.topAnchor.constraint(equalTo: topAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: trailingAnchor),
-
-            pageControl.centerXAnchor.constraint(equalTo: centerXAnchor),
-            pageControl.heightAnchor.constraint(equalToConstant: 20),
-            pageControl.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16)
-        ])
+        
+        scrollView.snp.makeConstraints { make in
+            make.top.trailing.leading.bottom.equalToSuperview()
+        }
+        pageControl.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.height.equalTo(20)
+            make.bottom.equalToSuperview().offset(-16)
+        }
     }
 
     func configure(with images: [UIImage]) {
         self.images = images
         scrollView.delegate = self
-//        setupImagesInScrollView(images)
         pageControl.currentPage = 0
         pageControl.numberOfPages = images.count
-    }
-
-    private func setupImagesInScrollView(_ images: [UIImage]) {
-//        scrollView.contentSize = CGSize(width: bounds.width * CGFloat(images.count), height: bounds.height)
-//
-//        scrollView.subviews.forEach {
-//            $0.removeFromSuperview()
-//        }
-
-//        for (index, image) in images.enumerated() {
-//            let imageView = UIImageView(image: image)
-//            imageView.contentMode = .scaleAspectFill
-//            imageView.clipsToBounds = true
-//            imageView.layer.cornerRadius = 12
-//            imageView.frame = CGRect(x: bounds.width * CGFloat(index), y: 0, width: bounds.width, height: bounds.height)
-//            scrollView.addSubview(imageView)
-//        }
     }
 
     override func layoutSubviews() {
@@ -94,7 +71,11 @@ class ImageGalleryView: UIView {
             imageView.contentMode = .scaleAspectFill
             imageView.clipsToBounds = true
             imageView.layer.cornerRadius = 12
-            imageView.frame = CGRect(x: bounds.width * CGFloat(index) + 16, y: 0, width: bounds.width - 32, height: bounds.height)
+            imageView.frame = CGRect(
+                x: bounds.width * CGFloat(index) + 16,
+                y: 0,
+                width: bounds.width - 32,
+                height: bounds.height)
             scrollView.addSubview(imageView)
         }
         scrollView.contentSize = CGSize(width: bounds.width * CGFloat(images.count), height: bounds.height)
