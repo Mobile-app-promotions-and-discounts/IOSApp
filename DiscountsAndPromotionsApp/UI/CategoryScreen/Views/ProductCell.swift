@@ -108,7 +108,7 @@ final class ProductCell: UICollectionViewCell {
         let isFavoriteNow = likeButton.currentImage == UIImage(systemName: "heart")
         likeButton.setImage(isFavoriteNow ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart"), for: .normal)
 
-        if let productID = productID {
+        if let productID {
             likeButtonTappedPublisher.send(productID)
         }
     }
