@@ -39,8 +39,7 @@ final class MainCoordinator: Coordinator {
 
         childCoordinators.append(contentsOf: [mainScreenCoordinator,
                                               favoritesScreenCoordinator,
-                                              profileScreenCoordinator,
-                                              scanCoordinator] as [Coordinator])
+                                              profileScreenCoordinator] as [Coordinator])
 
         tabBarController.viewControllers = childCoordinators.map { $0.navigationController }
         tabBarController.setUpTabBarItems()
