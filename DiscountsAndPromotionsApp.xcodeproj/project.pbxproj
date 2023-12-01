@@ -21,7 +21,7 @@
 		BC77EE6C2B18BA5C00BE091D /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC77EE462B18BA5C00BE091D /* MainViewController.swift */; };
 		BC77EE6D2B18BA5C00BE091D /* StoresCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC77EE472B18BA5C00BE091D /* StoresCell.swift */; };
 		BC77EE6E2B18BA5C00BE091D /* PromotionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC77EE482B18BA5C00BE091D /* PromotionCell.swift */; };
-		BC77EE6F2B18BA5C00BE091D /* PromotionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC77EE492B18BA5C00BE091D /* PromotionHeader.swift */; };
+		BC77EE6F2B18BA5C00BE091D /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC77EE492B18BA5C00BE091D /* HeaderView.swift */; };
 		BC77EE702B18BA5C00BE091D /* FiltersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC77EE4A2B18BA5C00BE091D /* FiltersCell.swift */; };
 		BC77EE712B18BA5C00BE091D /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC77EE4C2B18BA5C00BE091D /* SearchViewController.swift */; };
 		BC77EE722B18BA5C00BE091D /* ScanViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC77EE4E2B18BA5C00BE091D /* ScanViewModel.swift */; };
@@ -47,6 +47,7 @@
 		BCB7F91E2B0C89B500EE20A0 /* ScanFlow.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = BCB7F91D2B0C89B500EE20A0 /* ScanFlow.xcstrings */; };
 		BCB7F9202B0D150700EE20A0 /* UITextFieldExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB7F91F2B0D150700EE20A0 /* UITextFieldExtensions.swift */; };
 		BCB7F9242B0D255600EE20A0 /* UIImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB7F9232B0D255600EE20A0 /* UIImageExtensions.swift */; };
+		BE227A9B2B1A8C1200342964 /* SectionBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE227A9A2B1A8C1200342964 /* SectionBackgroundView.swift */; };
 		BE2774BC2B0FD0890000C8C2 /* MainFlow.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = BE2774BB2B0FD0890000C8C2 /* MainFlow.xcstrings */; };
 		BE35244E2B02ABA200746581 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE35244D2B02ABA200746581 /* AppDelegate.swift */; };
 		BE3524502B02ABA200746581 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE35244F2B02ABA200746581 /* SceneDelegate.swift */; };
@@ -103,7 +104,7 @@
 		BC77EE462B18BA5C00BE091D /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		BC77EE472B18BA5C00BE091D /* StoresCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoresCell.swift; sourceTree = "<group>"; };
 		BC77EE482B18BA5C00BE091D /* PromotionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromotionCell.swift; sourceTree = "<group>"; };
-		BC77EE492B18BA5C00BE091D /* PromotionHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromotionHeader.swift; sourceTree = "<group>"; };
+		BC77EE492B18BA5C00BE091D /* HeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		BC77EE4A2B18BA5C00BE091D /* FiltersCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FiltersCell.swift; sourceTree = "<group>"; };
 		BC77EE4C2B18BA5C00BE091D /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		BC77EE4E2B18BA5C00BE091D /* ScanViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanViewModel.swift; sourceTree = "<group>"; };
@@ -130,6 +131,7 @@
 		BCB7F91D2B0C89B500EE20A0 /* ScanFlow.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = ScanFlow.xcstrings; sourceTree = "<group>"; };
 		BCB7F91F2B0D150700EE20A0 /* UITextFieldExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextFieldExtensions.swift; sourceTree = "<group>"; };
 		BCB7F9232B0D255600EE20A0 /* UIImageExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtensions.swift; sourceTree = "<group>"; };
+		BE227A9A2B1A8C1200342964 /* SectionBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionBackgroundView.swift; sourceTree = "<group>"; };
 		BE2774BB2B0FD0890000C8C2 /* MainFlow.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = MainFlow.xcstrings; sourceTree = "<group>"; };
 		BE35244A2B02ABA200746581 /* DiscountsAndPromotionsApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DiscountsAndPromotionsApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE35244D2B02ABA200746581 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -230,7 +232,7 @@
 				BC77EE462B18BA5C00BE091D /* MainViewController.swift */,
 				BC77EE472B18BA5C00BE091D /* StoresCell.swift */,
 				BC77EE482B18BA5C00BE091D /* PromotionCell.swift */,
-				BC77EE492B18BA5C00BE091D /* PromotionHeader.swift */,
+				BC77EE492B18BA5C00BE091D /* HeaderView.swift */,
 				BC77EE4A2B18BA5C00BE091D /* FiltersCell.swift */,
 			);
 			path = Views;
@@ -354,10 +356,10 @@
 		BE35244C2B02ABA200746581 /* DiscountsAndPromotionsApp */ = {
 			isa = PBXGroup;
 			children = (
-				BC77EE3C2B18BA5B00BE091D /* UI */,
 				BE3524642B02ACD900746581 /* Application */,
 				BE3524652B02B24100746581 /* DesignSystem */,
 				BE35246D2B02B29F00746581 /* Navigation */,
+				BC77EE3C2B18BA5B00BE091D /* UI */,
 				BE521A892B04DF1A005F2FE7 /* Data */,
 				BEBA944B2B14D8FA00ABE1AD /* Services */,
 				BE3524722B02B30800746581 /* Extensions */,
@@ -477,6 +479,7 @@
 			children = (
 				BE8E709C2B0D275300BEAA5A /* CollectionLayoutProvider.swift */,
 				BEBA944C2B14D93800ABE1AD /* ErrorHandler.swift */,
+				BE227A9A2B1A8C1200342964 /* SectionBackgroundView.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -645,6 +648,7 @@
 				BEF503B42B15287F00577D7F /* MockProfileService.swift in Sources */,
 				BC77EE742B18BA5C00BE091D /* ScanFrameView.swift in Sources */,
 				BEF503B62B15288C00577D7F /* ProfileServiceProtocol.swift in Sources */,
+				BE227A9B2B1A8C1200342964 /* SectionBackgroundView.swift in Sources */,
 				BC77EE752B18BA5C00BE091D /* ScanViewController.swift in Sources */,
 				BC77EE722B18BA5C00BE091D /* ScanViewModel.swift in Sources */,
 				BE3524692B02B27A00746581 /* Fonts.swift in Sources */,
@@ -655,7 +659,7 @@
 				BC77EE7D2B18BA5C00BE091D /* SearchEnabledViewController.swift in Sources */,
 				BC77EE6D2B18BA5C00BE091D /* StoresCell.swift in Sources */,
 				BCB7F9242B0D255600EE20A0 /* UIImageExtensions.swift in Sources */,
-				BC77EE6F2B18BA5C00BE091D /* PromotionHeader.swift in Sources */,
+				BC77EE6F2B18BA5C00BE091D /* HeaderView.swift in Sources */,
 				BC77EE692B18BA5C00BE091D /* StoreUIModel.swift in Sources */,
 				BC93BB6B2B0BCBF1008BE2AD /* StringBarcodeExtension.swift in Sources */,
 				BC77EE7A2B18BA5C00BE091D /* CategoryViewController.swift in Sources */,
@@ -810,7 +814,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 7XT93683G9;
+				DEVELOPMENT_TEAM = 3YZWNV863X;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DiscountsAndPromotionsApp/Configuration/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

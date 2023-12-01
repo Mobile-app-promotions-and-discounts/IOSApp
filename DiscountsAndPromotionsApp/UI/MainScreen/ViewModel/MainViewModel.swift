@@ -47,7 +47,7 @@ final class MainViewModel: MainViewModelProtocol {
         case .promotions:
             return products.count
         case .stores:
-            return stores.count
+            return 6
         }
     }
 

@@ -2,10 +2,15 @@ import UIKit
 
 final class CollectionLayoutProvider {
     func createLayoutForMainScreen() -> UICollectionViewLayout {
-        return UICollectionViewCompositionalLayout { [weak self] (sectionIndex, _) -> NSCollectionLayoutSection? in
-            guard let self = self else { return nil }
-            return self.createSectionLayout(for: sectionIndex)
+        let layout = UICollectionViewCompositionalLayout { [weak self] (sectionIndex, environment) -> NSCollectionLayoutSection? in
+            guard let self else { return nil }
+            return self.createSectionLayout(for: sectionIndex, environment: environment)
         }
+
+        // Регистрация класса фона для декоративного элемента
+        layout.register(SectionBackgroundView.self, forDecorationViewOfKind: NSStringFromClass(SectionBackgroundView.self))
+
+        return layout
     }
 
     func createLayoutForCategoryScreen(for collectionView: UICollectionView, in view: UIView) {
@@ -22,7 +27,8 @@ final class CollectionLayoutProvider {
         layout.minimumInteritemSpacing = spacing
     }
 
-    private func createSectionLayout(for sectionIndex: Int) -> NSCollectionLayoutSection {
+    private func createSectionLayout(for sectionIndex: Int,
+                                     environment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection {
         switch sectionIndex {
         case 0:
             let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(100),
@@ -37,6 +43,58 @@ final class CollectionLayoutProvider {
             section.interGroupSpacing = 8
             section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 18, trailing: 0)
             section.orthogonalScrollingBehavior = .continuous
+
+            return section
+
+        case 2:
+            // Размер заголовка остается прежним
+            let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                    heightDimension: .estimated(44))
+            let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize,
+                                                                     elementKind: UICollectionView.elementKindSectionHeader,
+                                                                     alignment: .top)
+            // Расчеты размеров элемента с учетом отступов
+            let spacing: CGFloat = 12 // Пространство между элементами
+            let sectionInset: CGFloat = 16 // Отступы секции слева и справа
+            let containerWidth = environment.container.effectiveContentSize.width
+            let numberOfItemsPerRow: CGFloat = 3
+            let totalSpacingBetweenItems = (numberOfItemsPerRow - 1) * spacing
+            let totalInsets = sectionInset * 2
+            let adjustedWidth = containerWidth - totalSpacingBetweenItems - totalInsets
+            let itemWidth = adjustedWidth / numberOfItemsPerRow
+
+            // Аспектное соотношение для элемента
+            let itemAspectRatio: CGFloat = 106 / 68
+            let itemHeight = itemWidth / itemAspectRatio
+
+            // Создание размера элемента с учетом аспектного соотношения
+            let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(itemWidth),
+                                                  heightDimension: .absolute(itemHeight))
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+            // Создание группы для горизонтального расположения элементов
+            let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(itemWidth * numberOfItemsPerRow + totalSpacingBetweenItems),
+                                                   heightDimension: .absolute(itemHeight))
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
+                                                           subitem: item,
+                                                           count: Int(numberOfItemsPerRow))
+            group.interItemSpacing = .fixed(spacing)
+
+            // Создание декоративного элемента для фона секции
+            let backgroundDecoration = NSCollectionLayoutDecorationItem.background(
+                elementKind: NSStringFromClass(SectionBackgroundView.self)
+            )
+
+            // Создание секции
+            let section = NSCollectionLayoutSection(group: group)
+            section.boundarySupplementaryItems = [header]
+            section.interGroupSpacing = spacing
+            section.contentInsets = NSDirectionalEdgeInsets(top: 12,
+                                                            leading: sectionInset,
+                                                            bottom: 12,
+                                                            trailing: sectionInset)
+            section.orthogonalScrollingBehavior = .none
+            section.decorationItems = [backgroundDecoration]
 
             return section
 

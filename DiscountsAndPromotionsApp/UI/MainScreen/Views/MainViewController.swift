@@ -16,9 +16,9 @@ final class MainViewController: ScannerEnabledViewController {
         collectionView.showsVerticalScrollIndicator = false
         collectionView.register(FiltersCell.self, forCellWithReuseIdentifier: FiltersCell.reuseIdentifier)
         collectionView.register(PromotionCell.self, forCellWithReuseIdentifier: PromotionCell.reuseIdentifier)
-        collectionView.register(PromotionHeader.self,
+        collectionView.register(HeaderView.self,
                                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                                withReuseIdentifier: PromotionHeader.reuseIdentifier)
+                                withReuseIdentifier: HeaderView.reuseIdentifier)
         collectionView.register(StoresCell.self, forCellWithReuseIdentifier: StoresCell.reuseIdentifier)
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -109,8 +109,8 @@ extension MainViewController: UICollectionViewDataSource {
         }
 
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
-                                                                           withReuseIdentifier: PromotionHeader.reuseIdentifier,
-                                                                           for: indexPath) as? PromotionHeader else {
+                                                                           withReuseIdentifier: HeaderView.reuseIdentifier,
+                                                                           for: indexPath) as? HeaderView else {
             return UICollectionReusableView()
         }
         let headerName = viewModel.getTitleFor(indexPath: indexPath)

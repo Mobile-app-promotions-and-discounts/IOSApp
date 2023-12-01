@@ -14,9 +14,9 @@ final class FavoritesViewController: UIViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.showsVerticalScrollIndicator = false
         collectionView.register(ProductCell.self, forCellWithReuseIdentifier: ProductCell.reuseIdentifier)
-        collectionView.register(PromotionHeader.self,
+        collectionView.register(HeaderView.self,
                                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                                withReuseIdentifier: PromotionHeader.reuseIdentifier)
+                                withReuseIdentifier: HeaderView.reuseIdentifier)
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.backgroundColor = .clear
@@ -79,8 +79,8 @@ extension FavoritesViewController: UICollectionViewDataSource {
         }
 
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
-                                                                           withReuseIdentifier: PromotionHeader.reuseIdentifier,
-                                                                           for: indexPath) as? PromotionHeader else {
+                                                                           withReuseIdentifier: HeaderView.reuseIdentifier,
+                                                                           for: indexPath) as? HeaderView else {
             return UICollectionReusableView()
         }
         let headerName = viewModel.getTitleForHeader()

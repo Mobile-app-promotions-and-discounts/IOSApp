@@ -1,6 +1,16 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "All" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Все"
+          }
+        }
+      }
+    },
     "Favorites" : {
       "localizations" : {
         "ru" : {
@@ -41,17 +51,6 @@
         }
       }
     },
-    "Scan" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Сканер"
-          }
-        }
-      }
-    },
     "searchPlaceholder" : {
       "localizations" : {
         "en" : {
@@ -62,7 +61,7 @@
         },
         "ru" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Найти"
           }
         }
