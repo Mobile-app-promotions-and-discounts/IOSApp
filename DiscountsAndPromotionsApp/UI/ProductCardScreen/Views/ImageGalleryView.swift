@@ -1,10 +1,3 @@
-//
-//  ImageGalleryView.swift
-//  DiscountsAndPromotionsApp
-//
-//  Created by Денис on 23.11.2023.
-//
-
 import UIKit
 import SnapKit
 

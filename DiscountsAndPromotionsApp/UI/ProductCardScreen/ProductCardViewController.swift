@@ -1,9 +1,3 @@
-//
-//  ProductViewController.swift
-//  DiscountsAndPromotionsApp
-//
-//  Created by Денис on 23.11.2023.
-//
 import UIKit
 import SnapKit
 import Combine
@@ -11,7 +5,7 @@ import Combine
 class ProductCardViewController: UIViewController {
 
     private var product: Product?
-    private var cancellables = Set<AnyCancellable>() // Добавление cancellables
+    private var cancellables = Set<AnyCancellable>()
     weak var coordinator: MainScreenCoordinator?
 
     private lazy var productScrollView: UIScrollView = {

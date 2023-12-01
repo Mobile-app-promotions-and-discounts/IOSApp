@@ -1,9 +1,3 @@
-//
-//  UIButton + Extension.swift
-//  DiscountsAndPromotionsApp
-//
-//  Created by Денис on 01.12.2023.
-
 import UIKit
 import Combine
 

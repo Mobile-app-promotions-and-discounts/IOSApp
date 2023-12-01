@@ -1,9 +1,3 @@
-//
-//  OfferCell.swift
-//  DiscountsAndPromotionsApp
-//
-//  Created by Денис on 27.11.2023.
-//
 import UIKit
 import SnapKit
 
