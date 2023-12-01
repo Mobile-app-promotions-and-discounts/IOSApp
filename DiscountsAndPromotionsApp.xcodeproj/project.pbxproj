@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BC0723122B1A4E5300EF82B8 /* Gradients.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0723112B1A4E5300EF82B8 /* Gradients.swift */; };
 		BC50097A2B18B0A200385381 /* CornerRadius.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5009792B18B0A200385381 /* CornerRadius.swift */; };
 		BC77EE672B18BA5C00BE091D /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC77EE3F2B18BA5B00BE091D /* MainViewModel.swift */; };
 		BC77EE682B18BA5C00BE091D /* MainViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC77EE402B18BA5B00BE091D /* MainViewModelProtocol.swift */; };
@@ -84,6 +85,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		BC0723112B1A4E5300EF82B8 /* Gradients.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gradients.swift; sourceTree = "<group>"; };
 		BC5009792B18B0A200385381 /* CornerRadius.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CornerRadius.swift; sourceTree = "<group>"; };
 		BC77EE3F2B18BA5B00BE091D /* MainViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		BC77EE402B18BA5B00BE091D /* MainViewModelProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewModelProtocol.swift; sourceTree = "<group>"; };
@@ -391,6 +393,7 @@
 				BE3524682B02B27A00746581 /* Fonts.swift */,
 				BC93BB712B0C814F008BE2AD /* GenericButton.swift */,
 				BC93BB732B0C8166008BE2AD /* GenericNavButton.swift */,
+				BC0723112B1A4E5300EF82B8 /* Gradients.swift */,
 			);
 			path = DesignSystem;
 			sourceTree = "<group>";
@@ -592,6 +595,7 @@
 				BC77EE702B18BA5C00BE091D /* FiltersCell.swift in Sources */,
 				BC93BB742B0C8166008BE2AD /* GenericNavButton.swift in Sources */,
 				BC77EE682B18BA5C00BE091D /* MainViewModelProtocol.swift in Sources */,
+				BC0723122B1A4E5300EF82B8 /* Gradients.swift in Sources */,
 				BC77EE802B18BA5C00BE091D /* FavoritesViewModelProtocol.swift in Sources */,
 				BE521A822B04DEB3005F2FE7 /* MainTabBarController.swift in Sources */,
 				BC77EE6B2B18BA5C00BE091D /* PromotionUIModel.swift in Sources */,
