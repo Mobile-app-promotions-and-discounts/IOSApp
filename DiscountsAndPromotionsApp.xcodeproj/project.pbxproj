@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		BC0723122B1A4E5300EF82B8 /* Gradients.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0723112B1A4E5300EF82B8 /* Gradients.swift */; };
+		BC0723172B1A589400EF82B8 /* Manrope-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC0723142B1A588E00EF82B8 /* Manrope-Bold.ttf */; };
+		BC0723182B1A589800EF82B8 /* Manrope-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC0723152B1A588E00EF82B8 /* Manrope-Regular.ttf */; };
+		BC0723192B1A589A00EF82B8 /* Manrope-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC0723162B1A588E00EF82B8 /* Manrope-SemiBold.ttf */; };
 		BC50097A2B18B0A200385381 /* CornerRadius.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5009792B18B0A200385381 /* CornerRadius.swift */; };
 		BC77EE672B18BA5C00BE091D /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC77EE3F2B18BA5B00BE091D /* MainViewModel.swift */; };
 		BC77EE682B18BA5C00BE091D /* MainViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC77EE402B18BA5B00BE091D /* MainViewModelProtocol.swift */; };
@@ -86,6 +89,9 @@
 
 /* Begin PBXFileReference section */
 		BC0723112B1A4E5300EF82B8 /* Gradients.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gradients.swift; sourceTree = "<group>"; };
+		BC0723142B1A588E00EF82B8 /* Manrope-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Manrope-Bold.ttf"; sourceTree = "<group>"; };
+		BC0723152B1A588E00EF82B8 /* Manrope-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Manrope-Regular.ttf"; sourceTree = "<group>"; };
+		BC0723162B1A588E00EF82B8 /* Manrope-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Manrope-SemiBold.ttf"; sourceTree = "<group>"; };
 		BC5009792B18B0A200385381 /* CornerRadius.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CornerRadius.swift; sourceTree = "<group>"; };
 		BC77EE3F2B18BA5B00BE091D /* MainViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		BC77EE402B18BA5B00BE091D /* MainViewModelProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewModelProtocol.swift; sourceTree = "<group>"; };
@@ -162,6 +168,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BC0723132B1A584800EF82B8 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				BC0723142B1A588E00EF82B8 /* Manrope-Bold.ttf */,
+				BC0723152B1A588E00EF82B8 /* Manrope-Regular.ttf */,
+				BC0723162B1A588E00EF82B8 /* Manrope-SemiBold.ttf */,
+				BE3524682B02B27A00746581 /* Fonts.swift */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		BC77EE3C2B18BA5B00BE091D /* UI */ = {
 			isa = PBXGroup;
 			children = (
@@ -389,8 +406,8 @@
 		BE3524652B02B24100746581 /* DesignSystem */ = {
 			isa = PBXGroup;
 			children = (
+				BC0723132B1A584800EF82B8 /* Fonts */,
 				BC5009792B18B0A200385381 /* CornerRadius.swift */,
-				BE3524682B02B27A00746581 /* Fonts.swift */,
 				BC93BB712B0C814F008BE2AD /* GenericButton.swift */,
 				BC93BB732B0C8166008BE2AD /* GenericNavButton.swift */,
 				BC0723112B1A4E5300EF82B8 /* Gradients.swift */,
@@ -546,9 +563,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC0723182B1A589800EF82B8 /* Manrope-Regular.ttf in Resources */,
 				BEBA944F2B14E1DC00ABE1AD /* ErrorHandler.xcstrings in Resources */,
 				BE35245A2B02ABA300746581 /* LaunchScreen.storyboard in Resources */,
 				BCB7F91E2B0C89B500EE20A0 /* ScanFlow.xcstrings in Resources */,
+				BC0723192B1A589A00EF82B8 /* Manrope-SemiBold.ttf in Resources */,
+				BC0723172B1A589400EF82B8 /* Manrope-Bold.ttf in Resources */,
 				BEAE80472B178E88004DAE32 /* FavoritesFlow.xcstrings in Resources */,
 				BE2774BC2B0FD0890000C8C2 /* MainFlow.xcstrings in Resources */,
 				BE3524572B02ABA300746581 /* Assets.xcassets in Resources */,
