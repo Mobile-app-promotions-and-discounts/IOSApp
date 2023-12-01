@@ -7,14 +7,11 @@
 
 import UIKit
 import SnapKit
-
-protocol ProductReviewViewDelegate: AnyObject {
-    func didTapSubmitButton(rating: Int, review: String)
-}
+import Combine
 
 class ProductReviewView: UIView {
-
-    weak var delegate: ProductReviewViewDelegate?
+    var viewModel: ProductReviewViewModel?
+    private var cancellables = Set<AnyCancellable>()
 
     private let titleLabel = UILabel()
     private let starsStackView = UIStackView()
@@ -27,13 +24,14 @@ class ProductReviewView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureView()
+        setupBindings()
         setupTitleLabel()
         setupStarsStackView()
         setupReviewTextView()
         setupTextView()
         setupSubmitButton()
         setupConstraints()
-        setupActions()
+
     }
 
     required init?(coder: NSCoder) {
@@ -54,13 +52,22 @@ class ProductReviewView: UIView {
     private func setupStarsStackView() {
         starsStackView.axis = .horizontal
         starsStackView.distribution = .fillEqually
-        for _ in 0..<5 {
+        for index in 0..<5 {
             let starButton = UIButton()
             starButton.setImage(UIImage(systemName: "star"), for: .normal)
             starButton.tintColor = .black
             starsStackView.addArrangedSubview(starButton)
+
+            starButton.publisher(for: .touchUpInside)
+                .map { _ in index + 1 }
+                .sink { [weak self] rating in
+                    self?.viewModel?.rating.send(rating)
+                    self?.updateStarRating(rating)
+                }
+                .store(in: &cancellables)
         }
         addSubview(starsStackView)
+
     }
 
     private func setupReviewTextView() {
@@ -133,32 +140,23 @@ class ProductReviewView: UIView {
         }
     }
 
-    private func setupActions() {
-        for (index, button) in starsStackView.arrangedSubviews.enumerated() {
-            if let button = button as? UIButton {
-                button.tag = index + 1 // Теги начинаются с 1
-                button.addTarget(self, action: #selector(starTapped), for: .touchUpInside)
+    private func setupBindings() {
+        submitButton.publisher(for: .touchUpInside)
+            .map { [weak self] _ in (self?.viewModel?.rating.value ?? 1, self?.reviewTextView.text ?? "")
             }
-        }
-        submitButton.addTarget(self, action: #selector(submitButtonTapped), for: .touchUpInside)
+            .sink {[weak self] rating, reviewText in
+                self?.viewModel?.submitReview.send((rating, reviewText))
+            }
+            .store(in: &cancellables)
     }
 
-    @objc private func starTapped(_ sender: UIButton) {
-        let selectedRating = sender.tag
-        rating = selectedRating
-
+    private func updateStarRating(_ rating: Int) {
         for (index, button) in starsStackView.arrangedSubviews.enumerated() {
             if let button = button as? UIButton {
-                button.setImage(UIImage(systemName: index < selectedRating ? "star.fill" : "star"), for: .normal)
-                button.tintColor = index < selectedRating ? .systemYellow : .gray
+                button.setImage(UIImage(systemName: index < rating ? "star.fill" : "star"), for: .normal)
+                button.tintColor = index < rating ? .systemYellow : .gray
             }
         }
-    }
-
-    @objc private func submitButtonTapped() {
-        let reviewText = reviewTextView.text ?? ""
-        delegate?.didTapSubmitButton(rating: rating, review: reviewText)
-        print("Отправка отзыва")
     }
 
     @objc private func cancelButtonTapped() {

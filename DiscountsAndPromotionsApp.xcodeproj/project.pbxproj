@@ -16,6 +16,7 @@
 		927EC2EF2B149CBC005C100B /* OfferCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927EC2EE2B149CBC005C100B /* OfferCell.swift */; };
 		927EC2F92B1A17A1005C100B /* PriceInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927EC2F82B1A17A1005C100B /* PriceInfoViewModel.swift */; };
 		927EC2FB2B1A1FFF005C100B /* UIButton + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927EC2FA2B1A1FFF005C100B /* UIButton + Extension.swift */; };
+		927EC2FD2B1A3075005C100B /* ProductReviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927EC2FC2B1A3075005C100B /* ProductReviewViewModel.swift */; };
 		BC4DE3852B0F7DFF00135A12 /* ScanDummyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4DE3842B0F7DFF00135A12 /* ScanDummyViewController.swift */; };
 		BC93BB692B0BC313008BE2AD /* ScanFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC93BB682B0BC313008BE2AD /* ScanFlowCoordinator.swift */; };
 		BC93BB6B2B0BCBF1008BE2AD /* StringBarcodeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC93BB6A2B0BCBF1008BE2AD /* StringBarcodeExtension.swift */; };
@@ -86,6 +87,7 @@
 		927EC2EE2B149CBC005C100B /* OfferCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferCell.swift; sourceTree = "<group>"; };
 		927EC2F82B1A17A1005C100B /* PriceInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceInfoViewModel.swift; sourceTree = "<group>"; };
 		927EC2FA2B1A1FFF005C100B /* UIButton + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton + Extension.swift"; sourceTree = "<group>"; };
+		927EC2FC2B1A3075005C100B /* ProductReviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductReviewViewModel.swift; sourceTree = "<group>"; };
 		BC4DE3842B0F7DFF00135A12 /* ScanDummyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanDummyViewController.swift; sourceTree = "<group>"; };
 		BC93BB682B0BC313008BE2AD /* ScanFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanFlowCoordinator.swift; sourceTree = "<group>"; };
 		BC93BB6A2B0BCBF1008BE2AD /* StringBarcodeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringBarcodeExtension.swift; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 			isa = PBXGroup;
 			children = (
 				927EC2F82B1A17A1005C100B /* PriceInfoViewModel.swift */,
+				927EC2FC2B1A3075005C100B /* ProductReviewViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -565,6 +568,7 @@
 				BE8E70BF2B0E921900BEAA5A /* StoreUIModel.swift in Sources */,
 				BCB7F9242B0D255600EE20A0 /* UIImageExtensions.swift in Sources */,
 				927EC2E92B0FA306005C100B /* RatingView.swift in Sources */,
+				927EC2FD2B1A3075005C100B /* ProductReviewViewModel.swift in Sources */,
 				BCB7F9222B0D153000EE20A0 /* ScanFrameView.swift in Sources */,
 				BC93BB6B2B0BCBF1008BE2AD /* StringBarcodeExtension.swift in Sources */,
 				BE3524502B02ABA200746581 /* SceneDelegate.swift in Sources */,

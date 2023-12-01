@@ -39,6 +39,7 @@ class ProductCardViewController: UIViewController {
     private let titleView = ProductTitleView()
     private let ratingView = RatingView()
     private let offersTableView = UITableView()
+    private let reviewViewViewModel = ProductReviewViewModel()
     private let reviewView = ProductReviewView()
     private let priceInfoViewModel = PriceInfoViewViewModel()
     private let priceInfoView = PriceInfoView()
@@ -65,6 +66,7 @@ class ProductCardViewController: UIViewController {
         setupProductLayout()
         configureViews()
         setupPriceInfoView()
+        setupProductReviewView()
 
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow(notification: )),
@@ -115,7 +117,7 @@ class ProductCardViewController: UIViewController {
         offersTableView.isScrollEnabled = false
         offersTableView.separatorStyle = .none
         contentView.addSubview(reviewView)
-        ratingView.delegate = self
+//        ratingView.delegate = self
         contentView.addSubview(priceInfoView)
         // Ограничения SNAPkit
         productScrollView.snp.makeConstraints { make in
@@ -179,6 +181,16 @@ class ProductCardViewController: UIViewController {
             .store(in: &cancellables)
     }
 
+    private func setupProductReviewView() {
+        reviewView.viewModel = reviewViewViewModel
+        reviewViewViewModel.submitReview
+            .sink { [weak self] rating, reviewText in
+                        // Обработка отправки отзыва
+                print("Отзыв с рейтингом \(rating): \(reviewText)")
+            }
+            .store(in: &cancellables)
+    }
+
     private func addToFavorites() {
         print("Нажатие кнопки В избранное")
     }
@@ -237,13 +249,6 @@ extension ProductCardViewController: RatingViewDelegate {
         print("Нажатие кнопки перехода к комментариям")
     }
 }
-
-// extension ProductCardViewController: PriceInfoViewDelegate {
-//    func addToFavorites() {
-//        dismiss(animated: true)
-//        print("Нажатие кнопки В избранное")
-//    }
-// }
 
 // MARK: - Клавиатура прыг-прыг
 extension ProductCardViewController {
