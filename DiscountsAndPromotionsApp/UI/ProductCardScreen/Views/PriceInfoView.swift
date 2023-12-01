@@ -6,6 +6,7 @@
 //
 import UIKit
 import SnapKit
+import Combine
 
 protocol PriceInfoViewDelegate: AnyObject {
     func addToFavorites()
@@ -14,6 +15,9 @@ protocol PriceInfoViewDelegate: AnyObject {
 class PriceInfoView: UIView {
 
     weak var delegate: PriceInfoViewDelegate?
+    var viewModel: PriceInfoViewViewModel?
+    private var cancellables = Set<AnyCancellable>()
+
     private let toFavoritesButton = UIButton()
     private let worstOriginPrice = UILabel()
     private let bestDiscountPrice = UILabel()
@@ -34,6 +38,24 @@ class PriceInfoView: UIView {
         )
 
         bestDiscountPrice.text = "от \(discountPrice)р"
+    }
+
+    private func bindViewModel() {
+        viewModel?.$price
+            .map {String($0)}
+            .assign(to: \.text, on: worstOriginPrice)
+            .store(in: &cancellables)
+
+        viewModel?.$discountPrice
+            .map { "от (\($0))р"}
+            .assign(to: \.text, on: bestDiscountPrice)
+            .store(in: &cancellables)
+
+        toFavoritesButton.publisher(for: .touchUpInside)
+            .sink { [weak viewModel] _ in
+                viewModel?.addToFavorites.send()
+            }
+            .store(in: &cancellables)
     }
 
     private func setupLayout() {

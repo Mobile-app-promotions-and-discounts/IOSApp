@@ -14,6 +14,8 @@
 		927EC2E92B0FA306005C100B /* RatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927EC2E82B0FA306005C100B /* RatingView.swift */; };
 		927EC2EB2B0FA324005C100B /* ProductReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927EC2EA2B0FA324005C100B /* ProductReviewView.swift */; };
 		927EC2EF2B149CBC005C100B /* OfferCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927EC2EE2B149CBC005C100B /* OfferCell.swift */; };
+		927EC2F92B1A17A1005C100B /* PriceInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927EC2F82B1A17A1005C100B /* PriceInfoViewModel.swift */; };
+		927EC2FB2B1A1FFF005C100B /* UIButton + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927EC2FA2B1A1FFF005C100B /* UIButton + Extension.swift */; };
 		BC4DE3852B0F7DFF00135A12 /* ScanDummyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4DE3842B0F7DFF00135A12 /* ScanDummyViewController.swift */; };
 		BC93BB692B0BC313008BE2AD /* ScanFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC93BB682B0BC313008BE2AD /* ScanFlowCoordinator.swift */; };
 		BC93BB6B2B0BCBF1008BE2AD /* StringBarcodeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC93BB6A2B0BCBF1008BE2AD /* StringBarcodeExtension.swift */; };
@@ -82,6 +84,8 @@
 		927EC2E82B0FA306005C100B /* RatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingView.swift; sourceTree = "<group>"; };
 		927EC2EA2B0FA324005C100B /* ProductReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductReviewView.swift; sourceTree = "<group>"; };
 		927EC2EE2B149CBC005C100B /* OfferCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferCell.swift; sourceTree = "<group>"; };
+		927EC2F82B1A17A1005C100B /* PriceInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceInfoViewModel.swift; sourceTree = "<group>"; };
+		927EC2FA2B1A1FFF005C100B /* UIButton + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton + Extension.swift"; sourceTree = "<group>"; };
 		BC4DE3842B0F7DFF00135A12 /* ScanDummyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanDummyViewController.swift; sourceTree = "<group>"; };
 		BC93BB682B0BC313008BE2AD /* ScanFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanFlowCoordinator.swift; sourceTree = "<group>"; };
 		BC93BB6A2B0BCBF1008BE2AD /* StringBarcodeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringBarcodeExtension.swift; sourceTree = "<group>"; };
@@ -146,7 +150,9 @@
 		927EC2DC2B0F9FC4005C100B /* ProductCardScreen */ = {
 			isa = PBXGroup;
 			children = (
+				927EC2DF2B0FA058005C100B /* ProductCardViewController.swift */,
 				927EC2E12B0FA1E5005C100B /* Views */,
+				927EC2F72B1A1779005C100B /* ViewModel */,
 			);
 			path = ProductCardScreen;
 			sourceTree = "<group>";
@@ -154,7 +160,6 @@
 		927EC2E12B0FA1E5005C100B /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				927EC2DF2B0FA058005C100B /* ProductCardViewController.swift */,
 				927EC2E22B0FA1FE005C100B /* ImageGalleryView.swift */,
 				927EC2E62B0FA2E0005C100B /* ProductTitleView.swift */,
 				927EC2E82B0FA306005C100B /* RatingView.swift */,
@@ -163,6 +168,14 @@
 				927EC2E42B0FA2C0005C100B /* PriceInfoView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		927EC2F72B1A1779005C100B /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				927EC2F82B1A17A1005C100B /* PriceInfoViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		BC4DE3832B0F7DA000135A12 /* Views */ = {
@@ -297,6 +310,7 @@
 				BC93BB6A2B0BCBF1008BE2AD /* StringBarcodeExtension.swift */,
 				BCB7F91F2B0D150700EE20A0 /* UITextFieldExtensions.swift */,
 				BCB7F9232B0D255600EE20A0 /* UIImageExtensions.swift */,
+				927EC2FA2B1A1FFF005C100B /* UIButton + Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -508,6 +522,7 @@
 				BE3524742B02B4D100746581 /* UIColor+Extension.swift in Sources */,
 				BE3524522B02ABA200746581 /* MainViewController.swift in Sources */,
 				BE8E70BD2B0E90C500BEAA5A /* StoresCell.swift in Sources */,
+				927EC2F92B1A17A1005C100B /* PriceInfoViewModel.swift in Sources */,
 				BEBA91712B0AA7F800C2DE96 /* MainScreenCoordinator.swift in Sources */,
 				927EC2E72B0FA2E0005C100B /* ProductTitleView.swift in Sources */,
 				BCB7F9202B0D150700EE20A0 /* UITextFieldExtensions.swift in Sources */,
@@ -529,6 +544,7 @@
 				BEBA916C2B0A9D0000C2DE96 /* Coordinator.swift in Sources */,
 				BE8E70B22B0E558300BEAA5A /* FavoritesScreenCoordinator.swift in Sources */,
 				BE521A882B04DECC005F2FE7 /* ProfileViewController.swift in Sources */,
+				927EC2FB2B1A1FFF005C100B /* UIButton + Extension.swift in Sources */,
 				BE8E70B42B0E74F600BEAA5A /* ProfileScreenCoordinator.swift in Sources */,
 				BE8E70A62B0D4E5200BEAA5A /* CategoryViewModel.swift in Sources */,
 				927EC2E32B0FA1FE005C100B /* ImageGalleryView.swift in Sources */,
