@@ -18,6 +18,7 @@
 		927EC2FB2B1A1FFF005C100B /* UIButton + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927EC2FA2B1A1FFF005C100B /* UIButton + Extension.swift */; };
 		927EC2FD2B1A3075005C100B /* ProductReviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927EC2FC2B1A3075005C100B /* ProductReviewViewModel.swift */; };
 		927EC2FF2B1A4B0A005C100B /* RatingViewViewModel .swift in Sources */ = {isa = PBXBuildFile; fileRef = 927EC2FE2B1A4B0A005C100B /* RatingViewViewModel .swift */; };
+		927EC3012B1A53FE005C100B /* UITextView + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927EC3002B1A53FE005C100B /* UITextView + Extension.swift */; };
 		BC4DE3852B0F7DFF00135A12 /* ScanDummyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4DE3842B0F7DFF00135A12 /* ScanDummyViewController.swift */; };
 		BC93BB692B0BC313008BE2AD /* ScanFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC93BB682B0BC313008BE2AD /* ScanFlowCoordinator.swift */; };
 		BC93BB6B2B0BCBF1008BE2AD /* StringBarcodeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC93BB6A2B0BCBF1008BE2AD /* StringBarcodeExtension.swift */; };
@@ -90,6 +91,7 @@
 		927EC2FA2B1A1FFF005C100B /* UIButton + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton + Extension.swift"; sourceTree = "<group>"; };
 		927EC2FC2B1A3075005C100B /* ProductReviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductReviewViewModel.swift; sourceTree = "<group>"; };
 		927EC2FE2B1A4B0A005C100B /* RatingViewViewModel .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RatingViewViewModel .swift"; sourceTree = "<group>"; };
+		927EC3002B1A53FE005C100B /* UITextView + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView + Extension.swift"; sourceTree = "<group>"; };
 		BC4DE3842B0F7DFF00135A12 /* ScanDummyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanDummyViewController.swift; sourceTree = "<group>"; };
 		BC93BB682B0BC313008BE2AD /* ScanFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanFlowCoordinator.swift; sourceTree = "<group>"; };
 		BC93BB6A2B0BCBF1008BE2AD /* StringBarcodeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringBarcodeExtension.swift; sourceTree = "<group>"; };
@@ -317,6 +319,7 @@
 				BCB7F91F2B0D150700EE20A0 /* UITextFieldExtensions.swift */,
 				BCB7F9232B0D255600EE20A0 /* UIImageExtensions.swift */,
 				927EC2FA2B1A1FFF005C100B /* UIButton + Extension.swift */,
+				927EC3002B1A53FE005C100B /* UITextView + Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -539,6 +542,7 @@
 				BE3A55952B0BEF680053C851 /* MainViewModel.swift in Sources */,
 				BE8E709D2B0D275300BEAA5A /* CollectionLayoutProvider.swift in Sources */,
 				BE8E70A82B0D4E8800BEAA5A /* CategoryViewModelProtocol.swift in Sources */,
+				927EC3012B1A53FE005C100B /* UITextView + Extension.swift in Sources */,
 				927EC2EB2B0FA324005C100B /* ProductReviewView.swift in Sources */,
 				927EC2E52B0FA2C0005C100B /* PriceInfoView.swift in Sources */,
 				BEBA916E2B0A9F9500C2DE96 /* ProductModel.swift in Sources */,

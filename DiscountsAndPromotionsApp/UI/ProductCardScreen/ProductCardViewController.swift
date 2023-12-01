@@ -107,18 +107,14 @@ class ProductCardViewController: UIViewController {
     private func setupProductLayout() {
         view.addSubview(productScrollView)
         productScrollView.addSubview(contentView)
-        contentView.addSubview(galleryView)
-        contentView.addSubview(titleView)
-        contentView.addSubview(ratingView)
-        // Таблица Магазинов
-        contentView.addSubview(offersTableView)
+        [galleryView, titleView, ratingView, offersTableView, reviewView, priceInfoView].forEach {
+            contentView.addSubview($0)
+        }
         offersTableView.register(OfferTableViewCell.self, forCellReuseIdentifier: "OfferTableViewCell")
         offersTableView.dataSource = self
         offersTableView.delegate = self
         offersTableView.isScrollEnabled = false
         offersTableView.separatorStyle = .none
-        contentView.addSubview(reviewView)
-        contentView.addSubview(priceInfoView)
         // Ограничения SNAPkit
         productScrollView.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
@@ -254,7 +250,6 @@ class ProductCardViewController: UIViewController {
 
 // MARK: - Клавиатура прыг-прыг
 extension ProductCardViewController {
-
     @objc func keyboardWillShow(notification: NSNotification) {
         guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
             return

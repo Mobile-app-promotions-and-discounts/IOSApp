@@ -8,7 +8,6 @@ import UIKit
 import Combine
 import SnapKit
 
-
 class RatingView: UIView {
     var viewModel: RatingViewViewModel?
     private var cancellables = Set<AnyCancellable>()

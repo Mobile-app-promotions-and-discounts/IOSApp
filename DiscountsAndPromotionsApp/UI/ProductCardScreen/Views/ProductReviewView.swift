@@ -79,7 +79,6 @@ class ProductReviewView: UIView {
         reviewTextView.layer.cornerRadius = 5
         reviewTextView.textContainerInset = UIEdgeInsets(top: 8, left: 5, bottom: 8, right: 5)
         reviewTextView.isScrollEnabled = false
-        reviewTextView.delegate = self
         addSubview(reviewTextView)
     }
 
@@ -148,6 +147,25 @@ class ProductReviewView: UIView {
                 self?.viewModel?.submitReview.send((rating, reviewText))
             }
             .store(in: &cancellables)
+
+        reviewTextView.beginEditingPublisher
+            .sink { [weak self] _ in
+                guard let self = self, self.reviewTextView.textColor == UIColor.lightGray else { return }
+                self.previousText = self.reviewTextView.text
+                self.reviewTextView.text = nil
+                self.reviewTextView.textColor = UIColor.black
+            }
+            .store(in: &cancellables)
+
+        reviewTextView.endEditingPublisher
+            .sink { [weak self] _ in
+                guard let self = self else { return }
+                if self.reviewTextView.text.isEmpty {
+                    self.reviewTextView.text = "Ваш отзыв"
+                    self.reviewTextView.textColor = UIColor.lightGray
+                }
+            }
+            .store(in: &cancellables)
     }
 
     private func updateStarRating(_ rating: Int) {
@@ -171,19 +189,3 @@ class ProductReviewView: UIView {
     }
 }
 
-extension ProductReviewView: UITextViewDelegate {
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        previousText = textView.text
-        if textView.textColor == UIColor.lightGray {
-            textView.text = nil
-            textView.textColor = UIColor.black
-        }
-    }
-
-    func textViewDidEndEditing(_ textView: UITextView) {
-        if textView.text.isEmpty {
-            textView.text = "Ваш отзыв"
-            textView.textColor = UIColor.lightGray
-        }
-    }
-}
