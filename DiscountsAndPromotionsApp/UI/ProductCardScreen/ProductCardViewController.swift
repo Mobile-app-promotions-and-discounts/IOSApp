@@ -6,10 +6,12 @@
 //
 import UIKit
 import SnapKit
+import Combine
 
 class ProductCardViewController: UIViewController {
 
     private var product: Product?
+    private var cancellables = Set<AnyCancellable>() // Добавление cancellables
     weak var coordinator: MainScreenCoordinator?
 
     private lazy var productScrollView: UIScrollView = {
@@ -38,6 +40,7 @@ class ProductCardViewController: UIViewController {
     private let ratingView = RatingView()
     private let offersTableView = UITableView()
     private let reviewView = ProductReviewView()
+    private let priceInfoViewModel = PriceInfoViewViewModel()
     private let priceInfoView = PriceInfoView()
 
     init(product: Product) {
@@ -61,6 +64,7 @@ class ProductCardViewController: UIViewController {
         setupNavigationbar()
         setupProductLayout()
         configureViews()
+        setupPriceInfoView()
 
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow(notification: )),
@@ -113,7 +117,6 @@ class ProductCardViewController: UIViewController {
         contentView.addSubview(reviewView)
         ratingView.delegate = self
         contentView.addSubview(priceInfoView)
-        priceInfoView.delegate = self
         // Ограничения SNAPkit
         productScrollView.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
@@ -165,6 +168,19 @@ class ProductCardViewController: UIViewController {
             make.height.equalTo(87)
             make.width.equalTo(contentView.frame.width)
         }
+    }
+
+    private func setupPriceInfoView() {
+        priceInfoView.viewModel = priceInfoViewModel
+        priceInfoViewModel.addToFavorites
+            .sink { [weak self] in
+                self?.addToFavorites()
+            }
+            .store(in: &cancellables)
+    }
+
+    private func addToFavorites() {
+        print("Нажатие кнопки В избранное")
     }
 
     private func configureViews() {
@@ -222,12 +238,12 @@ extension ProductCardViewController: RatingViewDelegate {
     }
 }
 
-extension ProductCardViewController: PriceInfoViewDelegate {
-    func addToFavorites() {
-        dismiss(animated: true)
-        print("Нажатие кнопки В избранное")
-    }
-}
+// extension ProductCardViewController: PriceInfoViewDelegate {
+//    func addToFavorites() {
+//        dismiss(animated: true)
+//        print("Нажатие кнопки В избранное")
+//    }
+// }
 
 // MARK: - Клавиатура прыг-прыг
 extension ProductCardViewController {

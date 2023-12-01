@@ -14,8 +14,13 @@ protocol PriceInfoViewDelegate: AnyObject {
 
 class PriceInfoView: UIView {
 
-    weak var delegate: PriceInfoViewDelegate?
-    var viewModel: PriceInfoViewViewModel?
+//    weak var delegate: PriceInfoViewDelegate?
+    var viewModel: PriceInfoViewViewModel? {
+        didSet {
+            bindViewModel()
+        }
+    }
+
     private var cancellables = Set<AnyCancellable>()
 
     private let toFavoritesButton = UIButton()
@@ -32,12 +37,8 @@ class PriceInfoView: UIView {
     }
 
     func configure(with price: Double, discountPrice: Double) {
-        worstOriginPrice.attributedText = NSAttributedString(
-            string: String(price),
-            attributes: [NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.single.rawValue]
-        )
-
-        bestDiscountPrice.text = "от \(discountPrice)р"
+        viewModel?.price = price
+        viewModel?.discountPrice = discountPrice
     }
 
     private func bindViewModel() {
@@ -88,7 +89,7 @@ class PriceInfoView: UIView {
         toFavoritesButton.layer.cornerRadius = 10
         toFavoritesButton.titleLabel?.font = .boldSystemFont(ofSize: 16)
         toFavoritesButton.tintColor = .black
-        toFavoritesButton.addTarget(self, action: #selector(addToFavorite), for: .touchUpInside)
+//        toFavoritesButton.addTarget(self, action: #selector(addToFavorite), for: .touchUpInside)
         addSubview(toFavoritesButton)
     }
 
@@ -115,8 +116,8 @@ class PriceInfoView: UIView {
             make.height.equalTo(51)
         }
     }
-
-    @objc func addToFavorite() {
-        delegate?.addToFavorites()
-    }
+//
+//    @objc func addToFavorite() {
+//        delegate?.addToFavorites()
+//    }
 }
