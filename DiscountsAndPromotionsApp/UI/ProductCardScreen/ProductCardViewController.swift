@@ -37,6 +37,7 @@ class ProductCardViewController: UIViewController {
     // Все кастомные вьюхи
     private let galleryView = ImageGalleryView()
     private let titleView = ProductTitleView()
+    private var ratingViewModel = RatingViewViewModel()
     private let ratingView = RatingView()
     private let offersTableView = UITableView()
     private let reviewViewViewModel = ProductReviewViewModel()
@@ -67,6 +68,7 @@ class ProductCardViewController: UIViewController {
         configureViews()
         setupPriceInfoView()
         setupProductReviewView()
+        setupRatingView()
 
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow(notification: )),
@@ -108,7 +110,6 @@ class ProductCardViewController: UIViewController {
         contentView.addSubview(galleryView)
         contentView.addSubview(titleView)
         contentView.addSubview(ratingView)
-        ratingView.delegate = self
         // Таблица Магазинов
         contentView.addSubview(offersTableView)
         offersTableView.register(OfferTableViewCell.self, forCellReuseIdentifier: "OfferTableViewCell")
@@ -117,7 +118,6 @@ class ProductCardViewController: UIViewController {
         offersTableView.isScrollEnabled = false
         offersTableView.separatorStyle = .none
         contentView.addSubview(reviewView)
-//        ratingView.delegate = self
         contentView.addSubview(priceInfoView)
         // Ограничения SNAPkit
         productScrollView.snp.makeConstraints { make in
@@ -191,6 +191,17 @@ class ProductCardViewController: UIViewController {
             .store(in: &cancellables)
     }
 
+    private func setupRatingView() {
+        ratingView.viewModel = ratingViewModel
+        ratingViewModel.reviewsButtonTapped
+            .sink { [weak self] in
+                // Обработка нажатия на кнопку отзывов
+                print("Отзывы показаны")
+                print(self?.cancellables)
+            }
+            .store(in: &cancellables)
+    }
+
     private func addToFavorites() {
         print("Нажатие кнопки В избранное")
     }
@@ -240,13 +251,6 @@ class ProductCardViewController: UIViewController {
 
     @objc func sendButtonTapped() {
         print("Отправить другу")
-    }
-}
-
-extension ProductCardViewController: RatingViewDelegate {
-    func reviewsButtonTapped() {
-        // сюда координатора бахнуть
-        print("Нажатие кнопки перехода к комментариям")
     }
 }
 

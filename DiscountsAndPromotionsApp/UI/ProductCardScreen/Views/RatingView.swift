@@ -5,16 +5,13 @@
 //  Created by Денис on 23.11.2023.
 //
 import UIKit
+import Combine
 import SnapKit
 
-protocol RatingViewDelegate: AnyObject {
-    func reviewsButtonTapped()
-}
 
 class RatingView: UIView {
-
-    weak var delegate: RatingViewDelegate?
-
+    var viewModel: RatingViewViewModel?
+    private var cancellables = Set<AnyCancellable>()
     private let starsStackView =  UIStackView()
     private let ratingLabel = UILabel()
     private let numberOfReviewsLabel = UILabel()
@@ -22,9 +19,6 @@ class RatingView: UIView {
     private lazy var reviewsButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "chevron.forward"), for: .normal)
-        button.addTarget(self,
-                         action: #selector(reviewsButtonTapped),
-                         for: .touchUpInside)
         button.tintColor = .black
         button.clipsToBounds = true
         button.layer.cornerRadius = 14
@@ -37,6 +31,7 @@ class RatingView: UIView {
         super.init(frame: frame)
         setupLayout()
         configureStars()
+        setupBindings()
     }
 
     required init?(coder: NSCoder) {
@@ -95,8 +90,11 @@ class RatingView: UIView {
         }
     }
 
-    @objc private func reviewsButtonTapped() {
-        print("Нажатие")
-        delegate?.reviewsButtonTapped()
+    private func setupBindings() {
+        reviewsButton.publisher(for: .touchUpInside)
+            .sink { [weak self] _ in
+                self?.viewModel?.reviewsButtonTapped.send()
+            }
+            .store(in: &cancellables)
     }
 }
