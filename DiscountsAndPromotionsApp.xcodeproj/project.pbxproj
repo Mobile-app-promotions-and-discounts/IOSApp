@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BC0723122B1A4E5300EF82B8 /* Gradients.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0723112B1A4E5300EF82B8 /* Gradients.swift */; };
+		BC0723172B1A589400EF82B8 /* Manrope-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC0723142B1A588E00EF82B8 /* Manrope-Bold.ttf */; };
+		BC0723182B1A589800EF82B8 /* Manrope-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC0723152B1A588E00EF82B8 /* Manrope-Regular.ttf */; };
+		BC0723192B1A589A00EF82B8 /* Manrope-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC0723162B1A588E00EF82B8 /* Manrope-SemiBold.ttf */; };
+		BC07231B2B1A6A5C00EF82B8 /* SecondaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC07231A2B1A6A5C00EF82B8 /* SecondaryButton.swift */; };
 		BC50097A2B18B0A200385381 /* CornerRadius.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5009792B18B0A200385381 /* CornerRadius.swift */; };
 		BC77EE672B18BA5C00BE091D /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC77EE3F2B18BA5B00BE091D /* MainViewModel.swift */; };
 		BC77EE682B18BA5C00BE091D /* MainViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC77EE402B18BA5B00BE091D /* MainViewModelProtocol.swift */; };
@@ -37,7 +42,7 @@
 		BC77EE812B18BA5C00BE091D /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC77EE662B18BA5C00BE091D /* FavoritesViewController.swift */; };
 		BC93BB692B0BC313008BE2AD /* ScanFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC93BB682B0BC313008BE2AD /* ScanFlowCoordinator.swift */; };
 		BC93BB6B2B0BCBF1008BE2AD /* StringBarcodeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC93BB6A2B0BCBF1008BE2AD /* StringBarcodeExtension.swift */; };
-		BC93BB722B0C814F008BE2AD /* GenericButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC93BB712B0C814F008BE2AD /* GenericButton.swift */; };
+		BC93BB722B0C814F008BE2AD /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC93BB712B0C814F008BE2AD /* PrimaryButton.swift */; };
 		BC93BB742B0C8166008BE2AD /* GenericNavButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC93BB732B0C8166008BE2AD /* GenericNavButton.swift */; };
 		BCB7F91E2B0C89B500EE20A0 /* ScanFlow.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = BCB7F91D2B0C89B500EE20A0 /* ScanFlow.xcstrings */; };
 		BCB7F9202B0D150700EE20A0 /* UITextFieldExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB7F91F2B0D150700EE20A0 /* UITextFieldExtensions.swift */; };
@@ -84,6 +89,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		BC0723112B1A4E5300EF82B8 /* Gradients.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gradients.swift; sourceTree = "<group>"; };
+		BC0723142B1A588E00EF82B8 /* Manrope-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Manrope-Bold.ttf"; sourceTree = "<group>"; };
+		BC0723152B1A588E00EF82B8 /* Manrope-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Manrope-Regular.ttf"; sourceTree = "<group>"; };
+		BC0723162B1A588E00EF82B8 /* Manrope-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Manrope-SemiBold.ttf"; sourceTree = "<group>"; };
+		BC07231A2B1A6A5C00EF82B8 /* SecondaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryButton.swift; sourceTree = "<group>"; };
 		BC5009792B18B0A200385381 /* CornerRadius.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CornerRadius.swift; sourceTree = "<group>"; };
 		BC77EE3F2B18BA5B00BE091D /* MainViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		BC77EE402B18BA5B00BE091D /* MainViewModelProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewModelProtocol.swift; sourceTree = "<group>"; };
@@ -115,7 +125,7 @@
 		BC93BB682B0BC313008BE2AD /* ScanFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanFlowCoordinator.swift; sourceTree = "<group>"; };
 		BC93BB6A2B0BCBF1008BE2AD /* StringBarcodeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringBarcodeExtension.swift; sourceTree = "<group>"; };
 		BC93BB702B0BDA0A008BE2AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		BC93BB712B0C814F008BE2AD /* GenericButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericButton.swift; sourceTree = "<group>"; };
+		BC93BB712B0C814F008BE2AD /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
 		BC93BB732B0C8166008BE2AD /* GenericNavButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericNavButton.swift; sourceTree = "<group>"; };
 		BCB7F91D2B0C89B500EE20A0 /* ScanFlow.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = ScanFlow.xcstrings; sourceTree = "<group>"; };
 		BCB7F91F2B0D150700EE20A0 /* UITextFieldExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextFieldExtensions.swift; sourceTree = "<group>"; };
@@ -160,6 +170,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BC0723132B1A584800EF82B8 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				BC0723142B1A588E00EF82B8 /* Manrope-Bold.ttf */,
+				BC0723152B1A588E00EF82B8 /* Manrope-Regular.ttf */,
+				BC0723162B1A588E00EF82B8 /* Manrope-SemiBold.ttf */,
+				BE3524682B02B27A00746581 /* Fonts.swift */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		BC77EE3C2B18BA5B00BE091D /* UI */ = {
 			isa = PBXGroup;
 			children = (
@@ -226,9 +247,9 @@
 		BC77EE4D2B18BA5C00BE091D /* ScanFlow */ = {
 			isa = PBXGroup;
 			children = (
+				BC77EE502B18BA5C00BE091D /* Views */,
 				BC77EE4E2B18BA5C00BE091D /* ScanViewModel.swift */,
 				BC77EE4F2B18BA5C00BE091D /* ScanCaptureSessionController.swift */,
-				BC77EE502B18BA5C00BE091D /* Views */,
 			);
 			path = ScanFlow;
 			sourceTree = "<group>";
@@ -387,10 +408,12 @@
 		BE3524652B02B24100746581 /* DesignSystem */ = {
 			isa = PBXGroup;
 			children = (
+				BC0723132B1A584800EF82B8 /* Fonts */,
 				BC5009792B18B0A200385381 /* CornerRadius.swift */,
-				BE3524682B02B27A00746581 /* Fonts.swift */,
-				BC93BB712B0C814F008BE2AD /* GenericButton.swift */,
+				BC93BB712B0C814F008BE2AD /* PrimaryButton.swift */,
+				BC07231A2B1A6A5C00EF82B8 /* SecondaryButton.swift */,
 				BC93BB732B0C8166008BE2AD /* GenericNavButton.swift */,
+				BC0723112B1A4E5300EF82B8 /* Gradients.swift */,
 			);
 			path = DesignSystem;
 			sourceTree = "<group>";
@@ -543,9 +566,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC0723182B1A589800EF82B8 /* Manrope-Regular.ttf in Resources */,
 				BEBA944F2B14E1DC00ABE1AD /* ErrorHandler.xcstrings in Resources */,
 				BE35245A2B02ABA300746581 /* LaunchScreen.storyboard in Resources */,
 				BCB7F91E2B0C89B500EE20A0 /* ScanFlow.xcstrings in Resources */,
+				BC0723192B1A589A00EF82B8 /* Manrope-SemiBold.ttf in Resources */,
+				BC0723172B1A589400EF82B8 /* Manrope-Bold.ttf in Resources */,
 				BEAE80472B178E88004DAE32 /* FavoritesFlow.xcstrings in Resources */,
 				BE2774BC2B0FD0890000C8C2 /* MainFlow.xcstrings in Resources */,
 				BE3524572B02ABA300746581 /* Assets.xcassets in Resources */,
@@ -592,6 +618,7 @@
 				BC77EE702B18BA5C00BE091D /* FiltersCell.swift in Sources */,
 				BC93BB742B0C8166008BE2AD /* GenericNavButton.swift in Sources */,
 				BC77EE682B18BA5C00BE091D /* MainViewModelProtocol.swift in Sources */,
+				BC0723122B1A4E5300EF82B8 /* Gradients.swift in Sources */,
 				BC77EE802B18BA5C00BE091D /* FavoritesViewModelProtocol.swift in Sources */,
 				BE521A822B04DEB3005F2FE7 /* MainTabBarController.swift in Sources */,
 				BC77EE6B2B18BA5C00BE091D /* PromotionUIModel.swift in Sources */,
@@ -614,7 +641,7 @@
 				BC50097A2B18B0A200385381 /* CornerRadius.swift in Sources */,
 				BC77EE762B18BA5C00BE091D /* CategoryViewModel.swift in Sources */,
 				BE8E70B42B0E74F600BEAA5A /* ProfileScreenCoordinator.swift in Sources */,
-				BC93BB722B0C814F008BE2AD /* GenericButton.swift in Sources */,
+				BC93BB722B0C814F008BE2AD /* PrimaryButton.swift in Sources */,
 				BEF503B42B15287F00577D7F /* MockProfileService.swift in Sources */,
 				BC77EE742B18BA5C00BE091D /* ScanFrameView.swift in Sources */,
 				BEF503B62B15288C00577D7F /* ProfileServiceProtocol.swift in Sources */,
@@ -632,6 +659,7 @@
 				BC77EE692B18BA5C00BE091D /* StoreUIModel.swift in Sources */,
 				BC93BB6B2B0BCBF1008BE2AD /* StringBarcodeExtension.swift in Sources */,
 				BC77EE7A2B18BA5C00BE091D /* CategoryViewController.swift in Sources */,
+				BC07231B2B1A6A5C00EF82B8 /* SecondaryButton.swift in Sources */,
 				BC77EE792B18BA5C00BE091D /* ProductCell.swift in Sources */,
 				BC77EE732B18BA5C00BE091D /* ScanCaptureSessionController.swift in Sources */,
 				BE3524502B02ABA200746581 /* SceneDelegate.swift in Sources */,

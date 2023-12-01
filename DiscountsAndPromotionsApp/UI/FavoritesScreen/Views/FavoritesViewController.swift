@@ -42,7 +42,7 @@ final class FavoritesViewController: UIViewController {
     private func setupViews() {
         layoutProvider.createLayoutForCategoryScreen(for: favoritesCollectionView, in: view)
         // ToDo: цвет фона временный, для отладки
-        view.backgroundColor = .mainBG
+        view.backgroundColor = .cherryLightBlue
 
         view.addSubview(favoritesCollectionView)
 
