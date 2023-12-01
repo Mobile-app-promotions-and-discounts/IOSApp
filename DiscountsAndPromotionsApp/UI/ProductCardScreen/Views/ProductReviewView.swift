@@ -39,7 +39,7 @@ class ProductReviewView: UIView {
     }
 
     private func configureView() {
-        backgroundColor = .mainBG // Убедитесь, что цвет определен в вашем расширении UIColor
+        backgroundColor = .mainBG
         layer.cornerRadius = 12
     }
 
@@ -167,15 +167,13 @@ class ProductReviewView: UIView {
 
     @objc private func doneButtonTapped() {
         // Действие для кнопки "Готово"
-        //        let reviewText = reviewTextView.text ?? ""
-        //        delegate?.didTapSubmitButton(rating: rating, review: reviewText)
         reviewTextView.resignFirstResponder()
     }
 }
 
 extension ProductReviewView: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        previousText = textView.text // Сохраняем текущий текст
+        previousText = textView.text
         if textView.textColor == UIColor.lightGray {
             textView.text = nil
             textView.textColor = UIColor.black

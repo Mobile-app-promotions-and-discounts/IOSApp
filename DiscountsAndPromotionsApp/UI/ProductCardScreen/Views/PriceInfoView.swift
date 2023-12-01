@@ -8,13 +8,7 @@ import UIKit
 import SnapKit
 import Combine
 
-protocol PriceInfoViewDelegate: AnyObject {
-    func addToFavorites()
-}
-
 class PriceInfoView: UIView {
-
-//    weak var delegate: PriceInfoViewDelegate?
     var viewModel: PriceInfoViewViewModel? {
         didSet {
             bindViewModel()
@@ -89,7 +83,6 @@ class PriceInfoView: UIView {
         toFavoritesButton.layer.cornerRadius = 10
         toFavoritesButton.titleLabel?.font = .boldSystemFont(ofSize: 16)
         toFavoritesButton.tintColor = .black
-//        toFavoritesButton.addTarget(self, action: #selector(addToFavorite), for: .touchUpInside)
         addSubview(toFavoritesButton)
     }
 
@@ -116,8 +109,4 @@ class PriceInfoView: UIView {
             make.height.equalTo(51)
         }
     }
-//
-//    @objc func addToFavorite() {
-//        delegate?.addToFavorites()
-//    }
 }

@@ -207,9 +207,7 @@ class ProductCardViewController: UIViewController {
     }
 
     private func configureViews() {
-
         var images: [UIImage] = []
-
         // Добавление основного изображения
         if let mainImageName = product?.image?.mainImage, let mainImage = UIImage(named: mainImageName) {
             images.append(mainImage)
@@ -330,7 +328,6 @@ extension ProductCardViewController: UITableViewDelegate {
         headerView.addSubview(headerLabel)
 
         NSLayoutConstraint.activate([
-            //            headerLabel.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
             headerLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 16),
             headerLabel.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: -8)
 

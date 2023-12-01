@@ -32,7 +32,7 @@ class OfferTableViewCell: UITableViewCell {
     }
 
     private func setupBackgroundView() {
-        backgroundViewBoard.backgroundColor = .mainBG // Убедитесь, что у вас есть этот цвет в вашем расширении UIColor
+        backgroundViewBoard.backgroundColor = .mainBG
         backgroundViewBoard.layer.cornerRadius = 10
         backgroundViewBoard.clipsToBounds = true
         contentView.addSubview(backgroundViewBoard)
@@ -133,7 +133,6 @@ class OfferTableViewCell: UITableViewCell {
     }
 
     func configure(with offer: Offer) {
-        // Сюда добавьте конфигурацию вашего предложения
         storeNameLabel.text = offer.store.name
         addressLabel.text = offer.store.location.street
         priceLabel.text = "\(offer.price)"
