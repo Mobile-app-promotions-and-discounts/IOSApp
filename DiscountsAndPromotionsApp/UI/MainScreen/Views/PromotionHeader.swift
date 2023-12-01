@@ -6,7 +6,7 @@ final class PromotionHeader: UICollectionReusableView {
 
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 20, weight: .bold)
+        label.font = CherryFonts.headerExtraLarge
         return label
     }()
 

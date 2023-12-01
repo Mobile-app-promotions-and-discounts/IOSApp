@@ -34,6 +34,7 @@ final class ScanViewController: UIViewController {
                                                     style: .done,
                                                     target: self,
                                                     action: #selector(doneButtonTapped))
+        done.tintColor = .cherryMainAccent
         barcodeField.addDoneButtonOnKeyboard(done)
         barcodeField.clipsToBounds = true
         barcodeField.layer.cornerRadius = 10
@@ -71,7 +72,7 @@ final class ScanViewController: UIViewController {
     }()
 
     private lazy var scanButton: UIButton = {
-        let button = GenericButton(type: .custom)
+        let button = PrimaryButton(type: .custom)
         button.setTitle(NSLocalizedString("barcodeScan", tableName: "ScanFlow", comment: ""),
                         for: .normal)
         button.addTarget(self,
@@ -82,7 +83,7 @@ final class ScanViewController: UIViewController {
     }()
 
     private lazy var manualButton: UIButton = {
-        let button = GenericButton(type: .custom)
+        let button = SecondaryButton(type: .custom)
         button.setTitle(NSLocalizedString("barcodeEntry", tableName: "ScanFlow", comment: ""),
                         for: .normal)
         button.addTarget(self,

@@ -18,16 +18,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cherryLogo" translatesAutoresizingMaskIntoConstraints="NO" id="on1-Ag-TGL">
-                                <rect key="frame" x="64" y="123" width="265" height="631"/>
+                                <rect key="frame" x="84.333333333333329" y="159" width="208.66666666666669" height="559"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" name="cherryMainAccent"/>
                         <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="on1-Ag-TGL" secondAttribute="trailing" constant="64" id="81r-2G-PDn"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="on1-Ag-TGL" secondAttribute="bottom" constant="64" id="dO7-54-Zmg"/>
-                            <constraint firstItem="on1-Ag-TGL" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="64" id="io9-U6-R8V"/>
-                            <constraint firstItem="on1-Ag-TGL" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="64" id="kK3-Ih-zf5"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="on1-Ag-TGL" secondAttribute="trailing" constant="100" id="81r-2G-PDn"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="on1-Ag-TGL" secondAttribute="bottom" constant="100" id="dO7-54-Zmg"/>
+                            <constraint firstItem="on1-Ag-TGL" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" priority="100" constant="64" id="io9-U6-R8V"/>
+                            <constraint firstItem="on1-Ag-TGL" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="100" id="kK3-Ih-zf5"/>
                         </constraints>
                     </view>
                 </viewController>
