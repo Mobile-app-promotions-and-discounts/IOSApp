@@ -7,15 +7,13 @@ enum CherryGradient {
          yellowPurple,
          yellowOrange,
          yellowGreen
-}
 
-extension CALayer {
     // метод необходимо вызвать ДО добавления subview, иначе градиент закроет их собой
-    static func makeGradiet(gradient: CherryGradient, for view: UIView) {
+    func makeGradiet(for view: UIView) {
         let baseColor: UIColor = .gradientBase
         var accentColor: UIColor = .cherryWhite
 
-        switch gradient {
+        switch self {
         case .yellowBlue:
             accentColor = .gradientBlue
         case .yellowGreen:
