@@ -1,8 +1,8 @@
 import Foundation
 import Combine
 
-// Отключил swiftlint для класса с моковыми данными ниже
 // swiftlint:disable function_body_length
+
 final class MockDataService: DataServiceProtocol {
     private (set) var actualProductsList = CurrentValueSubject<[Product], Never>([])
     private (set) var actualCategoryList = CurrentValueSubject<[Category], Never>([])
@@ -44,12 +44,12 @@ final class MockDataService: DataServiceProtocol {
     private func generateCategories() -> [Category] {
         return [Category(name: "Продукты"),
                 Category(name: "Одежда и обувь"),
-                Category(name: "Для дома и сада"),
                 Category(name: "Косметика и гигиена"),
                 Category(name: "Для детей"),
+                Category(name: "Дом и сад"),
                 Category(name: "Зоотовары"),
-                Category(name: "Авто"),
-                Category(name: "К празднику")]
+                Category(name: "Праздник"),
+                Category(name: "Авто")]
     }
 
     private func generateProducts() -> [Product] {
@@ -332,11 +332,11 @@ final class MockDataService: DataServiceProtocol {
 
         // Убедимся, что у нас есть категории для промоакций
         guard let categoryProducts = categories.first(where: { $0.name == "Продукты" }),
-              let categoryHome = categories.first(where: { $0.name == "Для дома и сада" }),
+              let categoryHome = categories.first(where: { $0.name == "Дом и сад" }),
               let categoryCosmetics = categories.first(where: { $0.name == "Косметика и гигиена" }),
               let categoryPets = categories.first(where: { $0.name == "Зоотовары" }),
               let categoryAuto = categories.first(where: { $0.name == "Авто" }),
-              let categoryHoliday = categories.first(where: { $0.name == "К празднику" }) else {
+              let categoryHoliday = categories.first(where: { $0.name == "Праздник" }) else {
             return []
         }
 

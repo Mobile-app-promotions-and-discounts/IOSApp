@@ -196,7 +196,6 @@
 				BC77EE4B2B18BA5C00BE091D /* SearchScreen */,
 				BC77EE4D2B18BA5C00BE091D /* ScanFlow */,
 				BC77EE532B18BA5C00BE091D /* CategoryScreen */,
-				BC77EE5C2B18BA5C00BE091D /* NavigationBar */,
 				BC77EE602B18BA5C00BE091D /* ProfileViewController.swift */,
 				BC77EE612B18BA5C00BE091D /* FavoritesScreen */,
 			);
@@ -206,9 +205,9 @@
 		BC77EE3D2B18BA5B00BE091D /* MainScreen */ = {
 			isa = PBXGroup;
 			children = (
-				BC77EE3E2B18BA5B00BE091D /* ViewModel */,
 				BC77EE412B18BA5B00BE091D /* Models */,
 				BC77EE452B18BA5C00BE091D /* Views */,
+				BC77EE3E2B18BA5B00BE091D /* ViewModel */,
 			);
 			path = MainScreen;
 			sourceTree = "<group>";
@@ -430,6 +429,7 @@
 		BE35246D2B02B29F00746581 /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
+				BC77EE5C2B18BA5C00BE091D /* NavigationBar */,
 				BC93BB682B0BC313008BE2AD /* ScanFlowCoordinator.swift */,
 				BEBA916B2B0A9D0000C2DE96 /* Coordinator.swift */,
 				BE3524752B02B62B00746581 /* MainCoordinator.swift */,
