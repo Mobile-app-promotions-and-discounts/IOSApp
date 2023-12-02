@@ -1,4 +1,5 @@
 import UIKit
+import SnapKit
 
 final class EditProfileView: UIView {
     // MARK: - Properties
@@ -9,7 +10,6 @@ final class EditProfileView: UIView {
     // MARK: - Layout elements
     private lazy var avatarImage: UIImageView = {
         let avatarImage = UIImageView(image: noImage)
-        avatarImage.translatesAutoresizingMaskIntoConstraints = false
         avatarImage.layer.cornerRadius = 65
         avatarImage.layer.masksToBounds = true
         return avatarImage
@@ -17,7 +17,6 @@ final class EditProfileView: UIView {
 
     private lazy var changeAvatarLabel: UILabel = {
         let changeAvatarLabel = UILabel()
-        changeAvatarLabel.translatesAutoresizingMaskIntoConstraints = false
         changeAvatarLabel.text = NSLocalizedString("ChoosePhoto", tableName: "ProfileFlow", comment: "")
         changeAvatarLabel.font = .systemFont(ofSize: 20)
         changeAvatarLabel.textColor = .systemBlue
@@ -30,7 +29,6 @@ final class EditProfileView: UIView {
 
     private lazy var firstNameTextField: TextField = {
         let firstNameTextField = TextField()
-        firstNameTextField.translatesAutoresizingMaskIntoConstraints = false
         firstNameTextField.placeholder = NSLocalizedString("FirstName", tableName: "ProfileFlow", comment: "")
         firstNameTextField.backgroundColor = .buttonBG
         firstNameTextField.layer.cornerRadius = 10
@@ -43,7 +41,6 @@ final class EditProfileView: UIView {
 
     private lazy var lastNameTextField: TextField = {
         let lastNameTextField = TextField()
-        lastNameTextField.translatesAutoresizingMaskIntoConstraints = false
         lastNameTextField.placeholder = NSLocalizedString("LastName", tableName: "ProfileFlow", comment: "")
         lastNameTextField.backgroundColor = .buttonBG
         lastNameTextField.layer.cornerRadius = 10
@@ -54,18 +51,8 @@ final class EditProfileView: UIView {
         return lastNameTextField
     }()
 
-    //    private lazy var commentToNameFields: UILabel = {
-    //        let commentToNameFields = UILabel()
-    //        commentToNameFields.translatesAutoresizingMaskIntoConstraints = false
-    //        commentToNameFields.font = .systemFont(ofSize: 15)
-    //        commentToNameFields.textColor = .black.withAlphaComponent(0.54)
-    //        commentToNameFields.text = NSLocalizedString("CommentToName", tableName: "ProfileFlow", comment: "")
-    //        return commentToNameFields
-    //    }()
-
     private lazy var phoneTextField: TextField = {
         let phoneTextField = TextField()
-        phoneTextField.translatesAutoresizingMaskIntoConstraints = false
         phoneTextField.placeholder = NSLocalizedString("Phone", tableName: "ProfileFlow", comment: "")
         phoneTextField.backgroundColor = .buttonBG
         phoneTextField.layer.cornerRadius = 10
@@ -78,7 +65,6 @@ final class EditProfileView: UIView {
 
     private lazy var emailTextField: TextField = {
         let emailTextField = TextField()
-        emailTextField.translatesAutoresizingMaskIntoConstraints = false
         emailTextField.placeholder = "Email"
         emailTextField.backgroundColor = .buttonBG
         emailTextField.layer.cornerRadius = 10
@@ -92,7 +78,6 @@ final class EditProfileView: UIView {
 
     private lazy var birthdateTextField: TextField = {
         let birthdateTextField = TextField()
-        birthdateTextField.translatesAutoresizingMaskIntoConstraints = false
         birthdateTextField.placeholder = NSLocalizedString("Birthdate", tableName: "ProfileFlow", comment: "")
         birthdateTextField.backgroundColor = .buttonBG
         birthdateTextField.layer.cornerRadius = 10
@@ -109,7 +94,6 @@ final class EditProfileView: UIView {
 
     private lazy var genderTextField: TextField = {
         let genderTextField = TextField()
-        genderTextField.translatesAutoresizingMaskIntoConstraints = false
         genderTextField.placeholder = NSLocalizedString("Gender", tableName: "ProfileFlow", comment: "")
         genderTextField.backgroundColor = .buttonBG
         genderTextField.layer.cornerRadius = 10
@@ -217,64 +201,59 @@ final class EditProfileView: UIView {
     // MARK: - Layout methods
     private func addAvatar() {
         self.addSubview(avatarImage)
+        avatarImage.snp.makeConstraints { make in
+            make.height.width.equalTo(130)
+            make.top.equalTo(safeAreaLayoutGuide.snp.top).inset(20)
+            make.centerX.equalTo(self)
+        }
         self.addSubview(changeAvatarLabel)
-        NSLayoutConstraint.activate([
-            avatarImage.heightAnchor.constraint(equalToConstant: 130),
-            avatarImage.widthAnchor.constraint(equalToConstant: 130),
-            avatarImage.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 20),
-            avatarImage.centerXAnchor.constraint(equalTo: centerXAnchor),
-            changeAvatarLabel.topAnchor.constraint(equalTo: avatarImage.bottomAnchor, constant: 4),
-            changeAvatarLabel.centerXAnchor.constraint(equalTo: centerXAnchor)
-        ])
+        changeAvatarLabel.snp.makeConstraints { make in
+            make.top.equalTo(avatarImage.snp.bottom).offset(4)
+            make.centerX.equalTo(self)
+        }
     }
 
     private func addNameFields() {
         self.addSubview(firstNameTextField)
+        firstNameTextField.snp.makeConstraints { make in
+            make.height.equalTo(52)
+            make.top.equalTo(changeAvatarLabel.snp.bottom).offset(20)
+            make.leading.trailing.equalTo(self).inset(16)
+        }
         self.addSubview(lastNameTextField)
-        //        self.addSubview(commentToNameFields)
-        NSLayoutConstraint.activate([
-            firstNameTextField.heightAnchor.constraint(equalToConstant: 52),
-            firstNameTextField.topAnchor.constraint(equalTo: changeAvatarLabel.bottomAnchor, constant: 20),
-            firstNameTextField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            firstNameTextField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            lastNameTextField.heightAnchor.constraint(equalToConstant: 52),
-            lastNameTextField.topAnchor.constraint(equalTo: firstNameTextField.bottomAnchor, constant: 4),
-            lastNameTextField.leadingAnchor.constraint(equalTo: firstNameTextField.leadingAnchor),
-            lastNameTextField.trailingAnchor.constraint(equalTo: firstNameTextField.trailingAnchor)
-            // commentToNameFields.topAnchor.constraint(equalTo: lastNameTextField.bottomAnchor, constant: 4),
-            // commentToNameFields.leadingAnchor.constraint(equalTo: firstNameTextField.leadingAnchor),
-            // commentToNameFields.trailingAnchor.constraint(equalTo: firstNameTextField.trailingAnchor)
-        ])
+        lastNameTextField.snp.makeConstraints { make in
+            make.size.leading.trailing.equalTo(firstNameTextField)
+            make.top.equalTo(firstNameTextField.snp.bottom).offset(4)
+
+        }
     }
 
     private func addPhoneEmail() {
         self.addSubview(phoneTextField)
+        phoneTextField.snp.makeConstraints { make in
+            make.height.equalTo(52)
+            make.top.equalTo(lastNameTextField.snp.bottom).offset(20)
+            make.leading.trailing.equalTo(self).inset(16)
+        }
         self.addSubview(emailTextField)
-        NSLayoutConstraint.activate([
-            phoneTextField.heightAnchor.constraint(equalToConstant: 52),
-            phoneTextField.topAnchor.constraint(equalTo: lastNameTextField.bottomAnchor, constant: 20),
-            phoneTextField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            phoneTextField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            emailTextField.heightAnchor.constraint(equalToConstant: 52),
-            emailTextField.topAnchor.constraint(equalTo: phoneTextField.bottomAnchor, constant: 4),
-            emailTextField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            emailTextField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16)
-        ])
+        emailTextField.snp.makeConstraints { make in
+            make.size.leading.trailing.equalTo(phoneTextField)
+            make.top.equalTo(phoneTextField.snp.bottom).offset(4)
+        }
     }
 
     private func addBirthdateGender() {
         self.addSubview(birthdateTextField)
+        birthdateTextField.snp.makeConstraints { make in
+            make.height.equalTo(52)
+            make.top.equalTo(emailTextField.snp.bottom).offset(20)
+            make.leading.trailing.equalTo(self).inset(16)
+        }
         self.addSubview(genderTextField)
-        NSLayoutConstraint.activate([
-            birthdateTextField.heightAnchor.constraint(equalToConstant: 52),
-            birthdateTextField.topAnchor.constraint(equalTo: emailTextField.bottomAnchor, constant: 20),
-            birthdateTextField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            birthdateTextField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            genderTextField.heightAnchor.constraint(equalToConstant: 52),
-            genderTextField.topAnchor.constraint(equalTo: birthdateTextField.bottomAnchor, constant: 4),
-            genderTextField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            genderTextField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16)
-        ])
+        genderTextField.snp.makeConstraints { make in
+            make.size.leading.trailing.equalTo(birthdateTextField)
+            make.top.equalTo(birthdateTextField.snp.bottom).offset(4)
+        }
     }
 
 }

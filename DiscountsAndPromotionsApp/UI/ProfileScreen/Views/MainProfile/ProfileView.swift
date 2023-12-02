@@ -1,4 +1,5 @@
 import UIKit
+import SnapKit
 
 final class ProfileView: UIView {
 
@@ -9,7 +10,6 @@ final class ProfileView: UIView {
     // MARK: - Layout elements
     private lazy var editButton: UIButton = {
         let editButton = UIButton()
-        editButton.translatesAutoresizingMaskIntoConstraints = false
         editButton.backgroundColor = .buttonBG
         editButton.tintColor = .black
         let image = UIImage(named: "EditButton")
@@ -22,7 +22,6 @@ final class ProfileView: UIView {
     private lazy var avatarImage: UIImageView = {
         let noImage = UIImage(systemName: "person.circle")?.withTintColor(.buttonBG, renderingMode: .alwaysOriginal)
         let avatarImage = UIImageView(image: noImage)
-        avatarImage.translatesAutoresizingMaskIntoConstraints = false
         avatarImage.layer.cornerRadius = 23
         avatarImage.layer.masksToBounds = true
         return avatarImage
@@ -30,7 +29,6 @@ final class ProfileView: UIView {
 
     private lazy var nameLabel: UILabel = {
         let nameLabel = UILabel()
-        nameLabel.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.text = "Иван Иванов"
         nameLabel.font = UIFont.boldSystemFont(ofSize: 20)
         nameLabel.textColor = .black
@@ -39,7 +37,6 @@ final class ProfileView: UIView {
 
     private lazy var phoneLabel: UILabel = {
         let phoneLabel = UILabel()
-        phoneLabel.translatesAutoresizingMaskIntoConstraints = false
         phoneLabel.text = "+ 7 (111) 111-11-11"
         phoneLabel.font = UIFont.systemFont(ofSize: 15)
         phoneLabel.textColor = .black
@@ -48,7 +45,6 @@ final class ProfileView: UIView {
 
     private lazy var buttonStack: UIStackView = {
         let buttonStack = UIStackView()
-        buttonStack.translatesAutoresizingMaskIntoConstraints = false
         buttonStack.axis = .vertical
         buttonStack.spacing = 4
         return buttonStack
@@ -56,10 +52,8 @@ final class ProfileView: UIView {
 
     private lazy var regionButton: ProfileAssetButton = {
         let regionButton = ProfileAssetButton()
-        regionButton.translatesAutoresizingMaskIntoConstraints = false
         regionButton.buttonTitle.text = NSLocalizedString("Region", tableName: "ProfileFlow", comment: "")
         regionButton.buttonSubtitle.text = "Moscow"
-
         regionButton.backgroundColor = .buttonBG
         regionButton.addTarget(self, action: #selector(regionDidTap), for: .touchUpInside)
         return regionButton
@@ -67,7 +61,6 @@ final class ProfileView: UIView {
 
     private lazy var reviewsButton: ProfileAssetButton = {
         let reviewsButton = ProfileAssetButton()
-        reviewsButton.translatesAutoresizingMaskIntoConstraints = false
         reviewsButton.buttonTitle.text = NSLocalizedString("MyReviews", tableName: "ProfileFlow", comment: "")
         reviewsButton.backgroundColor = .buttonBG
         reviewsButton.addTarget(self, action: #selector(reviewsDidTap), for: .touchUpInside)
@@ -76,7 +69,6 @@ final class ProfileView: UIView {
 
     private lazy var notificationsButton: ProfileAssetButton = {
         let notificationsButton = ProfileAssetButton()
-        notificationsButton.translatesAutoresizingMaskIntoConstraints = false
         notificationsButton.buttonTitle.text = NSLocalizedString("Notifications", tableName: "ProfileFlow", comment: "")
         notificationsButton.backgroundColor = .buttonBG
         notificationsButton.addTarget(self, action: #selector(notificationsDidTap), for: .touchUpInside)
@@ -85,7 +77,6 @@ final class ProfileView: UIView {
 
     private lazy var supportButton: ProfileAssetButton = {
         let supportButton = ProfileAssetButton()
-        supportButton.translatesAutoresizingMaskIntoConstraints = false
         supportButton.buttonTitle.text = NSLocalizedString("Support", tableName: "ProfileFlow", comment: "")
         supportButton.backgroundColor = .buttonBG
         supportButton.addTarget(self, action: #selector(supportDidTap), for: .touchUpInside)
@@ -94,7 +85,6 @@ final class ProfileView: UIView {
 
     private lazy var deleteAccountButton: ProfileAssetButton = {
         let deleteAccountButton = ProfileAssetButton()
-        deleteAccountButton.translatesAutoresizingMaskIntoConstraints = false
         deleteAccountButton.buttonTitle.text = NSLocalizedString("DeleteAccount", tableName: "ProfileFlow", comment: "")
         deleteAccountButton.addTarget(self, action: #selector(deleteAccountDidTap), for: .touchUpInside)
         return deleteAccountButton
@@ -102,7 +92,6 @@ final class ProfileView: UIView {
 
     private lazy var exitProfileButton: ProfileAssetButton = {
         let exitProfileButton = ProfileAssetButton()
-        exitProfileButton.translatesAutoresizingMaskIntoConstraints = false
         exitProfileButton.buttonTitle.text = NSLocalizedString("ExitProfile", tableName: "ProfileFlow", comment: "")
         exitProfileButton.addTarget(self, action: #selector(exitAccountDidTap), for: .touchUpInside)
         return exitProfileButton
@@ -110,7 +99,6 @@ final class ProfileView: UIView {
 
     // MARK: - Lifecycle
     init(frame: CGRect, viewModel: ProfileViewModelProtocol, viewController: ProfileViewController) {
-        //        self.viewModel = viewModel
         self.viewController = viewController
 
         super.init(frame: .zero)
@@ -183,49 +171,50 @@ final class ProfileView: UIView {
     // MARK: - Layout methods
     private func addEditButton() {
         self.addSubview(editButton)
-        NSLayoutConstraint.activate([
-            editButton.heightAnchor.constraint(equalToConstant: 36),
-            editButton.widthAnchor.constraint(equalToConstant: 36),
-            editButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 12),
-            editButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16)
-        ])
+        editButton.snp.makeConstraints { make in
+            make.height.width.equalTo(36)
+            make.top.equalTo(safeAreaLayoutGuide.snp.top).inset(12)
+            make.trailing.equalTo(snp.trailing).inset(16)
+        }
     }
 
     private func addAvatar() {
         self.addSubview(avatarImage)
-        NSLayoutConstraint.activate([
-            avatarImage.heightAnchor.constraint(equalToConstant: 46),
-            avatarImage.widthAnchor.constraint(equalToConstant: 46),
-            avatarImage.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 12),
-            avatarImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16)
-        ])
+        avatarImage.snp.makeConstraints { make in
+            make.height.width.equalTo(46)
+            make.top.equalTo(safeAreaLayoutGuide.snp.top).inset(12)
+            make.leading.equalTo(snp.leading).inset(16)
+        }
     }
 
     private func addNameLabel() {
         self.addSubview(nameLabel)
-        nameLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 12).isActive = true
-        nameLabel.leadingAnchor.constraint(equalTo: avatarImage.trailingAnchor, constant: 12).isActive = true
+        nameLabel.snp.makeConstraints { make in
+            make.top.equalTo(safeAreaLayoutGuide.snp.top).inset(12)
+            make.leading.equalTo(avatarImage.snp.trailing).offset(16)
+        }
     }
 
     private func addPhoneLabel() {
         self.addSubview(phoneLabel)
-        phoneLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 4).isActive = true
-        phoneLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor).isActive = true
+        phoneLabel.snp.makeConstraints { make in
+            make.top.equalTo(nameLabel.snp.bottom).offset(4)
+            make.leading.equalTo(nameLabel.snp.leading)
+        }
     }
 
     private func addButtons() {
-        buttonStack.addArrangedSubview(regionButton)
-        buttonStack.addArrangedSubview(reviewsButton)
-        buttonStack.addArrangedSubview(notificationsButton)
-        buttonStack.addArrangedSubview(supportButton)
-        buttonStack.addArrangedSubview(deleteAccountButton)
-        buttonStack.addArrangedSubview(exitProfileButton)
+        [regionButton,
+         reviewsButton,
+         notificationsButton,
+         supportButton,
+         deleteAccountButton,
+         exitProfileButton].forEach { buttonStack.addArrangedSubview($0) }
 
         self.addSubview(buttonStack)
-        NSLayoutConstraint.activate([
-            buttonStack.topAnchor.constraint(equalTo: phoneLabel.bottomAnchor, constant: 20),
-            buttonStack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            buttonStack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16)
-        ])
+        buttonStack.snp.makeConstraints { make in
+            make.top.equalTo(phoneLabel.snp.bottom).offset(20)
+            make.leading.trailing.equalTo(self).inset(16)
+        }
     }
 }
