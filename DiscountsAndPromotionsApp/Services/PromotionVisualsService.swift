@@ -37,10 +37,10 @@ final class PromotionVisualsService {
                     gradient: createGradient(colors: [.gradientBase, .gradientOrange]),
                     image: .coffe
                 )
-            case "Для дома и сада":
+            case "Дом и сад":
                 visualAttributes = CategoryVisualAttributes(
                     gradient: createGradient(colors: [.gradientBase, .gradientBlue]),
-                    image: .himia
+                    image: .himiya
                 )
             case "Косметика и гигиена":
                 visualAttributes = CategoryVisualAttributes(
@@ -52,7 +52,7 @@ final class PromotionVisualsService {
                     gradient: createGradient(colors: [.gradientBase, .gradientGreen]),
                     image: .animalFood
                 )
-            case "К празднику":
+            case "Праздник":
                 visualAttributes = CategoryVisualAttributes(
                     gradient: createGradient(colors: [.gradientBase, .gradientRed]),
                     image: .gift
