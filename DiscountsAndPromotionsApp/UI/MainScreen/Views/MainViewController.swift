@@ -163,6 +163,9 @@ extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == 0 && indexPath.row == 0 {
             self.coordinator?.navigateToCategoryScreen()
+        } else if indexPath.section == 1 {
+            let promotionUIModel = viewModel.getPromotion(for: indexPath.row)
+            coordinator?.navigateToProductScreen(for: promotionUIModel.product)
         } else {
             print("Для других ячеек обработка нажатия будет реализована позже")
         }

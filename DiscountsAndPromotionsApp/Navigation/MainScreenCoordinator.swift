@@ -31,8 +31,14 @@ final class MainScreenCoordinator: Coordinator {
             navigationController.pushViewController(categoryViewController, animated: true)
         }
 
-        func navigateToSearchScreen() {
-            let searchController = SearchViewController()
-            navigationController.pushViewController(searchController, animated: true)
-        }
+    func navigateToSearchScreen() {
+        let searchController = SearchViewController()
+        navigationController.pushViewController(searchController, animated: true)
     }
+
+    func navigateToProductScreen(for product: Product) {
+        let productVC = ProductCardViewController(product: product)
+        productVC.coordinator = self
+        navigationController.pushViewController(productVC, animated: true)
+    }
+}
