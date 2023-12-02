@@ -212,13 +212,13 @@
 		BCCF4FBF2B1B4AF10067A552 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				BCCF4FE82B1B4AF10067A552 /* ProfileViewController.swift */,
 				BCCF4FC52B1B4AF10067A552 /* ViewModel */,
 				BCCF4FC82B1B4AF10067A552 /* MainScreen */,
 				BCCF4FD32B1B4AF10067A552 /* SearchScreen */,
 				BCCF4FD52B1B4AF10067A552 /* ScanFlow */,
 				BCCF4FDB2B1B4AF10067A552 /* CategoryScreen */,
 				BCCF4FE42B1B4AF10067A552 /* NavigationBar */,
-				BCCF4FE82B1B4AF10067A552 /* ProfileViewController.swift */,
 				BCCF4FE92B1B4AF10067A552 /* FavoritesScreen */,
 				BCCF4FEF2B1B4AF10067A552 /* ProductCardScreen */,
 			);
