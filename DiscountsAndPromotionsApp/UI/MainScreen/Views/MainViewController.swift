@@ -11,7 +11,7 @@ final class MainViewController: ScannerEnabledViewController {
     private var cancellables = Set<AnyCancellable>()
 
     private lazy var mainCollectionView: UICollectionView = {
-        let layout = layoutProvider.createLayoutForMainScreen()
+        let layout = layoutProvider.createMainScreenLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.showsVerticalScrollIndicator = false
         collectionView.register(FiltersCell.self, forCellWithReuseIdentifier: FiltersCell.reuseIdentifier)
@@ -19,6 +19,9 @@ final class MainViewController: ScannerEnabledViewController {
         collectionView.register(HeaderView.self,
                                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                                 withReuseIdentifier: HeaderView.reuseIdentifier)
+        collectionView.register(FooterView.self,
+                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
+                                withReuseIdentifier: FooterView.reuseIdentifier)
         collectionView.register(StoresCell.self, forCellWithReuseIdentifier: StoresCell.reuseIdentifier)
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -104,18 +107,28 @@ extension MainViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         viewForSupplementaryElementOfKind kind: String,
                         at indexPath: IndexPath) -> UICollectionReusableView {
-        guard kind == UICollectionView.elementKindSectionHeader else {
-            return UICollectionReusableView()
+        if kind == UICollectionView.elementKindSectionHeader {
+            // Обработка заголовка
+            guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+                                                                               withReuseIdentifier: HeaderView.reuseIdentifier,
+                                                                               for: indexPath) as? HeaderView else {
+                return UICollectionReusableView()
+            }
+            let headerName = viewModel.getTitleFor(indexPath: indexPath)
+            header.configure(with: headerName)
+            return header
+        } else if kind == UICollectionView.elementKindSectionFooter {
+            // Обработка подвала
+            guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+                                                                               withReuseIdentifier: FooterView.reuseIdentifier,
+                                                                               for: indexPath) as? FooterView else {
+                return UICollectionReusableView()
+            }
+
+            return footer
         }
 
-        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
-                                                                           withReuseIdentifier: HeaderView.reuseIdentifier,
-                                                                           for: indexPath) as? HeaderView else {
-            return UICollectionReusableView()
-        }
-        let headerName = viewModel.getTitleFor(indexPath: indexPath)
-        header.configure(with: headerName)
-        return header
+        return UICollectionReusableView()
     }
 
     func collectionView(_ collectionView: UICollectionView,
@@ -141,7 +154,10 @@ extension MainViewController: UICollectionViewDataSource {
                                                                 for: indexPath) as? PromotionCell else {
                 return UICollectionViewCell()
             }
-            let promotion = viewModel.getPromotion(for: indexPath.row)
+            guard let promotion = viewModel.getPromotion(for: indexPath.row) else {
+                ErrorHandler.handle(error: .customError("Ошибка получения акции во вью модели"))
+                return cell
+            }
             cell.configure(with: promotion)
             return cell
         case .stores:
@@ -159,7 +175,6 @@ extension MainViewController: UICollectionViewDataSource {
 // MARK: - UICollectionViewDelegate
 
 extension MainViewController: UICollectionViewDelegate {
-
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == 0 && indexPath.row == 0 {
             self.coordinator?.navigateToCategoryScreen()

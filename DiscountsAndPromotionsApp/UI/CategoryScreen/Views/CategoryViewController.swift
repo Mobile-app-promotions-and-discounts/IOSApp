@@ -44,7 +44,7 @@ final class CategoryViewController: ScannerEnabledViewController {
     }
 
     private func setupViews() {
-        layoutProvider.createLayoutForCategoryScreen(for: categoryCollectionView, in: view)
+        layoutProvider.createCategoryScreenLayout(for: categoryCollectionView, in: view)
         view.backgroundColor = .cherryLightBlue
 
         view.addSubview(categoryCollectionView)

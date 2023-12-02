@@ -84,6 +84,7 @@ struct Store: Codable {
 
 struct StoreImage: Codable {
     let mainImage: String
+    let logoImage: String
 }
 
 struct StoreLocation: Codable {

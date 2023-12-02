@@ -1,126 +1,122 @@
 import UIKit
 
 final class CollectionLayoutProvider {
-    func createLayoutForMainScreen() -> UICollectionViewLayout {
-        let layout = UICollectionViewCompositionalLayout { [weak self] (sectionIndex, environment) -> NSCollectionLayoutSection? in
-            guard let self else { return nil }
-            return self.createSectionLayout(for: sectionIndex, environment: environment)
+    private struct Constants {
+        static let numberOfItemsPerRow: CGFloat = 3
+        static let spacing: CGFloat = 13
+        static let sectionInset: CGFloat = 16
+        static let interGroupSpacing: CGFloat = 8
+        static let promoAspectRatio: CGFloat = 106 / 112
+        static let shopsAspectRatio: CGFloat = 106 / 68
+        static let itemHeight: CGFloat = 243
+        static let headerHeight: CGFloat = 44
+        static let footerHeight: CGFloat = 12
+    }
+
+    func createMainScreenLayout() -> UICollectionViewLayout {
+        let layout = UICollectionViewCompositionalLayout { [weak self] (mainSection, environment) -> NSCollectionLayoutSection? in
+            guard let self,
+                  let mainSection = MainSection(rawValue: mainSection)
+            else { return nil }
+            return self.createSectionLayout(for: mainSection, environment: environment)
         }
 
-        // Регистрация класса фона для декоративного элемента
-        layout.register(SectionBackgroundView.self, forDecorationViewOfKind: NSStringFromClass(SectionBackgroundView.self))
+        // Регистрация кастомного вью для фоновой заливки секции
+        layout.register(SectionBackgroundView.self,
+                        forDecorationViewOfKind: NSStringFromClass(SectionBackgroundView.self))
 
         return layout
     }
 
-    func createLayoutForCategoryScreen(for collectionView: UICollectionView, in view: UIView) {
+    func createCategoryScreenLayout(for collectionView: UICollectionView, in view: UIView) {
         guard let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else {
             return
         }
 
-        let spacing: CGFloat = 12
-        let totalSpacing = spacing * 3
+        let totalSpacing = Constants.spacing * 3
         let itemWidth = (view.bounds.width - totalSpacing) / 2
 
-        layout.itemSize = CGSize(width: itemWidth, height: 243)
-        layout.minimumLineSpacing = spacing
-        layout.minimumInteritemSpacing = spacing
+        layout.itemSize = CGSize(width: itemWidth, height: Constants.itemHeight)
+        layout.minimumLineSpacing = Constants.spacing
+        layout.minimumInteritemSpacing = Constants.spacing
     }
 
-    private func createSectionLayout(for sectionIndex: Int,
+    private func createSectionLayout(for section: MainSection,
                                      environment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection {
-        switch sectionIndex {
-        case 0:
-            let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(100),
-                                                  heightDimension: .absolute(40))
-            let item = NSCollectionLayoutItem(layoutSize: itemSize)
-
-            let groupSize = NSCollectionLayoutSize(widthDimension: .estimated(1000),
-                                                   heightDimension: .absolute(40))
-            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-
-            let section = NSCollectionLayoutSection(group: group)
-            section.interGroupSpacing = 8
-            section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 18, trailing: 0)
-            section.orthogonalScrollingBehavior = .continuous
-
-            return section
-
-        case 2:
-            // Размер заголовка остается прежним
-            let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                    heightDimension: .estimated(44))
-            let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize,
-                                                                     elementKind: UICollectionView.elementKindSectionHeader,
-                                                                     alignment: .top)
-            // Расчеты размеров элемента с учетом отступов
-            let spacing: CGFloat = 12 // Пространство между элементами
-            let sectionInset: CGFloat = 16 // Отступы секции слева и справа
-            let containerWidth = environment.container.effectiveContentSize.width
-            let numberOfItemsPerRow: CGFloat = 3
-            let totalSpacingBetweenItems = (numberOfItemsPerRow - 1) * spacing
-            let totalInsets = sectionInset * 2
-            let adjustedWidth = containerWidth - totalSpacingBetweenItems - totalInsets
-            let itemWidth = adjustedWidth / numberOfItemsPerRow
-
-            // Аспектное соотношение для элемента
-            let itemAspectRatio: CGFloat = 106 / 68
-            let itemHeight = itemWidth / itemAspectRatio
-
-            // Создание размера элемента с учетом аспектного соотношения
-            let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(itemWidth),
-                                                  heightDimension: .absolute(itemHeight))
-            let item = NSCollectionLayoutItem(layoutSize: itemSize)
-
-            // Создание группы для горизонтального расположения элементов
-            let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(itemWidth * numberOfItemsPerRow + totalSpacingBetweenItems),
-                                                   heightDimension: .absolute(itemHeight))
-            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
-                                                           subitem: item,
-                                                           count: Int(numberOfItemsPerRow))
-            group.interItemSpacing = .fixed(spacing)
-
-            // Создание декоративного элемента для фона секции
-            let backgroundDecoration = NSCollectionLayoutDecorationItem.background(
-                elementKind: NSStringFromClass(SectionBackgroundView.self)
-            )
-
-            // Создание секции
-            let section = NSCollectionLayoutSection(group: group)
-            section.boundarySupplementaryItems = [header]
-            section.interGroupSpacing = spacing
-            section.contentInsets = NSDirectionalEdgeInsets(top: 12,
-                                                            leading: sectionInset,
-                                                            bottom: 12,
-                                                            trailing: sectionInset)
-            section.orthogonalScrollingBehavior = .none
-            section.decorationItems = [backgroundDecoration]
-
-            return section
-
-        default:
-            let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                    heightDimension: .estimated(44)) // Примерная высота заголовка
-
-            let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize,
-                                                                     elementKind: UICollectionView.elementKindSectionHeader,
-                                                                     alignment: .top)
-
-            let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(216),
-                                                  heightDimension: .absolute(228))
-            let item = NSCollectionLayoutItem(layoutSize: itemSize)
-
-            let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(216),
-                                                   heightDimension: .absolute(228))
-            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 1)
-
-            let section = NSCollectionLayoutSection(group: group)
-            section.boundarySupplementaryItems = [header]
-            section.interGroupSpacing = 8
-            section.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 16, bottom: 18, trailing: 0)
-            section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
-
-            return section
+        let newSection: NSCollectionLayoutSection
+        switch section {
+        case .categories:
+            newSection = createCategoriesSection()
+        case .promotions:
+            newSection = createConfigurableSection(environment: environment, aspectRatio: Constants.promoAspectRatio)
+        case .stores:
+            newSection = createConfigurableSection(environment: environment, aspectRatio: Constants.shopsAspectRatio)
         }
+        return newSection
+    }
+
+    private func createCategoriesSection() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(100),
+                                              heightDimension: .absolute(40))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        let groupSize = NSCollectionLayoutSize(widthDimension: .estimated(1000),
+                                               heightDimension: .absolute(40))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = Constants.interGroupSpacing
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 18, trailing: 0)
+        section.orthogonalScrollingBehavior = .continuous
+        return section
+    }
+
+    private func createConfigurableSection(environment: NSCollectionLayoutEnvironment,
+                                           aspectRatio: CGFloat) -> NSCollectionLayoutSection {
+        let containerWidth = environment.container.effectiveContentSize.width
+        let totalSpacingBetweenItems = (Constants.numberOfItemsPerRow - 1) * Constants.spacing
+        let totalInsets = Constants.sectionInset * 2
+        let adjustedWidth = containerWidth - totalSpacingBetweenItems - totalInsets
+        let itemWidth = adjustedWidth / Constants.numberOfItemsPerRow
+
+        let itemAspectRatio = aspectRatio
+        let itemHeight = itemWidth / itemAspectRatio
+
+        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(itemWidth),
+                                              heightDimension: .absolute(itemHeight))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(itemWidth * Constants.numberOfItemsPerRow + totalSpacingBetweenItems),
+                                               heightDimension: .absolute(itemHeight))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
+                                                       subitem: item,
+                                                       count: Int(Constants.numberOfItemsPerRow))
+        group.interItemSpacing = .fixed(Constants.spacing)
+
+        let backgroundDecoration = NSCollectionLayoutDecorationItem.background(
+            elementKind: NSStringFromClass(SectionBackgroundView.self)
+        )
+
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                heightDimension: .estimated(Constants.headerHeight))
+        let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize,
+                                                                 elementKind: UICollectionView.elementKindSectionHeader,
+                                                                 alignment: .top)
+
+        let section = NSCollectionLayoutSection(group: group)
+        section.boundarySupplementaryItems = [header]
+        section.interGroupSpacing = Constants.interGroupSpacing
+        section.contentInsets = NSDirectionalEdgeInsets(top: 12,
+                                                        leading: Constants.sectionInset,
+                                                        bottom: 12,
+                                                        trailing: Constants.sectionInset)
+        section.orthogonalScrollingBehavior = .none
+        section.decorationItems = [backgroundDecoration]
+
+        let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(Constants.footerHeight))
+        let footer = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize,
+                                                                 elementKind: UICollectionView.elementKindSectionFooter,
+                                                                 alignment: .bottom)
+        section.boundarySupplementaryItems.append(footer)
+
+        return section
     }
 }

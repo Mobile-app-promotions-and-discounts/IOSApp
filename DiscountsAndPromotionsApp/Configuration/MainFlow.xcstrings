@@ -41,12 +41,12 @@
         }
       }
     },
-    "Promotions" : {
+    "Promotions this week" : {
       "localizations" : {
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Акции"
+            "value" : "Акции на этой неделе"
           }
         }
       }
