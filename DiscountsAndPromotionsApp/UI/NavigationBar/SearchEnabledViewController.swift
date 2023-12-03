@@ -41,11 +41,6 @@ class SearchEnabledViewController: UIViewController {
                                                                                                        comment: ""),
                                                                              attributes: placeholderAttributes as [NSAttributedString.Key: Any])
         searchBar.setImage(.searchIcon, for: .search, state: .normal)
-
-        let placeholderColor = searchBar.searchTextField.attributedText?.attribute(NSAttributedString.Key.foregroundColor, at: 0, effectiveRange: nil) as? UIColor
-
-        print(placeholderColor)
-
         searchBar.setImage(.icClose, for: .clear, state: .normal)
         searchBar.barStyle = .black
         searchBar.backgroundColor = .clear
