@@ -54,7 +54,7 @@ final class MainViewController: ScannerEnabledViewController {
 
         mainCollectionView.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
-            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
+            make.top.equalTo(view)
             make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
         }
     }

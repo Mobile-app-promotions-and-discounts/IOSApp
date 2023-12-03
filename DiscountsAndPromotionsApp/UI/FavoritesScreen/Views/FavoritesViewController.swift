@@ -2,7 +2,7 @@ import UIKit
 import Combine
 import SnapKit
 
-final class FavoritesViewController: UIViewController {
+final class FavoritesViewController: ScannerEnabledViewController {
     weak var coordinator: FavoritesScreenCoordinator?
 
     private let viewModel: FavoritesViewModelProtocol

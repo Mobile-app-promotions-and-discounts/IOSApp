@@ -15,12 +15,24 @@ final class GenericNavigationController: UINavigationController {
         let appearence = UINavigationBarAppearance()
         appearence.configureWithTransparentBackground()
         appearence.backgroundColor = .cherryMainAccent
+        appearence.setBackIndicatorImage(.icBack, transitionMaskImage: .icBack)
 
         navigationBar.standardAppearance = appearence
         navigationBar.scrollEdgeAppearance = appearence
         navigationBar.compactAppearance = appearence
 
         navigationBar.barStyle = .black
+
+        navigationBar.backgroundColor = .clear
+        navigationBar.barTintColor = .clear
+        navigationBar.shadowImage = UIImage()
+        navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationBar.isTranslucent = true
+
+        navigationBar.clipsToBounds = true
+        navigationBar.layer.cornerRadius = CornerRadius.regular.cgFloat()
+        navigationBar.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
+
         navigationBar.tintColor = .cherryWhite
 
         roundedBackground.backgroundColor = .cherryMainAccent
