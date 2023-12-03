@@ -54,7 +54,7 @@ final class MainViewModel: MainViewModelProtocol {
     func numberOfItems(inSection section: MainSection) -> Int {
         switch section {
         case .categories:
-            return categories.count
+            return 8
         case .promotions:
             return 6
         case .stores:
@@ -64,8 +64,6 @@ final class MainViewModel: MainViewModelProtocol {
 
     func getTitleFor(indexPath: IndexPath) -> String {
         switch indexPath.section {
-        case 0:
-            return categories[indexPath.row].name
         case 1:
             return NSLocalizedString("Promotions this week", tableName: "MainFlow", comment: "")
         case 2:
@@ -73,6 +71,14 @@ final class MainViewModel: MainViewModelProtocol {
         default:
             return ""
         }
+    }
+
+    func getCategory(for index: Int) -> CategoryUIModel? {
+        guard index < categories.count else {
+            return nil
+        }
+        let category = categories[index]
+        return CategoryUIModel(category: category)
     }
 
     func getPromotion(for index: Int) -> PromotionUIModel? {
@@ -85,7 +91,7 @@ final class MainViewModel: MainViewModelProtocol {
 
     func getStore(for index: Int) -> StoreUIModel {
         let store = stores[index]
-        return convertStoreModel(for: store)
+        return StoreUIModel(store: store)
     }
 
     private func setupBindings() {
@@ -116,9 +122,5 @@ final class MainViewModel: MainViewModelProtocol {
                 self.promotions = promotionList
             }
             .store(in: &cancellables)
-    }
-
-    private func convertStoreModel(for store: Store) -> StoreUIModel {
-        return StoreUIModel(store: store)
     }
 }

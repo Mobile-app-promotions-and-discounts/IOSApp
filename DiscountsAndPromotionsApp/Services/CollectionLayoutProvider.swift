@@ -20,11 +20,9 @@ final class CollectionLayoutProvider {
             else { return nil }
             return self.createSectionLayout(for: mainSection, environment: environment)
         }
-
         // Регистрация кастомного вью для фоновой заливки секции
         layout.register(SectionBackgroundView.self,
                         forDecorationViewOfKind: NSStringFromClass(SectionBackgroundView.self))
-
         return layout
     }
 
@@ -56,16 +54,39 @@ final class CollectionLayoutProvider {
     }
 
     private func createCategoriesSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(100),
-                                              heightDimension: .absolute(40))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .estimated(1000),
-                                               heightDimension: .absolute(40))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        let section = NSCollectionLayoutSection(group: group)
-        section.interGroupSpacing = Constants.interGroupSpacing
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 18, trailing: 0)
-        section.orthogonalScrollingBehavior = .continuous
+        // Элементы для первых двух строк
+        let firstTwoRowsItemSize = NSCollectionLayoutSize(widthDimension: .absolute(166),
+                                                          heightDimension: .absolute(74))
+        let firstTwoRowsItem = NSCollectionLayoutItem(layoutSize: firstTwoRowsItemSize)
+        let firstTwoRowsGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                           heightDimension: .absolute(80))
+        let firstTwoRowsGroup = NSCollectionLayoutGroup.horizontal(layoutSize: firstTwoRowsGroupSize,
+                                                                   subitem: firstTwoRowsItem, count: 2)
+        firstTwoRowsGroup.interItemSpacing = .fixed(Constants.spacing)
+
+        // Элементы для третьей строки
+        let thirdRowItemSize = NSCollectionLayoutSize(widthDimension: .absolute(77),
+                                                      heightDimension: .absolute(59))
+        let thirdRowItem = NSCollectionLayoutItem(layoutSize: thirdRowItemSize)
+        let thirdRowGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                       heightDimension: .absolute(66))
+        let thirdRowGroup = NSCollectionLayoutGroup.horizontal(layoutSize: thirdRowGroupSize,
+                                                               subitem: thirdRowItem, count: 4)
+        thirdRowGroup.interItemSpacing = .fixed(Constants.spacing)
+
+        // Общая группа, объединяющая все строки
+        let combinedGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                       heightDimension: .estimated(206))
+        let combinedGroup = NSCollectionLayoutGroup.vertical(layoutSize: combinedGroupSize,
+                                                             subitems: [firstTwoRowsGroup,
+                                                                        firstTwoRowsGroup,
+                                                                        thirdRowGroup])
+        combinedGroup.interItemSpacing = .fixed(Constants.interGroupSpacing)
+
+        let section = NSCollectionLayoutSection(group: combinedGroup)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 18, leading: 16, bottom: 6, trailing: 16)
+        section.orthogonalScrollingBehavior = .none
+
         return section
     }
 

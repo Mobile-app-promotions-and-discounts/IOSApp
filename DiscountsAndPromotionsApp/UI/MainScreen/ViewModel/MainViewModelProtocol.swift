@@ -12,6 +12,8 @@ protocol MainViewModelProtocol {
     func viewDidLoad()
     func numberOfItems(inSection section: MainSection) -> Int
     func getTitleFor(indexPath: IndexPath) -> String
+
+    func getCategory(for index: Int) -> CategoryUIModel?
     func getPromotion(for index: Int) -> PromotionUIModel?
     func getStore(for index: Int) -> StoreUIModel
 }

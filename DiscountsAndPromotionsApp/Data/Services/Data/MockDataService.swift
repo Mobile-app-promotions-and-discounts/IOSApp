@@ -1,6 +1,7 @@
 import Foundation
 import Combine
 
+// swiftlint:disable type_body_length
 // swiftlint:disable function_body_length
 
 final class MockDataService: DataServiceProtocol {
@@ -42,21 +43,33 @@ final class MockDataService: DataServiceProtocol {
     }
 
     private func generateCategories() -> [Category] {
-        return [Category(name: "Продукты"),
-                Category(name: "Одежда и обувь"),
-                Category(name: "Косметика и гигиена"),
-                Category(name: "Для детей"),
-                Category(name: "Дом и сад"),
-                Category(name: "Зоотовары"),
-                Category(name: "Праздник"),
-                Category(name: "Авто")]
+        return [Category(name: "Продукты", image: "ProductsCategoryIcon"),
+                Category(name: "Одежда и обувь", image: "ClothesAndShoesCategoryIcon"),
+                Category(name: "Косметика и гигиена", image: "CosmeticsCategoryIcon"),
+                Category(name: "Для детей", image: "ForKindsCategoryIcon"),
+                Category(name: "Дом и сад", image: "HomeAndGardenCategoryIcon"),
+                Category(name: "Зоотовары", image: "PetSuppliesCategoryIcon"),
+                Category(name: "Праздник", image: "HolidayCategoryIcon"),
+                Category(name: "Авто", image: "AutoCategoryIcon")]
     }
 
     private func generateProducts() -> [Product] {
+        // Убедимся, что у нас есть категории для использования
+        guard let categoryProducts = categories.first(where: { $0.name == "Продукты" }),
+              let categoryClothesAndShoes = categories.first(where: { $0.name == "Одежда и обувь" }),
+              let categoryCosmetics = categories.first(where: { $0.name == "Косметика и гигиена" }),
+              let categoryForKids = categories.first(where: { $0.name == "Для детей" }),
+              let categoryHomeAndGarden = categories.first(where: { $0.name == "Дом и сад" }),
+              let categoryPetSupplies = categories.first(where: { $0.name == "Зоотовары" }),
+              let categoryHoliday = categories.first(where: { $0.name == "Праздник" }),
+              let categoryAuto = categories.first(where: { $0.name == "Авто" }) else {
+            return []
+        }
+
         return [Product(barcode: "",
                         name: "Томаты сливовидные",
                         description: "1 кг",
-                        category: Category(name: "Продукты"),
+                        category: categoryProducts,
                         image: nil,
                         rating: nil,
                         offers: [Offer(price: 150,
@@ -82,7 +95,7 @@ final class MockDataService: DataServiceProtocol {
                 Product(barcode: "",
                         name: "Салат Айсберг",
                         description: "1 шт.",
-                        category: Category(name: "Продукты"),
+                        category: categoryProducts,
                         image: nil,
                         rating: nil,
                         offers: [Offer(price: 90,
@@ -108,7 +121,7 @@ final class MockDataService: DataServiceProtocol {
                 Product(barcode: "",
                         name: "Тыква Баттернат",
                         description: "3 кг",
-                        category: Category(name: "Продукты"),
+                        category: categoryProducts,
                         image: nil,
                         rating: nil,
                         offers: [Offer(price: 40,
@@ -134,7 +147,7 @@ final class MockDataService: DataServiceProtocol {
                 Product(barcode: "",
                         name: "Капуста Брокколи",
                         description: "1 шт.",
-                        category: Category(name: "Продукты"),
+                        category: categoryProducts,
                         image: nil,
                         rating: nil,
                         offers: [Offer(price: 300,
@@ -160,7 +173,7 @@ final class MockDataService: DataServiceProtocol {
                 Product(barcode: "",
                         name: "Груша конференция",
                         description: "1 кг",
-                        category: Category(name: "Продукты"),
+                        category: categoryProducts,
                         image: nil,
                         rating: nil,
                         offers: [Offer(price: 220,
@@ -186,7 +199,7 @@ final class MockDataService: DataServiceProtocol {
                 Product(barcode: "",
                         name: "Апельсины",
                         description: "1 кг",
-                        category: Category(name: "Продукты"),
+                        category: categoryProducts,
                         image: nil,
                         rating: nil,
                         offers: [Offer(price: 120,
@@ -212,7 +225,7 @@ final class MockDataService: DataServiceProtocol {
                 Product(barcode: "",
                         name: "Картофель белый мытый",
                         description: "1 кг",
-                        category: Category(name: "Продукты"),
+                        category: categoryProducts,
                         image: nil,
                         rating: nil,
                         offers: [Offer(price: 40,
@@ -238,7 +251,7 @@ final class MockDataService: DataServiceProtocol {
                 Product(barcode: "",
                         name: "Огурцы гладкие среднеплодные",
                         description: "1 кг",
-                        category: Category(name: "Продукты"),
+                        category: categoryProducts,
                         image: nil,
                         rating: nil,
                         offers: [Offer(price: 99.99,
@@ -374,4 +387,5 @@ final class MockDataService: DataServiceProtocol {
                           discount: discount)]
     }
 }
+// swiftlint:enable type_body_length
 // swiftlint:enable function_body_length

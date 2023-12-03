@@ -14,7 +14,7 @@ final class MainViewController: ScannerEnabledViewController {
         let layout = layoutProvider.createMainScreenLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.showsVerticalScrollIndicator = false
-        collectionView.register(FiltersCell.self, forCellWithReuseIdentifier: FiltersCell.reuseIdentifier)
+        collectionView.register(CategoryCell.self, forCellWithReuseIdentifier: CategoryCell.reuseIdentifier)
         collectionView.register(PromotionCell.self, forCellWithReuseIdentifier: PromotionCell.reuseIdentifier)
         collectionView.register(HeaderView.self,
                                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
@@ -131,8 +131,7 @@ extension MainViewController: UICollectionViewDataSource {
         return UICollectionReusableView()
     }
 
-    func collectionView(_ collectionView: UICollectionView,
-                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
         guard let mainSection = MainSection(rawValue: indexPath.section) else {
             return UICollectionViewCell()
@@ -140,13 +139,16 @@ extension MainViewController: UICollectionViewDataSource {
 
         switch mainSection {
         case .categories:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FiltersCell.reuseIdentifier,
-                                                                for: indexPath) as? FiltersCell else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryCell.reuseIdentifier,
+                                                                for: indexPath) as? CategoryCell else {
                 return UICollectionViewCell()
             }
 
-            let title = viewModel.getTitleFor(indexPath: indexPath)
-            cell.configure(with: title)
+            guard let category = viewModel.getCategory(for: indexPath.row) else {
+                ErrorHandler.handle(error: .customError("Ошибка получения категории во вью модели"))
+                return cell
+            }
+            cell.configure(with: category)
             return cell
 
         case .promotions:
