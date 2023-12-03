@@ -28,14 +28,12 @@ final class ScanFlowCoordinator: Coordinator {
 
         scanVC.coordinator = self
         scanVC.hidesBottomBarWhenPushed = true
-
-        let scanNavigationController = UINavigationController(rootViewController: scanVC)
-        scanNavigationController.modalPresentationStyle = .fullScreen
-        navigationController.show(scanNavigationController, sender: nil)
+        scanVC.modalPresentationStyle = .fullScreen
+        navigationController.show(scanVC, sender: nil)
     }
 
     func goBack() {
-        navigationController.dismiss(animated: true)
+        navigationController.popViewController(animated: true)
     }
 
     func scanError() {

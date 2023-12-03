@@ -44,9 +44,9 @@ final class ScanViewController: UIViewController {
     }()
 
     private lazy var flashButton = {
-        let flashButton = GenericNavButton(type: .custom)
-        flashButton.setImage(UIImage.init(systemName: "bolt"), for: .normal)
-        flashButton.setImage(UIImage.init(systemName: "bolt.fill"), for: .selected)
+        let flashButton = ScannerNavButton(type: .custom)
+        flashButton.setImage(.icFlashOff, for: .normal)
+        flashButton.setImage(.icFlashOn, for: .selected)
         flashButton.addTarget(self,
                               action: #selector(toggleFlash),
                               for: .touchUpInside)
@@ -54,8 +54,8 @@ final class ScanViewController: UIViewController {
     }()
 
     private lazy var backButton = {
-        let backButton = GenericNavButton(type: .system)
-        backButton.setImage(UIImage(systemName: "arrow.backward"), for: .normal)
+        let backButton = ScannerNavButton(type: .system)
+        backButton.setImage(.icBack, for: .normal)
         backButton.addTarget(self,
                              action: #selector(goBack),
                              for: .touchUpInside)
@@ -130,37 +130,54 @@ final class ScanViewController: UIViewController {
 
     // MARK: - Setup UI
     private func setupUI() {
-        view.backgroundColor = .cherryLightBlue
+        view.backgroundColor = .cherryBlack
 
         scanPreviewLayer.frame = view.layer.bounds
         scanPreviewLayer.videoGravity = .resizeAspectFill
         view.layer.addSublayer(scanPreviewLayer)
+        let fillLayer = CAShapeLayer()
+        view.layer.addSublayer(fillLayer)
 
         [scanFrame,
          buttonStack,
          textField,
-         barcodeReminderLabel]
+         barcodeReminderLabel,
+         flashButton,
+         backButton]
             .forEach {
                 view.addSubview($0)
             }
 
         flashButton.snp.makeConstraints { make in
             make.height.width.equalTo(44)
+            make.trailing.equalToSuperview().offset(-6)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
         }
 
         backButton.snp.makeConstraints { make in
             make.height.width.equalTo(44)
+            make.leading.equalToSuperview().offset(6)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
         }
 
         scanFrame.snp.makeConstraints { make in
             make.center.equalToSuperview()
-            make.height.equalTo(164)
-            make.leading.equalToSuperview().offset(58)
-            make.trailing.equalToSuperview().offset(-58)
+            make.height.equalTo(170)
+            make.leading.equalToSuperview().offset(55)
+            make.trailing.equalToSuperview().offset(-55)
         }
 
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: flashButton)
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
+        let cutoutOrigin = CGPoint(x: 55 + 2, y: view.frame.height/2 - 85 + 2)
+        let cutoutSize = CGSize(width: view.frame.width - 110 - 4, height: 170 - 4)
+        let pathBigRect = UIBezierPath(rect: view.frame)
+        let pathSmallRect = UIBezierPath(rect: CGRect(origin: cutoutOrigin, size: cutoutSize))
+
+        pathBigRect.append(pathSmallRect)
+        pathBigRect.usesEvenOddFillRule = true
+
+        fillLayer.path = pathBigRect.cgPath
+        fillLayer.fillRule = CAShapeLayerFillRule.evenOdd
+        fillLayer.fillColor = UIColor.cherryForeground.cgColor
 
         buttonStack.snp.makeConstraints { make in
             make.height.equalTo(44)
@@ -222,7 +239,6 @@ final class ScanViewController: UIViewController {
                 guard let self else { return }
                 self.scanFrame.isHidden = manualInputUI
                 self.textField.isHidden = !manualInputUI
-                scanPreviewLayer.isHidden = manualInputUI
             }
             .store(in: &subscriptions)
 
@@ -232,8 +248,8 @@ final class ScanViewController: UIViewController {
             .sink { [weak self] manualInputUI in
                 if manualInputUI {
                     self?.flashButton.isSelected = false
-                    self?.flashButton.isEnabled = !manualInputUI
                 }
+                self?.flashButton.isEnabled = !manualInputUI
             }
             .store(in: &subscriptions)
 
