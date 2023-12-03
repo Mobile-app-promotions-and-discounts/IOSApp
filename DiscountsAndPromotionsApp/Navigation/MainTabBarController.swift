@@ -25,26 +25,23 @@ final class MainTabBarController: UITabBarController {
     }
 
     private func setupUI() {
+        let cornerRadius = CornerRadius.regular.cgFloat()
+
         tabBar.barStyle = .black
         tabBar.isTranslucent = true
-        tabBar.barTintColor = .cherryWhite
-        tabBar.backgroundColor = .cherryWhite
+        tabBar.barTintColor = .clear
         tabBar.backgroundImage = UIImage()
-        tabBar.shadowImage = nil
+        tabBar.shadowImage = UIImage()
         tabBar.tintColor = .cherryMainAccent
         tabBar.unselectedItemTintColor = .cherryGrayBlue
+        tabBar.backgroundColor = .cherryWhite
+        tabBar.layer.cornerRadius = cornerRadius
+        tabBar.clipsToBounds = true
 
-        let cornerRadius = CornerRadius.regular.cgFloat()
-        let roundedBackground = UIView()
-        roundedBackground.backgroundColor = .cherryWhite
-        roundedBackground.layer.cornerRadius = cornerRadius
         let tabBarFrame = CGRect(origin: CGPoint(x: tabBar.bounds.minX,
                                              y: tabBar.bounds.minY - cornerRadius),
                                  size: CGSize(width: tabBar.bounds.width,
                                               height: tabBar.bounds.height + cornerRadius))
-        roundedBackground.frame = tabBarFrame
-        tabBar.addSubview(roundedBackground)
-        tabBar.sendSubviewToBack(roundedBackground)
 
         if let items = tabBar.items {
             for item in items {
