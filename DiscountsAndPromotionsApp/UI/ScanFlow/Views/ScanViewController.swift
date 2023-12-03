@@ -38,6 +38,7 @@ final class ScanViewController: UIViewController {
                                                     action: #selector(doneButtonTapped))
         done.tintColor = .cherryMainAccent
         barcodeField.addDoneButtonOnKeyboard(done)
+        barcodeField.backgroundColor = UIColor.cherryWhite
         barcodeField.clipsToBounds = true
         barcodeField.layer.cornerRadius = CornerRadius.regular.cgFloat()
         barcodeField.layer.borderWidth = 1
