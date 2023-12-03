@@ -15,7 +15,7 @@ final class StoresCell: UICollectionViewCell {
 
     private lazy var storeImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = .white
+        imageView.backgroundColor = .cherryGrayBlue
         imageView.layer.cornerRadius = 10
         return imageView
     }()
@@ -54,7 +54,7 @@ final class StoresCell: UICollectionViewCell {
     }
 
     private func setupViews() {
-        contentView.backgroundColor = UIColor.productCell
+        contentView.backgroundColor = UIColor.cherryWhite
         contentView.layer.cornerRadius = 20
 
         [storeImageView, nameAndOffersStackView, distanceLabel].forEach { contentView.addSubview($0) }

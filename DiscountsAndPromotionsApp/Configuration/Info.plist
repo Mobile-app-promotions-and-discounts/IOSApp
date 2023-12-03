@@ -4,6 +4,14 @@
 <dict>
 	<key>NSCameraUsageDescription</key>
 	<string>Доступ к камере нужен для сканирования штрихкодов</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Manrope-Bold.ttf</string>
+		<string>Manrope-SemiBold.ttf</string>
+		<string>Manrope-Regular.ttf</string>
+	</array>
+	<key>CFBundleIdentifier</key>
+	<string></string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

@@ -53,6 +53,7 @@
       }
     },
     "barcodeFailMessage" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

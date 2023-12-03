@@ -3,13 +3,23 @@ import UIKit
 final class FavoritesScreenCoordinator: Coordinator {
     var childCoordinators = [Coordinator]()
     var navigationController: UINavigationController
+    var scanCoordinator: ScanFlowCoordinator?
 
-    init(navigationController: UINavigationController) {
+    private let dataService: DataServiceProtocol
+    private let profileService: ProfileServiceProtocol
+
+    init(navigationController: UINavigationController,
+         dataService: DataServiceProtocol,
+         profileService: ProfileServiceProtocol) {
         self.navigationController = navigationController
+        self.dataService = dataService
+        self.profileService = profileService
     }
 
     func start() {
-        let favoritesViewController = FavoritesViewController()
+        let viewModel = FavoritesViewModel(dataService: dataService, profileService: profileService)
+        let favoritesViewController = FavoritesViewController(viewModel: viewModel)
+        favoritesViewController.coordinator = self
         navigationController.pushViewController(favoritesViewController, animated: false)
     }
 }
