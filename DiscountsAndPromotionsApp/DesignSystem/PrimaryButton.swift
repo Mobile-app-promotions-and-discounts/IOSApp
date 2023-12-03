@@ -1,7 +1,7 @@
 import UIKit
 
 final class PrimaryButton: UIButton {
-    private var initialSetup = false
+    private var isSetUp = false
 
     override var isUserInteractionEnabled: Bool {
         didSet {
@@ -17,12 +17,12 @@ final class PrimaryButton: UIButton {
     override func layoutSubviews() {
         super.layoutSubviews()
         setBackgroundColor()
-        if !initialSetup {
+        if !isSetUp {
             titleLabel?.textColor = .cherryWhite
             titleLabel?.font = CherryFonts.headerMedium
             layer.cornerRadius = CornerRadius.regular.cgFloat()
             clipsToBounds = true
-            initialSetup = true
+            isSetUp = true
         }
     }
 

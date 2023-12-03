@@ -45,6 +45,7 @@ final class GenericNavigationController: UINavigationController {
     }
 
     override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         navBarFrame = CGRect(origin: CGPoint(x: 0,
                                              y: -cornerRadius),
                                  size: CGSize(width: navigationBar.bounds.width,
