@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		BC05456A2B1D0866008D65A3 /* CustomSegmantedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0545692B1D0865008D65A3 /* CustomSegmantedControl.swift */; };
 		BC05456C2B1D0A33008D65A3 /* UISegmentedControl+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC05456B2B1D0A33008D65A3 /* UISegmentedControl+Extensions.swift */; };
+		BC05456F2B1D264C008D65A3 /* SearchCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC05456E2B1D264C008D65A3 /* SearchCategoryCell.swift */; };
+		BC0545722B1D274D008D65A3 /* SearchCaterory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0545712B1D274D008D65A3 /* SearchCaterory.swift */; };
 		BC0723122B1A4E5300EF82B8 /* Gradients.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0723112B1A4E5300EF82B8 /* Gradients.swift */; };
 		BC0723172B1A589400EF82B8 /* Manrope-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC0723142B1A588E00EF82B8 /* Manrope-Bold.ttf */; };
 		BC0723182B1A589800EF82B8 /* Manrope-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC0723152B1A588E00EF82B8 /* Manrope-Regular.ttf */; };
@@ -107,6 +109,8 @@
 /* Begin PBXFileReference section */
 		BC0545692B1D0865008D65A3 /* CustomSegmantedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSegmantedControl.swift; sourceTree = "<group>"; };
 		BC05456B2B1D0A33008D65A3 /* UISegmentedControl+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISegmentedControl+Extensions.swift"; sourceTree = "<group>"; };
+		BC05456E2B1D264C008D65A3 /* SearchCategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCategoryCell.swift; sourceTree = "<group>"; };
+		BC0545712B1D274D008D65A3 /* SearchCaterory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCaterory.swift; sourceTree = "<group>"; };
 		BC0723112B1A4E5300EF82B8 /* Gradients.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gradients.swift; sourceTree = "<group>"; };
 		BC0723142B1A588E00EF82B8 /* Manrope-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Manrope-Bold.ttf"; sourceTree = "<group>"; };
 		BC0723152B1A588E00EF82B8 /* Manrope-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Manrope-Regular.ttf"; sourceTree = "<group>"; };
@@ -202,6 +206,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BC05456D2B1D2626008D65A3 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				BCCF4FD42B1B4AF10067A552 /* SearchViewController.swift */,
+				BC05456E2B1D264C008D65A3 /* SearchCategoryCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		BC0545702B1D272F008D65A3 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				BC0545712B1D274D008D65A3 /* SearchCaterory.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		BC0545732B1D2AA1008D65A3 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				BCCF4FD62B1B4AF10067A552 /* ScanViewModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		BC0723132B1A584800EF82B8 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
@@ -281,7 +310,8 @@
 		BCCF4FD32B1B4AF10067A552 /* SearchScreen */ = {
 			isa = PBXGroup;
 			children = (
-				BCCF4FD42B1B4AF10067A552 /* SearchViewController.swift */,
+				BC0545702B1D272F008D65A3 /* Models */,
+				BC05456D2B1D2626008D65A3 /* Views */,
 			);
 			path = SearchScreen;
 			sourceTree = "<group>";
@@ -289,8 +319,8 @@
 		BCCF4FD52B1B4AF10067A552 /* ScanFlow */ = {
 			isa = PBXGroup;
 			children = (
-				BCCF4FD62B1B4AF10067A552 /* ScanViewModel.swift */,
 				BCCF4FD72B1B4AF10067A552 /* ScanCaptureSessionController.swift */,
+				BC0545732B1D2AA1008D65A3 /* Models */,
 				BCCF4FD82B1B4AF10067A552 /* Views */,
 			);
 			path = ScanFlow;
@@ -707,6 +737,7 @@
 				BCCF501A2B1B4AF10067A552 /* RatingViewViewModel .swift in Sources */,
 				BCCF50062B1B4AF10067A552 /* PromotionCell.swift in Sources */,
 				BCCF50292B1B4E4C0067A552 /* UITextView+Extension.swift in Sources */,
+				BC0545722B1D274D008D65A3 /* SearchCaterory.swift in Sources */,
 				BCCF50172B1B4AF10067A552 /* FavoritesViewModel.swift in Sources */,
 				BC93BB692B0BC313008BE2AD /* ScanFlowCoordinator.swift in Sources */,
 				BCCF50092B1B4AF10067A552 /* SearchViewController.swift in Sources */,
@@ -751,6 +782,7 @@
 				BCB7F9242B0D255600EE20A0 /* UIImage+Extensions.swift in Sources */,
 				BC93BB6B2B0BCBF1008BE2AD /* StringBarcodeExtension.swift in Sources */,
 				BCCF50252B1B4D390067A552 /* ProductCardViewController.swift in Sources */,
+				BC05456F2B1D264C008D65A3 /* SearchCategoryCell.swift in Sources */,
 				BC07231B2B1A6A5C00EF82B8 /* SecondaryButton.swift in Sources */,
 				BCCF50232B1B4AF10067A552 /* ImageGalleryView.swift in Sources */,
 				BCCF50012B1B4AF10067A552 /* StoreUIModel.swift in Sources */,
