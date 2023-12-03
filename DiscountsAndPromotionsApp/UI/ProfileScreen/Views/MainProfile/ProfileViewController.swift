@@ -1,12 +1,16 @@
 import UIKit
+import Combine
 
 final class ProfileViewController: UIViewController {
 
-    // MARK: - Properties
+    // MARK: - Public properties
     weak var coordinator: ProfileScreenCoordinator?
 
+    // MARK: - Private properties
     private var profileView: ProfileView?
     private var viewModel: ProfileViewModelProtocol
+
+    private var profileSubscriber: AnyCancellable?
 
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -14,7 +18,6 @@ final class ProfileViewController: UIViewController {
 
         self.view = profileView
         self.navigationController?.navigationBar.isHidden = true
-
     }
 
     init(viewModel: ProfileViewModelProtocol) {
@@ -22,8 +25,8 @@ final class ProfileViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
 
         self.profileView = ProfileView(frame: .zero, viewModel: self.viewModel, viewController: self)
-
         bind()
+
         viewModel.getProfileData()
     }
 
@@ -62,20 +65,16 @@ final class ProfileViewController: UIViewController {
 
     // MARK: - Private methods
     private func bind() {
-        viewModel.onChange = { [weak self] in
-            guard let profile = self?.viewModel.profile else { return }
-            self?.profileView?.updateViews(
-                avatar: profile.avatar,
-                firstName: profile.firstName,
-                lastName: profile.lastName,
-                phone: profile.phone
-            )
-        }
-
-        viewModel.onError = { [weak self] in
-            guard let error = self?.viewModel.error else { return }
-            print(error.localizedDescription)
-        }
+        profileSubscriber = viewModel.profilePublisher.sink(
+            receiveValue: { profile in
+                guard let profile = profile else { return }
+                self.profileView?.updateViews(
+                    avatar: profile.avatar,
+                    firstName: profile.firstName,
+                    lastName: profile.lastName,
+                    phone: profile.phone
+                )
+            }
+        )
     }
-
 }

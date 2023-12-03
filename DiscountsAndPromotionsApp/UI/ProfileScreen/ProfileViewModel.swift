@@ -1,10 +1,11 @@
 import UIKit
+import Combine
 
 protocol ProfileViewModelProtocol: AnyObject {
-    var onChange: (() -> Void)? { get set }
-    var onError: (() -> Void)? { get set }
 
     var profile: ProfileModel? { get }
+    var profilePublished: Published<ProfileModel?> { get }
+    var profilePublisher: Published<ProfileModel?>.Publisher { get }
     var error: Error? { get }
 
     func getProfileData()
@@ -12,19 +13,24 @@ protocol ProfileViewModelProtocol: AnyObject {
 }
 
 final class ProfileViewModel: ProfileViewModelProtocol {
-    var onChange: (() -> Void)?
-    var onError: (() -> Void)?
 
-    private(set) var profile: ProfileModel? {
-        didSet {
-            onChange?()
-        }
-    }
+    @Published private(set) var profile: ProfileModel?
+    var profilePublished: Published<ProfileModel?> { _profile }
+    var profilePublisher: Published<ProfileModel?>.Publisher { $profile }
 
-    private(set) var error: Error? {
-        didSet {
-            onError?()
-        }
+    @Published private(set) var error: Error?
+
+    var profileUpdated = Set<AnyCancellable>()
+
+    init() {
+        NotificationCenter.default
+            .publisher(for: Notification.Name("updateProfile"))
+            .sink { object in
+                guard let profile = object.object as? ProfileModel else { return }
+                self.putProfileData(profile: profile)
+            }
+            .store(in: &profileUpdated)
+
     }
 
     // MARK: - Public Methods

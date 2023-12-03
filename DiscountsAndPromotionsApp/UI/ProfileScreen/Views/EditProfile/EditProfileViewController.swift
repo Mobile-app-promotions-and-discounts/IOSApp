@@ -1,7 +1,11 @@
 import UIKit
 import AVFoundation
+import Combine
 
 final class EditProfileViewController: UIViewController, UINavigationControllerDelegate {
+
+    // MARK: - Public properties
+    weak var coordinator: ProfileScreenCoordinator?
 
     // MARK: - Private properties
     private let viewModel: ProfileViewModelProtocol
@@ -26,6 +30,7 @@ final class EditProfileViewController: UIViewController, UINavigationControllerD
         setupNavBar()
         guard let profile = viewModel.profile else { return }
         self.view = EditProfileView(frame: .zero, viewController: self, profile: profile)
+
     }
 
     init(viewModel: ProfileViewModelProtocol) {
@@ -70,18 +75,20 @@ final class EditProfileViewController: UIViewController, UINavigationControllerD
     // MARK: - Private Methods
     @objc
     private func didTapCancelButton() {
-        self.navigationController?.navigationBar.isHidden = true
-        navigationController?.popViewController(animated: true)
+        self.coordinator?.exit()
     }
 
     @objc
     private func didTapDoneButton() {
         let view = self.view as? EditProfileView
         guard let profile = view?.collectFieldsToProfile() else { return }
-        viewModel.putProfileData(profile: profile)
 
-        self.navigationController?.navigationBar.isHidden = true
-        navigationController?.popViewController(animated: true)
+        NotificationCenter.default.post(
+            name: Notification.Name("updateProfile"),
+            object: profile
+        )
+
+        self.coordinator?.exit()
     }
 
     private func validateProfile(profile: ProfileModel) {
@@ -111,41 +118,9 @@ extension EditProfileViewController: UIImagePickerControllerDelegate {
         didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
     ) {
         guard let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else { return }
-        dismiss(animated: true, completion: {
-            let view = self.view as? EditProfileView
+        dismiss(animated: true, completion: { [weak self] in
+            let view = self?.view as? EditProfileView
             view?.setAvatarImage(image: image)
         })
-    }
-}
-
-extension EditProfileViewController {
-    func isValidEmail(_ email: String) -> Bool {
-        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
-
-        let emailPred = NSPredicate(format: "SELF MATCHES %@", emailRegEx)
-        return emailPred.evaluate(with: email)
-    }
-
-    func isValidPhone(_ phone: String) -> Bool {
-        let phoneRegEx = "[0-9]"
-
-        let phonePred = NSPredicate(format: "SELF MATCHES %@", phoneRegEx)
-        return phonePred.evaluate(with: phone)
-    }
-
-}
-
-extension String {
-    var isEmail: Bool {
-        do {
-            let regex = try NSRegularExpression(pattern: "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}", options: .caseInsensitive)
-            return regex.firstMatch(in: self, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSRange(location: 0, length: self.count)) != nil
-        } catch {
-            return false
-        }
-    }
-
-    var isPhone: Bool {
-        return !isEmpty && range(of: "[^0-9]", options: .regularExpression) == nil
     }
 }
