@@ -17,4 +17,6 @@ struct CherryFonts {
     static let textLarge  = UIFont(name: Fonts.manropeRegular, size: 24)
     static let textMedium  = UIFont(name: Fonts.manropeRegular, size: 15)
     static let textSmall  = UIFont(name: Fonts.manropeRegular, size: 12)
+
+    static let inputSmall = UIFont(name: Fonts.manropeRegular, size: 16)
 }

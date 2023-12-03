@@ -75,6 +75,7 @@ class ProductCardViewController: UIViewController {
     }
 
     private func setupNavigationbar() {
+
         let backButton = UIButton(type: .system)
         backButton.setImage(UIImage(named: "backImage"), for: .normal)
         backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
@@ -86,7 +87,7 @@ class ProductCardViewController: UIViewController {
         let uploadButtonItem = UIBarButtonItem(customView: uploadButton)
 
         [backButton, uploadButton].forEach {
-            $0.backgroundColor = .cherryLightBlue
+//            $0.backgroundColor = .cherryLightBlue
             $0.widthAnchor.constraint(equalToConstant: 30).isActive = true
             $0.heightAnchor.constraint(equalToConstant: 30).isActive = true
             $0.layer.cornerRadius = 15

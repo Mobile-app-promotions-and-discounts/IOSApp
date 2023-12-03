@@ -16,7 +16,7 @@ class ScannerEnabledViewController: SearchEnabledViewController {
         scanButton.setImage(UIImage.scannerIcon, for: .normal)
         scanButton.snp.makeConstraints { make in
             make.centerY.equalTo(searchBar.snp.centerY)
-            make.trailing.equalTo(searchBar.snp.trailing).offset(-40)
+            make.trailing.equalTo(searchBar.snp.trailing).offset(-28)
         }
     }
 
