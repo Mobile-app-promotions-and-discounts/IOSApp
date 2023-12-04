@@ -2,15 +2,9 @@ import UIKit
 
 class SearchEnabledViewController: UIViewController {
     private(set) var searchBar = UISearchBar()
-    private(set) var statusBarBackground = UIView()
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
-    }
-
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        view.bringSubviewToFront(statusBarBackground)
     }
 
     override func viewDidLoad() {
@@ -50,11 +44,7 @@ class SearchEnabledViewController: UIViewController {
     }
 
     private func setupUI() {
-        statusBarBackground.backgroundColor = .cherryMainAccent
-        view.addSubview(statusBarBackground)
-        statusBarBackground.frame = UIApplication.shared.statusBarFrame
-
-        view.backgroundColor = .cherryLightBlue
+         view.backgroundColor = .cherryLightBlue
     }
 }
 
