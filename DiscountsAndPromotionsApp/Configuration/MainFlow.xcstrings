@@ -21,6 +21,22 @@
         }
       }
     },
+    "nothingFound" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nothing found"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ничего не нашлось"
+          }
+        }
+      }
+    },
     "Profile" : {
       "localizations" : {
         "ru" : {

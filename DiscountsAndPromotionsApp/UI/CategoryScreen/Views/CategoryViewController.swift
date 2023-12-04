@@ -97,3 +97,10 @@ extension CategoryViewController: UICollectionViewDataSource {
 // MARK: - UICollectionViewDelegate
 
 extension CategoryViewController: UICollectionViewDelegate {}
+
+// MARK: - Search field delegate
+extension CategoryViewController {
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        coordinator?.navigateToSearchScreen()
+    }
+}
