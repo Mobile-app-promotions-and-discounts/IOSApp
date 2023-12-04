@@ -9,10 +9,12 @@ final class MainViewModel: MainViewModelProtocol {
     private (set) var categoriesUpdate = PassthroughSubject<[Category], Never>()
     private (set) var productsUpdate = PassthroughSubject<[Product], Never>()
     private (set) var storesUpdate = PassthroughSubject<[Store], Never>()
+    private (set) var promotionsUpdate = PassthroughSubject<[Promotion], Never>()
 
     private var categories = [Category]() {
         didSet {
             categoriesUpdate.send(categories)
+            promotionVisualService.preparePromotionVisuals(categories)
         }
     }
 
@@ -28,11 +30,20 @@ final class MainViewModel: MainViewModelProtocol {
         }
     }
 
+    private var promotions = [Promotion]() {
+        didSet {
+            promotionsUpdate.send(promotions)
+        }
+    }
+
     private var dataService: DataServiceProtocol
+    private var promotionVisualService: PromotionVisualsService
     private var cancellables = Set<AnyCancellable>()
 
-    init(dataService: DataServiceProtocol) {
+    init(dataService: DataServiceProtocol,
+         promotionVisualService: PromotionVisualsService) {
         self.dataService = dataService
+        self.promotionVisualService = promotionVisualService
         setupBindings()
     }
 
@@ -43,20 +54,18 @@ final class MainViewModel: MainViewModelProtocol {
     func numberOfItems(inSection section: MainSection) -> Int {
         switch section {
         case .categories:
-            return categories.count
+            return 8
         case .promotions:
-            return products.count
+            return 6
         case .stores:
-            return stores.count
+            return 6
         }
     }
 
     func getTitleFor(indexPath: IndexPath) -> String {
         switch indexPath.section {
-        case 0:
-            return categories[indexPath.row].name
         case 1:
-            return NSLocalizedString("Promotions", tableName: "MainFlow", comment: "")
+            return NSLocalizedString("Promotions this week", tableName: "MainFlow", comment: "")
         case 2:
             return NSLocalizedString("Shops", tableName: "MainFlow", comment: "")
         default:
@@ -64,14 +73,25 @@ final class MainViewModel: MainViewModelProtocol {
         }
     }
 
-    func getPromotion(for index: Int) -> PromotionUIModel {
-        let product = products[index]
-        return convertPromotionModel(for: product)
+    func getCategory(for index: Int) -> CategoryUIModel? {
+        guard index < categories.count else {
+            return nil
+        }
+        let category = categories[index]
+        return CategoryUIModel(category: category)
+    }
+
+    func getPromotion(for index: Int) -> PromotionUIModel? {
+        guard index < promotions.count else {
+            return nil
+        }
+        let promotion = promotions[index]
+        return promotion.toUIModel(visualsService: promotionVisualService)
     }
 
     func getStore(for index: Int) -> StoreUIModel {
         let store = stores[index]
-        return convertStoreModel(for: store)
+        return StoreUIModel(store: store)
     }
 
     private func setupBindings() {
@@ -95,13 +115,12 @@ final class MainViewModel: MainViewModelProtocol {
                 self.stores = storeList
             }
             .store(in: &cancellables)
-    }
 
-    private func convertPromotionModel(for product: Product) -> PromotionUIModel {
-        return PromotionUIModel(product: product)
-    }
-
-    private func convertStoreModel(for store: Store) -> StoreUIModel {
-        return StoreUIModel(store: store)
+        dataService.promotionList
+            .sink { [weak self] promotionList in
+                guard let self = self else { return }
+                self.promotions = promotionList
+            }
+            .store(in: &cancellables)
     }
 }
