@@ -7,17 +7,21 @@ final class MainScreenCoordinator: Coordinator {
 
     private let dataService: DataServiceProtocol
     private let profileService: ProfileServiceProtocol
+    private let promotionVisualService: PromotionVisualsService
 
     init(navigationController: UINavigationController,
          dataService: DataServiceProtocol,
-         profileService: ProfileServiceProtocol) {
+         profileService: ProfileServiceProtocol,
+         promotionVisualService: PromotionVisualsService = PromotionVisualsService()) {
         self.navigationController = navigationController
         self.dataService = dataService
         self.profileService = profileService
+        self.promotionVisualService = promotionVisualService
     }
 
     func start() {
-        let mainViewModel = MainViewModel(dataService: dataService)
+        let mainViewModel = MainViewModel(dataService: dataService,
+                                          promotionVisualService: promotionVisualService)
         let mainViewController = MainViewController(viewModel: mainViewModel)
         mainViewController.scanCoordinator = scanCoordinator
         mainViewController.coordinator = self

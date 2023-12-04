@@ -22,7 +22,7 @@ final class SearchCategoryCell: UITableViewCell {
     }()
 
     func setUpCell(with searchCategory: SearchCategory) {
-        category = Category(name: searchCategory.rawValue)
+        category = Category(name: searchCategory.rawValue, image: "")
         categoryIconView.image = searchCategory.getIcon()
         categoryNameLabel.text = searchCategory.rawValue
 
