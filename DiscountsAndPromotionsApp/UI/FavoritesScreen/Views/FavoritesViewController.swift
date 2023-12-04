@@ -14,9 +14,9 @@ final class FavoritesViewController: ScannerEnabledViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.showsVerticalScrollIndicator = false
         collectionView.register(ProductCell.self, forCellWithReuseIdentifier: ProductCell.reuseIdentifier)
-        collectionView.register(HeaderView.self,
+        collectionView.register(PromotionHeader.self,
                                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                                withReuseIdentifier: HeaderView.reuseIdentifier)
+                                withReuseIdentifier: PromotionHeader.reuseIdentifier)
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.backgroundColor = .clear
@@ -40,7 +40,7 @@ final class FavoritesViewController: ScannerEnabledViewController {
     }
 
     private func setupViews() {
-        layoutProvider.createCategoryScreenLayout(for: favoritesCollectionView, in: view)
+        layoutProvider.createLayoutForCategoryScreen(for: favoritesCollectionView, in: view)
         // ToDo: цвет фона временный, для отладки
         view.backgroundColor = .cherryLightBlue
 
@@ -79,8 +79,8 @@ extension FavoritesViewController: UICollectionViewDataSource {
         }
 
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
-                                                                           withReuseIdentifier: HeaderView.reuseIdentifier,
-                                                                           for: indexPath) as? HeaderView else {
+                                                                           withReuseIdentifier: PromotionHeader.reuseIdentifier,
+                                                                           for: indexPath) as? PromotionHeader else {
             return UICollectionReusableView()
         }
         let headerName = viewModel.getTitleForHeader()

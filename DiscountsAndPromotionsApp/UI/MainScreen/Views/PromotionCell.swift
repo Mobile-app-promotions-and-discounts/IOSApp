@@ -4,23 +4,6 @@ import SnapKit
 final class PromotionCell: UICollectionViewCell {
     static let reuseIdentifier = "PromotionCell"
 
-    private lazy var storeLogoImageView: UIImageView = {
-        let imageView = UIImageView()
-        return imageView
-    }()
-
-    private lazy var promoTextLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.font = CherryFonts.headerSmall
-        return label
-    }()
-
-    private lazy var promotionImageView: UIImageView = {
-        let imageView = UIImageView()
-        return imageView
-    }()
-
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
@@ -30,43 +13,53 @@ final class PromotionCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configure(with model: PromotionUIModel) {
-        // Удаляем предыдущие градиентные слои, если они есть
-        contentView.layer.sublayers?.removeAll(where: { $0 is CAGradientLayer })
+    private lazy var productImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.backgroundColor = .cherryGrayBlue
+        imageView.layer.cornerRadius = 10
+        return imageView
+    }()
 
-        // Установка логотипа магазина и текста акции
-        storeLogoImageView.image = model.storeLogo
-        promoTextLabel.text = model.promoText
-        promotionImageView.image = model.promotionImage
+    private lazy var nameLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 2
+        label.font = UIFont.systemFont(ofSize: 15, weight: .bold)
+        return label
+    }()
 
-        // Настройка градиента заднего фона
-        let gradientLayer = model.gradientLayer
-        gradientLayer.frame = contentView.bounds
-        gradientLayer.needsDisplayOnBoundsChange = true
+    private lazy var descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+        return label
+    }()
 
-        // Добавление градиента к contentView
-        contentView.layer.insertSublayer(gradientLayer, at: 0)
+    private lazy var nameAndDescriptionStackView: UIStackView = {
+        let stack = UIStackView(arrangedSubviews: [nameLabel, descriptionLabel])
+        stack.axis = .vertical
+        stack.distribution = .fill
+        stack.spacing = 4
+        return stack
+    }()
+
+    func configure(with product: PromotionUIModel) {
+        self.nameLabel.text = product.name
+        self.descriptionLabel.text = product.description
     }
 
     private func setupViews() {
-        contentView.layer.cornerRadius = CornerRadius.large.cgFloat()
-        contentView.clipsToBounds = true
+        contentView.backgroundColor = UIColor.cherryWhite
+        contentView.layer.cornerRadius = 20
 
-        [storeLogoImageView, promoTextLabel, promotionImageView].forEach { contentView.addSubview($0) }
+        [productImageView, nameAndDescriptionStackView].forEach { contentView.addSubview($0) }
 
-        storeLogoImageView.snp.makeConstraints { make in
-            make.height.width.equalTo(24)
-            make.leading.top.equalToSuperview().inset(8)
+        productImageView.snp.makeConstraints { make in
+            make.top.leading.trailing.equalToSuperview().inset(8)
+            make.height.equalTo(148)
         }
 
-        promotionImageView.snp.makeConstraints { make in
-            make.bottom.trailing.equalToSuperview()
-            make.size.equalTo(CGSize(width: 51, height: 39))
-        }
-
-        promoTextLabel.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(8)
-            make.top.equalTo(storeLogoImageView.snp.bottom).offset(4)
+        nameAndDescriptionStackView.snp.makeConstraints { make in
+            make.top.equalTo(productImageView.snp.bottom).inset(-8)
+            make.leading.trailing.equalTo(productImageView)
         }
     }
 }

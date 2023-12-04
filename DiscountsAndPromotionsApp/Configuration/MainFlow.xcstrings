@@ -1,16 +1,6 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "All" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Все"
-          }
-        }
-      }
-    },
     "Favorites" : {
       "localizations" : {
         "ru" : {
@@ -57,12 +47,23 @@
         }
       }
     },
-    "Promotions this week" : {
+    "Promotions" : {
       "localizations" : {
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Акции на этой неделе"
+            "value" : "Акции"
+          }
+        }
+      }
+    },
+    "Scan" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сканер"
           }
         }
       }
@@ -77,7 +78,7 @@
         },
         "ru" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Найти"
           }
         }
