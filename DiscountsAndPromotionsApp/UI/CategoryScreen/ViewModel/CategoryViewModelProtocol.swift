@@ -1,9 +1,11 @@
 import Foundation
+import Combine
 
 protocol CategoryViewModelProtocol {
-    var productsList: [Product] { get }
+    var productsUpdate: PassthroughSubject<[Product], Never> { get }
 
-    func viewDidLoad()
-    func getNumberOfItemsInSection(section: Int) -> Int
-    func getProduct(for index: Int) -> CategoryCellUIModel
+    func numberOfItems() -> Int
+    func getProduct(for index: Int) -> ProductCellUIModel
+
+    func likeButtonTapped(for productID: UUID)
 }

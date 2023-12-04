@@ -103,7 +103,7 @@ final class ProfileView: UIView {
 
         super.init(frame: .zero)
 
-        self.backgroundColor = .mainBG
+        self.backgroundColor = .cherryLightBlue
 
         addEditButton()
         addAvatar()

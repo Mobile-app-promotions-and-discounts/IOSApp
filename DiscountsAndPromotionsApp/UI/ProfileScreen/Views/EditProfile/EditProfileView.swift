@@ -112,7 +112,7 @@ final class EditProfileView: UIView {
         self.viewController = viewController
         super.init(frame: .zero)
 
-        self.backgroundColor = .mainBG
+        self.backgroundColor = .cherryLightBlue
 
         addAvatar()
         addNameFields()
