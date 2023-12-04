@@ -30,6 +30,7 @@ class ProductCardViewController: UIViewController {
 
     // Все кастомные вьюхи
     private let galleryView = ImageGalleryView()
+    private let titleAndRatingView = UIView()
     private let titleView = ProductTitleView()
     private var ratingViewModel = RatingViewViewModel()
     private let ratingView = RatingView()
@@ -38,6 +39,8 @@ class ProductCardViewController: UIViewController {
     private let reviewView = ProductReviewView()
     private let priceInfoViewModel = PriceInfoViewViewModel()
     private let priceInfoView = PriceInfoView()
+    private let backButton = UIButton()
+    private let exportButton = UIButton()
 
     init(product: Product) {
         self.product = product
@@ -57,12 +60,16 @@ class ProductCardViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
 
-        setupNavigationbar()
+        if #available(iOS 11.0, *) {
+            productScrollView.contentInsetAdjustmentBehavior = .never
+        }
+
         setupProductLayout()
         configureViews()
         setupPriceInfoView()
         setupProductReviewView()
         setupRatingView()
+        buttonsLayout()
 
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow(notification: )),
@@ -74,28 +81,30 @@ class ProductCardViewController: UIViewController {
                                                object: nil)
     }
 
-    private func setupNavigationbar() {
-        let backButton = UIButton(type: .system)
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.navigationBar.isHidden = false
+    }
+
+    private func buttonsLayout() {
+        view.addSubview(backButton)
+        view.addSubview(exportButton)
+
         backButton.setImage(UIImage(named: "backImage"), for: .normal)
         backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
-        let backButtonItem = UIBarButtonItem(customView: backButton)
-
-        let uploadButton = UIButton(type: .system)
-        uploadButton.setImage(UIImage(named: "sendImage"), for: .normal)
-        uploadButton.addTarget(self, action: #selector(sendButtonTapped), for: .touchUpInside)
-        let uploadButtonItem = UIBarButtonItem(customView: uploadButton)
-
-        [backButton, uploadButton].forEach {
-            $0.backgroundColor = .cherryLightBlue
-            $0.widthAnchor.constraint(equalToConstant: 30).isActive = true
-            $0.heightAnchor.constraint(equalToConstant: 30).isActive = true
-            $0.layer.cornerRadius = 15
-            $0.clipsToBounds = true
-            $0.tintColor = .black
+        backButton.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(16)
+            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.height.width.equalTo(24)
         }
 
-        navigationItem.leftBarButtonItem = backButtonItem
-        navigationItem.rightBarButtonItem = uploadButtonItem
+        exportButton.setImage(UIImage(named: "ic_export"), for: .normal)
+        exportButton.addTarget(self, action: #selector(sendButtonTapped), for: .touchUpInside)
+        exportButton.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().offset(-16)
+            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.height.width.equalTo(24)
+        }
     }
 
     private func setupProductLayout() {
@@ -111,17 +120,19 @@ class ProductCardViewController: UIViewController {
         offersTableView.separatorStyle = .none
         // Ограничения SNAPkit
         productScrollView.snp.makeConstraints { make in
-            make.top.leading.trailing.equalToSuperview()
+            make.top.equalToSuperview()
+            make.leading.trailing.equalToSuperview()
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
         contentView.snp.makeConstraints { make in
             make.top.leading.bottom.trailing.equalTo(productScrollView)
             make.bottom.greaterThanOrEqualTo(priceInfoView.snp.bottom).offset(16)
         }
+
         galleryView.snp.makeConstraints { make in
-            make.top.leading.trailing.equalTo(contentView)
+            make.top.leading.trailing.equalToSuperview()
             make.height.equalTo(316)
-            make.width.equalTo(contentView.frame.width)
+            make.width.equalToSuperview()
         }
         titleView.snp.makeConstraints { make in
             make.top.equalTo(galleryView.snp.bottom).offset(16)
@@ -187,7 +198,6 @@ class ProductCardViewController: UIViewController {
             .sink { [weak self] in
                 // Обработка нажатия на кнопку отзывов
                 print("Отзывы показаны")
-                print(self?.cancellables)
             }
             .store(in: &cancellables)
     }

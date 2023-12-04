@@ -27,7 +27,7 @@ class OfferTableViewCell: UITableViewCell {
 
     private func setupBackgroundView() {
         backgroundViewBoard.backgroundColor = .cherryLightBlue
-        backgroundViewBoard.layer.cornerRadius = 10
+        backgroundViewBoard.layer.cornerRadius = CornerRadius.regular.cgFloat()
         backgroundViewBoard.clipsToBounds = true
         contentView.addSubview(backgroundViewBoard)
     }
@@ -98,24 +98,24 @@ class OfferTableViewCell: UITableViewCell {
 
         addressLabel.snp.makeConstraints { make in
             make.top.equalTo(storeNameLabel.snp.bottom).offset(2)
-            make.leading.equalTo(storeNameLabel.snp.leading)
-            make.trailing.equalTo(storeNameLabel.snp.trailing)
+            make.leading.equalTo(storeNameLabel)
+            make.trailing.equalTo(storeNameLabel)
         }
 
         priceLabel.snp.makeConstraints { make in
             make.top.equalTo(addressLabel.snp.bottom).offset(2)
-            make.leading.equalTo(storeNameLabel.snp.leading)
-            make.bottom.equalTo(backgroundViewBoard.snp.bottom).offset(-6)
+            make.leading.equalTo(storeNameLabel)
+            make.bottom.equalTo(backgroundViewBoard).offset(-6)
         }
 
         originalPriceLabel.snp.makeConstraints { make in
             make.leading.equalTo(priceLabel.snp.trailing).offset(4)
-            make.bottom.equalTo(priceLabel.snp.bottom)
+            make.bottom.equalTo(priceLabel)
         }
 
         discountLabel.snp.makeConstraints { make in
             make.leading.equalTo(originalPriceLabel.snp.trailing).offset(4)
-            make.bottom.equalTo(priceLabel.snp.bottom)
+            make.bottom.equalTo(priceLabel)
         }
 
         goToStoreButton.snp.makeConstraints { make in

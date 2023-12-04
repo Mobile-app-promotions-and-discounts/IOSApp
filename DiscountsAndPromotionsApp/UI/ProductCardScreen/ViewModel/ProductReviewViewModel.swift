@@ -13,8 +13,6 @@ class ProductReviewViewModel {
     }
 
     private func setupBindings() {
-        // Пример связывания с UITextView
-
         reviewText
             .sink { text in
                 print(text)

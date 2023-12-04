@@ -40,5 +40,6 @@ final class MainScreenCoordinator: Coordinator {
         let productVC = ProductCardViewController(product: product)
         productVC.coordinator = self
         navigationController.pushViewController(productVC, animated: true)
+        navigationController.navigationBar.isHidden = true
     }
 }

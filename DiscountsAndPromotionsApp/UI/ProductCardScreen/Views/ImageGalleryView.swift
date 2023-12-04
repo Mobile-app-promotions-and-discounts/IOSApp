@@ -14,11 +14,13 @@ class ImageGalleryView: UIView {
         let pageControl = UIPageControl()
         pageControl.currentPageIndicatorTintColor = .white
         pageControl.pageIndicatorTintColor = .lightGray
+
         pageControl.isUserInteractionEnabled = false
         return pageControl
     }()
 
     private var images: [UIImage] = []
+    private var previousPage: Int = 0
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -47,8 +49,25 @@ class ImageGalleryView: UIView {
     func configure(with images: [UIImage]) {
         self.images = images
         scrollView.delegate = self
-        pageControl.currentPage = 0
         pageControl.numberOfPages = images.count
+        pageControl.currentPage = 0
+
+        layoutIfNeeded()
+
+        setupIndicatorImages()
+    }
+
+    private func setupIndicatorImages() {
+        if #available(iOS 14.0, *) {
+            // Устанавливаем общий вид индикатора
+            pageControl.preferredIndicatorImage = UIImage(systemName: "circle.fill")?.resizedImage(Size: CGSize(width: 6, height: 6))
+
+            // Устанавливаем индикатор для текущей страницы
+            let currentIndicatorImage = UIImage(systemName: "circle.fill")?.resizedImage(Size: CGSize(width: 12, height: 12))
+            pageControl.setIndicatorImage(currentIndicatorImage, forPage: pageControl.currentPage)
+        } else {
+            // Для iOS 13 и ниже, необходимо использовать другой подход или стороннюю библиотеку
+        }
     }
 
     override func layoutSubviews() {
@@ -63,9 +82,9 @@ class ImageGalleryView: UIView {
             imageView.clipsToBounds = true
             imageView.layer.cornerRadius = 12
             imageView.frame = CGRect(
-                x: bounds.width * CGFloat(index) + 16,
+                x: bounds.width * CGFloat(index),
                 y: 0,
-                width: bounds.width - 32,
+                width: bounds.width,
                 height: bounds.height)
             scrollView.addSubview(imageView)
         }
@@ -75,7 +94,22 @@ class ImageGalleryView: UIView {
 
 extension ImageGalleryView: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let pageIndex = round(scrollView.contentOffset.x / frame.width)
-        pageControl.currentPage = Int(pageIndex)
+        let pageIndex = Int(round(scrollView.contentOffset.x / scrollView.frame.size.width))
+        if pageIndex != previousPage {
+            // Установите стандартное изображение для предыдущей текущей страницы
+            if #available(iOS 14.0, *) {
+                pageControl.setIndicatorImage(nil, forPage: previousPage)
+            }
+
+            // Обновите индикатор для новой текущей страницы
+            if #available(iOS 14.0, *) {
+                let currentIndicatorImage = UIImage(systemName: "circle.fill")?.resizedImage(Size: CGSize(width: 12, height: 12))
+                pageControl.setIndicatorImage(currentIndicatorImage, forPage: pageIndex)
+            }
+            // Обновите предыдущую страницу
+            previousPage = pageIndex
+        }
+
+        pageControl.currentPage = pageIndex
     }
 }
