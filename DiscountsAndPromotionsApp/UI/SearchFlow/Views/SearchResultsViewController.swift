@@ -54,14 +54,14 @@ final class SearchResultsViewController: ScannerEnabledViewController {
             make.trailing.equalToSuperview().offset(-24)
         }
 
-        layoutProvider.createLayoutForCategoryScreen(for: resultsCollectionView, in: view)
+        layoutProvider.createCategoryScreenLayout(for: resultsCollectionView, in: view)
         view.addSubview(resultsCollectionView)
         resultsCollectionView.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(12)
             make.top.bottom.equalToSuperview()
         }
     }
-    
+
     private func setupBindings() {
         viewModel.productsUpdate
             .receive(on: RunLoop.main)

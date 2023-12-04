@@ -32,11 +32,14 @@ struct Product: Codable {
 struct Category: Codable {
     let id: UUID
     let name: String
+    let image: String
 
     init(id: UUID = UUID(),
-         name: String) {
+         name: String,
+         image: String) {
         self.id = id
         self.name = name
+        self.image = image
     }
 }
 
@@ -84,6 +87,7 @@ struct Store: Codable {
 
 struct StoreImage: Codable {
     let mainImage: String
+    let logoImage: String
 }
 
 struct StoreLocation: Codable {
