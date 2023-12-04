@@ -8,9 +8,9 @@ protocol ScanFlowViewModelProtocol {
     var validBarcodeUpdate: PassthroughSubject<Bool, Never> { get }
 
     func bindBarcode(code: AnyPublisher<String, Never>) -> AnyPublisher<Bool, Never>
+    func bindSegmentedControl(index: AnyPublisher<Int, Never>)
     func checkBarcode()
     func checkBarcode(code: String)
-    func setManualInputActive(to input: Bool)
 }
 
 final class ScanFlowViewModel: ScanFlowViewModelProtocol {
@@ -28,13 +28,13 @@ final class ScanFlowViewModel: ScanFlowViewModelProtocol {
     }
     private var currentBarcode: String = ""
 
-    private var barcodeSubscription: AnyCancellable?
+    private var subscriptions: Set<AnyCancellable> = Set()
 
     func bindBarcode(code: AnyPublisher<String, Never>) -> AnyPublisher<Bool, Never> {
-        barcodeSubscription = code.sink { [weak self] barcode in
+        code.sink { [weak self] barcode in
             self?.isValidBarcode = barcode.isValidBarcode()
             self?.currentBarcode = barcode
-        }
+        }.store(in: &subscriptions)
 
         return Publishers.CombineLatest($isValidBarcode, $isManualInputActive)
             .map { isValid, isManual in
@@ -46,6 +46,13 @@ final class ScanFlowViewModel: ScanFlowViewModelProtocol {
             }.eraseToAnyPublisher()
     }
 
+    func bindSegmentedControl(index: AnyPublisher<Int, Never>) {
+        index.sink { [weak self] index in
+            self?.isManualInputActive = (index == 1) ? true : false
+        }.store(in: &subscriptions)
+
+    }
+
     func checkBarcode() {
         if isValidBarcode {
             makeBarcodeRequest(code: currentBarcode)
@@ -54,10 +61,6 @@ final class ScanFlowViewModel: ScanFlowViewModelProtocol {
 
     func checkBarcode(code: String) {
         makeBarcodeRequest(code: code)
-    }
-
-    func setManualInputActive(to input: Bool) {
-        isManualInputActive = input
     }
 
     private func makeBarcodeRequest(code: String) {
