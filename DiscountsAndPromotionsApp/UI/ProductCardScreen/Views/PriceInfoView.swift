@@ -3,6 +3,7 @@ import SnapKit
 import Combine
 
 class PriceInfoView: UIView {
+    
     var viewModel: PriceInfoViewViewModel? {
         didSet {
             bindViewModel()
@@ -11,7 +12,7 @@ class PriceInfoView: UIView {
 
     private var cancellables = Set<AnyCancellable>()
 
-    private let toFavoritesButton = UIButton()
+    private let toFavoritesButton = PrimaryButton()
     private let worstOriginPrice = UILabel()
     private let bestDiscountPrice = UILabel()
 
@@ -36,7 +37,7 @@ class PriceInfoView: UIView {
             .store(in: &cancellables)
 
         viewModel?.$discountPrice
-            .map { "от (\($0))р"}
+            .map { "от \($0)р"}
             .assign(to: \.text, on: bestDiscountPrice)
             .store(in: &cancellables)
 

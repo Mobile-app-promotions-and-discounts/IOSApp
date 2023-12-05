@@ -13,8 +13,6 @@ class RatingView: UIView {
         let button = UIButton()
         button.setImage(UIImage(systemName: "chevron.forward"), for: .normal)
         button.tintColor = .black
-        button.clipsToBounds = true
-        button.layer.cornerRadius = 14
         button.backgroundColor = .cherryLightBlue
         button.isUserInteractionEnabled = true
         return button

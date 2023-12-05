@@ -33,7 +33,7 @@ class ProductReviewView: UIView {
 
     private func configureView() {
         backgroundColor = .cherryLightBlue
-        layer.cornerRadius = 12
+        layer.cornerRadius = CornerRadius.large.cgFloat()
     }
 
     private func setupTitleLabel() {
@@ -47,7 +47,7 @@ class ProductReviewView: UIView {
         starsStackView.distribution = .fillEqually
         for index in 0..<5 {
             let starButton = UIButton()
-            starButton.setImage(UIImage(named: "ic_star"), for: .normal)
+            starButton.setImage(UIImage(named: "ic_bigStar"), for: .normal)
             starButton.tintColor = .black
             starsStackView.addArrangedSubview(starButton)
 
@@ -164,7 +164,7 @@ class ProductReviewView: UIView {
     private func updateStarRating(_ rating: Int) {
         for (index, button) in starsStackView.arrangedSubviews.enumerated() {
             if let button = button as? UIButton {
-                button.setImage(UIImage(named: index < rating ? "ic_starFill" : "ic_star"), for: .normal)
+                button.setImage(UIImage(named: index < rating ? "ic_bigStarFill" : "ic_bigStar"), for: .normal)
                 button.tintColor = index < rating ? .systemYellow : .gray
             }
         }

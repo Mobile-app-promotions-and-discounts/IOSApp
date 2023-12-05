@@ -14,7 +14,6 @@ class ImageGalleryView: UIView {
         let pageControl = UIPageControl()
         pageControl.currentPageIndicatorTintColor = .white
         pageControl.pageIndicatorTintColor = .lightGray
-
         pageControl.isUserInteractionEnabled = false
         return pageControl
     }()
@@ -59,14 +58,12 @@ class ImageGalleryView: UIView {
 
     private func setupIndicatorImages() {
         if #available(iOS 14.0, *) {
-            // Устанавливаем общий вид индикатора
             pageControl.preferredIndicatorImage = UIImage(systemName: "circle.fill")?.resizedImage(Size: CGSize(width: 6, height: 6))
-
-            // Устанавливаем индикатор для текущей страницы
             let currentIndicatorImage = UIImage(systemName: "circle.fill")?.resizedImage(Size: CGSize(width: 12, height: 12))
-            pageControl.setIndicatorImage(currentIndicatorImage, forPage: pageControl.currentPage)
+            pageControl.setIndicatorImage(
+                currentIndicatorImage,
+                forPage: pageControl.currentPage)
         } else {
-            // Для iOS 13 и ниже, необходимо использовать другой подход или стороннюю библиотеку
         }
     }
 
@@ -96,20 +93,15 @@ extension ImageGalleryView: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let pageIndex = Int(round(scrollView.contentOffset.x / scrollView.frame.size.width))
         if pageIndex != previousPage {
-            // Установите стандартное изображение для предыдущей текущей страницы
             if #available(iOS 14.0, *) {
                 pageControl.setIndicatorImage(nil, forPage: previousPage)
             }
-
-            // Обновите индикатор для новой текущей страницы
             if #available(iOS 14.0, *) {
                 let currentIndicatorImage = UIImage(systemName: "circle.fill")?.resizedImage(Size: CGSize(width: 12, height: 12))
                 pageControl.setIndicatorImage(currentIndicatorImage, forPage: pageIndex)
             }
-            // Обновите предыдущую страницу
             previousPage = pageIndex
         }
-
         pageControl.currentPage = pageIndex
     }
 }

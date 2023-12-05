@@ -3,10 +3,11 @@ import SnapKit
 import Combine
 
 class ProductCardViewController: UIViewController {
-
+    
+    weak var coordinator: MainScreenCoordinator?
+    
     private var product: Product?
     private var cancellables = Set<AnyCancellable>()
-    weak var coordinator: MainScreenCoordinator?
 
     private lazy var productScrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -87,8 +88,9 @@ class ProductCardViewController: UIViewController {
     }
 
     private func buttonsLayout() {
-        view.addSubview(backButton)
-        view.addSubview(exportButton)
+        [backButton, exportButton].forEach {
+            view.addSubview($0)
+        }
 
         backButton.setImage(UIImage(named: "backImage"), for: .normal)
         backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
@@ -136,7 +138,7 @@ class ProductCardViewController: UIViewController {
         }
         contentView.snp.makeConstraints { make in
             make.top.leading.bottom.trailing.equalTo(productScrollView)
-            make.bottom.greaterThanOrEqualTo(priceInfoView.snp.bottom).offset(16)
+            make.bottom.equalToSuperview()
         }
 
         galleryView.snp.makeConstraints { make in
@@ -169,7 +171,7 @@ class ProductCardViewController: UIViewController {
         let headerHeight: CGFloat = 19
         let footerHeight: CGFloat = 12
         let topPadding: CGFloat = 12
-        let cellHeight: CGFloat = 71
+        let cellHeight: CGFloat = 85
         let cellSpacing: CGFloat = 8
         let numberOfCells: CGFloat = CGFloat(product?.offers.count ?? 0)
         let tableViewHeight = headerHeight + topPadding + footerHeight + (cellHeight + cellSpacing) * numberOfCells - cellSpacing
@@ -188,15 +190,18 @@ class ProductCardViewController: UIViewController {
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
         }
+
         priceInfoView.snp.makeConstraints { make in
-            make.top.equalTo(reviewView.snp.bottom).offset(8)
+            make.top.equalTo(reviewView.snp.bottom).offset(16)
             make.leading.equalTo(contentView)
-            make.height.equalTo(87)
+            make.bottom.equalToSuperview()
             make.width.equalTo(contentView.frame.width)
         }
     }
 
     private func setupPriceInfoView() {
+        priceInfoView.backgroundColor = .white
+        priceInfoView.layer.cornerRadius = CornerRadius.regular.cgFloat()
         priceInfoView.viewModel = priceInfoViewModel
         priceInfoViewModel.addToFavorites
             .sink { [weak self] in
@@ -330,7 +335,7 @@ extension ProductCardViewController: UITableViewDataSource {
 
 extension ProductCardViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 71 // высота каждой ячейки
+        return 85 // высота каждой ячейки
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
