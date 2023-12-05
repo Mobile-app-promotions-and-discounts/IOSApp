@@ -63,6 +63,7 @@ final class EditProfileViewController: UIViewController, UINavigationControllerD
                 view?.setAvatarImage(image: nil)
             })
         )
+        // В дизайне этой кнопки нет, но это очевидная ошибка, она должна быть
         alert.addAction(UIAlertAction(
             title: NSLocalizedString("Cancel", tableName: "ProfileFlow", comment: ""),
             style: UIAlertAction.Style.cancel,

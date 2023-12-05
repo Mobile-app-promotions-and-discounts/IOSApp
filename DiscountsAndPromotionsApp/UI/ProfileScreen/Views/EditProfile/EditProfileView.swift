@@ -5,7 +5,7 @@ final class EditProfileView: UIView {
     // MARK: - Properties
     private var viewController: EditProfileViewController
 
-    private let noImage = UIImage(systemName: "person.circle")?.withTintColor(.buttonBG, renderingMode: .alwaysOriginal)
+    private let noImage = UIImage(named: "avatar")
 
     // MARK: - Layout elements
     private lazy var avatarImage: UIImageView = {
@@ -30,7 +30,7 @@ final class EditProfileView: UIView {
     private lazy var firstNameTextField: TextField = {
         let firstNameTextField = TextField()
         firstNameTextField.placeholder = NSLocalizedString("FirstName", tableName: "ProfileFlow", comment: "")
-        firstNameTextField.backgroundColor = .buttonBG
+        firstNameTextField.backgroundColor = .cherryWhite
         firstNameTextField.layer.cornerRadius = 10
         firstNameTextField.layer.masksToBounds = true
         firstNameTextField.font = .systemFont(ofSize: 14)
@@ -42,7 +42,7 @@ final class EditProfileView: UIView {
     private lazy var lastNameTextField: TextField = {
         let lastNameTextField = TextField()
         lastNameTextField.placeholder = NSLocalizedString("LastName", tableName: "ProfileFlow", comment: "")
-        lastNameTextField.backgroundColor = .buttonBG
+        lastNameTextField.backgroundColor = .cherryWhite
         lastNameTextField.layer.cornerRadius = 10
         lastNameTextField.layer.masksToBounds = true
         lastNameTextField.font = .systemFont(ofSize: 14)
@@ -54,7 +54,7 @@ final class EditProfileView: UIView {
     private lazy var phoneTextField: TextField = {
         let phoneTextField = TextField()
         phoneTextField.placeholder = NSLocalizedString("Phone", tableName: "ProfileFlow", comment: "")
-        phoneTextField.backgroundColor = .buttonBG
+        phoneTextField.backgroundColor = .cherryWhite
         phoneTextField.layer.cornerRadius = 10
         phoneTextField.layer.masksToBounds = true
         phoneTextField.font = .systemFont(ofSize: 14)
@@ -66,7 +66,7 @@ final class EditProfileView: UIView {
     private lazy var emailTextField: TextField = {
         let emailTextField = TextField()
         emailTextField.placeholder = "Email"
-        emailTextField.backgroundColor = .buttonBG
+        emailTextField.backgroundColor = .cherryWhite
         emailTextField.layer.cornerRadius = 10
         emailTextField.layer.masksToBounds = true
         emailTextField.font = .systemFont(ofSize: 14)
@@ -79,7 +79,7 @@ final class EditProfileView: UIView {
     private lazy var birthdateTextField: TextField = {
         let birthdateTextField = TextField()
         birthdateTextField.placeholder = NSLocalizedString("Birthdate", tableName: "ProfileFlow", comment: "")
-        birthdateTextField.backgroundColor = .buttonBG
+        birthdateTextField.backgroundColor = .cherryWhite
         birthdateTextField.layer.cornerRadius = 10
         birthdateTextField.layer.masksToBounds = true
         birthdateTextField.font = .systemFont(ofSize: 14)
@@ -95,7 +95,7 @@ final class EditProfileView: UIView {
     private lazy var genderTextField: TextField = {
         let genderTextField = TextField()
         genderTextField.placeholder = NSLocalizedString("Gender", tableName: "ProfileFlow", comment: "")
-        genderTextField.backgroundColor = .buttonBG
+        genderTextField.backgroundColor = .cherryWhite
         genderTextField.layer.cornerRadius = 10
         genderTextField.layer.masksToBounds = true
         genderTextField.font = .systemFont(ofSize: 14)
@@ -130,7 +130,7 @@ final class EditProfileView: UIView {
     func collectFieldsToProfile() -> ProfileModel {
         let profile = ProfileModel(
             id: nil,
-            avatar: avatarImage.image?.pngData(),
+            avatar: avatarImage == noImage ? nil : avatarImage.image?.pngData(),
             firstName: firstNameTextField.text,
             lastName: lastNameTextField.text,
             phone: phoneTextField.text,
