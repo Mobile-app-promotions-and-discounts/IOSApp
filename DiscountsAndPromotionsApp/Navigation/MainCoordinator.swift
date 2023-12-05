@@ -15,6 +15,9 @@ final class MainCoordinator: Coordinator {
     }
 
     func start() {
+        // ВРЕМЕННО - тест сервиса
+        AuthService.shared.getToken(for: NetworkBaseConfiguration.testUser)
+
         let mainTabBarController = MainTabBarController()
         configureChildCoordinators(with: mainTabBarController)
         navigationController.viewControllers = [mainTabBarController]

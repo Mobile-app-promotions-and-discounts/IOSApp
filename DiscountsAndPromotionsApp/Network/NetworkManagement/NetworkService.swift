@@ -7,7 +7,9 @@ final class NetworkService: NetworkServiceProtocol {
 
     private init() {}
 
-    func request<T: Decodable>(endpoint: Endpoint, headers: [String: String]?, parameters: [String: String]?) -> AnyPublisher<T, AppError> {
+    func request<T: Decodable>(endpoint: Endpoint,
+                               headers: [String: String]?,
+                               parameters: [String: String]?) -> AnyPublisher<T, AppError> {
         guard let url = URL(string: endpoint.URL) else {
             return Fail(error: AppError.networkError).eraseToAnyPublisher()
         }

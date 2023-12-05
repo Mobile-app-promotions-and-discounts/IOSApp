@@ -6,12 +6,16 @@ protocol AuthServiceProtocol {
 }
 
 final class AuthService: AuthServiceProtocol {
+    // временно для теста
+    static let shared = AuthService()
+
     private let tokenStorage: AuthTokenStorage
     private let networkService: NetworkServiceProtocol
 
     private var subscriptions = Set<AnyCancellable>()
 
-    init(tokenStorage: AuthTokenStorage = AuthTokenStorage.shared, networkService: NetworkServiceProtocol = NetworkService.shared) {
+    init(tokenStorage: AuthTokenStorage = AuthTokenStorage.shared,
+         networkService: NetworkServiceProtocol = NetworkService.shared) {
         self.tokenStorage = tokenStorage
         self.networkService = networkService
     }
@@ -21,7 +25,11 @@ final class AuthService: AuthServiceProtocol {
             "username": user.username,
             "password": user.password
         ]
-        let publisher: AnyPublisher<TokenResponseModel, AppError> = networkService.request(endpoint: Endpoint.getToken, headers: nil, parameters: userParams)
+        let publisher: AnyPublisher<TokenResponseModel, AppError> = networkService.request(
+            endpoint: Endpoint.getToken,
+            headers: nil,
+            parameters: userParams
+        )
 
         publisher.sink { completion in
             switch completion {
@@ -31,8 +39,8 @@ final class AuthService: AuthServiceProtocol {
                 print("Request failed with error: \(error)")
             }
         } receiveValue: { [weak self] token in
-            print("Received value: \(token)")
             self?.tokenStorage.accessToken = token.access
+            print(self?.tokenStorage.accessToken)
         }
         .store(in: &subscriptions)
     }
