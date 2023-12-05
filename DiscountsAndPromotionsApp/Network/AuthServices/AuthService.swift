@@ -10,14 +10,14 @@ final class AuthService: AuthServiceProtocol {
     static let shared = AuthService()
 
     private let tokenStorage: AuthTokenStorage
-    private let networkService: NetworkServiceProtocol
+    private let networkClient: NetworkClientProtocol
 
     private var subscriptions = Set<AnyCancellable>()
 
     init(tokenStorage: AuthTokenStorage = AuthTokenStorage.shared,
-         networkService: NetworkServiceProtocol = NetworkService.shared) {
+         networkClient: NetworkClientProtocol = NetworkClient.shared) {
         self.tokenStorage = tokenStorage
-        self.networkService = networkService
+        self.networkClient = networkClient
     }
 
     func getToken(for user: UserRequestModel) {
@@ -25,7 +25,7 @@ final class AuthService: AuthServiceProtocol {
             "username": user.username,
             "password": user.password
         ]
-        let publisher: AnyPublisher<TokenResponseModel, AppError> = networkService.request(
+        let publisher: AnyPublisher<TokenResponseModel, AppError> = networkClient.request(
             endpoint: Endpoint.getToken,
             headers: nil,
             parameters: userParams

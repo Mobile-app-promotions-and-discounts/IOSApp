@@ -1,8 +1,8 @@
 import Combine
 import Foundation
 
-final class NetworkService: NetworkServiceProtocol {
-    static let shared = NetworkService()
+final class NetworkClient: NetworkClientProtocol {
+    static let shared = NetworkClient()
     private let decoder = JSONDecoder()
 
     private init() {}
