@@ -16,6 +16,8 @@
 		BC0723182B1A589800EF82B8 /* Manrope-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC0723152B1A588E00EF82B8 /* Manrope-Regular.ttf */; };
 		BC0723192B1A589A00EF82B8 /* Manrope-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC0723162B1A588E00EF82B8 /* Manrope-SemiBold.ttf */; };
 		BC07231B2B1A6A5C00EF82B8 /* SecondaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC07231A2B1A6A5C00EF82B8 /* SecondaryButton.swift */; };
+		BC266A562B1F8AD800F14F7B /* AuthTokenStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC266A552B1F8AD800F14F7B /* AuthTokenStorage.swift */; };
+		BC266A592B1F8B1500F14F7B /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = BC266A582B1F8B1500F14F7B /* SwiftKeychainWrapper */; };
 		BC50097A2B18B0A200385381 /* CornerRadius.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5009792B18B0A200385381 /* CornerRadius.swift */; };
 		BC6045FB2B1D9CA700536EB3 /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6045FA2B1D9CA700536EB3 /* SearchResultsViewController.swift */; };
 		BC6045FD2B1E3B2E00536EB3 /* PromotionVisualsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6045FC2B1E3B2E00536EB3 /* PromotionVisualsService.swift */; };
@@ -130,6 +132,7 @@
 		BC0723152B1A588E00EF82B8 /* Manrope-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Manrope-Regular.ttf"; sourceTree = "<group>"; };
 		BC0723162B1A588E00EF82B8 /* Manrope-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Manrope-SemiBold.ttf"; sourceTree = "<group>"; };
 		BC07231A2B1A6A5C00EF82B8 /* SecondaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryButton.swift; sourceTree = "<group>"; };
+		BC266A552B1F8AD800F14F7B /* AuthTokenStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTokenStorage.swift; sourceTree = "<group>"; };
 		BC5009792B18B0A200385381 /* CornerRadius.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CornerRadius.swift; sourceTree = "<group>"; };
 		BC6045FA2B1D9CA700536EB3 /* SearchResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
 		BC6045FC2B1E3B2E00536EB3 /* PromotionVisualsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromotionVisualsService.swift; sourceTree = "<group>"; };
@@ -227,6 +230,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC266A592B1F8B1500F14F7B /* SwiftKeychainWrapper in Frameworks */,
 				BE3524832B02B92A00746581 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -269,6 +273,30 @@
 				BE3524682B02B27A00746581 /* Fonts.swift */,
 			);
 			path = Fonts;
+			sourceTree = "<group>";
+		};
+		BC266A522B1F8A9200F14F7B /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				BC266A542B1F8ABE00F14F7B /* NetworkServices */,
+				BC266A532B1F8AB300F14F7B /* AuthServices */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		BC266A532B1F8AB300F14F7B /* AuthServices */ = {
+			isa = PBXGroup;
+			children = (
+				BC266A552B1F8AD800F14F7B /* AuthTokenStorage.swift */,
+			);
+			path = AuthServices;
+			sourceTree = "<group>";
+		};
+		BC266A542B1F8ABE00F14F7B /* NetworkServices */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = NetworkServices;
 			sourceTree = "<group>";
 		};
 		BC60460F2B1E4B7900536EB3 /* ProfileScreen */ = {
@@ -545,6 +573,7 @@
 				BCCF4FBF2B1B4AF10067A552 /* UI */,
 				BE521A892B04DF1A005F2FE7 /* Data */,
 				BEBA944B2B14D8FA00ABE1AD /* Services */,
+				BC266A522B1F8A9200F14F7B /* Network */,
 				BE3524722B02B30800746581 /* Extensions */,
 				BE3524632B02ACCB00746581 /* Resources */,
 				BE3524612B02AC8600746581 /* Configuration */,
@@ -712,6 +741,7 @@
 			name = DiscountsAndPromotionsApp;
 			packageProductDependencies = (
 				BE3524822B02B92A00746581 /* SnapKit */,
+				BC266A582B1F8B1500F14F7B /* SwiftKeychainWrapper */,
 			);
 			productName = DiscountsAndPromotionsApp;
 			productReference = BE35244A2B02ABA200746581 /* DiscountsAndPromotionsApp.app */;
@@ -744,6 +774,7 @@
 			mainGroup = BE3524412B02ABA200746581;
 			packageReferences = (
 				BE3524812B02B92A00746581 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				BC266A572B1F8B1500F14F7B /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */,
 			);
 			productRefGroup = BE35244B2B02ABA200746581 /* Products */;
 			projectDirPath = "";
@@ -820,6 +851,7 @@
 				BEBA94512B14E4B900ABE1AD /* UIViewController+Extension.swift in Sources */,
 				BC60461B2B1E4B7900536EB3 /* ProfileModel.swift in Sources */,
 				BC6046092B1E3CAB00536EB3 /* HeaderView.swift in Sources */,
+				BC266A562B1F8AD800F14F7B /* AuthTokenStorage.swift in Sources */,
 				BCCF500C2B1B4AF10067A552 /* ScanFrameView.swift in Sources */,
 				BEBA916E2B0A9F9500C2DE96 /* ProductModels.swift in Sources */,
 				BCCF501A2B1B4AF10067A552 /* RatingViewViewModel .swift in Sources */,
@@ -1035,7 +1067,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 6P6HF74P83;
+				DEVELOPMENT_TEAM = 7XT93683G9;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DiscountsAndPromotionsApp/Configuration/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -1112,6 +1144,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		BC266A572B1F8B1500F14F7B /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jrendel/SwiftKeychainWrapper";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.1;
+			};
+		};
 		BE3524812B02B92A00746581 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit";
@@ -1123,6 +1163,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		BC266A582B1F8B1500F14F7B /* SwiftKeychainWrapper */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BC266A572B1F8B1500F14F7B /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */;
+			productName = SwiftKeychainWrapper;
+		};
 		BE3524822B02B92A00746581 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = BE3524812B02B92A00746581 /* XCRemoteSwiftPackageReference "SnapKit" */;
