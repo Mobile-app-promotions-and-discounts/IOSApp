@@ -18,6 +18,13 @@
 		BC07231B2B1A6A5C00EF82B8 /* SecondaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC07231A2B1A6A5C00EF82B8 /* SecondaryButton.swift */; };
 		BC266A562B1F8AD800F14F7B /* AuthTokenStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC266A552B1F8AD800F14F7B /* AuthTokenStorage.swift */; };
 		BC266A592B1F8B1500F14F7B /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = BC266A582B1F8B1500F14F7B /* SwiftKeychainWrapper */; };
+		BC266A5C2B1F8CF600F14F7B /* UserRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC266A5B2B1F8CF600F14F7B /* UserRequestModel.swift */; };
+		BC266A5E2B1F8D3200F14F7B /* Endpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC266A5D2B1F8D3200F14F7B /* Endpoints.swift */; };
+		BC266A602B1F8D6A00F14F7B /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC266A5F2B1F8D6A00F14F7B /* AuthService.swift */; };
+		BC266A622B1F924900F14F7B /* TokenResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC266A612B1F924900F14F7B /* TokenResponseModel.swift */; };
+		BC266A642B1F93F000F14F7B /* NetworkServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC266A632B1F93F000F14F7B /* NetworkServiceProtocol.swift */; };
+		BC266A662B1F946300F14F7B /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC266A652B1F946300F14F7B /* NetworkService.swift */; };
+		BC266A682B1F96A500F14F7B /* NetworkResponseWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC266A672B1F96A500F14F7B /* NetworkResponseWrapper.swift */; };
 		BC50097A2B18B0A200385381 /* CornerRadius.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5009792B18B0A200385381 /* CornerRadius.swift */; };
 		BC6045FB2B1D9CA700536EB3 /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6045FA2B1D9CA700536EB3 /* SearchResultsViewController.swift */; };
 		BC6045FD2B1E3B2E00536EB3 /* PromotionVisualsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6045FC2B1E3B2E00536EB3 /* PromotionVisualsService.swift */; };
@@ -133,6 +140,13 @@
 		BC0723162B1A588E00EF82B8 /* Manrope-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Manrope-SemiBold.ttf"; sourceTree = "<group>"; };
 		BC07231A2B1A6A5C00EF82B8 /* SecondaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryButton.swift; sourceTree = "<group>"; };
 		BC266A552B1F8AD800F14F7B /* AuthTokenStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTokenStorage.swift; sourceTree = "<group>"; };
+		BC266A5B2B1F8CF600F14F7B /* UserRequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRequestModel.swift; sourceTree = "<group>"; };
+		BC266A5D2B1F8D3200F14F7B /* Endpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoints.swift; sourceTree = "<group>"; };
+		BC266A5F2B1F8D6A00F14F7B /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		BC266A612B1F924900F14F7B /* TokenResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenResponseModel.swift; sourceTree = "<group>"; };
+		BC266A632B1F93F000F14F7B /* NetworkServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceProtocol.swift; sourceTree = "<group>"; };
+		BC266A652B1F946300F14F7B /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		BC266A672B1F96A500F14F7B /* NetworkResponseWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkResponseWrapper.swift; sourceTree = "<group>"; };
 		BC5009792B18B0A200385381 /* CornerRadius.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CornerRadius.swift; sourceTree = "<group>"; };
 		BC6045FA2B1D9CA700536EB3 /* SearchResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
 		BC6045FC2B1E3B2E00536EB3 /* PromotionVisualsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromotionVisualsService.swift; sourceTree = "<group>"; };
@@ -280,6 +294,7 @@
 			children = (
 				BC266A542B1F8ABE00F14F7B /* NetworkServices */,
 				BC266A532B1F8AB300F14F7B /* AuthServices */,
+				BC266A5D2B1F8D3200F14F7B /* Endpoints.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -288,6 +303,7 @@
 			isa = PBXGroup;
 			children = (
 				BC266A552B1F8AD800F14F7B /* AuthTokenStorage.swift */,
+				BC266A5F2B1F8D6A00F14F7B /* AuthService.swift */,
 			);
 			path = AuthServices;
 			sourceTree = "<group>";
@@ -295,8 +311,21 @@
 		BC266A542B1F8ABE00F14F7B /* NetworkServices */ = {
 			isa = PBXGroup;
 			children = (
+				BC266A5A2B1F8CDD00F14F7B /* Models */,
+				BC266A632B1F93F000F14F7B /* NetworkServiceProtocol.swift */,
+				BC266A652B1F946300F14F7B /* NetworkService.swift */,
+				BC266A672B1F96A500F14F7B /* NetworkResponseWrapper.swift */,
 			);
 			path = NetworkServices;
+			sourceTree = "<group>";
+		};
+		BC266A5A2B1F8CDD00F14F7B /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				BC266A5B2B1F8CF600F14F7B /* UserRequestModel.swift */,
+				BC266A612B1F924900F14F7B /* TokenResponseModel.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		BC60460F2B1E4B7900536EB3 /* ProfileScreen */ = {
@@ -846,6 +875,7 @@
 				BEBA944D2B14D93800ABE1AD /* ErrorHandler.swift in Sources */,
 				BCCF4FFD2B1B4AF10067A552 /* ProductTitleCell.swift in Sources */,
 				BE8E709D2B0D275300BEAA5A /* CollectionLayoutProvider.swift in Sources */,
+				BC266A662B1F946300F14F7B /* NetworkService.swift in Sources */,
 				BC60461D2B1E4B7900536EB3 /* EditProfileViewController.swift in Sources */,
 				BCCF50112B1B4AF10067A552 /* ProductCell.swift in Sources */,
 				BEBA94512B14E4B900ABE1AD /* UIViewController+Extension.swift in Sources */,
@@ -878,6 +908,7 @@
 				BCCF4FFC2B1B4AF10067A552 /* ImageGalleryCell.swift in Sources */,
 				BCCF501C2B1B4AF10067A552 /* PriceInfoViewModel.swift in Sources */,
 				BC6046252B1E4C0100536EB3 /* Date+Extension.swift in Sources */,
+				BC266A602B1F8D6A00F14F7B /* AuthService.swift in Sources */,
 				BEBA916C2B0A9D0000C2DE96 /* Coordinator.swift in Sources */,
 				BE8E70B22B0E558300BEAA5A /* FavoritesScreenCoordinator.swift in Sources */,
 				BC60461E2B1E4B7900536EB3 /* ProfileView.swift in Sources */,
@@ -895,6 +926,7 @@
 				BC6045FB2B1D9CA700536EB3 /* SearchResultsViewController.swift in Sources */,
 				BEF503B62B15288C00577D7F /* ProfileServiceProtocol.swift in Sources */,
 				BE3524692B02B27A00746581 /* Fonts.swift in Sources */,
+				BC266A622B1F924900F14F7B /* TokenResponseModel.swift in Sources */,
 				BCCF50182B1B4AF10067A552 /* FavoritesViewModelProtocol.swift in Sources */,
 				BC6046032B1E3C7400536EB3 /* CategoryUIModel.swift in Sources */,
 				BC6045FF2B1E3B3900536EB3 /* SectionBackgroundView.swift in Sources */,
@@ -909,15 +941,19 @@
 				BCCF50222B1B4AF10067A552 /* ProductTitleView.swift in Sources */,
 				BC6046052B1E3C9E00536EB3 /* CategoryCell.swift in Sources */,
 				BCB7F9242B0D255600EE20A0 /* UIImage+Extensions.swift in Sources */,
+				BC266A682B1F96A500F14F7B /* NetworkResponseWrapper.swift in Sources */,
 				BC93BB6B2B0BCBF1008BE2AD /* StringBarcodeExtension.swift in Sources */,
 				BCCF50252B1B4D390067A552 /* ProductCardViewController.swift in Sources */,
+				BC266A5E2B1F8D3200F14F7B /* Endpoints.swift in Sources */,
 				BC05456F2B1D264C008D65A3 /* SearchCategoryCell.swift in Sources */,
 				BC07231B2B1A6A5C00EF82B8 /* SecondaryButton.swift in Sources */,
 				BCCF50232B1B4AF10067A552 /* ImageGalleryView.swift in Sources */,
+				BC266A642B1F93F000F14F7B /* NetworkServiceProtocol.swift in Sources */,
 				BCCF50012B1B4AF10067A552 /* StoreUIModel.swift in Sources */,
 				BE3524502B02ABA200746581 /* SceneDelegate.swift in Sources */,
 				BC05456C2B1D0A33008D65A3 /* UISegmentedControl+Extensions.swift in Sources */,
 				BC6046012B1E3B7400536EB3 /* Promotion.swift in Sources */,
+				BC266A5C2B1F8CF600F14F7B /* UserRequestModel.swift in Sources */,
 				BCCF4FFF2B1B4AF10067A552 /* MainViewModel.swift in Sources */,
 				BCCF50032B1B4AF10067A552 /* PromotionUIModel.swift in Sources */,
 			);
