@@ -108,8 +108,15 @@ final class EditProfileViewController: UIViewController, UINavigationControllerD
 
     private func setupNavBar() {
         self.navigationController?.navigationBar.isHidden = false
+        let navbarAttributes: [NSAttributedString.Key: Any] = [
+            NSAttributedString.Key.foregroundColor: UIColor.cherryBlue,
+            NSAttributedString.Key.font: CherryFonts.textLarge as Any]
         navigationItem.leftBarButtonItem = cancelButton
+        cancelButton.setTitleTextAttributes(navbarAttributes, for: .normal)
+        cancelButton.setTitleTextAttributes(navbarAttributes, for: .selected)
         navigationItem.rightBarButtonItem = doneButton
+        doneButton.setTitleTextAttributes(navbarAttributes, for: .normal)
+        doneButton.setTitleTextAttributes(navbarAttributes, for: .selected)
     }
 }
 
