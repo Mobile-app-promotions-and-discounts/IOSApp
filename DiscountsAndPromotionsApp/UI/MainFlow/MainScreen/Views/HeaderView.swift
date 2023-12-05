@@ -1,8 +1,14 @@
 import UIKit
 import SnapKit
+import Combine
 
 final class HeaderView: UICollectionReusableView {
     static let reuseIdentifier = "HeaderView"
+
+    var cancellable: AnyCancellable?
+
+    // PassthroughSubject для события нажатия кнопки
+    private (set) var allButtonTapped = PassthroughSubject<Void, Never>()
 
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
@@ -34,6 +40,7 @@ final class HeaderView: UICollectionReusableView {
 
     @objc
     private func allButtonPressed() {
+        allButtonTapped.send()
         print("Нажал кнопку Все")
     }
 

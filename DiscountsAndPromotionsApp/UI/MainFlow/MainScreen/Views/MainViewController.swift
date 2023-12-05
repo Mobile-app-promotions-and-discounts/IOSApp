@@ -56,9 +56,7 @@ final class MainViewController: ScannerEnabledViewController {
         view.addSubview(mainCollectionView)
 
         mainCollectionView.snp.makeConstraints { make in
-            make.left.right.equalToSuperview()
-            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
-            make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
+            make.left.top.bottom.right.equalToSuperview()
         }
     }
 
@@ -114,7 +112,18 @@ extension MainViewController: UICollectionViewDataSource {
                                                                                for: indexPath) as? HeaderView else {
                 return UICollectionReusableView()
             }
-            let headerName = viewModel.getTitleFor(indexPath: indexPath)
+
+            guard let mainSection = MainSection(rawValue: indexPath.section) else {
+                return UICollectionReusableView()
+            }
+
+            header.cancellable = header.allButtonTapped
+                .sink { [weak self] _ in
+                    guard let self = self else { return }
+                    self.coordinator?.navigateToAllDetailsScreen(with: mainSection)
+                }
+
+            let headerName = viewModel.getTitleFor(section: mainSection)
             header.configure(with: headerName)
             return header
         } else if kind == UICollectionView.elementKindSectionFooter {
@@ -143,7 +152,6 @@ extension MainViewController: UICollectionViewDataSource {
                                                                 for: indexPath) as? CategoryCell else {
                 return UICollectionViewCell()
             }
-
             guard let category = viewModel.getCategory(for: indexPath.row) else {
                 ErrorHandler.handle(error: .customError("Ошибка получения категории во вью модели"))
                 return cell

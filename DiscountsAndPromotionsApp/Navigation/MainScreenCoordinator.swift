@@ -57,4 +57,17 @@ final class MainScreenCoordinator: Coordinator {
     func navigateToMainScreen() {
         navigationController.popToRootViewController(animated: true)
     }
+
+    func navigateToAllDetailsScreen(with type: MainSection) {
+        switch type {
+        case .promotions:
+            ErrorHandler.handle(error: .profileError("Нажата кнопка Все на секции с акциями"))
+        case .stores:
+            let viewModel = AllShopsViewModel()
+            let viewController = AllShopsViewController(viewModel: viewModel)
+            navigationController.pushViewController(viewController, animated: true)
+        case .categories:
+            break
+        }
+    }
 }

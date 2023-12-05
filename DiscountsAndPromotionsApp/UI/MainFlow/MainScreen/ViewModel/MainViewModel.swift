@@ -62,13 +62,13 @@ final class MainViewModel: MainViewModelProtocol {
         }
     }
 
-    func getTitleFor(indexPath: IndexPath) -> String {
-        switch indexPath.section {
-        case 1:
+    func getTitleFor(section: MainSection) -> String {
+        switch section {
+        case .promotions:
             return NSLocalizedString("Promotions this week", tableName: "MainFlow", comment: "")
-        case 2:
+        case .stores:
             return NSLocalizedString("Shops", tableName: "MainFlow", comment: "")
-        default:
+        case .categories:
             return ""
         }
     }
