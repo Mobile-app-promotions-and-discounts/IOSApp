@@ -105,6 +105,7 @@
 		BEF503B22B15262F00577D7F /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF503B12B15262F00577D7F /* Profile.swift */; };
 		BEF503B42B15287F00577D7F /* MockProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF503B32B15287F00577D7F /* MockProfileService.swift */; };
 		BEF503B62B15288C00577D7F /* ProfileServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF503B52B15288C00577D7F /* ProfileServiceProtocol.swift */; };
+		D059EB8F2B1FC1CB004C8A1A /* ProfileFlow.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = D059EB8E2B1FC1CA004C8A1A /* ProfileFlow.xcstrings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -220,6 +221,7 @@
 		BEF503B12B15262F00577D7F /* Profile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		BEF503B32B15287F00577D7F /* MockProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockProfileService.swift; sourceTree = "<group>"; };
 		BEF503B52B15288C00577D7F /* ProfileServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileServiceProtocol.swift; sourceTree = "<group>"; };
+		D059EB8E2B1FC1CA004C8A1A /* ProfileFlow.xcstrings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json.xcstrings; name = ProfileFlow.xcstrings; path = ../../ProfileFlow.xcstrings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -557,6 +559,7 @@
 			isa = PBXGroup;
 			children = (
 				BC93BB702B0BDA0A008BE2AD /* Info.plist */,
+				D059EB8E2B1FC1CA004C8A1A /* ProfileFlow.xcstrings */,
 				BCB7F91D2B0C89B500EE20A0 /* ScanFlow.xcstrings */,
 				BEAE80462B178E88004DAE32 /* FavoritesFlow.xcstrings */,
 				BEBA944E2B14E1DC00ABE1AD /* ErrorHandler.xcstrings */,
@@ -760,6 +763,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC0723182B1A589800EF82B8 /* Manrope-Regular.ttf in Resources */,
+				D059EB8F2B1FC1CB004C8A1A /* ProfileFlow.xcstrings in Resources */,
 				BEBA944F2B14E1DC00ABE1AD /* ErrorHandler.xcstrings in Resources */,
 				BE35245A2B02ABA300746581 /* LaunchScreen.storyboard in Resources */,
 				BCB7F91E2B0C89B500EE20A0 /* ScanFlow.xcstrings in Resources */,

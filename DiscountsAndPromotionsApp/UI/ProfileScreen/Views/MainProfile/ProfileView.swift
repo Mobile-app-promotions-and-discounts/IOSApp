@@ -94,7 +94,7 @@ final class ProfileView: UIView {
         aboutButton.buttonImage.image = UIImage(named: "buttonAbout")
         aboutButton.buttonTitle.text = NSLocalizedString("About", tableName: "ProfileFlow", comment: "")
         aboutButton.addTarget(self, action: #selector(supportDidTap), for: .touchUpInside)
-        return supportButton
+        return aboutButton
     }()
 
     private lazy var padding = UIView()
@@ -102,7 +102,7 @@ final class ProfileView: UIView {
     private lazy var exitProfileButton: ProfileAssetButton = {
         let exitProfileButton = ProfileAssetButton()
         exitProfileButton.removeImages()
-        exitProfileButton.buttonTitle.text = NSLocalizedString("ExitAccount", tableName: "ProfileFlow", comment: "")
+        exitProfileButton.buttonTitle.text = NSLocalizedString("ExitProfile", tableName: "ProfileFlow", comment: "")
         exitProfileButton.addTarget(self, action: #selector(exitAccountDidTap), for: .touchUpInside)
         return exitProfileButton
     }()
@@ -201,7 +201,7 @@ final class ProfileView: UIView {
         editButton.snp.makeConstraints { make in
             make.height.width.equalTo(24)
             make.centerY.equalTo(avatarImage)
-            make.trailing.equalTo(snp.trailing).inset(8)
+            make.trailing.equalTo(self).inset(16)
         }
     }
 
