@@ -2,6 +2,8 @@ import Foundation
 import SwiftKeychainWrapper
 
 final class AuthTokenStorage {
+    static let shared = AuthTokenStorage()
+
     private let wrapper = KeychainWrapper.standard
 
     private enum Keys: String {
@@ -22,6 +24,8 @@ final class AuthTokenStorage {
             }
         }
     }
+
+    private init() {}
 
     func clearTokenStorage() {
         wrapper.remove(forKey: KeychainWrapper.Key(rawValue: Keys.accessToken.rawValue))

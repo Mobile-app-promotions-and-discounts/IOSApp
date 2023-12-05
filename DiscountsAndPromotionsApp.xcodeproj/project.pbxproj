@@ -24,7 +24,6 @@
 		BC266A622B1F924900F14F7B /* TokenResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC266A612B1F924900F14F7B /* TokenResponseModel.swift */; };
 		BC266A642B1F93F000F14F7B /* NetworkServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC266A632B1F93F000F14F7B /* NetworkServiceProtocol.swift */; };
 		BC266A662B1F946300F14F7B /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC266A652B1F946300F14F7B /* NetworkService.swift */; };
-		BC266A682B1F96A500F14F7B /* NetworkResponseWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC266A672B1F96A500F14F7B /* NetworkResponseWrapper.swift */; };
 		BC50097A2B18B0A200385381 /* CornerRadius.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5009792B18B0A200385381 /* CornerRadius.swift */; };
 		BC6045FB2B1D9CA700536EB3 /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6045FA2B1D9CA700536EB3 /* SearchResultsViewController.swift */; };
 		BC6045FD2B1E3B2E00536EB3 /* PromotionVisualsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6045FC2B1E3B2E00536EB3 /* PromotionVisualsService.swift */; };
@@ -146,7 +145,6 @@
 		BC266A612B1F924900F14F7B /* TokenResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenResponseModel.swift; sourceTree = "<group>"; };
 		BC266A632B1F93F000F14F7B /* NetworkServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceProtocol.swift; sourceTree = "<group>"; };
 		BC266A652B1F946300F14F7B /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
-		BC266A672B1F96A500F14F7B /* NetworkResponseWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkResponseWrapper.swift; sourceTree = "<group>"; };
 		BC5009792B18B0A200385381 /* CornerRadius.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CornerRadius.swift; sourceTree = "<group>"; };
 		BC6045FA2B1D9CA700536EB3 /* SearchResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
 		BC6045FC2B1E3B2E00536EB3 /* PromotionVisualsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromotionVisualsService.swift; sourceTree = "<group>"; };
@@ -292,7 +290,7 @@
 		BC266A522B1F8A9200F14F7B /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				BC266A542B1F8ABE00F14F7B /* NetworkServices */,
+				BC266A542B1F8ABE00F14F7B /* NetworkManagement */,
 				BC266A532B1F8AB300F14F7B /* AuthServices */,
 				BC266A5D2B1F8D3200F14F7B /* Endpoints.swift */,
 			);
@@ -308,15 +306,14 @@
 			path = AuthServices;
 			sourceTree = "<group>";
 		};
-		BC266A542B1F8ABE00F14F7B /* NetworkServices */ = {
+		BC266A542B1F8ABE00F14F7B /* NetworkManagement */ = {
 			isa = PBXGroup;
 			children = (
 				BC266A5A2B1F8CDD00F14F7B /* Models */,
 				BC266A632B1F93F000F14F7B /* NetworkServiceProtocol.swift */,
 				BC266A652B1F946300F14F7B /* NetworkService.swift */,
-				BC266A672B1F96A500F14F7B /* NetworkResponseWrapper.swift */,
 			);
-			path = NetworkServices;
+			path = NetworkManagement;
 			sourceTree = "<group>";
 		};
 		BC266A5A2B1F8CDD00F14F7B /* Models */ = {
@@ -941,7 +938,6 @@
 				BCCF50222B1B4AF10067A552 /* ProductTitleView.swift in Sources */,
 				BC6046052B1E3C9E00536EB3 /* CategoryCell.swift in Sources */,
 				BCB7F9242B0D255600EE20A0 /* UIImage+Extensions.swift in Sources */,
-				BC266A682B1F96A500F14F7B /* NetworkResponseWrapper.swift in Sources */,
 				BC93BB6B2B0BCBF1008BE2AD /* StringBarcodeExtension.swift in Sources */,
 				BCCF50252B1B4D390067A552 /* ProductCardViewController.swift in Sources */,
 				BC266A5E2B1F8D3200F14F7B /* Endpoints.swift in Sources */,

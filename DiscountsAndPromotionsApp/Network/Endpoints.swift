@@ -10,8 +10,14 @@ enum HttpMethod: String {
 struct NetworkBaseConfiguration {
     static let testUser = UserRequestModel(username: "ivanov@example.com",
                                            password: "cherryapp")
-    
     static let baseURL = "http://193.107.239.130"
+
+    static func tokenHeader() -> [String: String] {
+        let token = AuthTokenStorage.shared.accessToken ?? ""
+        return [
+            "Bearer": token
+        ]
+    }
 }
 
 enum Endpoint {
