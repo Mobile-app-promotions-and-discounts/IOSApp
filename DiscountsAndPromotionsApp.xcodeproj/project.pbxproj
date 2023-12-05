@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		927EC3042B1F94EF005C100B /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927EC3032B1F94EF005C100B /* UIImage+Extensions.swift */; };
 		BC05456A2B1D0866008D65A3 /* CustomSegmantedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0545692B1D0865008D65A3 /* CustomSegmantedControl.swift */; };
 		BC05456C2B1D0A33008D65A3 /* UISegmentedControl+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC05456B2B1D0A33008D65A3 /* UISegmentedControl+Extensions.swift */; };
 		BC05456F2B1D264C008D65A3 /* SearchCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC05456E2B1D264C008D65A3 /* SearchCategoryCell.swift */; };
