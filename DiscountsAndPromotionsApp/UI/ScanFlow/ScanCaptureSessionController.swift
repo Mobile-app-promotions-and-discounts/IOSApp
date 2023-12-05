@@ -24,10 +24,16 @@ final class ScanCaptureSessionController: NSObject, AVCaptureMetadataOutputObjec
         }
     }
 
+    func pauseSessionRoutine() {
+        flashOff()
+    }
+
     func stopSessionRoutine() {
         flashOff()
         if captureSession.isRunning == true {
-            captureSession.stopRunning()
+            background.async { [weak self] in
+                self?.captureSession.stopRunning()
+            }
         }
     }
 

@@ -2,7 +2,7 @@ import UIKit
 import Combine
 import SnapKit
 
-final class FavoritesViewController: UIViewController {
+final class FavoritesViewController: ScannerEnabledViewController {
     weak var coordinator: FavoritesScreenCoordinator?
 
     private let viewModel: FavoritesViewModelProtocol
@@ -14,9 +14,9 @@ final class FavoritesViewController: UIViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.showsVerticalScrollIndicator = false
         collectionView.register(ProductCell.self, forCellWithReuseIdentifier: ProductCell.reuseIdentifier)
-        collectionView.register(PromotionHeader.self,
+        collectionView.register(HeaderView.self,
                                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                                withReuseIdentifier: PromotionHeader.reuseIdentifier)
+                                withReuseIdentifier: HeaderView.reuseIdentifier)
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.backgroundColor = .clear
@@ -40,7 +40,7 @@ final class FavoritesViewController: UIViewController {
     }
 
     private func setupViews() {
-        layoutProvider.createLayoutForCategoryScreen(for: favoritesCollectionView, in: view)
+        layoutProvider.createCategoryScreenLayout(for: favoritesCollectionView, in: view)
         // ToDo: цвет фона временный, для отладки
         view.backgroundColor = .cherryLightBlue
 
@@ -79,8 +79,8 @@ extension FavoritesViewController: UICollectionViewDataSource {
         }
 
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
-                                                                           withReuseIdentifier: PromotionHeader.reuseIdentifier,
-                                                                           for: indexPath) as? PromotionHeader else {
+                                                                           withReuseIdentifier: HeaderView.reuseIdentifier,
+                                                                           for: indexPath) as? HeaderView else {
             return UICollectionReusableView()
         }
         let headerName = viewModel.getTitleForHeader()

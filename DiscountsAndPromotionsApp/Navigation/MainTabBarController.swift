@@ -9,8 +9,6 @@ final class MainTabBarController: UITabBarController {
             return
         }
 
-        tabBar.tintColor = UIColor.cherryMainAccent
-
         let mainTitle = NSLocalizedString("Main", tableName: "MainFlow", comment: "")
         let favoritesTitle = NSLocalizedString("Favorites", tableName: "MainFlow", comment: "")
         let profileTitle = NSLocalizedString("Profile", tableName: "MainFlow", comment: "")
@@ -22,5 +20,38 @@ final class MainTabBarController: UITabBarController {
         viewControllers[0].tabBarItem = UITabBarItem(title: mainTitle, image: mainImage, tag: 0)
         viewControllers[1].tabBarItem = UITabBarItem(title: favoritesTitle, image: favoritesImage, tag: 1)
         viewControllers[2].tabBarItem = UITabBarItem(title: profileTitle, image: profileImage, tag: 2)
+
+        setupUI()
+    }
+
+    private func setupUI() {
+        let cornerRadius = CornerRadius.regular.cgFloat()
+
+        tabBar.barStyle = .black
+        tabBar.isTranslucent = true
+        tabBar.barTintColor = .clear
+        tabBar.backgroundImage = UIImage()
+        tabBar.shadowImage = UIImage()
+        tabBar.tintColor = .cherryMainAccent
+        tabBar.unselectedItemTintColor = .cherryGrayBlue
+        tabBar.backgroundColor = .cherryWhite
+        tabBar.layer.cornerRadius = cornerRadius
+        tabBar.clipsToBounds = true
+
+        let tabBarFrame = CGRect(origin: CGPoint(x: tabBar.bounds.minX,
+                                             y: tabBar.bounds.minY - cornerRadius),
+                                 size: CGSize(width: tabBar.bounds.width,
+                                              height: tabBar.bounds.height + cornerRadius))
+
+        if let items = tabBar.items {
+            for item in items {
+                let font = [NSAttributedString.Key.font: CherryFonts.headerSmall]
+                item.setTitleTextAttributes(font as [NSAttributedString.Key: Any], for: .normal)
+                item.setBadgeTextAttributes(font as [NSAttributedString.Key: Any], for: .selected)
+            }
+        }
+
+        tabBar.itemPositioning = .centered
+        tabBar.itemSpacing = (tabBarFrame.width - tabBar.itemWidth * 3 - 104) / 2
     }
 }

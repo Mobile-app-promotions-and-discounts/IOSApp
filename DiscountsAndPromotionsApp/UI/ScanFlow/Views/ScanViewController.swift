@@ -15,12 +15,14 @@ final class ScanViewController: UIViewController {
     private let scanFrame: UIView = {
         return ScanFrameView()
     }()
+    private let fillLayer = CAShapeLayer()
 
     private lazy var barcodeReminderLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .cherryMainAccent
+        label.textColor = .cherryWhite
+        label.font = CherryFonts.headerMedium
         label.text = NSLocalizedString("barcodeReminder", tableName: "ScanFlow", comment: "")
-        label.textAlignment = .center
+        label.textAlignment = .left
         return label
     }()
 
@@ -36,17 +38,26 @@ final class ScanViewController: UIViewController {
                                                     action: #selector(doneButtonTapped))
         done.tintColor = .cherryMainAccent
         barcodeField.addDoneButtonOnKeyboard(done)
+        barcodeField.backgroundColor = UIColor.cherryWhite
         barcodeField.clipsToBounds = true
-        barcodeField.layer.cornerRadius = 10
-        barcodeField.placeholder = NSLocalizedString("barcodePlaceholder", tableName: "ScanFlow", comment: "")
+        barcodeField.layer.cornerRadius = CornerRadius.regular.cgFloat()
+        barcodeField.layer.borderWidth = 1
+        barcodeField.layer.borderColor = UIColor.cherryGrayBlue.cgColor
+        let placeholderText = NSLocalizedString("barcodePlaceholder", tableName: "ScanFlow", comment: "")
+        let placeholderAttributes = [NSAttributedString.Key.font: CherryFonts.textLarge,
+                                     NSAttributedString.Key.foregroundColor: UIColor.cherryGrayBlue]
+        let textAttributes = [NSAttributedString.Key.font: CherryFonts.textLarge]
+        barcodeField.attributedPlaceholder = NSAttributedString(string: placeholderText, attributes: placeholderAttributes as [NSAttributedString.Key: Any])
+        barcodeField.defaultTextAttributes = textAttributes as [NSAttributedString.Key: Any]
+        barcodeField.textColor = UIColor.cherryBlack
         barcodeField.textAlignment = .center
         return barcodeField
     }()
 
     private lazy var flashButton = {
-        let flashButton = GenericNavButton(type: .custom)
-        flashButton.setImage(UIImage.init(systemName: "bolt"), for: .normal)
-        flashButton.setImage(UIImage.init(systemName: "bolt.fill"), for: .selected)
+        let flashButton = ScannerNavButton(type: .custom)
+        flashButton.setImage(.icFlashOff, for: .normal)
+        flashButton.setImage(.icFlashOn, for: .selected)
         flashButton.addTarget(self,
                               action: #selector(toggleFlash),
                               for: .touchUpInside)
@@ -54,43 +65,28 @@ final class ScanViewController: UIViewController {
     }()
 
     private lazy var backButton = {
-        let backButton = GenericNavButton(type: .system)
-        backButton.setImage(UIImage(systemName: "arrow.backward"), for: .normal)
+        let backButton = ScannerNavButton(type: .system)
+        backButton.setImage(.icBack, for: .normal)
         backButton.addTarget(self,
                              action: #selector(goBack),
                              for: .touchUpInside)
         return backButton
     }()
 
-    private lazy var buttonStack: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [scanButton, manualButton])
-        stack.axis = .horizontal
-        stack.alignment = .fill
-        stack.distribution = .fillEqually
-        stack.spacing = 12
-        return stack
-    }()
-
-    private lazy var scanButton: UIButton = {
-        let button = PrimaryButton(type: .custom)
-        button.setTitle(NSLocalizedString("barcodeScan", tableName: "ScanFlow", comment: ""),
-                        for: .normal)
-        button.addTarget(self,
-                         action: #selector(scanButtonTapped),
-                         for: .touchUpInside)
-        button.isSelected = true
-        return button
-    }()
-
-    private lazy var manualButton: UIButton = {
-        let button = SecondaryButton(type: .custom)
-        button.setTitle(NSLocalizedString("barcodeEntry", tableName: "ScanFlow", comment: ""),
-                        for: .normal)
-        button.addTarget(self,
-                         action: #selector(manualButtonTapped),
-                         for: .touchUpInside)
-        button.isSelected = false
-        return button
+    private lazy var modeControl: UISegmentedControl = {
+        let control = CustomSegmentedControl(items: [NSLocalizedString("barcodeScan", tableName: "ScanFlow", comment: ""),
+                                                 NSLocalizedString("barcodeEntry", tableName: "ScanFlow", comment: "")])
+        control.backgroundColor = .cherryWhite
+        control.setDividerImage(UIImage(), forLeftSegmentState: .normal, rightSegmentState: .normal, barMetrics: .default)
+        control.tintColor = .cherryMainAccent
+        control.setTitleTextAttributes([NSAttributedString.Key.font: CherryFonts.headerMedium,
+                                        NSAttributedString.Key.foregroundColor: UIColor.cherryWhite], for: .selected)
+        control.setTitleTextAttributes([NSAttributedString.Key.font: CherryFonts.headerMedium,
+                                        NSAttributedString.Key.foregroundColor: UIColor.cherryMainAccent], for: .normal)
+        control.selectedSegmentIndex = 0
+        control.layer.cornerRadius = 26
+        control.clipsToBounds = true
+        return control
     }()
 
     // MARK: - Lifecycle
@@ -130,60 +126,76 @@ final class ScanViewController: UIViewController {
 
     // MARK: - Setup UI
     private func setupUI() {
-        view.backgroundColor = .cherryLightBlue
+        view.backgroundColor = .cherryBlack
 
         scanPreviewLayer.frame = view.layer.bounds
         scanPreviewLayer.videoGravity = .resizeAspectFill
         view.layer.addSublayer(scanPreviewLayer)
+        view.layer.addSublayer(fillLayer)
 
         [scanFrame,
-         buttonStack,
+         modeControl,
          textField,
-         barcodeReminderLabel]
+         barcodeReminderLabel,
+         flashButton,
+         backButton]
             .forEach {
                 view.addSubview($0)
             }
 
         flashButton.snp.makeConstraints { make in
             make.height.width.equalTo(44)
+            make.trailing.equalToSuperview().offset(-6)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
         }
 
         backButton.snp.makeConstraints { make in
             make.height.width.equalTo(44)
+            make.leading.equalToSuperview().offset(6)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
         }
 
         scanFrame.snp.makeConstraints { make in
             make.center.equalToSuperview()
-            make.height.equalTo(164)
-            make.leading.equalToSuperview().offset(58)
-            make.trailing.equalToSuperview().offset(-58)
+            make.height.equalTo(170)
+            make.leading.equalToSuperview().offset(55)
+            make.trailing.equalToSuperview().offset(-55)
         }
 
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: flashButton)
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
-
-        buttonStack.snp.makeConstraints { make in
-            make.height.equalTo(44)
-            make.leading.equalTo(view).offset(18)
-            make.trailing.equalTo(view).offset(-18)
+        modeControl.snp.makeConstraints { make in
+            make.height.equalTo(52)
+            make.leading.equalTo(view).offset(16)
+            make.trailing.equalTo(view).offset(-16)
             make.centerX.equalTo(view)
             make.bottom.equalTo(view.keyboardLayoutGuide.snp.top)
         }
 
         textField.snp.makeConstraints { make in
-            make.bottom.equalTo(buttonStack.snp.top).offset(-80)
-            make.height.equalTo(68)
-            make.width.equalTo(buttonStack)
-            make.centerX.equalTo(buttonStack)
+            make.bottom.equalTo(modeControl.snp.top).offset(-80)
+            make.height.equalTo(71)
+            make.width.equalTo(modeControl)
+            make.centerX.equalTo(modeControl)
         }
         textField.isHidden = true
 
         barcodeReminderLabel.snp.makeConstraints { make in
-            make.size.equalTo(textField)
+            make.width.equalTo(textField)
             make.centerX.equalTo(textField)
-            make.bottom.equalTo(textField.snp.top)
+            make.bottom.equalTo(textField.snp.top).offset(-8)
         }
         barcodeReminderLabel.isHidden = true
+
+        let cutoutOrigin = CGPoint(x: 55 + 2, y: view.frame.height/2 - 85 + 2)
+        let cutoutSize = CGSize(width: view.frame.width - 110 - 4, height: 170 - 4)
+        let pathBigRect = UIBezierPath(rect: view.frame)
+        let pathSmallRect = UIBezierPath(rect: CGRect(origin: cutoutOrigin, size: cutoutSize))
+
+        pathBigRect.append(pathSmallRect)
+        pathBigRect.usesEvenOddFillRule = true
+
+        fillLayer.path = pathBigRect.cgPath
+        fillLayer.fillRule = CAShapeLayerFillRule.evenOdd
+        fillLayer.fillColor = UIColor.cherryForeground.cgColor
     }
 
     // MARK: UI Binding
@@ -205,24 +217,29 @@ final class ScanViewController: UIViewController {
     }
 
     private func bindViewModel() {
-        // поведение кнопок выбора режима
-        viewModel.manualInputUpdate
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] manualInputUI in
-                guard let self else { return }
-                self.scanButton.isSelected = !manualInputUI
-                self.manualButton.isSelected = manualInputUI
-            }
-            .store(in: &subscriptions)
+
+        let modePublisher = modeControl.segmentPublisher()
+        viewModel.bindSegmentedControl(index: modePublisher)
+//        // поведение кнопок выбора режима
+//        viewModel.manualInputUpdate
+//            .receive(on: DispatchQueue.main)
+//            .sink { [weak self] manualInputUI in
+//                guard let self else { return }
+//                self.scanButton.isSelected = !manualInputUI
+//                self.manualButton.isSelected = manualInputUI
+//            }
+//            .store(in: &subscriptions)
 
         // поведение интерфейса ввода штрихкода
         viewModel.manualInputUpdate
             .receive(on: DispatchQueue.main)
             .sink { [weak self] manualInputUI in
                 guard let self else { return }
-                self.scanFrame.isHidden = manualInputUI
-                self.textField.isHidden = !manualInputUI
-                scanPreviewLayer.isHidden = manualInputUI
+                UIView.animate(withDuration: 0.5) {
+                    self.scanFrame.isHidden = manualInputUI
+                    self.fillLayer.fillRule = manualInputUI ? .nonZero : .evenOdd
+                    self.textField.isHidden = !manualInputUI
+                }
             }
             .store(in: &subscriptions)
 
@@ -232,8 +249,8 @@ final class ScanViewController: UIViewController {
             .sink { [weak self] manualInputUI in
                 if manualInputUI {
                     self?.flashButton.isSelected = false
-                    self?.flashButton.isEnabled = !manualInputUI
                 }
+                self?.flashButton.isEnabled = !manualInputUI
             }
             .store(in: &subscriptions)
 
@@ -244,24 +261,23 @@ final class ScanViewController: UIViewController {
                 guard let self else { return }
                 if !manualInputUI {
                     textField.resignFirstResponder()
-                    self.buttonStack.snp.remakeConstraints { make in
-                        make.height.equalTo(44)
-                        make.leading.equalTo(self.view).offset(18)
-                        make.trailing.equalTo(self.view).offset(-18)
+                    self.modeControl.snp.remakeConstraints { make in
+                        make.height.equalTo(52)
+                        make.leading.equalTo(self.view).offset(16)
+                        make.trailing.equalTo(self.view).offset(-16)
                         make.centerX.equalTo(self.view)
                         make.bottom.equalTo(self.view.keyboardLayoutGuide.snp.top).offset(0.0)
                     }
-                    captureSessionController.startSessionRoutine()
                 } else {
                     textField.becomeFirstResponder()
-                    self.buttonStack.snp.remakeConstraints { make in
-                        make.height.equalTo(44)
-                        make.leading.equalTo(self.view).offset(18)
-                        make.trailing.equalTo(self.view).offset(-18)
+                    self.modeControl.snp.remakeConstraints { make in
+                        make.height.equalTo(52)
+                        make.leading.equalTo(self.view).offset(16)
+                        make.trailing.equalTo(self.view).offset(-16)
                         make.centerX.equalTo(self.view)
                         make.bottom.equalTo(self.view.keyboardLayoutGuide.snp.top).offset(-24.0)
                     }
-                    captureSessionController.stopSessionRoutine()
+                    captureSessionController.pauseSessionRoutine()
                 }
             }
             .store(in: &subscriptions)
@@ -291,13 +307,13 @@ extension ScanViewController {
         viewModel.checkBarcode()
     }
 
-    @objc
-    private func scanButtonTapped() {
-        viewModel.setManualInputActive(to: false)
-    }
-
-    @objc
-    private func manualButtonTapped() {
-        viewModel.setManualInputActive(to: true)
-    }
+//    @objc
+//    private func scanButtonTapped() {
+//        viewModel.setManualInputActive(to: false)
+//    }
+//
+//    @objc
+//    private func manualButtonTapped() {
+//        viewModel.setManualInputActive(to: true)
+//    }
 }
