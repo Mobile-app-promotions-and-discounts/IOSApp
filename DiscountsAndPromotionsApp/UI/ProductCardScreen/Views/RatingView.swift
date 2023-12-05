@@ -40,18 +40,21 @@ class RatingView: UIView {
     }
 
     private func setupLayout() {
+        backgroundColor = .cherryLightBlue
+        layer.cornerRadius = CornerRadius.regular.cgFloat()
         starsStackView.axis = .horizontal
         starsStackView.distribution = .fillEqually
-        ratingLabel.font = .systemFont(ofSize: 14)
-        numberOfReviewsLabel.font = .systemFont(ofSize: 14)
+        ratingLabel.font = CherryFonts.textMedium
+        numberOfReviewsLabel.font = CherryFonts.textMedium
+        numberOfReviewsLabel.textColor = .cherryGrayBlue
         addSubview(starsStackView)
         addSubview(ratingLabel)
         addSubview(numberOfReviewsLabel)
         addSubview(reviewsButton)
 
         starsStackView.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.leading.equalToSuperview().offset(16)
+            make.top.equalToSuperview().offset(8)
+            make.leading.equalToSuperview().offset(12)
             make.height.equalTo(16)
         }
 
@@ -61,13 +64,13 @@ class RatingView: UIView {
         }
 
         numberOfReviewsLabel.snp.makeConstraints { make in
-            make.top.equalTo(starsStackView.snp.bottom).offset(4)
-            make.leading.equalToSuperview().offset(16)
-            make.bottom.equalToSuperview()
+            make.top.equalTo(starsStackView.snp.bottom).offset(5)
+            make.leading.equalToSuperview().offset(12)
+            make.bottom.equalToSuperview().offset(-8)
         }
 
         reviewsButton.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().offset(-16)
+            make.trailing.equalToSuperview().offset(-12)
             make.centerY.equalToSuperview()
             make.width.equalTo(28)
             make.height.equalTo(28)
@@ -76,7 +79,7 @@ class RatingView: UIView {
 
     private func configureStars() {
         for _ in 0..<5 {
-            let star = UIImageView(image: UIImage(named: "star"))
+            let star = UIImageView(image: UIImage(named: "ic_starFill"))
             star.contentMode = .scaleAspectFit
             star.isHidden = true
             starsStackView.addArrangedSubview(star)

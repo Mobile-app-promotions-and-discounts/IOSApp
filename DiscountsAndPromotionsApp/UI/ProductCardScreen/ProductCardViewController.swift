@@ -110,14 +110,24 @@ class ProductCardViewController: UIViewController {
     private func setupProductLayout() {
         view.addSubview(productScrollView)
         productScrollView.addSubview(contentView)
-        [galleryView, titleView, ratingView, offersTableView, reviewView, priceInfoView].forEach {
+
+        contentView.backgroundColor = .cherryLightBlue
+        [galleryView, titleAndRatingView, offersTableView, reviewView, priceInfoView].forEach {
             contentView.addSubview($0)
         }
+
+        titleAndRatingView.backgroundColor = .white
+        titleAndRatingView.layer.cornerRadius = CornerRadius.regular.cgFloat()
+        [titleView, ratingView].forEach {
+            titleAndRatingView.addSubview($0)
+        }
+
         offersTableView.register(OfferTableViewCell.self, forCellReuseIdentifier: "OfferTableViewCell")
         offersTableView.dataSource = self
         offersTableView.delegate = self
         offersTableView.isScrollEnabled = false
         offersTableView.separatorStyle = .none
+        offersTableView.backgroundColor = .white
         // Ограничения SNAPkit
         productScrollView.snp.makeConstraints { make in
             make.top.equalToSuperview()
@@ -134,36 +144,49 @@ class ProductCardViewController: UIViewController {
             make.height.equalTo(316)
             make.width.equalToSuperview()
         }
+
+        titleAndRatingView.snp.makeConstraints { make in
+            make.top.equalTo(galleryView.snp.bottom)
+            make.leading.equalTo(contentView)
+            make.height.equalTo(148)
+            make.width.equalTo(contentView.frame.width)
+        }
+
         titleView.snp.makeConstraints { make in
-            make.top.equalTo(galleryView.snp.bottom).offset(16)
+            make.top.equalTo(titleAndRatingView).offset(16)
             make.leading.equalTo(contentView)
             make.height.equalTo(43)
             make.width.equalTo(contentView.frame.width)
         }
         ratingView.snp.makeConstraints { make in
             make.top.equalTo(titleView.snp.bottom).offset(16)
-            make.leading.trailing.equalTo(contentView)
-            make.height.equalTo(36)
+            make.leading.equalTo(contentView).offset(16)
+            make.trailing.equalTo(contentView).offset(-16)
+            make.height.equalTo(58)
             make.width.equalTo(contentView.frame.width)
         }
         // Доп. настройка размеров таблицы
         let headerHeight: CGFloat = 19
+        let footerHeight: CGFloat = 12
         let topPadding: CGFloat = 12
         let cellHeight: CGFloat = 71
         let cellSpacing: CGFloat = 8
         let numberOfCells: CGFloat = CGFloat(product?.offers.count ?? 0)
-        let tableViewHeight = headerHeight + topPadding + (cellHeight + cellSpacing) * numberOfCells - cellSpacing
-
+        let tableViewHeight = headerHeight + topPadding + footerHeight + (cellHeight + cellSpacing) * numberOfCells - cellSpacing
+        offersTableView.layer.cornerRadius = CornerRadius.regular.cgFloat()
         offersTableView.snp.makeConstraints { make in
-            make.top.equalTo(ratingView.snp.bottom).offset(16)
+            make.top.equalTo(ratingView.snp.bottom).offset(32)
             make.leading.trailing.equalTo(contentView)
             make.height.equalTo(tableViewHeight)
             make.width.equalTo(contentView.frame.width)
         }
+
+        reviewView.backgroundColor = .white
+        reviewView.layer.cornerRadius = CornerRadius.regular.cgFloat()
         reviewView.snp.makeConstraints { make in
             make.top.equalTo(offersTableView.snp.bottom).offset(16)
-            make.leading.equalTo(16)
-            make.trailing.equalTo(-16)
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
         }
         priceInfoView.snp.makeConstraints { make in
             make.top.equalTo(reviewView.snp.bottom).offset(8)
@@ -321,7 +344,7 @@ extension ProductCardViewController: UITableViewDelegate {
         let headerLabel = UILabel()
         headerLabel.translatesAutoresizingMaskIntoConstraints = false
         headerLabel.text = "Предложения магазинов"
-        headerLabel.font = UIFont.boldSystemFont(ofSize: 16)
+        headerLabel.font = CherryFonts.headerLarge
         headerLabel.textColor = .black
 
         headerView.addSubview(headerLabel)
@@ -332,6 +355,13 @@ extension ProductCardViewController: UITableViewDelegate {
 
         ])
         return headerView
+    }
+
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let footerView = UIView()
+        footerView.backgroundColor = .clear
+        footerView.heightAnchor.constraint(equalToConstant: 12).isActive = true
+        return footerView
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

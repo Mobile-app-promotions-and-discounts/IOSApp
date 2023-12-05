@@ -38,7 +38,7 @@ class ProductReviewView: UIView {
 
     private func setupTitleLabel() {
         titleLabel.text = "Как Вам этот товар?"
-        titleLabel.font = .boldSystemFont(ofSize: 18)
+        titleLabel.font = CherryFonts.headerLarge
         addSubview(titleLabel)
     }
 
@@ -47,7 +47,7 @@ class ProductReviewView: UIView {
         starsStackView.distribution = .fillEqually
         for index in 0..<5 {
             let starButton = UIButton()
-            starButton.setImage(UIImage(systemName: "star"), for: .normal)
+            starButton.setImage(UIImage(named: "ic_star"), for: .normal)
             starButton.tintColor = .black
             starsStackView.addArrangedSubview(starButton)
 
@@ -64,11 +64,10 @@ class ProductReviewView: UIView {
     }
 
     private func setupReviewTextView() {
-        reviewTextView.font = .systemFont(ofSize: 16)
-        reviewTextView.textColor = .lightGray
+        reviewTextView.font = CherryFonts.textMedium
+        reviewTextView.textColor = .cherryGrayBlue
+        reviewTextView.backgroundColor = .cherryLightBlue
         reviewTextView.text = "Ваш отзыв"
-        reviewTextView.layer.borderColor = UIColor.gray.cgColor
-        reviewTextView.layer.borderWidth = 1.0
         reviewTextView.layer.cornerRadius = 5
         reviewTextView.textContainerInset = UIEdgeInsets(top: 8, left: 5, bottom: 8, right: 5)
         reviewTextView.isScrollEnabled = false
@@ -99,8 +98,7 @@ class ProductReviewView: UIView {
     }
 
     private func setupSubmitButton() {
-        submitButton.setImage(UIImage(named: "submitReview"), for: .normal)
-        submitButton.tintColor = .black
+        submitButton.setImage(UIImage(named: "send"), for: .normal)
         addSubview(submitButton)
     }
 
@@ -108,7 +106,7 @@ class ProductReviewView: UIView {
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(self.snp.top).offset(12)
             make.centerX.equalTo(self.snp.centerX)
-            make.height.equalTo(19)
+            make.height.equalTo(27)
         }
 
         starsStackView.snp.makeConstraints { make in
@@ -143,10 +141,12 @@ class ProductReviewView: UIView {
 
         reviewTextView.beginEditingPublisher
             .sink { [weak self] _ in
-                guard let self = self, self.reviewTextView.textColor == UIColor.lightGray else { return }
-                self.previousText = self.reviewTextView.text
-                self.reviewTextView.text = nil
-                self.reviewTextView.textColor = UIColor.black
+                guard let self = self else { return }
+                if self.reviewTextView.text == "Ваш отзыв" {
+                    self.previousText = self.reviewTextView.text
+                    self.reviewTextView.text = nil
+                    self.reviewTextView.textColor = UIColor.black
+                }
             }
             .store(in: &cancellables)
 
@@ -164,7 +164,7 @@ class ProductReviewView: UIView {
     private func updateStarRating(_ rating: Int) {
         for (index, button) in starsStackView.arrangedSubviews.enumerated() {
             if let button = button as? UIButton {
-                button.setImage(UIImage(systemName: index < rating ? "star.fill" : "star"), for: .normal)
+                button.setImage(UIImage(named: index < rating ? "ic_starFill" : "ic_star"), for: .normal)
                 button.tintColor = index < rating ? .systemYellow : .gray
             }
         }
