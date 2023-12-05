@@ -3,7 +3,7 @@ import Combine
 import SnapKit
 
 class RatingView: UIView {
-    var viewModel: RatingViewViewModel?
+    var viewModel: RatingViewViewModelProtocol?
     private var cancellables = Set<AnyCancellable>()
     private let starsStackView =  UIStackView()
     private let ratingLabel = UILabel()

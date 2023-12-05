@@ -1,7 +1,14 @@
 import UIKit
 import Combine
 
-class ProductReviewViewModel {
+protocol ProductReviewViewModelProtocol {
+    var rating: CurrentValueSubject<Int, Never> { get }
+    var reviewText: CurrentValueSubject<String, Never> { get }
+    var submitReview: PassthroughSubject<(Int, String), Never> { get }
+    func setupBindings()
+}
+
+class ProductReviewViewModel: ProductReviewViewModelProtocol {
      let rating = CurrentValueSubject<Int, Never>(1)
      let reviewText = CurrentValueSubject<String, Never>("")
      let submitReview = PassthroughSubject<(Int, String), Never>()
@@ -12,7 +19,7 @@ class ProductReviewViewModel {
         setupBindings()
     }
 
-    private func setupBindings() {
+    func setupBindings() {
         reviewText
             .sink { text in
                 print(text)

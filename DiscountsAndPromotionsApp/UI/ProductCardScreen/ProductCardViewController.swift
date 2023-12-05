@@ -3,15 +3,14 @@ import SnapKit
 import Combine
 
 class ProductCardViewController: UIViewController {
-    
+
     weak var coordinator: MainScreenCoordinator?
-    
+
     private var product: Product?
     private var cancellables = Set<AnyCancellable>()
 
     private lazy var productScrollView: UIScrollView = {
         let scrollView = UIScrollView()
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.alwaysBounceVertical = true
         scrollView.showsVerticalScrollIndicator = true
         scrollView.contentSize = contentSize
@@ -20,7 +19,6 @@ class ProductCardViewController: UIViewController {
 
     private lazy var contentView: UIView = {
         let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
         view.frame.size = contentSize
         return view
     }()
@@ -33,17 +31,23 @@ class ProductCardViewController: UIViewController {
     private let galleryView = ImageGalleryView()
     private let titleAndRatingView = UIView()
     private let titleView = ProductTitleView()
-    private var ratingViewModel = RatingViewViewModel()
+    private var ratingViewModel: RatingViewViewModelProtocol
     private let ratingView = RatingView()
     private let offersTableView = UITableView()
-    private let reviewViewViewModel = ProductReviewViewModel()
+    private var reviewViewViewModel: ProductReviewViewModelProtocol
     private let reviewView = ProductReviewView()
-    private let priceInfoViewModel = PriceInfoViewViewModel()
+    private var priceInfoViewModel: PriceInfoViewViewModelProtocol
     private let priceInfoView = PriceInfoView()
     private let backButton = UIButton()
     private let exportButton = UIButton()
 
-    init(product: Product) {
+    init(product: Product,
+         ratingViewModel: RatingViewViewModelProtocol = RatingViewViewModel(),
+         reviewViewViewModel: ProductReviewViewModelProtocol = ProductReviewViewModel(),
+         priceInfoViewModel: PriceInfoViewViewModelProtocol = PriceInfoViewViewModel()) {
+        self.ratingViewModel = ratingViewModel
+        self.reviewViewViewModel = reviewViewViewModel
+        self.priceInfoViewModel = priceInfoViewModel
         self.product = product
         super.init(nibName: nil, bundle: nil)
     }

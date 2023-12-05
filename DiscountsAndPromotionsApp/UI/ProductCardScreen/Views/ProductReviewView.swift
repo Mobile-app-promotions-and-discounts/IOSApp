@@ -3,7 +3,12 @@ import SnapKit
 import Combine
 
 class ProductReviewView: UIView {
-    var viewModel: ProductReviewViewModel?
+    var viewModel: ProductReviewViewModelProtocol? {
+        didSet {
+            setupBindings()
+        }
+    }
+
     private var cancellables = Set<AnyCancellable>()
 
     private let titleLabel = UILabel()
@@ -17,7 +22,7 @@ class ProductReviewView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureView()
-        setupBindings()
+//        setupBindings()
         setupTitleLabel()
         setupStarsStackView()
         setupReviewTextView()
