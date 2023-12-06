@@ -65,6 +65,7 @@ final class MainScreenCoordinator: Coordinator {
         case .stores:
             let viewModel = AllStoresViewModel(dataService: dataService)
             let viewController = AllStoresViewController(viewModel: viewModel)
+            viewController.scanCoordinator = scanCoordinator
             viewController.coordinator = self
             navigationController.pushViewController(viewController, animated: true)
         case .categories:
