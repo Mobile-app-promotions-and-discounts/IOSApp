@@ -17,6 +17,9 @@ final class MainCoordinator: Coordinator {
     func start() {
         // ВРЕМЕННО - тест сервиса
         AuthService.shared.getToken(for: NetworkBaseConfiguration.testUser)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+            ProfileNetworkService.shared.fetchUser()
+        })
 
         let mainTabBarController = MainTabBarController()
         configureChildCoordinators(with: mainTabBarController)

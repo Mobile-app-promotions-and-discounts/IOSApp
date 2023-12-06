@@ -13,9 +13,7 @@ struct NetworkBaseConfiguration {
     static let baseURL = "http://193.107.239.130"
     static func tokenHeader() -> [String: String] {
         let token = AuthTokenStorage.shared.accessToken ?? ""
-        return [
-            "Bearer": token
-        ]
+        return ["Authorization": "Bearer \(token)"]
     }
 }
 
