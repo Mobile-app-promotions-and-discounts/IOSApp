@@ -2,7 +2,7 @@ import UIKit
 import SnapKit
 import Combine
 
-final class HeaderView: UICollectionReusableView {
+final class MainHeaderView: UICollectionReusableView {
     static let reuseIdentifier = "HeaderView"
 
     var cancellable: AnyCancellable?
