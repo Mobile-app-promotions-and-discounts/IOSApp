@@ -33,6 +33,23 @@
         }
       }
     },
+    "locationError" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Can't get location"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не удается получить геолокацию"
+          }
+        }
+      }
+    },
     "networkError" : {
       "localizations" : {
         "en" : {

@@ -63,6 +63,7 @@ final class EditProfileViewController: UIViewController, UINavigationControllerD
                 view?.setAvatarImage(image: nil)
             })
         )
+        // В дизайне этой кнопки нет, но это очевидная ошибка, она должна быть
         alert.addAction(UIAlertAction(
             title: NSLocalizedString("Cancel", tableName: "ProfileFlow", comment: ""),
             style: UIAlertAction.Style.cancel,
@@ -107,8 +108,16 @@ final class EditProfileViewController: UIViewController, UINavigationControllerD
 
     private func setupNavBar() {
         self.navigationController?.navigationBar.isHidden = false
+        // Предлагаю обсудить с дизайнерами использование кастомного стиля, по-моему Apple такое не поощряет
+        let navbarAttributes: [NSAttributedString.Key: Any] = [
+            NSAttributedString.Key.foregroundColor: UIColor.cherryBlue,
+            NSAttributedString.Key.font: CherryFonts.textLarge as Any]
         navigationItem.leftBarButtonItem = cancelButton
+        cancelButton.setTitleTextAttributes(navbarAttributes, for: .normal)
+        cancelButton.setTitleTextAttributes(navbarAttributes, for: .selected)
         navigationItem.rightBarButtonItem = doneButton
+        doneButton.setTitleTextAttributes(navbarAttributes, for: .normal)
+        doneButton.setTitleTextAttributes(navbarAttributes, for: .selected)
     }
 }
 
