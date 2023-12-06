@@ -3,10 +3,10 @@ import Foundation
 
 protocol AuthServiceProtocol {
     func getToken(for user: UserRequestModel)
+    func logout()
 }
 
 final class AuthService: AuthServiceProtocol {
-    // временно для теста
     static let shared = AuthService()
 
     private let tokenStorage: AuthTokenStorage
@@ -20,6 +20,7 @@ final class AuthService: AuthServiceProtocol {
         self.networkClient = networkClient
     }
 
+    // MARK: - Авторизоваться и получить токен
     func getToken(for user: UserRequestModel) {
         let userParams: [String: String] = [
             "username": user.username,
@@ -27,6 +28,7 @@ final class AuthService: AuthServiceProtocol {
         ]
         let publisher: AnyPublisher<TokenResponseModel, AppError> = networkClient.request(
             endpoint: Endpoint.getToken,
+            additionalPath: nil,
             headers: nil,
             parameters: userParams
         )
@@ -43,5 +45,10 @@ final class AuthService: AuthServiceProtocol {
             print(self?.tokenStorage.accessToken)
         }
         .store(in: &subscriptions)
+    }
+
+    // MARK: - Удалить из связки ключей сохраненный токен
+    func logout() {
+        tokenStorage.clearTokenStorage()
     }
 }
