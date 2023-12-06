@@ -3,7 +3,6 @@ import UIKit
 final class MainScreenCoordinator: Coordinator {
     var childCoordinators = [Coordinator]()
     var navigationController: UINavigationController
-    var scanCoordinator: ScanFlowCoordinator?
 
     private let dataService: DataServiceProtocol
     private let profileService: ProfileServiceProtocol
@@ -23,7 +22,6 @@ final class MainScreenCoordinator: Coordinator {
         let mainViewModel = MainViewModel(dataService: dataService,
                                           promotionVisualService: promotionVisualService)
         let mainViewController = MainViewController(viewModel: mainViewModel)
-        mainViewController.scanCoordinator = scanCoordinator
         mainViewController.coordinator = self
         navigationController.pushViewController(mainViewController, animated: false)
     }

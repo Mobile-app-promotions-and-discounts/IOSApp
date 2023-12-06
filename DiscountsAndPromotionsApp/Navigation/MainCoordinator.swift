@@ -22,16 +22,20 @@ final class MainCoordinator: Coordinator {
 
     private func configureChildCoordinators(with tabBarController: MainTabBarController) {
         // Создание и запуск дочерних координаторов
-        let mainScreenCoordinator = MainScreenCoordinator(navigationController: GenericNavigationController(),
+        let scanCoordinator = ScanFlowCoordinator(navigationController: navigationController)
+
+        let mainScreenNavigationController = GenericNavigationController()
+        mainScreenNavigationController.scanCoordinator = scanCoordinator
+        let mainScreenCoordinator = MainScreenCoordinator(navigationController: mainScreenNavigationController,
                                                           dataService: dataService,
                                                           profileService: profileService)
-        let favoritesScreenCoordinator = FavoritesScreenCoordinator(navigationController: GenericNavigationController(),
+
+        let favoritesScreenNavigationController = GenericNavigationController()
+        favoritesScreenNavigationController.scanCoordinator = scanCoordinator
+        let favoritesScreenCoordinator = FavoritesScreenCoordinator(navigationController: favoritesScreenNavigationController,
                                                                     dataService: dataService,
                                                                     profileService: profileService)
         let profileScreenCoordinator = ProfileScreenCoordinator(navigationController: UINavigationController())
-        let scanCoordinator = ScanFlowCoordinator(navigationController: navigationController)
-        mainScreenCoordinator.scanCoordinator = scanCoordinator
-        favoritesScreenCoordinator.scanCoordinator = scanCoordinator
 
         mainScreenCoordinator.start()
         favoritesScreenCoordinator.start()

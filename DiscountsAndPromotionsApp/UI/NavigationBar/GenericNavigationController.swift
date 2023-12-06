@@ -1,6 +1,8 @@
 import UIKit
 
 final class GenericNavigationController: UINavigationController {
+    var scanCoordinator: ScanFlowCoordinator?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavBar()
