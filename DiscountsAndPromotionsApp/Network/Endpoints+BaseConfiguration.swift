@@ -4,6 +4,8 @@ enum Endpoint {
     case getToken
     case getUser
     case deleteUser
+    case newUser
+    case editUser
 
     var URL: String {
         var path = NetworkBaseConfiguration.baseURL
@@ -12,7 +14,7 @@ enum Endpoint {
             path += "/auth/jwt/create/"
         case .getUser:
             path += "/auth/users/me/"
-        case .deleteUser:
+        case .deleteUser, .newUser, .editUser:
             path += "/auth/users/"
         }
         return path
@@ -20,12 +22,14 @@ enum Endpoint {
 
     var method: HttpMethod {
         switch self {
-        case .getToken:
+        case .getToken, .newUser:
             return .post
         case .getUser:
             return .get
         case .deleteUser:
             return .delete
+        case .editUser:
+            return .patch
         }
     }
 }

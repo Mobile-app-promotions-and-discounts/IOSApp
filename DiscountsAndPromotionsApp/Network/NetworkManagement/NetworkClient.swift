@@ -3,9 +3,8 @@ import Foundation
 
 final class NetworkClient: NetworkClientProtocol {
     static let shared = NetworkClient()
-    private let decoder = JSONDecoder()
 
-    private init() {}
+    private let decoder = JSONDecoder()
 
     func request<T: Decodable>(endpoint: Endpoint,
                                additionalPath: String?,

@@ -42,7 +42,6 @@ final class AuthService: AuthServiceProtocol {
             }
         } receiveValue: { [weak self] token in
             self?.tokenStorage.accessToken = token.access
-            print(self?.tokenStorage.accessToken)
         }
         .store(in: &subscriptions)
     }
