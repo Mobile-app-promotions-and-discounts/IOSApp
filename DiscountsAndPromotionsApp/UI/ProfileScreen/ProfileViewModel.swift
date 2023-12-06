@@ -30,7 +30,6 @@ final class ProfileViewModel: ProfileViewModelProtocol {
                 self.putProfileData(profile: profile)
             }
             .store(in: &profileUpdated)
-
     }
 
     // MARK: - Public Methods

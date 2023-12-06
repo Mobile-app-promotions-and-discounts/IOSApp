@@ -2,7 +2,7 @@ import UIKit
 import SnapKit
 
 final class EditProfileView: UIView {
-    // MARK: - Properties
+    // MARK: - Private properties
     private var viewController: EditProfileViewController
 
     private let noImage = UIImage(named: "avatar")

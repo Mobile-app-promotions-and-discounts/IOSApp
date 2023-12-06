@@ -108,6 +108,7 @@ final class EditProfileViewController: UIViewController, UINavigationControllerD
 
     private func setupNavBar() {
         self.navigationController?.navigationBar.isHidden = false
+        // Предлагаю обсудить с дизайнерами использование кастомного стиля, по-моему Apple такое не поощряет
         let navbarAttributes: [NSAttributedString.Key: Any] = [
             NSAttributedString.Key.foregroundColor: UIColor.cherryBlue,
             NSAttributedString.Key.font: CherryFonts.textLarge as Any]

@@ -1,11 +1,13 @@
 import UIKit
 import SnapKit
+import Combine
 
 final class ProfileView: UIView {
 
     // MARK: - Private properties
-    //    private let viewModel: ProfileViewModelProtocol
     private let viewController: ProfileViewController
+
+    private var locationUpdated = Set<AnyCancellable>()
 
     // MARK: - Layout elements
     private lazy var editButton: UIButton = {
@@ -58,9 +60,9 @@ final class ProfileView: UIView {
 
     private lazy var regionButton: ProfileAssetButton = {
         let regionButton = ProfileAssetButton()
-        regionButton.buttonImage.image = UIImage(named: "buttonLocation")
+        regionButton.buttonImage.image = UIImage(named: "buttonRegion")
         regionButton.buttonTitle.text = NSLocalizedString("Region", tableName: "ProfileFlow", comment: "")
-        regionButton.buttonSubtitle.text = "Moscow"
+        regionButton.buttonSubtitle.text = nil
         regionButton.addTarget(self, action: #selector(regionDidTap), for: .touchUpInside)
         return regionButton
     }()
@@ -128,6 +130,14 @@ final class ProfileView: UIView {
         addEditButton()
         addLabelsStack()
         addButtons()
+
+        NotificationCenter.default
+            .publisher(for: Notification.Name("updateLocation"))
+            .sink { location in
+                guard let location = location.object as? String else { return }
+                self.regionButton.buttonSubtitle.text = location
+            }
+            .store(in: &locationUpdated)
     }
 
     required init?(coder: NSCoder) {
@@ -233,7 +243,7 @@ final class ProfileView: UIView {
             make.leading.trailing.equalTo(self).inset(16)
         }
         padding.snp.makeConstraints { make in
-            make.height.width.equalTo(16)
+            make.height.equalTo(16)
         }
     }
 }

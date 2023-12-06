@@ -29,9 +29,9 @@ final class ProfileScreenCoordinator: Coordinator {
 
     func navigateToRegionScreen() {
         // Заглушка до реализации функционала
-        let alert = UIAlertController(title: "Region", message: "📍", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .cancel))
-        navigationController.present(alert, animated: true)
+        let regionViewController = RegionViewController(viewModel: profileViewModel)
+        regionViewController.coordinator = self
+        navigationController.pushViewController(regionViewController, animated: true)
     }
 
     func navigateToReviewsScreen() {

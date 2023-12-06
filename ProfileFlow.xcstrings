@@ -199,6 +199,17 @@
         }
       }
     },
+    "Geolocation" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Геолокация"
+          }
+        }
+      }
+    },
     "LastName" : {
       "localizations" : {
         "en" : {
@@ -263,10 +274,16 @@
     "Region" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your region"
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Регион"
+            "value" : "Ваш регион"
           }
         }
       }
