@@ -16,9 +16,9 @@ final class MainViewController: ScannerEnabledViewController {
         collectionView.showsVerticalScrollIndicator = false
         collectionView.register(CategoryCell.self, forCellWithReuseIdentifier: CategoryCell.reuseIdentifier)
         collectionView.register(PromotionCell.self, forCellWithReuseIdentifier: PromotionCell.reuseIdentifier)
-        collectionView.register(HeaderView.self,
+        collectionView.register(MainHeaderView.self,
                                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                                withReuseIdentifier: HeaderView.reuseIdentifier)
+                                withReuseIdentifier: MainHeaderView.reuseIdentifier)
         collectionView.register(FooterView.self,
                                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
                                 withReuseIdentifier: FooterView.reuseIdentifier)
@@ -108,8 +108,8 @@ extension MainViewController: UICollectionViewDataSource {
         if kind == UICollectionView.elementKindSectionHeader {
             // Обработка заголовка
             guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
-                                                                               withReuseIdentifier: HeaderView.reuseIdentifier,
-                                                                               for: indexPath) as? HeaderView else {
+                                                                               withReuseIdentifier: MainHeaderView.reuseIdentifier,
+                                                                               for: indexPath) as? MainHeaderView else {
                 return UICollectionReusableView()
             }
 
@@ -195,6 +195,7 @@ extension MainViewController: UICollectionViewDelegate {
 }
 
 // MARK: - UISearchBarDelegate
+
 extension MainViewController {
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchBar.endEditing(true)

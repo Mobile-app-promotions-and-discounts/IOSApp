@@ -63,8 +63,9 @@ final class MainScreenCoordinator: Coordinator {
         case .promotions:
             ErrorHandler.handle(error: .profileError("Нажата кнопка Все на секции с акциями"))
         case .stores:
-            let viewModel = AllShopsViewModel()
-            let viewController = AllShopsViewController(viewModel: viewModel)
+            let viewModel = AllStoresViewModel(dataService: dataService)
+            let viewController = AllStoresViewController(viewModel: viewModel)
+            viewController.coordinator = self
             navigationController.pushViewController(viewController, animated: true)
         case .categories:
             break

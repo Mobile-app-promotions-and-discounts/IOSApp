@@ -3,7 +3,7 @@ import SnapKit
 import Combine
 
 final class MainHeaderView: UICollectionReusableView {
-    static let reuseIdentifier = "HeaderView"
+    static let reuseIdentifier = "MainHeaderView"
 
     var cancellable: AnyCancellable?
 
@@ -41,7 +41,6 @@ final class MainHeaderView: UICollectionReusableView {
     @objc
     private func allButtonPressed() {
         allButtonTapped.send()
-        print("Нажал кнопку Все")
     }
 
     private func setupViews() {

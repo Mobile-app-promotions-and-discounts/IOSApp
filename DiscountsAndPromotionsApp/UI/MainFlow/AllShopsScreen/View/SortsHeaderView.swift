@@ -3,7 +3,7 @@ import SnapKit
 import Combine
 
 final class SortsHeaderView: UICollectionReusableView {
-    static let reuseIdentifier = "HeaderViewWithSorts"
+    static let reuseIdentifier = "SortsHeaderView"
 
     var cancellable: AnyCancellable?
 
@@ -14,25 +14,26 @@ final class SortsHeaderView: UICollectionReusableView {
     }()
 
     private lazy var sortButton: UIButton = {
-        let button = UIButton(type: .system)
+        let button = UIButton(type: .custom)
         button.setImage(UIImage.icSort, for: .normal)
         button.addTarget(self, action: #selector(sortButtonPressed), for: .touchUpInside)
         return button
     }()
 
     private lazy var filterButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setImage(UIImage.icFilter, for: .normal)
+        let button = UIButton(type: .custom)
+        button.setImage(UIImage.icFilterOff, for: .normal)
+        button.setImage(UIImage.icFilterOn, for: .highlighted)
         button.addTarget(self, action: #selector(filterButtonPressed), for: .touchUpInside)
         return button
     }()
 
     private lazy var buttonsStackView: UIStackView = {
         let stackView = UIStackView()
-        stackView.distribution = .fillEqually
+        stackView.distribution = .equalSpacing
         stackView.spacing = 12
         stackView.axis = .horizontal
-        [sortButton, filterButton].forEach{ stackView.addArrangedSubview($0) }
+        [sortButton, filterButton].forEach { stackView.addArrangedSubview($0) }
         return stackView
     }()
 
@@ -71,6 +72,7 @@ final class SortsHeaderView: UICollectionReusableView {
 
         buttonsStackView.snp.makeConstraints { make in
             make.trailing.bottom.equalToSuperview()
+            make.width.equalTo(60)
         }
     }
 }
