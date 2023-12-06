@@ -2,6 +2,14 @@ import UIKit
 import SnapKit
 import Combine
 
+private struct TableViewConstants {
+    static let headerHeight: CGFloat = 19
+    static let footerHeight: CGFloat = 12
+    static let topPadding: CGFloat = 12
+    static let cellHeight: CGFloat = 85
+    static let cellSpacing: CGFloat = 8
+}
+
 class ProductCardViewController: UIViewController {
 
     weak var coordinator: MainScreenCoordinator?
@@ -65,10 +73,7 @@ class ProductCardViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
 
-        if #available(iOS 11.0, *) {
-            productScrollView.contentInsetAdjustmentBehavior = .never
-        }
-
+        productScrollView.contentInsetAdjustmentBehavior = .never
         setupProductLayout()
         configureViews()
         setupPriceInfoView()
@@ -171,19 +176,12 @@ class ProductCardViewController: UIViewController {
             make.height.equalTo(58)
             make.width.equalTo(contentView.frame.width)
         }
-        // Доп. настройка размеров таблицы
-        let headerHeight: CGFloat = 19
-        let footerHeight: CGFloat = 12
-        let topPadding: CGFloat = 12
-        let cellHeight: CGFloat = 85
-        let cellSpacing: CGFloat = 8
-        let numberOfCells: CGFloat = CGFloat(product?.offers.count ?? 0)
-        let tableViewHeight = headerHeight + topPadding + footerHeight + (cellHeight + cellSpacing) * numberOfCells - cellSpacing
+
         offersTableView.layer.cornerRadius = CornerRadius.regular.cgFloat()
         offersTableView.snp.makeConstraints { make in
             make.top.equalTo(ratingView.snp.bottom).offset(32)
             make.leading.trailing.equalTo(contentView)
-            make.height.equalTo(tableViewHeight)
+            make.height.equalTo(calculateTableViewHeight())
             make.width.equalTo(contentView.frame.width)
         }
 
@@ -201,6 +199,15 @@ class ProductCardViewController: UIViewController {
             make.bottom.equalToSuperview()
             make.width.equalTo(contentView.frame.width)
         }
+    }
+
+    private func calculateTableViewHeight() -> CGFloat {
+        let numberOfCells = CGFloat(product?.offers.count ?? 0)
+        return TableViewConstants.headerHeight +
+               TableViewConstants.topPadding +
+               TableViewConstants.footerHeight +
+               (TableViewConstants.cellHeight + TableViewConstants.cellSpacing) * numberOfCells -
+               TableViewConstants.cellSpacing
     }
 
     private func setupPriceInfoView() {
