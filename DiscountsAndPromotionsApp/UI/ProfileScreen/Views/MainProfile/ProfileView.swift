@@ -13,7 +13,7 @@ final class ProfileView: UIView {
     private lazy var editButton: UIButton = {
         let editButton = UIButton()
         editButton.tintColor = .cherryBlack
-        let image = UIImage(named: "editButton")
+        let image = UIImage.editButton
         editButton.setImage(image, for: .normal)
         editButton.layer.cornerRadius = 12
         editButton.addTarget(self, action: #selector(editDidTap), for: .touchUpInside)
@@ -21,7 +21,7 @@ final class ProfileView: UIView {
     }()
 
     private lazy var avatarImage: UIImageView = {
-        let noImage = UIImage(named: "avatar")
+        let noImage = UIImage.avatar
         let avatarImage = UIImageView(image: noImage)
         avatarImage.layer.cornerRadius = 29
         avatarImage.layer.masksToBounds = true
@@ -60,7 +60,7 @@ final class ProfileView: UIView {
 
     private lazy var regionButton: ProfileAssetButton = {
         let regionButton = ProfileAssetButton()
-        regionButton.buttonImage.image = UIImage(named: "buttonRegion")
+        regionButton.buttonImage.image = .buttonRegion
         regionButton.buttonTitle.text = NSLocalizedString("Region", tableName: "ProfileFlow", comment: "")
         regionButton.buttonSubtitle.text = nil
         regionButton.addTarget(self, action: #selector(regionDidTap), for: .touchUpInside)
@@ -69,7 +69,7 @@ final class ProfileView: UIView {
 
     private lazy var reviewsButton: ProfileAssetButton = {
         let reviewsButton = ProfileAssetButton()
-        reviewsButton.buttonImage.image = UIImage(named: "buttonReviews")
+        reviewsButton.buttonImage.image = .buttonReviews
         reviewsButton.buttonTitle.text = NSLocalizedString("MyReviews", tableName: "ProfileFlow", comment: "")
         reviewsButton.addTarget(self, action: #selector(reviewsDidTap), for: .touchUpInside)
         return reviewsButton
@@ -77,7 +77,7 @@ final class ProfileView: UIView {
 
     private lazy var notificationsButton: ProfileAssetButton = {
         let notificationsButton = ProfileAssetButton()
-        notificationsButton.buttonImage.image = UIImage(named: "buttonNotification")
+        notificationsButton.buttonImage.image = .buttonNotification
         notificationsButton.buttonTitle.text = NSLocalizedString("Notifications", tableName: "ProfileFlow", comment: "")
         notificationsButton.addTarget(self, action: #selector(notificationsDidTap), for: .touchUpInside)
         return notificationsButton
@@ -85,7 +85,7 @@ final class ProfileView: UIView {
 
     private lazy var supportButton: ProfileAssetButton = {
         let supportButton = ProfileAssetButton()
-        supportButton.buttonImage.image = UIImage(named: "buttonSupport")
+        supportButton.buttonImage.image = .buttonSupport
         supportButton.buttonTitle.text = NSLocalizedString("Support", tableName: "ProfileFlow", comment: "")
         supportButton.addTarget(self, action: #selector(supportDidTap), for: .touchUpInside)
         return supportButton
@@ -93,7 +93,7 @@ final class ProfileView: UIView {
 
     private lazy var aboutButton: ProfileAssetButton = {
         let aboutButton = ProfileAssetButton()
-        aboutButton.buttonImage.image = UIImage(named: "buttonAbout")
+        aboutButton.buttonImage.image = .buttonAbout
         aboutButton.buttonTitle.text = NSLocalizedString("About", tableName: "ProfileFlow", comment: "")
         aboutButton.addTarget(self, action: #selector(supportDidTap), for: .touchUpInside)
         return aboutButton

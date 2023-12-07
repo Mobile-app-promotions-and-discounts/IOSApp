@@ -107,6 +107,8 @@
 		BEF503B62B15288C00577D7F /* ProfileServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF503B52B15288C00577D7F /* ProfileServiceProtocol.swift */; };
 		D059EB8F2B1FC1CB004C8A1A /* ProfileFlow.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = D059EB8E2B1FC1CA004C8A1A /* ProfileFlow.xcstrings */; };
 		D059EB922B205F3F004C8A1A /* RegionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D059EB912B205F3F004C8A1A /* RegionViewController.swift */; };
+		D059EB982B2252F7004C8A1A /* ChangeAvatarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D059EB972B2252F7004C8A1A /* ChangeAvatarViewController.swift */; };
+		D059EB9A2B2253FE004C8A1A /* CameraButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D059EB992B2253FE004C8A1A /* CameraButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -224,6 +226,8 @@
 		BEF503B52B15288C00577D7F /* ProfileServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileServiceProtocol.swift; sourceTree = "<group>"; };
 		D059EB8E2B1FC1CA004C8A1A /* ProfileFlow.xcstrings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json.xcstrings; name = ProfileFlow.xcstrings; path = ../../ProfileFlow.xcstrings; sourceTree = "<group>"; };
 		D059EB912B205F3F004C8A1A /* RegionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionViewController.swift; sourceTree = "<group>"; };
+		D059EB972B2252F7004C8A1A /* ChangeAvatarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeAvatarViewController.swift; sourceTree = "<group>"; };
+		D059EB992B2253FE004C8A1A /* CameraButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -308,6 +312,7 @@
 			children = (
 				BC6046142B1E4B7900536EB3 /* EditProfileView.swift */,
 				BC6046152B1E4B7900536EB3 /* EditProfileViewController.swift */,
+				D059EB972B2252F7004C8A1A /* ChangeAvatarViewController.swift */,
 			);
 			path = EditProfile;
 			sourceTree = "<group>";
@@ -603,6 +608,7 @@
 				BC5009792B18B0A200385381 /* CornerRadius.swift */,
 				BC93BB712B0C814F008BE2AD /* PrimaryButton.swift */,
 				BC07231A2B1A6A5C00EF82B8 /* SecondaryButton.swift */,
+				D059EB992B2253FE004C8A1A /* CameraButton.swift */,
 				BC93BB732B0C8166008BE2AD /* ScannerNavButton.swift */,
 				BC6046222B1E4BC600536EB3 /* TextField.swift */,
 				BC0723112B1A4E5300EF82B8 /* Gradients.swift */,
@@ -861,7 +867,9 @@
 				BCCF4FFC2B1B4AF10067A552 /* ImageGalleryCell.swift in Sources */,
 				BCCF501C2B1B4AF10067A552 /* PriceInfoViewModel.swift in Sources */,
 				BC6046252B1E4C0100536EB3 /* Date+Extension.swift in Sources */,
+				D059EB982B2252F7004C8A1A /* ChangeAvatarViewController.swift in Sources */,
 				BEBA916C2B0A9D0000C2DE96 /* Coordinator.swift in Sources */,
+				D059EB9A2B2253FE004C8A1A /* CameraButton.swift in Sources */,
 				BE8E70B22B0E558300BEAA5A /* FavoritesScreenCoordinator.swift in Sources */,
 				BC60461E2B1E4B7900536EB3 /* ProfileView.swift in Sources */,
 				BCCF500E2B1B4AF10067A552 /* CategoryViewModel.swift in Sources */,

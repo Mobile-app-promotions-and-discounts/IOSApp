@@ -28,7 +28,7 @@ final class RegionViewController: UIViewController {
 
     private lazy var regionButton: ProfileAssetButton = {
         let regionButton = ProfileAssetButton()
-        regionButton.buttonImage.image = UIImage(named: "buttonRegionGreen")
+        regionButton.buttonImage.image = .buttonRegionGreen
         regionButton.buttonTitle.text = "Moscow"
         regionButton.addTarget(self, action: #selector(regionDidTap), for: .touchUpInside)
         return regionButton

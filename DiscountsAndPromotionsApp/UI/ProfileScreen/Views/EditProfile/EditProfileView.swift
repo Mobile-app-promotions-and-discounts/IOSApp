@@ -1,11 +1,12 @@
 import UIKit
 import SnapKit
+import Combine
 
 final class EditProfileView: UIView {
     // MARK: - Private properties
     private var viewController: EditProfileViewController
 
-    private let noImage = UIImage(named: "avatar")
+    private let noImage = UIImage.avatar
 
     // MARK: - Layout elements
     private lazy var avatarImage: UIImageView = {

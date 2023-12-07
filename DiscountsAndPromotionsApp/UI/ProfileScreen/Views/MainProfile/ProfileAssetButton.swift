@@ -35,7 +35,7 @@ final class ProfileAssetButton: UIButton {
 
     private lazy var disclosureIndicator: UIImageView = {
         let disclosureIndicator = UIImageView()
-        disclosureIndicator.image = UIImage(named: "buttonDisclosure")
+        disclosureIndicator.image = UIImage.buttonDisclosure
         return disclosureIndicator
     }()
 
