@@ -18,6 +18,7 @@
 		BC0723182B1A589800EF82B8 /* Manrope-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC0723152B1A588E00EF82B8 /* Manrope-Regular.ttf */; };
 		BC0723192B1A589A00EF82B8 /* Manrope-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC0723162B1A588E00EF82B8 /* Manrope-SemiBold.ttf */; };
 		BC07231B2B1A6A5C00EF82B8 /* SecondaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC07231A2B1A6A5C00EF82B8 /* SecondaryButton.swift */; };
+		BC266A592B1F8B1500F14F7B /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = BC266A582B1F8B1500F14F7B /* SwiftKeychainWrapper */; };
 		BC50097A2B18B0A200385381 /* CornerRadius.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5009792B18B0A200385381 /* CornerRadius.swift */; };
 		BC6045FB2B1D9CA700536EB3 /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6045FA2B1D9CA700536EB3 /* SearchResultsViewController.swift */; };
 		BC6045FD2B1E3B2E00536EB3 /* PromotionVisualsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6045FC2B1E3B2E00536EB3 /* PromotionVisualsService.swift */; };
@@ -40,6 +41,16 @@
 		BC93BB6B2B0BCBF1008BE2AD /* StringBarcodeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC93BB6A2B0BCBF1008BE2AD /* StringBarcodeExtension.swift */; };
 		BC93BB722B0C814F008BE2AD /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC93BB712B0C814F008BE2AD /* PrimaryButton.swift */; };
 		BC93BB742B0C8166008BE2AD /* ScannerNavButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC93BB732B0C8166008BE2AD /* ScannerNavButton.swift */; };
+		BCAC6B772B223C4100AD5C96 /* NetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAC6B682B223C4100AD5C96 /* NetworkClient.swift */; };
+		BCAC6B782B223C4100AD5C96 /* NetworkClientProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAC6B692B223C4100AD5C96 /* NetworkClientProtocol.swift */; };
+		BCAC6B792B223C4100AD5C96 /* NetworkErrorDescriptionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAC6B6B2B223C4100AD5C96 /* NetworkErrorDescriptionModel.swift */; };
+		BCAC6B7A2B223C4100AD5C96 /* UserResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAC6B6E2B223C4100AD5C96 /* UserResponseModel.swift */; };
+		BCAC6B7B2B223C4100AD5C96 /* UserRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAC6B6F2B223C4100AD5C96 /* UserRequestModel.swift */; };
+		BCAC6B7C2B223C4100AD5C96 /* UserNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAC6B702B223C4100AD5C96 /* UserNetworkService.swift */; };
+		BCAC6B7D2B223C4100AD5C96 /* TokenResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAC6B732B223C4100AD5C96 /* TokenResponseModel.swift */; };
+		BCAC6B7E2B223C4100AD5C96 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAC6B742B223C4100AD5C96 /* AuthService.swift */; };
+		BCAC6B7F2B223C4100AD5C96 /* AuthTokenStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAC6B752B223C4100AD5C96 /* AuthTokenStorage.swift */; };
+		BCAC6B802B223C4100AD5C96 /* Endpoints+BaseConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAC6B762B223C4100AD5C96 /* Endpoints+BaseConfiguration.swift */; };
 		BCB7F91E2B0C89B500EE20A0 /* ScanFlow.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = BCB7F91D2B0C89B500EE20A0 /* ScanFlow.xcstrings */; };
 		BCB7F9202B0D150700EE20A0 /* UITextFieldExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB7F91F2B0D150700EE20A0 /* UITextFieldExtensions.swift */; };
 		BCCF4FFF2B1B4AF10067A552 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCF4FC62B1B4AF10067A552 /* MainViewModel.swift */; };
@@ -158,6 +169,16 @@
 		BC93BB702B0BDA0A008BE2AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BC93BB712B0C814F008BE2AD /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
 		BC93BB732B0C8166008BE2AD /* ScannerNavButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerNavButton.swift; sourceTree = "<group>"; };
+		BCAC6B682B223C4100AD5C96 /* NetworkClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkClient.swift; sourceTree = "<group>"; };
+		BCAC6B692B223C4100AD5C96 /* NetworkClientProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkClientProtocol.swift; sourceTree = "<group>"; };
+		BCAC6B6B2B223C4100AD5C96 /* NetworkErrorDescriptionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkErrorDescriptionModel.swift; sourceTree = "<group>"; };
+		BCAC6B6E2B223C4100AD5C96 /* UserResponseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserResponseModel.swift; sourceTree = "<group>"; };
+		BCAC6B6F2B223C4100AD5C96 /* UserRequestModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRequestModel.swift; sourceTree = "<group>"; };
+		BCAC6B702B223C4100AD5C96 /* UserNetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserNetworkService.swift; sourceTree = "<group>"; };
+		BCAC6B732B223C4100AD5C96 /* TokenResponseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenResponseModel.swift; sourceTree = "<group>"; };
+		BCAC6B742B223C4100AD5C96 /* AuthService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		BCAC6B752B223C4100AD5C96 /* AuthTokenStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthTokenStorage.swift; sourceTree = "<group>"; };
+		BCAC6B762B223C4100AD5C96 /* Endpoints+BaseConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Endpoints+BaseConfiguration.swift"; sourceTree = "<group>"; };
 		BCB7F91D2B0C89B500EE20A0 /* ScanFlow.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = ScanFlow.xcstrings; sourceTree = "<group>"; };
 		BCB7F91F2B0D150700EE20A0 /* UITextFieldExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextFieldExtensions.swift; sourceTree = "<group>"; };
 		BCCF4FC22B1B4AF10067A552 /* ImageGalleryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageGalleryCell.swift; sourceTree = "<group>"; };
@@ -234,6 +255,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC266A592B1F8B1500F14F7B /* SwiftKeychainWrapper in Frameworks */,
 				BE3524832B02B92A00746581 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -330,6 +352,71 @@
 				BC6046192B1E4B7900536EB3 /* ProfileViewController.swift */,
 			);
 			path = MainProfile;
+			sourceTree = "<group>";
+		};
+		BCAC6B662B223C4100AD5C96 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				BCAC6B672B223C4100AD5C96 /* NetworkManagement */,
+				BCAC6B6C2B223C4100AD5C96 /* UserNetworkService */,
+				BCAC6B712B223C4100AD5C96 /* AuthServices */,
+				BCAC6B762B223C4100AD5C96 /* Endpoints+BaseConfiguration.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		BCAC6B672B223C4100AD5C96 /* NetworkManagement */ = {
+			isa = PBXGroup;
+			children = (
+				BCAC6B682B223C4100AD5C96 /* NetworkClient.swift */,
+				BCAC6B692B223C4100AD5C96 /* NetworkClientProtocol.swift */,
+				BCAC6B6A2B223C4100AD5C96 /* Models */,
+			);
+			path = NetworkManagement;
+			sourceTree = "<group>";
+		};
+		BCAC6B6A2B223C4100AD5C96 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				BCAC6B6B2B223C4100AD5C96 /* NetworkErrorDescriptionModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		BCAC6B6C2B223C4100AD5C96 /* UserNetworkService */ = {
+			isa = PBXGroup;
+			children = (
+				BCAC6B6D2B223C4100AD5C96 /* Models */,
+				BCAC6B702B223C4100AD5C96 /* UserNetworkService.swift */,
+			);
+			path = UserNetworkService;
+			sourceTree = "<group>";
+		};
+		BCAC6B6D2B223C4100AD5C96 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				BCAC6B6E2B223C4100AD5C96 /* UserResponseModel.swift */,
+				BCAC6B6F2B223C4100AD5C96 /* UserRequestModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		BCAC6B712B223C4100AD5C96 /* AuthServices */ = {
+			isa = PBXGroup;
+			children = (
+				BCAC6B722B223C4100AD5C96 /* Models */,
+				BCAC6B742B223C4100AD5C96 /* AuthService.swift */,
+				BCAC6B752B223C4100AD5C96 /* AuthTokenStorage.swift */,
+			);
+			path = AuthServices;
+			sourceTree = "<group>";
+		};
+		BCAC6B722B223C4100AD5C96 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				BCAC6B732B223C4100AD5C96 /* TokenResponseModel.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		BCCF4FBF2B1B4AF10067A552 /* UI */ = {
@@ -549,6 +636,7 @@
 				BCCF4FBF2B1B4AF10067A552 /* UI */,
 				BE521A892B04DF1A005F2FE7 /* Data */,
 				BEBA944B2B14D8FA00ABE1AD /* Services */,
+				BCAC6B662B223C4100AD5C96 /* Network */,
 				BE3524722B02B30800746581 /* Extensions */,
 				BE3524632B02ACCB00746581 /* Resources */,
 				BE3524612B02AC8600746581 /* Configuration */,
@@ -754,6 +842,7 @@
 			name = DiscountsAndPromotionsApp;
 			packageProductDependencies = (
 				BE3524822B02B92A00746581 /* SnapKit */,
+				BC266A582B1F8B1500F14F7B /* SwiftKeychainWrapper */,
 			);
 			productName = DiscountsAndPromotionsApp;
 			productReference = BE35244A2B02ABA200746581 /* DiscountsAndPromotionsApp.app */;
@@ -786,6 +875,7 @@
 			mainGroup = BE3524412B02ABA200746581;
 			packageReferences = (
 				BE3524812B02B92A00746581 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				BC266A572B1F8B1500F14F7B /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */,
 			);
 			productRefGroup = BE35244B2B02ABA200746581 /* Products */;
 			projectDirPath = "";
@@ -848,18 +938,22 @@
 				BEBA91712B0AA7F800C2DE96 /* MainScreenCoordinator.swift in Sources */,
 				BCCF500A2B1B4AF10067A552 /* ScanViewModel.swift in Sources */,
 				BE70C2272B1E5912004FD1E9 /* AllStoresViewModel.swift in Sources */,
+				BCAC6B782B223C4100AD5C96 /* NetworkClientProtocol.swift in Sources */,
 				BCCF50132B1B4AF10067A552 /* ScannerEnabledViewController.swift in Sources */,
 				BCB7F9202B0D150700EE20A0 /* UITextFieldExtensions.swift in Sources */,
 				BC93BB742B0C8166008BE2AD /* ScannerNavButton.swift in Sources */,
+				BCAC6B792B223C4100AD5C96 /* NetworkErrorDescriptionModel.swift in Sources */,
 				BC6046202B1E4B7900536EB3 /* ProfileViewController.swift in Sources */,
 				BCCF50042B1B4AF10067A552 /* MainViewController.swift in Sources */,
 				BC0723122B1A4E5300EF82B8 /* Gradients.swift in Sources */,
+				BCAC6B7C2B223C4100AD5C96 /* UserNetworkService.swift in Sources */,
 				BE70C2232B1E586E004FD1E9 /* AllStoresViewController.swift in Sources */,
 				BC60461C2B1E4B7900536EB3 /* EditProfileView.swift in Sources */,
 				BE521A822B04DEB3005F2FE7 /* MainTabBarController.swift in Sources */,
 				BEBA944D2B14D93800ABE1AD /* ErrorHandler.swift in Sources */,
 				BE8E709D2B0D275300BEAA5A /* CollectionLayoutProvider.swift in Sources */,
 				BC60461D2B1E4B7900536EB3 /* EditProfileViewController.swift in Sources */,
+				BCAC6B7B2B223C4100AD5C96 /* UserRequestModel.swift in Sources */,
 				927EC3042B1F94EF005C100B /* UIImage+Extensions.swift in Sources */,
 				BCCF50112B1B4AF10067A552 /* ProductCell.swift in Sources */,
 				BEBA94512B14E4B900ABE1AD /* UIViewController+Extension.swift in Sources */,
@@ -878,9 +972,11 @@
 				BCCF50092B1B4AF10067A552 /* SearchViewController.swift in Sources */,
 				BCCF50002B1B4AF10067A552 /* MainViewModelProtocol.swift in Sources */,
 				BCCF50142B1B4AF10067A552 /* GenericNavigationController.swift in Sources */,
+				BCAC6B7A2B223C4100AD5C96 /* UserResponseModel.swift in Sources */,
 				BCCF500B2B1B4AF10067A552 /* ScanCaptureSessionController.swift in Sources */,
 				BE3524762B02B62B00746581 /* MainCoordinator.swift in Sources */,
 				BCCF50272B1B4E090067A552 /* UIButton+Extension.swift in Sources */,
+				BCAC6B7F2B223C4100AD5C96 /* AuthTokenStorage.swift in Sources */,
 				BE521A8F2B04DF5D005F2FE7 /* MockDataService.swift in Sources */,
 				BE70C22D2B20965F004FD1E9 /* SortsHeaderView.swift in Sources */,
 				BCCF500D2B1B4AF10067A552 /* ScanViewController.swift in Sources */,
@@ -891,6 +987,7 @@
 				BC6046072B1E3CA500536EB3 /* FooterView.swift in Sources */,
 				BCCF501C2B1B4AF10067A552 /* PriceInfoViewModel.swift in Sources */,
 				BC6046252B1E4C0100536EB3 /* Date+Extension.swift in Sources */,
+				BCAC6B802B223C4100AD5C96 /* Endpoints+BaseConfiguration.swift in Sources */,
 				BEBA916C2B0A9D0000C2DE96 /* Coordinator.swift in Sources */,
 				BE8E70B22B0E558300BEAA5A /* FavoritesScreenCoordinator.swift in Sources */,
 				BC60461E2B1E4B7900536EB3 /* ProfileView.swift in Sources */,
@@ -903,6 +1000,7 @@
 				BC93BB722B0C814F008BE2AD /* PrimaryButton.swift in Sources */,
 				BCCF50102B1B4AF10067A552 /* ProductCellUIModel.swift in Sources */,
 				BCCF501F2B1B4AF10067A552 /* PriceInfoView.swift in Sources */,
+				BCAC6B772B223C4100AD5C96 /* NetworkClient.swift in Sources */,
 				BEF503B42B15287F00577D7F /* MockProfileService.swift in Sources */,
 				BCCF50122B1B4AF10067A552 /* CategoryViewController.swift in Sources */,
 				BE70C2292B1E5918004FD1E9 /* AllStoresViewModelProtocol.swift in Sources */,
@@ -919,6 +1017,7 @@
 				BCCF50152B1B4AF10067A552 /* SearchEnabledViewController.swift in Sources */,
 				BCCF50202B1B4AF10067A552 /* OfferCell.swift in Sources */,
 				BCCF50052B1B4AF10067A552 /* StoresCell.swift in Sources */,
+				BCAC6B7D2B223C4100AD5C96 /* TokenResponseModel.swift in Sources */,
 				BE70C22B2B1E5E43004FD1E9 /* CategoryUIModel.swift in Sources */,
 				BCCF50222B1B4AF10067A552 /* ProductTitleView.swift in Sources */,
 				BC6046052B1E3C9E00536EB3 /* CategoryCell.swift in Sources */,
@@ -933,6 +1032,7 @@
 				BC6046012B1E3B7400536EB3 /* Promotion.swift in Sources */,
 				BCCF4FFF2B1B4AF10067A552 /* MainViewModel.swift in Sources */,
 				BCCF50032B1B4AF10067A552 /* PromotionUIModel.swift in Sources */,
+				BCAC6B7E2B223C4100AD5C96 /* AuthService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1157,6 +1257,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		BC266A572B1F8B1500F14F7B /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jrendel/SwiftKeychainWrapper";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.1;
+			};
+		};
 		BE3524812B02B92A00746581 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit";
@@ -1168,6 +1276,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		BC266A582B1F8B1500F14F7B /* SwiftKeychainWrapper */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BC266A572B1F8B1500F14F7B /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */;
+			productName = SwiftKeychainWrapper;
+		};
 		BE3524822B02B92A00746581 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = BE3524812B02B92A00746581 /* XCRemoteSwiftPackageReference "SnapKit" */;
