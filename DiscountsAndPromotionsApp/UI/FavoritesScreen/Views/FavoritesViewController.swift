@@ -40,7 +40,7 @@ final class FavoritesViewController: ScannerEnabledViewController {
     }
 
     private func setupViews() {
-        layoutProvider.createCategoryScreenLayout(for: favoritesCollectionView, in: view)
+//        layoutProvider.createCategoryScreenLayout(for: favoritesCollectionView, in: view)
         // ToDo: цвет фона временный, для отладки
         view.backgroundColor = .cherryLightBlue
 

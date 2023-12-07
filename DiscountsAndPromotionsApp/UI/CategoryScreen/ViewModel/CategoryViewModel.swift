@@ -13,6 +13,7 @@ final class CategoryViewModel: CategoryViewModelProtocol {
     private let dataService: DataServiceProtocol
     private let profileService: ProfileServiceProtocol
     private let categoryID: UUID
+    private var categoryName: String?
 
     private var cancellables = Set<AnyCancellable>()
 
@@ -30,6 +31,13 @@ final class CategoryViewModel: CategoryViewModelProtocol {
     func getProduct(for index: Int) -> ProductCellUIModel {
         let product = products[index]
         return convertModels(for: product)
+    }
+
+    func getTitle() -> String {
+        if let name = categoryName {
+            return NSLocalizedString(name, tableName: "MainFlow", comment: "")
+        }
+        return ""
     }
 
     func likeButtonTapped(for productID: UUID) {
@@ -50,12 +58,18 @@ final class CategoryViewModel: CategoryViewModelProtocol {
         // Доработать под каждую категорию, с новым методом в дата сервисе
         dataService.actualGoodsList
             .sink { [weak self] goodsList in
-                print(goodsList)
                 guard let self = self else { return }
+
+                // Фильтрация продуктов по категории
                 let sortedGoodsList = goodsList.filter { product in
                     product.category.id == self.categoryID
                 }
                 self.products = sortedGoodsList
+
+                // Если список не пуст, сохраняем имя категории
+                if let firstProduct = sortedGoodsList.first {
+                    self.categoryName = firstProduct.category.name
+                }
             }
             .store(in: &cancellables)
     }

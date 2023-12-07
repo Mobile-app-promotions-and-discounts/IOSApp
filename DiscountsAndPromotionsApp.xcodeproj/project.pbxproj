@@ -330,6 +330,7 @@
 			children = (
 				BC60460F2B1E4B7900536EB3 /* ProfileScreen */,
 				BCCF4FC82B1B4AF10067A552 /* MainFlow */,
+				BE70C2202B1E57EA004FD1E9 /* AllShopsScreen */,
 				BCCF4FD32B1B4AF10067A552 /* SearchFlow */,
 				BCCF4FD52B1B4AF10067A552 /* ScanFlow */,
 				BCCF4FDB2B1B4AF10067A552 /* CategoryScreen */,
@@ -362,7 +363,6 @@
 			isa = PBXGroup;
 			children = (
 				BE70C2212B1E580C004FD1E9 /* MainScreen */,
-				BE70C2202B1E57EA004FD1E9 /* AllShopsScreen */,
 			);
 			path = MainFlow;
 			sourceTree = "<group>";
