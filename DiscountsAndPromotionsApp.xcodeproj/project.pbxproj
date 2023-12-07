@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		92787F662B1F133C0045B678 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92787F652B1F133C0045B678 /* SplashViewController.swift */; };
+		92787F682B1F14500045B678 /* AuthTokenKeychainStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92787F672B1F14500045B678 /* AuthTokenKeychainStorage.swift */; };
+		92787F6B2B1F159A0045B678 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 92787F6A2B1F159A0045B678 /* SwiftKeychainWrapper */; };
+		92787F702B1F5E9F0045B678 /* LaunchScreen.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 92787F6F2B1F5E9F0045B678 /* LaunchScreen.xcstrings */; };
+		92787F722B1F5F5F0045B678 /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92787F712B1F5F5F0045B678 /* Localization.swift */; };
+		92787F762B1FAC110045B678 /* StrokeLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92787F752B1FAC110045B678 /* StrokeLabel.swift */; };
+		92787F792B1FBCE00045B678 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92787F782B1FBCE00045B678 /* LoginViewController.swift */; };
+		92787F7B2B20B60C0045B678 /* AuthFlow.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 92787F7A2B20B60C0045B678 /* AuthFlow.xcstrings */; };
+		92787F7D2B2199840045B678 /* InputUserDataField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92787F7C2B2199840045B678 /* InputUserDataField.swift */; };
+		92787FA82B21EEE00045B678 /* LoginViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92787FA72B21EEE00045B678 /* LoginViewModelProtocol.swift */; };
+		92787FAC2B21F0950045B678 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92787FAB2B21F0950045B678 /* LoginViewModel.swift */; };
 		BC05456A2B1D0866008D65A3 /* CustomSegmantedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0545692B1D0865008D65A3 /* CustomSegmantedControl.swift */; };
 		BC05456C2B1D0A33008D65A3 /* UISegmentedControl+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC05456B2B1D0A33008D65A3 /* UISegmentedControl+Extensions.swift */; };
 		BC05456F2B1D264C008D65A3 /* SearchCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC05456E2B1D264C008D65A3 /* SearchCategoryCell.swift */; };
@@ -121,6 +132,16 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		92787F652B1F133C0045B678 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
+		92787F672B1F14500045B678 /* AuthTokenKeychainStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTokenKeychainStorage.swift; sourceTree = "<group>"; };
+		92787F6F2B1F5E9F0045B678 /* LaunchScreen.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = LaunchScreen.xcstrings; sourceTree = "<group>"; };
+		92787F712B1F5F5F0045B678 /* Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
+		92787F752B1FAC110045B678 /* StrokeLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrokeLabel.swift; sourceTree = "<group>"; };
+		92787F782B1FBCE00045B678 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		92787F7A2B20B60C0045B678 /* AuthFlow.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = AuthFlow.xcstrings; sourceTree = "<group>"; };
+		92787F7C2B2199840045B678 /* InputUserDataField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputUserDataField.swift; sourceTree = "<group>"; };
+		92787FA72B21EEE00045B678 /* LoginViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModelProtocol.swift; sourceTree = "<group>"; };
+		92787FAB2B21F0950045B678 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		BC0545692B1D0865008D65A3 /* CustomSegmantedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSegmantedControl.swift; sourceTree = "<group>"; };
 		BC05456B2B1D0A33008D65A3 /* UISegmentedControl+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISegmentedControl+Extensions.swift"; sourceTree = "<group>"; };
 		BC05456E2B1D264C008D65A3 /* SearchCategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCategoryCell.swift; sourceTree = "<group>"; };
@@ -227,6 +248,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				92787F6B2B1F159A0045B678 /* SwiftKeychainWrapper in Frameworks */,
 				BE3524832B02B92A00746581 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -234,6 +256,42 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		92787F6C2B1F263A0045B678 /* SplashScreen */ = {
+			isa = PBXGroup;
+			children = (
+				92787F652B1F133C0045B678 /* SplashViewController.swift */,
+				92787F752B1FAC110045B678 /* StrokeLabel.swift */,
+			);
+			path = SplashScreen;
+			sourceTree = "<group>";
+		};
+		92787F772B1FBC300045B678 /* AuthScreen */ = {
+			isa = PBXGroup;
+			children = (
+				92787FAA2B21F0790045B678 /* ViewModel */,
+				92787FA92B21F0680045B678 /* View */,
+			);
+			path = AuthScreen;
+			sourceTree = "<group>";
+		};
+		92787FA92B21F0680045B678 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				92787F782B1FBCE00045B678 /* LoginViewController.swift */,
+				92787F7C2B2199840045B678 /* InputUserDataField.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		92787FAA2B21F0790045B678 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				92787FAB2B21F0950045B678 /* LoginViewModel.swift */,
+				92787FA72B21EEE00045B678 /* LoginViewModelProtocol.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		BC05456D2B1D2626008D65A3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -320,6 +378,8 @@
 		BCCF4FBF2B1B4AF10067A552 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				92787F772B1FBC300045B678 /* AuthScreen */,
+				92787F6C2B1F263A0045B678 /* SplashScreen */,
 				BC60460F2B1E4B7900536EB3 /* ProfileScreen */,
 				BCCF4FC82B1B4AF10067A552 /* MainScreen */,
 				BCCF4FD32B1B4AF10067A552 /* SearchFlow */,
@@ -561,6 +621,9 @@
 				BEAE80462B178E88004DAE32 /* FavoritesFlow.xcstrings */,
 				BEBA944E2B14E1DC00ABE1AD /* ErrorHandler.xcstrings */,
 				BE2774BB2B0FD0890000C8C2 /* MainFlow.xcstrings */,
+				92787F6F2B1F5E9F0045B678 /* LaunchScreen.xcstrings */,
+				92787F7A2B20B60C0045B678 /* AuthFlow.xcstrings */,
+				92787F712B1F5F5F0045B678 /* Localization.swift */,
 			);
 			path = Configuration;
 			sourceTree = "<group>";
@@ -670,6 +733,7 @@
 				BC6045FC2B1E3B2E00536EB3 /* PromotionVisualsService.swift */,
 				BE8E709C2B0D275300BEAA5A /* CollectionLayoutProvider.swift */,
 				BEBA944C2B14D93800ABE1AD /* ErrorHandler.swift */,
+				92787F672B1F14500045B678 /* AuthTokenKeychainStorage.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -712,6 +776,7 @@
 			name = DiscountsAndPromotionsApp;
 			packageProductDependencies = (
 				BE3524822B02B92A00746581 /* SnapKit */,
+				92787F6A2B1F159A0045B678 /* SwiftKeychainWrapper */,
 			);
 			productName = DiscountsAndPromotionsApp;
 			productReference = BE35244A2B02ABA200746581 /* DiscountsAndPromotionsApp.app */;
@@ -744,6 +809,7 @@
 			mainGroup = BE3524412B02ABA200746581;
 			packageReferences = (
 				BE3524812B02B92A00746581 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				92787F692B1F159A0045B678 /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */,
 			);
 			productRefGroup = BE35244B2B02ABA200746581 /* Products */;
 			projectDirPath = "";
@@ -759,10 +825,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				92787F702B1F5E9F0045B678 /* LaunchScreen.xcstrings in Resources */,
 				BC0723182B1A589800EF82B8 /* Manrope-Regular.ttf in Resources */,
 				BEBA944F2B14E1DC00ABE1AD /* ErrorHandler.xcstrings in Resources */,
 				BE35245A2B02ABA300746581 /* LaunchScreen.storyboard in Resources */,
 				BCB7F91E2B0C89B500EE20A0 /* ScanFlow.xcstrings in Resources */,
+				92787F7B2B20B60C0045B678 /* AuthFlow.xcstrings in Resources */,
 				BC0723192B1A589A00EF82B8 /* Manrope-SemiBold.ttf in Resources */,
 				BC0723172B1A589400EF82B8 /* Manrope-Bold.ttf in Resources */,
 				BEAE80472B178E88004DAE32 /* FavoritesFlow.xcstrings in Resources */,
@@ -807,6 +875,7 @@
 				BCCF50132B1B4AF10067A552 /* ScannerEnabledViewController.swift in Sources */,
 				BCB7F9202B0D150700EE20A0 /* UITextFieldExtensions.swift in Sources */,
 				BC93BB742B0C8166008BE2AD /* ScannerNavButton.swift in Sources */,
+				92787F682B1F14500045B678 /* AuthTokenKeychainStorage.swift in Sources */,
 				BC6046202B1E4B7900536EB3 /* ProfileViewController.swift in Sources */,
 				BCCF50042B1B4AF10067A552 /* MainViewController.swift in Sources */,
 				BC0723122B1A4E5300EF82B8 /* Gradients.swift in Sources */,
@@ -816,8 +885,12 @@
 				BCCF4FFD2B1B4AF10067A552 /* ProductTitleCell.swift in Sources */,
 				BE8E709D2B0D275300BEAA5A /* CollectionLayoutProvider.swift in Sources */,
 				BC60461D2B1E4B7900536EB3 /* EditProfileViewController.swift in Sources */,
+				92787F662B1F133C0045B678 /* SplashViewController.swift in Sources */,
 				BCCF50112B1B4AF10067A552 /* ProductCell.swift in Sources */,
+				92787F7D2B2199840045B678 /* InputUserDataField.swift in Sources */,
+				92787FAC2B21F0950045B678 /* LoginViewModel.swift in Sources */,
 				BEBA94512B14E4B900ABE1AD /* UIViewController+Extension.swift in Sources */,
+				92787F762B1FAC110045B678 /* StrokeLabel.swift in Sources */,
 				BC60461B2B1E4B7900536EB3 /* ProfileModel.swift in Sources */,
 				BC6046092B1E3CAB00536EB3 /* HeaderView.swift in Sources */,
 				BCCF500C2B1B4AF10067A552 /* ScanFrameView.swift in Sources */,
@@ -854,6 +927,7 @@
 				BC60461F2B1E4B7900536EB3 /* ProfileAssetButton.swift in Sources */,
 				BC6046232B1E4BC600536EB3 /* TextField.swift in Sources */,
 				BE8E70B42B0E74F600BEAA5A /* ProfileScreenCoordinator.swift in Sources */,
+				92787FA82B21EEE00045B678 /* LoginViewModelProtocol.swift in Sources */,
 				BCCF50212B1B4AF10067A552 /* RatingView.swift in Sources */,
 				BC93BB722B0C814F008BE2AD /* PrimaryButton.swift in Sources */,
 				BCCF50102B1B4AF10067A552 /* ProductCellUIModel.swift in Sources */,
@@ -872,9 +946,11 @@
 				BE8E70B02B0E250100BEAA5A /* Double+Extension.swift in Sources */,
 				BE35244E2B02ABA200746581 /* AppDelegate.swift in Sources */,
 				BCCF50152B1B4AF10067A552 /* SearchEnabledViewController.swift in Sources */,
+				92787F792B1FBCE00045B678 /* LoginViewController.swift in Sources */,
 				BCCF50202B1B4AF10067A552 /* OfferCell.swift in Sources */,
 				BCCF50052B1B4AF10067A552 /* StoresCell.swift in Sources */,
 				BCCF50222B1B4AF10067A552 /* ProductTitleView.swift in Sources */,
+				92787F722B1F5F5F0045B678 /* Localization.swift in Sources */,
 				BC6046052B1E3C9E00536EB3 /* CategoryCell.swift in Sources */,
 				BCB7F9242B0D255600EE20A0 /* UIImage+Extensions.swift in Sources */,
 				BC93BB6B2B0BCBF1008BE2AD /* StringBarcodeExtension.swift in Sources */,
@@ -1112,6 +1188,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		92787F692B1F159A0045B678 /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jrendel/SwiftKeychainWrapper.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.1;
+			};
+		};
 		BE3524812B02B92A00746581 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit";
@@ -1123,6 +1207,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		92787F6A2B1F159A0045B678 /* SwiftKeychainWrapper */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 92787F692B1F159A0045B678 /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */;
+			productName = SwiftKeychainWrapper;
+		};
 		BE3524822B02B92A00746581 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = BE3524812B02B92A00746581 /* XCRemoteSwiftPackageReference "SnapKit" */;

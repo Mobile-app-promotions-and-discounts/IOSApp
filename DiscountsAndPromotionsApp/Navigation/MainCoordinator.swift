@@ -15,9 +15,23 @@ final class MainCoordinator: Coordinator {
     }
 
     func start() {
+        let splashViewController = SplashViewController()
+        splashViewController.coordinator = self
+        navigationController.viewControllers = [splashViewController]
+    }
+
+    func navigateToMainScreen() {
         let mainTabBarController = MainTabBarController()
         configureChildCoordinators(with: mainTabBarController)
         navigationController.viewControllers = [mainTabBarController]
+    }
+
+    func navigateToAuthScreen(from splashViewController: UIViewController) {
+        let loginViewController = LoginViewController()
+        loginViewController.coordinator = self
+        loginViewController.modalPresentationStyle = .custom
+        loginViewController.transitioningDelegate = splashViewController as? any UIViewControllerTransitioningDelegate
+        splashViewController.present(loginViewController, animated: true)
     }
 
     private func configureChildCoordinators(with tabBarController: MainTabBarController) {
