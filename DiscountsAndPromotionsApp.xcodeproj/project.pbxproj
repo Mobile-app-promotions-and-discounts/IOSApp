@@ -423,9 +423,9 @@
 		BCCF4FDB2B1B4AF10067A552 /* CategoryScreen */ = {
 			isa = PBXGroup;
 			children = (
-				BCCF4FDC2B1B4AF10067A552 /* ViewModel */,
 				BCCF4FDF2B1B4AF10067A552 /* Model */,
 				BCCF4FE12B1B4AF10067A552 /* Views */,
+				BCCF4FDC2B1B4AF10067A552 /* ViewModel */,
 			);
 			path = CategoryScreen;
 			sourceTree = "<group>";

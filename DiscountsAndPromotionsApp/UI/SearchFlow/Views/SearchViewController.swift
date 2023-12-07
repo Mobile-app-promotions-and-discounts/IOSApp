@@ -45,7 +45,8 @@ final class SearchViewController: SearchEnabledViewController {
 
 extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        coordinator?.navigateToCategoryScreen()
+        // ЗАГЛУШКА С UUID - подробнее смотри в координаторе
+        coordinator?.navigateToCategoryScreen(with: UUID())
     }
 }
 
