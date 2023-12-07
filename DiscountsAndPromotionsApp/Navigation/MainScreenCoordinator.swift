@@ -48,8 +48,10 @@ final class MainScreenCoordinator: Coordinator {
 
     func navigateToProductScreen(for product: Product) {
         let productVC = ProductCardViewController(product: product)
+        productVC.hidesBottomBarWhenPushed = true
         productVC.coordinator = self
         navigationController.pushViewController(productVC, animated: true)
+        navigationController.navigationBar.isHidden = true
     }
 
     func navigateToMainScreen() {

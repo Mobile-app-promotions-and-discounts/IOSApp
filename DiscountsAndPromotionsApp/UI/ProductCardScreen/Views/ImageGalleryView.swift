@@ -12,13 +12,14 @@ class ImageGalleryView: UIView {
 
     private var pageControl: UIPageControl = {
         let pageControl = UIPageControl()
-        pageControl.currentPageIndicatorTintColor = .white
+        pageControl.currentPageIndicatorTintColor = .cherryWhite
         pageControl.pageIndicatorTintColor = .lightGray
         pageControl.isUserInteractionEnabled = false
         return pageControl
     }()
 
     private var images: [UIImage] = []
+    private var previousPage: Int = 0
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -47,8 +48,24 @@ class ImageGalleryView: UIView {
     func configure(with images: [UIImage]) {
         self.images = images
         scrollView.delegate = self
-        pageControl.currentPage = 0
         pageControl.numberOfPages = images.count
+        pageControl.currentPage = 0
+
+        layoutIfNeeded()
+
+        setupIndicatorImages()
+    }
+
+    private func setupIndicatorImages() {
+            pageControl.preferredIndicatorImage = UIImage(systemName: "circle.fill")?.resizedImage(Size: CGSize(
+                width: 6,
+                height: 6))
+            let currentIndicatorImage = UIImage(systemName: "circle.fill")?.resizedImage(Size: CGSize(
+                width: 12,
+                height: 12))
+            pageControl.setIndicatorImage(
+                currentIndicatorImage,
+                forPage: pageControl.currentPage)
     }
 
     override func layoutSubviews() {
@@ -63,9 +80,9 @@ class ImageGalleryView: UIView {
             imageView.clipsToBounds = true
             imageView.layer.cornerRadius = 12
             imageView.frame = CGRect(
-                x: bounds.width * CGFloat(index) + 16,
+                x: bounds.width * CGFloat(index),
                 y: 0,
-                width: bounds.width - 32,
+                width: bounds.width,
                 height: bounds.height)
             scrollView.addSubview(imageView)
         }
@@ -75,7 +92,17 @@ class ImageGalleryView: UIView {
 
 extension ImageGalleryView: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let pageIndex = round(scrollView.contentOffset.x / frame.width)
-        pageControl.currentPage = Int(pageIndex)
+        let pageIndex = Int(round(scrollView.contentOffset.x / scrollView.frame.size.width))
+        if pageIndex != previousPage {
+            pageControl.setIndicatorImage(nil, forPage: previousPage)
+            let currentIndicatorImage = UIImage(systemName: "circle.fill")?.resizedImage(Size: CGSize(
+                width: 12,
+                height: 12))
+            pageControl.setIndicatorImage(
+                currentIndicatorImage,
+                forPage: pageIndex)
+            previousPage = pageIndex
+        }
+        pageControl.currentPage = pageIndex
     }
 }
