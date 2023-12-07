@@ -3,19 +3,19 @@ import Foundation
 
 protocol UserNetworkServiceProtocol {
     var userUpdate: PassthroughSubject<UserResponseModel, Never> { get }
-    
+
     func registerUser(_ user: UserRequestModel)
     func deleteUser(id: Int, password: String)
-    func editUser(_ newUserParameters: [String : String], id: Int)
+    func editUser(_ newUserParameters: [String: String], id: Int)
     func fetchUser()
 }
 
 final class UserNetworkService: UserNetworkServiceProtocol {
     static let shared = UserNetworkService()
-    
+
     private var networkClient: NetworkClientProtocol
     private var subscriptions = Set<AnyCancellable>()
-    
+
     private var user = UserResponseModel(phone: "",
                                          role: "",
                                          foto: "",
@@ -68,7 +68,7 @@ final class UserNetworkService: UserNetworkServiceProtocol {
             headers: nil,
             parameters: userParameters
         )
-        
+
         publisher
             .sink { completion in
             switch completion {
@@ -94,13 +94,13 @@ final class UserNetworkService: UserNetworkServiceProtocol {
             headers: NetworkBaseConfiguration.tokenHeader(),
             parameters: parameters
         )
-        
+
         publisher
             .sink { completion in
             switch completion {
             case .finished:
                 print("Request completed successfully")
-                //TODO: отработать действия при удалении аккаунта
+                // TODO: отработать действия при удалении аккаунта
             case .failure(let error):
                 print("Request failed with error: \(error)")
             }
@@ -111,14 +111,14 @@ final class UserNetworkService: UserNetworkServiceProtocol {
     }
 
     // MARK: - Отредактировать пользователя (передать новые ключи + значения)
-    func editUser(_ newUserParameters: [String : String], id: Int) {
+    func editUser(_ newUserParameters: [String: String], id: Int) {
         let publisher: AnyPublisher<UserResponseModel, AppError> = networkClient.request(
             endpoint: .newUser,
             additionalPath: "\(id)",
             headers: NetworkBaseConfiguration.tokenHeader(),
             parameters: newUserParameters
         )
-        
+
         publisher
             .sink { completion in
             switch completion {
