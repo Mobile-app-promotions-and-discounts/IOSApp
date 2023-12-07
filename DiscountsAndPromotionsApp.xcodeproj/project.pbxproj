@@ -51,6 +51,10 @@
 		BCAC6B7E2B223C4100AD5C96 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAC6B742B223C4100AD5C96 /* AuthService.swift */; };
 		BCAC6B7F2B223C4100AD5C96 /* AuthTokenStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAC6B752B223C4100AD5C96 /* AuthTokenStorage.swift */; };
 		BCAC6B802B223C4100AD5C96 /* Endpoints+BaseConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAC6B762B223C4100AD5C96 /* Endpoints+BaseConfiguration.swift */; };
+		BCAC6B852B2262DC00AD5C96 /* CategoryResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAC6B842B2262DC00AD5C96 /* CategoryResponseModel.swift */; };
+		BCAC6B872B2262EB00AD5C96 /* ProductResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAC6B862B2262EB00AD5C96 /* ProductResponseModel.swift */; };
+		BCAC6B892B22630400AD5C96 /* StoreResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAC6B882B22630400AD5C96 /* StoreResponseModel.swift */; };
+		BCAC6B8D2B226F5C00AD5C96 /* CategoryNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAC6B8C2B226F5C00AD5C96 /* CategoryNetworkService.swift */; };
 		BCB7F91E2B0C89B500EE20A0 /* ScanFlow.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = BCB7F91D2B0C89B500EE20A0 /* ScanFlow.xcstrings */; };
 		BCB7F9202B0D150700EE20A0 /* UITextFieldExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB7F91F2B0D150700EE20A0 /* UITextFieldExtensions.swift */; };
 		BCCF4FFF2B1B4AF10067A552 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCF4FC62B1B4AF10067A552 /* MainViewModel.swift */; };
@@ -179,6 +183,10 @@
 		BCAC6B742B223C4100AD5C96 /* AuthService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		BCAC6B752B223C4100AD5C96 /* AuthTokenStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthTokenStorage.swift; sourceTree = "<group>"; };
 		BCAC6B762B223C4100AD5C96 /* Endpoints+BaseConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Endpoints+BaseConfiguration.swift"; sourceTree = "<group>"; };
+		BCAC6B842B2262DC00AD5C96 /* CategoryResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryResponseModel.swift; sourceTree = "<group>"; };
+		BCAC6B862B2262EB00AD5C96 /* ProductResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductResponseModel.swift; sourceTree = "<group>"; };
+		BCAC6B882B22630400AD5C96 /* StoreResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreResponseModel.swift; sourceTree = "<group>"; };
+		BCAC6B8C2B226F5C00AD5C96 /* CategoryNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryNetworkService.swift; sourceTree = "<group>"; };
 		BCB7F91D2B0C89B500EE20A0 /* ScanFlow.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = ScanFlow.xcstrings; sourceTree = "<group>"; };
 		BCB7F91F2B0D150700EE20A0 /* UITextFieldExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextFieldExtensions.swift; sourceTree = "<group>"; };
 		BCCF4FC22B1B4AF10067A552 /* ImageGalleryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageGalleryCell.swift; sourceTree = "<group>"; };
@@ -357,6 +365,7 @@
 		BCAC6B662B223C4100AD5C96 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				BCAC6B822B2262B000AD5C96 /* ProductNetworkServices */,
 				BCAC6B672B223C4100AD5C96 /* NetworkManagement */,
 				BCAC6B6C2B223C4100AD5C96 /* UserNetworkService */,
 				BCAC6B712B223C4100AD5C96 /* AuthServices */,
@@ -415,6 +424,25 @@
 			isa = PBXGroup;
 			children = (
 				BCAC6B732B223C4100AD5C96 /* TokenResponseModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		BCAC6B822B2262B000AD5C96 /* ProductNetworkServices */ = {
+			isa = PBXGroup;
+			children = (
+				BCAC6B832B2262C000AD5C96 /* Models */,
+				BCAC6B8C2B226F5C00AD5C96 /* CategoryNetworkService.swift */,
+			);
+			path = ProductNetworkServices;
+			sourceTree = "<group>";
+		};
+		BCAC6B832B2262C000AD5C96 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				BCAC6B842B2262DC00AD5C96 /* CategoryResponseModel.swift */,
+				BCAC6B862B2262EB00AD5C96 /* ProductResponseModel.swift */,
+				BCAC6B882B22630400AD5C96 /* StoreResponseModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -951,6 +979,7 @@
 				BC60461C2B1E4B7900536EB3 /* EditProfileView.swift in Sources */,
 				BE521A822B04DEB3005F2FE7 /* MainTabBarController.swift in Sources */,
 				BEBA944D2B14D93800ABE1AD /* ErrorHandler.swift in Sources */,
+				BCAC6B872B2262EB00AD5C96 /* ProductResponseModel.swift in Sources */,
 				BE8E709D2B0D275300BEAA5A /* CollectionLayoutProvider.swift in Sources */,
 				BC60461D2B1E4B7900536EB3 /* EditProfileViewController.swift in Sources */,
 				BCAC6B7B2B223C4100AD5C96 /* UserRequestModel.swift in Sources */,
@@ -978,6 +1007,7 @@
 				BCCF50272B1B4E090067A552 /* UIButton+Extension.swift in Sources */,
 				BCAC6B7F2B223C4100AD5C96 /* AuthTokenStorage.swift in Sources */,
 				BE521A8F2B04DF5D005F2FE7 /* MockDataService.swift in Sources */,
+				BCAC6B892B22630400AD5C96 /* StoreResponseModel.swift in Sources */,
 				BE70C22D2B20965F004FD1E9 /* SortsHeaderView.swift in Sources */,
 				BCCF500D2B1B4AF10067A552 /* ScanViewController.swift in Sources */,
 				BCCF501B2B1B4AF10067A552 /* ProductReviewViewModel.swift in Sources */,
@@ -1011,6 +1041,7 @@
 				BC6045FF2B1E3B3900536EB3 /* SectionBackgroundView.swift in Sources */,
 				BCCF500F2B1B4AF10067A552 /* CategoryViewModelProtocol.swift in Sources */,
 				BEF503B22B15262F00577D7F /* Profile.swift in Sources */,
+				BCAC6B8D2B226F5C00AD5C96 /* CategoryNetworkService.swift in Sources */,
 				BC05456A2B1D0866008D65A3 /* CustomSegmantedControl.swift in Sources */,
 				BE8E70B02B0E250100BEAA5A /* Double+Extension.swift in Sources */,
 				BE35244E2B02ABA200746581 /* AppDelegate.swift in Sources */,
@@ -1031,6 +1062,7 @@
 				BC05456C2B1D0A33008D65A3 /* UISegmentedControl+Extensions.swift in Sources */,
 				BC6046012B1E3B7400536EB3 /* Promotion.swift in Sources */,
 				BCCF4FFF2B1B4AF10067A552 /* MainViewModel.swift in Sources */,
+				BCAC6B852B2262DC00AD5C96 /* CategoryResponseModel.swift in Sources */,
 				BCCF50032B1B4AF10067A552 /* PromotionUIModel.swift in Sources */,
 				BCAC6B7E2B223C4100AD5C96 /* AuthService.swift in Sources */,
 			);

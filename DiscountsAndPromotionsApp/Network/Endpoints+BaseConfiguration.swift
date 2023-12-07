@@ -6,6 +6,12 @@ enum Endpoint {
     case deleteUser
     case newUser
     case editUser
+    case getCategories
+    case getCategory
+    case getStoreChains
+    case getStoreChain
+    case getCategoryProducts
+    case getProduct
 
     var URL: String {
         var path = NetworkBaseConfiguration.baseURL
@@ -16,6 +22,12 @@ enum Endpoint {
             path += "/auth/users/me/"
         case .deleteUser, .newUser, .editUser:
             path += "/auth/users/"
+        case .getCategory, .getCategories:
+            path += "/api/v1/categories/"
+        case .getStoreChain, .getStoreChains:
+            path += "/api/v1/chains/"
+        case .getProduct, .getCategoryProducts:
+            path += "/api/v1/products/"
         }
         return path
     }
@@ -24,7 +36,13 @@ enum Endpoint {
         switch self {
         case .getToken, .newUser:
             return .post
-        case .getUser:
+        case .getUser,
+                .getCategory,
+                .getCategories,
+                .getCategoryProducts,
+                .getProduct,
+                .getStoreChain,
+                .getStoreChains:
             return .get
         case .deleteUser:
             return .delete

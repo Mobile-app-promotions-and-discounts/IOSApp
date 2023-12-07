@@ -10,6 +10,7 @@ final class MainCoordinator: Coordinator {
     private let networkClient: NetworkClientProtocol
     private let authService: AuthServiceProtocol
     private let userNetworkService: UserNetworkServiceProtocol
+    private let categoryNetworkService: CategoryNetworkService
 
     init(navigationController: UINavigationController, networkClient: NetworkClientProtocol = NetworkClient()) {
         self.dataService = MockDataService()
@@ -18,6 +19,7 @@ final class MainCoordinator: Coordinator {
         self.networkClient = networkClient
         self.authService = AuthService(networkClient: networkClient)
         self.userNetworkService = UserNetworkService(networkClient: networkClient)
+        self.categoryNetworkService = CategoryNetworkService(networkClient: networkClient)
 
         self.navigationController = navigationController
         self.navigationController.navigationBar.isHidden = true
@@ -29,6 +31,7 @@ final class MainCoordinator: Coordinator {
         DispatchQueue.main.asyncAfter(deadline: .now() + 5, execute: { [weak self] in
             self?.userNetworkService.fetchUser()
         })
+        categoryNetworkService.fetchCategories()
 
         let mainTabBarController = MainTabBarController()
         configureChildCoordinators(with: mainTabBarController)
