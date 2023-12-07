@@ -60,6 +60,17 @@ final class CollectionLayoutProvider {
         layout.minimumInteritemSpacing = Constants.spacing
     }
 
+    func createAllStoresScreenLayout() -> UICollectionViewLayout {
+        let layout = UICollectionViewCompositionalLayout { [weak self] (_, environment) -> NSCollectionLayoutSection? in
+            guard let self else { return nil }
+            return self.createConfigurableSection(environment: environment, aspectRatio: Constants.shopsAspectRatio)
+        }
+        // Регистрация кастомного вью для фоновой заливки секции
+        layout.register(SectionBackgroundView.self,
+                        forDecorationViewOfKind: NSStringFromClass(SectionBackgroundView.self))
+        return layout
+    }
+
     private func createSectionLayout(for section: MainSection,
                                      environment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection {
         let newSection: NSCollectionLayoutSection

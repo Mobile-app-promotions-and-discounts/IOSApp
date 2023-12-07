@@ -14,9 +14,9 @@ final class FavoritesViewController: ScannerEnabledViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.showsVerticalScrollIndicator = false
         collectionView.register(ProductCell.self, forCellWithReuseIdentifier: ProductCell.reuseIdentifier)
-        collectionView.register(HeaderView.self,
+        collectionView.register(MainHeaderView.self,
                                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                                withReuseIdentifier: HeaderView.reuseIdentifier)
+                                withReuseIdentifier: MainHeaderView.reuseIdentifier)
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.backgroundColor = .clear
@@ -79,8 +79,8 @@ extension FavoritesViewController: UICollectionViewDataSource {
         }
 
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
-                                                                           withReuseIdentifier: HeaderView.reuseIdentifier,
-                                                                           for: indexPath) as? HeaderView else {
+                                                                           withReuseIdentifier: MainHeaderView.reuseIdentifier,
+                                                                           for: indexPath) as? MainHeaderView else {
             return UICollectionReusableView()
         }
         let headerName = viewModel.getTitleForHeader()
