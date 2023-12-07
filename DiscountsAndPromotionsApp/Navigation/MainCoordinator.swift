@@ -11,15 +11,18 @@ final class MainCoordinator: Coordinator {
     private let authService: AuthServiceProtocol
     private let userNetworkService: UserNetworkServiceProtocol
     private let categoryNetworkService: CategoryNetworkService
+    private let productNetworkService: ProductNetworkService
 
     init(navigationController: UINavigationController, networkClient: NetworkClientProtocol = NetworkClient()) {
         self.dataService = MockDataService()
         self.profileService = MockProfileService()
 
+        // Network Services
         self.networkClient = networkClient
         self.authService = AuthService(networkClient: networkClient)
         self.userNetworkService = UserNetworkService(networkClient: networkClient)
         self.categoryNetworkService = CategoryNetworkService(networkClient: networkClient)
+        self.productNetworkService = ProductNetworkService(networkClient: networkClient)
 
         self.navigationController = navigationController
         self.navigationController.navigationBar.isHidden = true
@@ -27,11 +30,8 @@ final class MainCoordinator: Coordinator {
 
     func start() {
         // ВРЕМЕННО - тест сервиса
-        authService.getToken(for: NetworkBaseConfiguration.testUser)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5, execute: { [weak self] in
-            self?.userNetworkService.fetchUser()
-        })
         categoryNetworkService.fetchCategories()
+        productNetworkService.getProduct(productID: 5)
 
         let mainTabBarController = MainTabBarController()
         configureChildCoordinators(with: mainTabBarController)

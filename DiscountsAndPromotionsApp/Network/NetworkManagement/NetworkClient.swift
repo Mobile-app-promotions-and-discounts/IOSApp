@@ -10,7 +10,7 @@ final class NetworkClient: NetworkClientProtocol {
                                parameters: [String: String]?) -> AnyPublisher<T, AppError> {
         var extraPath = ""
         if let additionalPath {
-            extraPath = additionalPath + "/"
+            extraPath = additionalPath
         }
         guard let url = URL(string: endpoint.URL + extraPath) else {
             return Fail(error: AppError.networkError).eraseToAnyPublisher()
@@ -41,6 +41,10 @@ final class NetworkClient: NetworkClientProtocol {
                 } else {
                     throw AppError.customError("Request failed")
                 }
+            }
+            .map { data in
+                print(data)
+                return data
             }
             .decode(type: T.self, decoder: decoder)
             .mapError { error -> AppError in

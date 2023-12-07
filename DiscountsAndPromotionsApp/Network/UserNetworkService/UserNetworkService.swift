@@ -88,7 +88,7 @@ final class UserNetworkService: UserNetworkServiceProtocol {
         ]
         let publisher: AnyPublisher<Data, AppError> = networkClient.requestWithEmptyResponse(
             endpoint: .deleteUser,
-            additionalPath: "\(id)",
+            additionalPath: "\(id)/",
             headers: NetworkBaseConfiguration.tokenHeader(),
             parameters: parameters
         )
@@ -112,7 +112,7 @@ final class UserNetworkService: UserNetworkServiceProtocol {
     func editUser(_ newUserParameters: [String: String], id: Int) {
         let publisher: AnyPublisher<UserResponseModel, AppError> = networkClient.request(
             endpoint: .newUser,
-            additionalPath: "\(id)",
+            additionalPath: "\(id)/",
             headers: NetworkBaseConfiguration.tokenHeader(),
             parameters: newUserParameters
         )

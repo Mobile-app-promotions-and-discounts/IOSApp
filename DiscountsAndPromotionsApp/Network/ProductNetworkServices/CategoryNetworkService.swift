@@ -11,7 +11,7 @@ final class CategoryNetworkService: CategoryNetworkServiceProtocol {
     private var networkClient: NetworkClientProtocol
     private var subscriptions = Set<AnyCancellable>()
 
-    var categoryListUpdate = PassthroughSubject<CategoriesResponseModel, Never>()
+    private (set) var categoryListUpdate = PassthroughSubject<CategoriesResponseModel, Never>()
     private var categoryList = [CategoryResponseModel]() {
         didSet {
             categoryListUpdate.send(categoryList)
