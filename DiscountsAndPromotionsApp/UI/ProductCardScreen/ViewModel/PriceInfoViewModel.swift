@@ -11,8 +11,8 @@ protocol PriceInfoViewViewModelProtocol {
 }
 
 class PriceInfoViewViewModel: PriceInfoViewViewModelProtocol {
-    @Published var price: Double = 0.0
-    @Published var discountPrice: Double = 0.0
+    @Published private (set) var price: Double = 0.0
+    @Published private (set) var discountPrice: Double = 0.0
     var addToFavorites = PassthroughSubject<Void, Never>()
 
     // Предоставляем @Published свойства как паблишеры

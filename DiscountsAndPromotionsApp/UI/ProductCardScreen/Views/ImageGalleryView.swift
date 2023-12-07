@@ -93,13 +93,13 @@ extension ImageGalleryView: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let pageIndex = Int(round(scrollView.contentOffset.x / scrollView.frame.size.width))
         if pageIndex != previousPage {
-            if #available(iOS 14.0, *) {
-                pageControl.setIndicatorImage(nil, forPage: previousPage)
-            }
-            if #available(iOS 14.0, *) {
-                let currentIndicatorImage = UIImage(systemName: "circle.fill")?.resizedImage(Size: CGSize(width: 12, height: 12))
-                pageControl.setIndicatorImage(currentIndicatorImage, forPage: pageIndex)
-            }
+            pageControl.setIndicatorImage(nil, forPage: previousPage)
+            let currentIndicatorImage = UIImage(systemName: "circle.fill")?.resizedImage(Size: CGSize(
+                width: 12,
+                height: 12))
+            pageControl.setIndicatorImage(
+                currentIndicatorImage,
+                forPage: pageIndex)
             previousPage = pageIndex
         }
         pageControl.currentPage = pageIndex
