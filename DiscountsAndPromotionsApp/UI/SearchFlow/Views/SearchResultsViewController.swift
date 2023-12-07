@@ -73,11 +73,8 @@ final class SearchResultsViewController: ScannerEnabledViewController {
     }
 
     private func setupNavigation() {
-        navigationItem.hidesBackButton = true
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: .icBack,
-                                                           style: .plain,
-                                                           target: self,
-                                                           action: #selector(backAction))
+        backButton.removeTarget(self, action: nil, for: .touchUpInside)
+        backButton.addTarget(self, action: #selector(backAction), for: .touchUpInside)
     }
 
     @objc
