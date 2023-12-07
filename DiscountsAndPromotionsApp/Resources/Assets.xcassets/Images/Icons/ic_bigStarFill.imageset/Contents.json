@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "State=empty.png",
+      "filename" : "ic_star.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "State=empty@2x.png",
+      "filename" : "ic_star@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "State=empty@2x 1.png",
+      "filename" : "ic_star@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

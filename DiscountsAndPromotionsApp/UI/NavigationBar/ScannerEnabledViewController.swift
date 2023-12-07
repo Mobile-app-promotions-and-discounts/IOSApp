@@ -1,7 +1,6 @@
 import UIKit
 
 class ScannerEnabledViewController: SearchEnabledViewController {
-    weak var scanCoordinator: ScanFlowCoordinator?
     private var scanButton = UIButton(type: .infoDark)
 
     override func viewDidLoad() {
@@ -22,6 +21,9 @@ class ScannerEnabledViewController: SearchEnabledViewController {
 
     @objc
     private func showScanner() {
-        scanCoordinator?.showScanner()
+        if let navController = navigationController as? GenericNavigationController,
+        let scanCoordinator = navController.scanCoordinator {
+            scanCoordinator.showScanner()
+        }
     }
 }
