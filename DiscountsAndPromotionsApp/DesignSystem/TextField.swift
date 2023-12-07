@@ -15,7 +15,7 @@ final class TextField: UITextField {
     override init(frame: CGRect) {
         super.init(frame: .zero)
 
-        self.backgroundColor = .cherryWhite
+        self.backgroundColor = .cherryLightBlue
         self.layer.cornerRadius = 10
         self.layer.masksToBounds = true
         self.font = CherryFonts.headerMedium
