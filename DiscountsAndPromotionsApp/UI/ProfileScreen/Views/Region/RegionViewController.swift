@@ -28,6 +28,7 @@ final class RegionViewController: UIViewController {
 
     private lazy var regionButton: ProfileAssetButton = {
         let regionButton = ProfileAssetButton()
+        regionButton.backgroundColor = .cherryLightBlue
         regionButton.buttonImage.image = .buttonRegionGreen
         regionButton.buttonTitle.text = "Moscow"
         regionButton.addTarget(self, action: #selector(regionDidTap), for: .touchUpInside)
@@ -36,12 +37,11 @@ final class RegionViewController: UIViewController {
 
     private lazy var locationLabel: TextField = {
         let locationLabel = TextField()
-        locationLabel.backgroundColor = .cherryWhite
+        locationLabel.backgroundColor = .cherryLightBlue
         locationLabel.text = NSLocalizedString("Geolocation", tableName: "ProfileFlow", comment: "")
         locationLabel.font = CherryFonts.headerMedium
         locationLabel.textColor = .cherryBlack
         locationLabel.isUserInteractionEnabled = false
-        locationLabel.layer.cornerRadius = 0
         return locationLabel
     }()
 
@@ -56,7 +56,7 @@ final class RegionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.view.backgroundColor = .cherryLightBlue
+        self.view.backgroundColor = .cherryWhite
         setupNavBar()
         addRegionButton()
         addLocationControls()

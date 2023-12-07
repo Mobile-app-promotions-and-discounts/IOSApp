@@ -88,7 +88,8 @@ final class ChangeAvatarViewController: UIViewController {
     private func addButtons() {
         self.view.addSubview(buttonsStack)
         buttonsStack.snp.makeConstraints { make in
-            make.top.bottom.equalTo(view).inset(24)
+            make.top.equalTo(view).inset(24)
+            make.bottom.equalTo(view).inset(31)
             make.leading.trailing.equalTo(view).inset(16)
         }
         [cameraButton,
