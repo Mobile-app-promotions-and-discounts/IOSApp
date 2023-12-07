@@ -12,7 +12,7 @@ class ImageGalleryView: UIView {
 
     private var pageControl: UIPageControl = {
         let pageControl = UIPageControl()
-        pageControl.currentPageIndicatorTintColor = .white
+        pageControl.currentPageIndicatorTintColor = .cherryWhite
         pageControl.pageIndicatorTintColor = .lightGray
         pageControl.isUserInteractionEnabled = false
         return pageControl
@@ -57,14 +57,15 @@ class ImageGalleryView: UIView {
     }
 
     private func setupIndicatorImages() {
-        if #available(iOS 14.0, *) {
-            pageControl.preferredIndicatorImage = UIImage(systemName: "circle.fill")?.resizedImage(Size: CGSize(width: 6, height: 6))
-            let currentIndicatorImage = UIImage(systemName: "circle.fill")?.resizedImage(Size: CGSize(width: 12, height: 12))
+            pageControl.preferredIndicatorImage = UIImage(systemName: "circle.fill")?.resizedImage(Size: CGSize(
+                width: 6,
+                height: 6))
+            let currentIndicatorImage = UIImage(systemName: "circle.fill")?.resizedImage(Size: CGSize(
+                width: 12,
+                height: 12))
             pageControl.setIndicatorImage(
                 currentIndicatorImage,
                 forPage: pageControl.currentPage)
-        } else {
-        }
     }
 
     override func layoutSubviews() {

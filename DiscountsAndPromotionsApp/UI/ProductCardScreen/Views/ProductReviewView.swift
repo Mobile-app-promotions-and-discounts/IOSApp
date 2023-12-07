@@ -170,7 +170,7 @@ class ProductReviewView: UIView {
         for (index, button) in starsStackView.arrangedSubviews.enumerated() {
             if let button = button as? UIButton {
                 button.setImage(UIImage(named: index < rating ? "ic_bigStarFill" : "ic_bigStar"), for: .normal)
-                button.tintColor = index < rating ? .systemYellow : .gray
+                button.tintColor = index < rating ? .cherryYellow : .cherryGray
             }
         }
     }

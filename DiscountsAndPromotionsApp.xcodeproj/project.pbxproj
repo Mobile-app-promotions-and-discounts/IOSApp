@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		927EC3042B1F94EF005C100B /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927EC3032B1F94EF005C100B /* UIImage+Extensions.swift */; };
+		927EC3062B21E7C8005C100B /* ProductFlow.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 927EC3052B21E7C8005C100B /* ProductFlow.xcstrings */; };
 		BC05456A2B1D0866008D65A3 /* CustomSegmantedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0545692B1D0865008D65A3 /* CustomSegmantedControl.swift */; };
 		BC05456C2B1D0A33008D65A3 /* UISegmentedControl+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC05456B2B1D0A33008D65A3 /* UISegmentedControl+Extensions.swift */; };
 		BC05456F2B1D264C008D65A3 /* SearchCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC05456E2B1D264C008D65A3 /* SearchCategoryCell.swift */; };
@@ -120,6 +121,7 @@
 
 /* Begin PBXFileReference section */
 		927EC3032B1F94EF005C100B /* UIImage+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
+		927EC3052B21E7C8005C100B /* ProductFlow.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = ProductFlow.xcstrings; sourceTree = "<group>"; };
 		BC0545692B1D0865008D65A3 /* CustomSegmantedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSegmantedControl.swift; sourceTree = "<group>"; };
 		BC05456B2B1D0A33008D65A3 /* UISegmentedControl+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISegmentedControl+Extensions.swift"; sourceTree = "<group>"; };
 		BC05456E2B1D264C008D65A3 /* SearchCategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCategoryCell.swift; sourceTree = "<group>"; };
@@ -557,6 +559,7 @@
 				BEAE80462B178E88004DAE32 /* FavoritesFlow.xcstrings */,
 				BEBA944E2B14E1DC00ABE1AD /* ErrorHandler.xcstrings */,
 				BE2774BB2B0FD0890000C8C2 /* MainFlow.xcstrings */,
+				927EC3052B21E7C8005C100B /* ProductFlow.xcstrings */,
 			);
 			path = Configuration;
 			sourceTree = "<group>";
@@ -760,6 +763,7 @@
 				BE35245A2B02ABA300746581 /* LaunchScreen.storyboard in Resources */,
 				BCB7F91E2B0C89B500EE20A0 /* ScanFlow.xcstrings in Resources */,
 				BC0723192B1A589A00EF82B8 /* Manrope-SemiBold.ttf in Resources */,
+				927EC3062B21E7C8005C100B /* ProductFlow.xcstrings in Resources */,
 				BC0723172B1A589400EF82B8 /* Manrope-Bold.ttf in Resources */,
 				BEAE80472B178E88004DAE32 /* FavoritesFlow.xcstrings in Resources */,
 				BE2774BC2B0FD0890000C8C2 /* MainFlow.xcstrings in Resources */,

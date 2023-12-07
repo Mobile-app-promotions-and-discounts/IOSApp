@@ -66,7 +66,7 @@ class OfferTableViewCell: UITableViewCell {
         goToStoreButton.layer.borderWidth = 1
         goToStoreButton.layer.borderColor = UIColor.cherryPrimaryPressed.cgColor
         goToStoreButton.layer.cornerRadius = CornerRadius.regular.cgFloat()
-        goToStoreButton.backgroundColor = .white
+        goToStoreButton.backgroundColor = .cherryWhite
         goToStoreButton.addTarget(self, action: #selector(goToStoreCard), for: .touchUpInside)
     }
 

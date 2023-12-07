@@ -71,7 +71,7 @@ class ProductCardViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = .cherryWhite
 
         productScrollView.contentInsetAdjustmentBehavior = .never
         setupProductLayout()
@@ -127,7 +127,7 @@ class ProductCardViewController: UIViewController {
             contentView.addSubview($0)
         }
 
-        titleAndRatingView.backgroundColor = .white
+        titleAndRatingView.backgroundColor = .cherryWhite
         titleAndRatingView.layer.cornerRadius = CornerRadius.regular.cgFloat()
         [titleView, ratingView].forEach {
             titleAndRatingView.addSubview($0)
@@ -138,7 +138,7 @@ class ProductCardViewController: UIViewController {
         offersTableView.delegate = self
         offersTableView.isScrollEnabled = false
         offersTableView.separatorStyle = .none
-        offersTableView.backgroundColor = .white
+        offersTableView.backgroundColor = .cherryWhite
         // Ограничения SNAPkit
         productScrollView.snp.makeConstraints { make in
             make.top.equalToSuperview()
@@ -185,7 +185,7 @@ class ProductCardViewController: UIViewController {
             make.width.equalTo(contentView.frame.width)
         }
 
-        reviewView.backgroundColor = .white
+        reviewView.backgroundColor = .cherryWhite
         reviewView.layer.cornerRadius = CornerRadius.regular.cgFloat()
         reviewView.snp.makeConstraints { make in
             make.top.equalTo(offersTableView.snp.bottom).offset(16)
@@ -211,7 +211,7 @@ class ProductCardViewController: UIViewController {
     }
 
     private func setupPriceInfoView() {
-        priceInfoView.backgroundColor = .white
+        priceInfoView.backgroundColor = .cherryWhite
         priceInfoView.layer.cornerRadius = CornerRadius.regular.cgFloat()
         priceInfoView.viewModel = priceInfoViewModel
         priceInfoViewModel.addToFavorites
