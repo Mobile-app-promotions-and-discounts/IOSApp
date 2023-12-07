@@ -7,15 +7,13 @@ protocol AuthServiceProtocol {
 }
 
 final class AuthService: AuthServiceProtocol {
-    static let shared = AuthService()
-
     private let tokenStorage: AuthTokenStorage
     private let networkClient: NetworkClientProtocol
 
     private var subscriptions = Set<AnyCancellable>()
 
     init(tokenStorage: AuthTokenStorage = AuthTokenStorage.shared,
-         networkClient: NetworkClientProtocol = NetworkClient.shared) {
+         networkClient: NetworkClientProtocol) {
         self.tokenStorage = tokenStorage
         self.networkClient = networkClient
     }

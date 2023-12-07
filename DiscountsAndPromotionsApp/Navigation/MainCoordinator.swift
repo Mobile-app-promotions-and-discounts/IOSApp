@@ -7,18 +7,27 @@ final class MainCoordinator: Coordinator {
     private let dataService: DataServiceProtocol
     private let profileService: ProfileServiceProtocol
 
-    init(navigationController: UINavigationController) {
+    private let networkClient: NetworkClientProtocol
+    private let authService: AuthServiceProtocol
+    private let userNetworkService: UserNetworkServiceProtocol
+
+    init(navigationController: UINavigationController, networkClient: NetworkClientProtocol = NetworkClient()) {
         self.dataService = MockDataService()
         self.profileService = MockProfileService()
+
+        self.networkClient = networkClient
+        self.authService = AuthService(networkClient: networkClient)
+        self.userNetworkService = UserNetworkService(networkClient: networkClient)
+
         self.navigationController = navigationController
         self.navigationController.navigationBar.isHidden = true
     }
 
     func start() {
         // ВРЕМЕННО - тест сервиса
-        AuthService.shared.getToken(for: NetworkBaseConfiguration.testUser)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5, execute: {
-            UserNetworkService.shared.fetchUser()
+        authService.getToken(for: NetworkBaseConfiguration.testUser)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5, execute: { [weak self] in
+            self?.userNetworkService.fetchUser()
         })
 
         let mainTabBarController = MainTabBarController()

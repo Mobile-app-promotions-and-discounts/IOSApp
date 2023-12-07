@@ -11,8 +11,6 @@ protocol UserNetworkServiceProtocol {
 }
 
 final class UserNetworkService: UserNetworkServiceProtocol {
-    static let shared = UserNetworkService()
-
     private var networkClient: NetworkClientProtocol
     private var subscriptions = Set<AnyCancellable>()
 
@@ -29,7 +27,7 @@ final class UserNetworkService: UserNetworkServiceProtocol {
     }
     private (set) var userUpdate = PassthroughSubject<UserResponseModel, Never>()
 
-    init(networkClient: NetworkClientProtocol = NetworkClient.shared) {
+    init(networkClient: NetworkClientProtocol) {
         self.networkClient = networkClient
     }
 
