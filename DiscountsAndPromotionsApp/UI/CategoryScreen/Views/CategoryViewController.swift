@@ -132,7 +132,12 @@ extension CategoryViewController: UICollectionViewDataSource {
 
 // MARK: - UICollectionViewDelegate
 
-extension CategoryViewController: UICollectionViewDelegate {}
+extension CategoryViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+    }
+
+}
 
 // MARK: - Search field delegate
 extension CategoryViewController {
