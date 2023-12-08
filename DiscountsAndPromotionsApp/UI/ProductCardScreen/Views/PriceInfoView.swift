@@ -6,6 +6,7 @@ class PriceInfoView: UIView {
 
     var viewModel: PriceInfoViewViewModelProtocol? {
         didSet {
+            print("ViewModel is set")
             bindViewModel()
         }
     }
@@ -26,26 +27,51 @@ class PriceInfoView: UIView {
     }
 
     func configure(with price: Double, discountPrice: Double) {
+        print("Configuring with price: \(price), discountPrice: \(discountPrice)")
         viewModel?.updatePrice(price)
         viewModel?.updateDiscountPrice(discountPrice)
     }
 
     private func bindViewModel() {
+        print("Binding ViewModel")
         viewModel?.pricePublisher
             .map {String($0)}
-            .assign(to: \.text, on: worstOriginPrice)
+            .receive(on: DispatchQueue.main)
+//            .assign(to: \.text, on: worstOriginPrice)
+            .sink { [weak self] price in
+                print("Setting worstOriginPrice text to: \(price)")
+                self?.worstOriginPrice.text = price}
             .store(in: &cancellables)
 
         viewModel?.discountPricePublisher
             .map { "от \($0)р"}
-            .assign(to: \.text, on: bestDiscountPrice)
+            .receive(on: DispatchQueue.main)
+//            .assign(to: \.text, on: bestDiscountPrice)
+            .sink { [weak self] discountPrice in
+                    print("Setting bestDiscountPrice text to: \(discountPrice)")
+                    self?.bestDiscountPrice.text = discountPrice
+                }
             .store(in: &cancellables)
 
         toFavoritesButton.publisher(for: .touchUpInside)
             .sink { [weak self] _ in
                 self?.viewModel?.addToFavorites.send()
+                self?.viewModel?.toggleFavorite()
+                self?.updateFavoritesButtonState()
             }
             .store(in: &cancellables)
+
+        updateFavoritesButtonState()
+    }
+
+    private func updateFavoritesButtonState() {
+        if let isFavorite = viewModel?.isFavorite {
+            toFavoritesButton.isUserInteractionEnabled = !isFavorite
+            toFavoritesButton.backgroundColor = isFavorite ? .cherryPrimaryDisabled : .cherryMainAccent
+        } else {
+            toFavoritesButton.isUserInteractionEnabled = true
+            toFavoritesButton.backgroundColor = .cherryMainAccent
+        }
     }
 
     private func setupLayout() {

@@ -44,18 +44,16 @@ class ProductCardViewController: UIViewController {
     private let offersTableView = UITableView()
     private var reviewViewViewModel: ProductReviewViewModelProtocol
     private let reviewView = ProductReviewView()
-    private var priceInfoViewModel: PriceInfoViewViewModelProtocol
+    private var priceInfoViewModel: PriceInfoViewViewModelProtocol?
     private let priceInfoView = PriceInfoView()
     private let backButton = UIButton()
     private let exportButton = UIButton()
 
     init(product: Product,
          ratingViewModel: RatingViewViewModelProtocol = RatingViewViewModel(),
-         reviewViewViewModel: ProductReviewViewModelProtocol = ProductReviewViewModel(),
-         priceInfoViewModel: PriceInfoViewViewModelProtocol = PriceInfoViewViewModel()) {
+         reviewViewViewModel: ProductReviewViewModelProtocol = ProductReviewViewModel()) {
         self.ratingViewModel = ratingViewModel
         self.reviewViewViewModel = reviewViewViewModel
-        self.priceInfoViewModel = priceInfoViewModel
         self.product = product
         super.init(nibName: nil, bundle: nil)
     }
@@ -75,11 +73,12 @@ class ProductCardViewController: UIViewController {
 
         productScrollView.contentInsetAdjustmentBehavior = .never
         setupProductLayout()
-        configureViews()
         setupPriceInfoView()
         setupProductReviewView()
         setupRatingView()
+        configureViews()
         buttonsLayout()
+        print("Product in ProductCardViewController: \(String(describing: product))")
 
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow(notification: )),
@@ -211,10 +210,15 @@ class ProductCardViewController: UIViewController {
     }
 
     private func setupPriceInfoView() {
+        guard let product = product else {
+            print("Product is nil in setupPriceInfoView")
+            return }
+        priceInfoViewModel = PriceInfoViewViewModel(profileService: MockProfileService(), product: product)
         priceInfoView.backgroundColor = .cherryWhite
         priceInfoView.layer.cornerRadius = CornerRadius.regular.cgFloat()
         priceInfoView.viewModel = priceInfoViewModel
-        priceInfoViewModel.addToFavorites
+        print("ViewModel is set in PriceInfoView")
+        priceInfoViewModel?.addToFavorites
             .sink { [weak self] in
                 self?.addToFavorites()
             }
@@ -278,6 +282,12 @@ class ProductCardViewController: UIViewController {
             ratingView.configure(with: rating, numberOfReviews: 0)
         } else {
             ratingView.configure(with: 1.0, numberOfReviews: 1)
+        }
+
+        if let product = product {
+            let maxPrice = product.findMinMaxOffers().maxOffer?.price ?? 0
+            print("Configuring PriceInfoView with price: \(maxPrice)")
+            priceInfoView.configure(with: maxPrice, discountPrice: 0.0)
         }
     }
 
