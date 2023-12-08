@@ -142,7 +142,7 @@ class ProductCardViewController: UIViewController {
         productScrollView.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.leading.trailing.equalToSuperview()
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+            make.bottom.equalToSuperview()
         }
         contentView.snp.makeConstraints { make in
             make.top.leading.bottom.trailing.equalTo(productScrollView)
@@ -321,7 +321,7 @@ extension ProductCardViewController {
         if reviewView.isFirstResponder {
             let rectInScrollView = productScrollView.convert(reviewView.frame, from: contentView)
             let offset = rectInScrollView.maxY - (view.bounds.height - keyboardHeight)
-            let adjustedOffset = offset + 16
+            let adjustedOffset = offset + 30
             if offset > 0 {
                 productScrollView.setContentOffset(CGPoint(x: 0, y: adjustedOffset), animated: true)
             }
