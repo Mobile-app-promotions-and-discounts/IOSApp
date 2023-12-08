@@ -10,6 +10,8 @@ final class EditProfileViewController: UIViewController, UINavigationControllerD
     // MARK: - Private properties
     private let viewModel: ProfileViewModelProtocol
 
+    var avatarUpdated = Set<AnyCancellable>()
+
     // MARK: - Layout elements
     private lazy var cancelButton = UIBarButtonItem(
         title: NSLocalizedString("Cancel", tableName: "ProfileFlow", comment: ""),
@@ -31,6 +33,14 @@ final class EditProfileViewController: UIViewController, UINavigationControllerD
         guard let profile = viewModel.profile else { return }
         self.view = EditProfileView(frame: .zero, viewController: self, profile: profile)
 
+        NotificationCenter.default
+            .publisher(for: Notification.Name("updateAvatar"))
+            .sink { object in
+                let view = self.view as? EditProfileView
+                let image = object.object as? UIImage
+                view?.setAvatarImage(image: image)
+            }
+            .store(in: &avatarUpdated)
     }
 
     init(viewModel: ProfileViewModelProtocol) {
@@ -44,32 +54,7 @@ final class EditProfileViewController: UIViewController, UINavigationControllerD
 
     // MARK: - Public Methods
     func changeAvatarDidTap() {
-        let alert = UIAlertController(nibName: nil, bundle: nil)
-        alert.addAction(UIAlertAction(
-            title: NSLocalizedString("Camera", tableName: "ProfileFlow", comment: ""),
-            style: UIAlertAction.Style.default,
-            handler: { [weak self] _ in self?.takePhoto(fromCamera: true) })
-        )
-        alert.addAction(UIAlertAction(
-            title: NSLocalizedString("Gallery", tableName: "ProfileFlow", comment: ""),
-            style: UIAlertAction.Style.default,
-            handler: { [weak self] _ in self?.takePhoto(fromCamera: false) })
-        )
-        alert.addAction(UIAlertAction(
-            title: NSLocalizedString("DeletePhoto", tableName: "ProfileFlow", comment: ""),
-            style: UIAlertAction.Style.destructive,
-            handler: { _ in
-                let view = self.view as? EditProfileView
-                view?.setAvatarImage(image: nil)
-            })
-        )
-        alert.addAction(UIAlertAction(
-            title: NSLocalizedString("Cancel", tableName: "ProfileFlow", comment: ""),
-            style: UIAlertAction.Style.cancel,
-            handler: { _ in self.dismiss(animated: true) })
-        )
-
-        self.present(alert, animated: true)
+        present(ChangeAvatarViewController(), animated: true)
     }
 
     // MARK: - Private Methods
@@ -95,32 +80,17 @@ final class EditProfileViewController: UIViewController, UINavigationControllerD
         // TODO: add validation
     }
 
-    private func takePhoto(fromCamera: Bool) {
-        if UIImagePickerController.isSourceTypeAvailable(.camera) {
-            let imagePicker = UIImagePickerController()
-                imagePicker.delegate = self
-            imagePicker.sourceType = fromCamera ? .camera : .photoLibrary
-                imagePicker.allowsEditing = true
-            self.present(imagePicker, animated: true, completion: nil)
-            }
-    }
-
     private func setupNavBar() {
         self.navigationController?.navigationBar.isHidden = false
+        // Предлагаю обсудить с дизайнерами использование кастомного стиля, по-моему Apple такое не поощряет
+        let navbarAttributes: [NSAttributedString.Key: Any] = [
+            NSAttributedString.Key.foregroundColor: UIColor.cherryBlue,
+            NSAttributedString.Key.font: CherryFonts.textLarge as Any]
         navigationItem.leftBarButtonItem = cancelButton
+        cancelButton.setTitleTextAttributes(navbarAttributes, for: .normal)
+        cancelButton.setTitleTextAttributes(navbarAttributes, for: .selected)
         navigationItem.rightBarButtonItem = doneButton
-    }
-}
-
-extension EditProfileViewController: UIImagePickerControllerDelegate {
-    func imagePickerController(
-        _ picker: UIImagePickerController,
-        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
-    ) {
-        guard let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else { return }
-        dismiss(animated: true, completion: { [weak self] in
-            let view = self?.view as? EditProfileView
-            view?.setAvatarImage(image: image)
-        })
+        doneButton.setTitleTextAttributes(navbarAttributes, for: .normal)
+        doneButton.setTitleTextAttributes(navbarAttributes, for: .selected)
     }
 }

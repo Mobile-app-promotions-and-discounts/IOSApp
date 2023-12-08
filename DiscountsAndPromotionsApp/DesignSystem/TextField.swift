@@ -12,9 +12,28 @@ final class TextField: UITextField {
         return bounds.inset(by: insets)
     }
 
+    override init(frame: CGRect) {
+        super.init(frame: .zero)
+
+        self.backgroundColor = .cherryLightBlue
+        self.layer.cornerRadius = 10
+        self.layer.masksToBounds = true
+        self.font = CherryFonts.headerMedium
+        self.attributedPlaceholder = NSAttributedString(string: "Placeholder Text", attributes: [
+            .foregroundColor: UIColor.cherryGrayBlue,
+            .font: CherryFonts.textMedium as Any
+        ])
+        self.insets = UIEdgeInsets(top: 0, left: 12, bottom: 0, right: 12)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     func datePicker<T>(target: T,
                        doneAction: Selector,
                        cancelAction: Selector,
+                       deleteAction: Selector,
                        datePickerMode: UIDatePicker.Mode = .date) {
         let screenWidth = UIScreen.main.bounds.width
 
@@ -24,6 +43,8 @@ final class TextField: UITextField {
                 switch style {
                 case .cancel:
                     return cancelAction
+                case .trash:
+                    return deleteAction
                 case .done:
                     return doneAction
                 default:
@@ -48,6 +69,8 @@ final class TextField: UITextField {
                                               width: screenWidth,
                                               height: 44))
         toolBar.setItems([buttonItem(withSystemItemStyle: .cancel),
+                          buttonItem(withSystemItemStyle: .flexibleSpace),
+                          buttonItem(withSystemItemStyle: .trash),
                           buttonItem(withSystemItemStyle: .flexibleSpace),
                           buttonItem(withSystemItemStyle: .done)],
                          animated: true)
