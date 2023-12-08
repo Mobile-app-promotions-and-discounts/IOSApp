@@ -134,7 +134,7 @@ extension CategoryViewController: UICollectionViewDataSource {
 
 extension CategoryViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
+
     }
 
 }
