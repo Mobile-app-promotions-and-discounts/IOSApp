@@ -2,7 +2,20 @@
   "sourceLanguage" : "en",
   "strings" : {
     "Favorites" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Favorites"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Избранное"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

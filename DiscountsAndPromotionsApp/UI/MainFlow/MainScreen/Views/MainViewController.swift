@@ -186,8 +186,9 @@ extension MainViewController: UICollectionViewDataSource {
 
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.section == 0 && indexPath.row == 0 {
-            self.coordinator?.navigateToCategoryScreen()
+        if indexPath.section == 0 {
+            let categoryID = viewModel.getCategoryID(for: indexPath.row)
+            self.coordinator?.navigateToCategoryScreen(with: categoryID)
         } else {
             print("Для других ячеек обработка нажатия будет реализована позже")
         }

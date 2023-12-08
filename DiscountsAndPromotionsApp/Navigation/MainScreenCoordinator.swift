@@ -26,8 +26,10 @@ final class MainScreenCoordinator: Coordinator {
         navigationController.pushViewController(mainViewController, animated: false)
     }
 
-    func navigateToCategoryScreen() {
-        let categoryViewModel = CategoryViewModel(dataService: dataService, profileService: profileService)
+    func navigateToCategoryScreen(with ID: UUID) {
+        let categoryViewModel = CategoryViewModel(dataService: dataService,
+                                                  profileService: profileService,
+                                                  categoryID: ID)
         let categoryViewController = CategoryViewController(viewModel: categoryViewModel)
         categoryViewController.coordinator = self
         navigationController.pushViewController(categoryViewController, animated: true)
@@ -40,7 +42,8 @@ final class MainScreenCoordinator: Coordinator {
     }
 
     func navigateToSearchResultsScreen(for prompt: String) {
-        let categoryViewModel = CategoryViewModel(dataService: dataService, profileService: profileService)
+        // ЗАГЛУШКА UUID categoryViewModel - работает с конкретным массивом продуктов по ID категории
+        let categoryViewModel = CategoryViewModel(dataService: dataService, profileService: profileService, categoryID: UUID())
         let searchResultsController = SearchResultsViewController(viewModel: categoryViewModel)
         searchResultsController.coordinator = self
         navigationController.pushViewController(searchResultsController, animated: true)

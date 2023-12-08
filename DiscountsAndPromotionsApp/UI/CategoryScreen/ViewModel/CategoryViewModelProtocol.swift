@@ -6,6 +6,7 @@ protocol CategoryViewModelProtocol {
 
     func numberOfItems() -> Int
     func getProduct(for index: Int) -> ProductCellUIModel
+    func getTitle() -> String
 
     func likeButtonTapped(for productID: UUID)
 }

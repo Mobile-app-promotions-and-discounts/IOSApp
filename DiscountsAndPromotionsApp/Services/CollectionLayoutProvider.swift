@@ -2,7 +2,9 @@ import UIKit
 
 private struct Constants {
     // Общие константы для компоновки
-    static let numberOfItemsPerRow: CGFloat = 3
+    static let twoNumberOfItemsPerRow: CGFloat = 2
+    static let threeNumberOfItemsPerRow: CGFloat = 3
+
     static let spacing: CGFloat = 13
     static let sectionInset: CGFloat = 16
     static let interGroupSpacing: CGFloat = 8
@@ -14,6 +16,7 @@ private struct Constants {
     // Соотношения сторон
     static let promoAspectRatio: CGFloat = 106 / 112
     static let shopsAspectRatio: CGFloat = 106 / 68
+    static let goodsAspectRatio: CGFloat = 165 / 232
 
     // Константы для секции категорий
     static let itemWidthForFirstTwoRows: CGFloat = 166
@@ -30,60 +33,72 @@ private struct Constants {
     static let sectionBottomInset: CGFloat = 6
 
     // Размеры элементов
-    static let itemHeight: CGFloat = 243
+    static let itemHeight: CGFloat = 232
 }
 
 final class CollectionLayoutProvider {
+    // Функция создания макета для основного экрана
     func createMainScreenLayout() -> UICollectionViewLayout {
-        let layout = UICollectionViewCompositionalLayout { [weak self] (mainSection, environment) -> NSCollectionLayoutSection? in
-            guard let self,
-                  let mainSection = MainSection(rawValue: mainSection)
-            else { return nil }
-            return self.createSectionLayout(for: mainSection, environment: environment)
+        let layout = UICollectionViewCompositionalLayout { [weak self] (sectionIndex, environment) ->
+            NSCollectionLayoutSection? in
+            guard
+                let self = self,
+                let mainSection = MainSection(rawValue: sectionIndex) else {
+                return nil
+            }
+            switch mainSection {
+            case .categories:
+                // Специальная логика для секции категорий
+                return self.createCategoriesSection()
+            case .promotions:
+                // Создание секции для акций
+                return self.createSection(environment: environment,
+                                          aspectRatio: Constants.promoAspectRatio,
+                                          itemsPerRow: Constants.threeNumberOfItemsPerRow)
+            case .stores:
+                // Создание секции для магазинов
+                return self.createSection(environment: environment,
+                                          aspectRatio: Constants.shopsAspectRatio,
+                                          itemsPerRow: Constants.threeNumberOfItemsPerRow)
+            }
         }
-        // Регистрация кастомного вью для фоновой заливки секции
+        // Регистрация кастомного вида для фоновой заливки секции
         layout.register(SectionBackgroundView.self,
                         forDecorationViewOfKind: NSStringFromClass(SectionBackgroundView.self))
         return layout
     }
 
-    func createCategoryScreenLayout(for collectionView: UICollectionView, in view: UIView) {
-        guard let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else {
-            return
+    // Функция создания макета для экрана с товарами
+    func createGoodsScreensLayout() -> UICollectionViewLayout {
+        let layout = UICollectionViewCompositionalLayout { [weak self] (_, environment) ->
+            NSCollectionLayoutSection? in
+            guard let self = self else { return nil }
+            return self.createSection(environment: environment,
+                                      aspectRatio: Constants.goodsAspectRatio,
+                                      itemsPerRow: Constants.twoNumberOfItemsPerRow)
         }
-
-        let totalSpacing = Constants.spacing * 3
-        let itemWidth = (view.bounds.width - totalSpacing) / 2
-
-        layout.itemSize = CGSize(width: itemWidth, height: Constants.itemHeight)
-        layout.minimumLineSpacing = Constants.spacing
-        layout.minimumInteritemSpacing = Constants.spacing
+        // Регистрация кастомного вида для фоновой заливки секции
+        layout.register(SectionBackgroundView.self,
+                        forDecorationViewOfKind: NSStringFromClass(SectionBackgroundView.self))
+        return layout
     }
 
+    // Функция создания макета для экрана со всеми магазинами
     func createAllStoresScreenLayout() -> UICollectionViewLayout {
-        let layout = UICollectionViewCompositionalLayout { [weak self] (_, environment) -> NSCollectionLayoutSection? in
-            guard let self else { return nil }
-            return self.createConfigurableSection(environment: environment, aspectRatio: Constants.shopsAspectRatio)
+        let layout = UICollectionViewCompositionalLayout { [weak self] (_, environment) ->
+            NSCollectionLayoutSection? in
+            guard let self = self else { return nil }
+            return self.createSection(environment: environment,
+                                      aspectRatio: Constants.shopsAspectRatio,
+                                      itemsPerRow: Constants.threeNumberOfItemsPerRow)
         }
-        // Регистрация кастомного вью для фоновой заливки секции
+        // Регистрация кастомного вида для фоновой заливки секции
         layout.register(SectionBackgroundView.self,
                         forDecorationViewOfKind: NSStringFromClass(SectionBackgroundView.self))
         return layout
     }
 
-    private func createSectionLayout(for section: MainSection,
-                                     environment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection {
-        let newSection: NSCollectionLayoutSection
-        switch section {
-        case .categories:
-            newSection = createCategoriesSection()
-        case .promotions, .stores:
-            let aspectRatio = section == .promotions ? Constants.promoAspectRatio : Constants.shopsAspectRatio
-            return createConfigurableSection(environment: environment, aspectRatio: aspectRatio)
-        }
-        return newSection
-    }
-
+    // Создание секции категорий
     private func createCategoriesSection() -> NSCollectionLayoutSection {
         // Элементы для первых двух строк
         let firstTwoRowsItemSize = NSCollectionLayoutSize(widthDimension: .absolute(Constants.itemWidthForFirstTwoRows),
@@ -111,7 +126,9 @@ final class CollectionLayoutProvider {
         let combinedGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                        heightDimension: .estimated(Constants.combinedGroupHeight))
         let combinedGroup = NSCollectionLayoutGroup.vertical(layoutSize: combinedGroupSize,
-                                                             subitems: [firstTwoRowsGroup, firstTwoRowsGroup, thirdRowGroup])
+                                                             subitems: [firstTwoRowsGroup,
+                                                                        firstTwoRowsGroup,
+                                                                        thirdRowGroup])
         combinedGroup.interItemSpacing = .fixed(Constants.interGroupSpacing)
 
         let section = NSCollectionLayoutSection(group: combinedGroup)
@@ -124,65 +141,60 @@ final class CollectionLayoutProvider {
         return section
     }
 
-    private func createConfigurableSection(environment: NSCollectionLayoutEnvironment,
-                                           aspectRatio: CGFloat) -> NSCollectionLayoutSection {
-        // Вычисление ширины каждого элемента в секции
-        let itemWidth = calculateItemWidth(containerWidth: environment.container.effectiveContentSize.width)
-        let itemHeight = itemWidth / aspectRatio
-
-        // Создание размера элемента с использованием рассчитанных ширины и высоты
+    // Универсальная функция для создания стандартной секции
+    private func createSection(environment: NSCollectionLayoutEnvironment,
+                               aspectRatio: CGFloat,
+                               itemsPerRow: CGFloat,
+                               orthogonalScrollingBehavior: UICollectionLayoutSectionOrthogonalScrollingBehavior = .none) -> NSCollectionLayoutSection {
+        let itemWidth = calculateItemWidth(containerWidth: environment.container.effectiveContentSize.width, numberPerRow: itemsPerRow)
         let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(itemWidth),
-                                              heightDimension: .absolute(itemHeight))
+                                              heightDimension: .absolute(itemWidth / aspectRatio))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
-        // Определение размера группы, которая будет содержать элементы
         let groupSize = NSCollectionLayoutSize(
-            widthDimension: .absolute(itemWidth * Constants.numberOfItemsPerRow + (Constants.numberOfItemsPerRow - 1) * Constants.spacing),
-            heightDimension: .absolute(itemHeight)
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .absolute(itemSize.heightDimension.dimension)
         )
-
-        // Создание группы с определенным количеством элементов в ряду
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
-                                                       subitem: item,
-                                                       count: Int(Constants.numberOfItemsPerRow))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: Int(itemsPerRow))
         group.interItemSpacing = .fixed(Constants.spacing)
 
-        // Добавление декоративного элемента для фона секции
+        let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = Constants.interGroupSpacing
+        section.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: Constants.sectionInset, bottom: 12, trailing: Constants.sectionInset)
+        section.orthogonalScrollingBehavior = orthogonalScrollingBehavior
+
+        // Декоративный элемент и границы секции
         let backgroundDecoration = NSCollectionLayoutDecorationItem.background(
             elementKind: NSStringFromClass(SectionBackgroundView.self)
         )
+        section.decorationItems = [backgroundDecoration]
 
-        // Создание заголовка секции
+        // Добавляем заголовок и подвал
+        addBoundarySupplementaryItems(to: section)
+
+        return section
+    }
+
+    // Функция добавления заголовка и подвала к секции
+    private func addBoundarySupplementaryItems(to section: NSCollectionLayoutSection) {
         let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                 heightDimension: .estimated(Constants.headerHeight))
         let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize,
                                                                  elementKind: UICollectionView.elementKindSectionHeader,
                                                                  alignment: .top)
+        section.boundarySupplementaryItems.append(header)
 
-        // Создание самой секции с группой элементов
-        let section = NSCollectionLayoutSection(group: group)
-        section.boundarySupplementaryItems = [header]
-        section.interGroupSpacing = Constants.interGroupSpacing
-        section.contentInsets = NSDirectionalEdgeInsets(top: 12,
-                                                        leading: Constants.sectionInset,
-                                                        bottom: 12,
-                                                        trailing: Constants.sectionInset)
-        section.orthogonalScrollingBehavior = .none
-        section.decorationItems = [backgroundDecoration]
-
-        // Добавление подвала (футера) секции
         let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                 heightDimension: .absolute(Constants.footerHeight))
         let footer = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize,
                                                                  elementKind: UICollectionView.elementKindSectionFooter,
                                                                  alignment: .bottom)
         section.boundarySupplementaryItems.append(footer)
-
-        return section
     }
 
-    private func calculateItemWidth(containerWidth: CGFloat) -> CGFloat {
-        let totalSpacing = (Constants.numberOfItemsPerRow - 1) * Constants.spacing + Constants.sectionInset * 2
-        return (containerWidth - totalSpacing) / Constants.numberOfItemsPerRow
+    // Вспомогательная функция для вычисления ширины элемента
+    private func calculateItemWidth(containerWidth: CGFloat, numberPerRow: CGFloat) -> CGFloat {
+        let totalSpacing = (numberPerRow - 1) * Constants.spacing + Constants.sectionInset * 2
+        return (containerWidth - totalSpacing) / numberPerRow
     }
 }
