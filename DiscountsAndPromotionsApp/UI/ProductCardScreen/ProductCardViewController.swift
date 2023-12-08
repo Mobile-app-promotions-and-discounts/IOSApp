@@ -246,6 +246,7 @@ class ProductCardViewController: UIViewController {
     }
 
     private func addToFavorites() {
+        navigationController?.popViewController(animated: true)
         print("Нажатие кнопки В избранное")
     }
 

@@ -77,7 +77,7 @@ class OfferTableViewCell: UITableViewCell {
         originalPriceLabel.font = CherryFonts.headerSmall
         originalPriceLabel.textColor = .gray
         originalPriceLabel.attributedText = NSAttributedString(
-            string: "180р",
+            string: "180 ₽",
             attributes: [NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.single.rawValue]
         )
 
@@ -148,7 +148,7 @@ class OfferTableViewCell: UITableViewCell {
     func configure(with offer: Offer) {
         storeNameLabel.text = offer.store.name
         addressLabel.text = offer.store.location.street
-        priceLabel.text = "\(offer.price)"
+        priceLabel.text = "\(Int(offer.price)) ₽"
 //        originalPriceLabel.text = ""
         discountLabel.text = "-\(String(describing: offer.discount?.discountRate))%"
     }

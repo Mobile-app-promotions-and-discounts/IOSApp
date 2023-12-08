@@ -27,7 +27,7 @@ class PriceInfoView: UIView {
     }
 
     func configure(with price: Double, discountPrice: Double) {
-        print("Configuring with price: \(price), discountPrice: \(discountPrice)")
+        print("Configuring with price: \(Int(price)), discountPrice: \(Int(discountPrice))")
         viewModel?.updatePrice(price)
         viewModel?.updateDiscountPrice(discountPrice)
     }
@@ -35,7 +35,7 @@ class PriceInfoView: UIView {
     private func bindViewModel() {
         print("Binding ViewModel")
         viewModel?.pricePublisher
-            .map {String($0)}
+            .map { "\($0) ₽" }
             .receive(on: DispatchQueue.main)
 //            .assign(to: \.text, on: worstOriginPrice)
             .sink { [weak self] price in
@@ -44,7 +44,7 @@ class PriceInfoView: UIView {
             .store(in: &cancellables)
 
         viewModel?.discountPricePublisher
-            .map { "от \($0)р"}
+            .map { "от \($0) ₽"}
             .receive(on: DispatchQueue.main)
 //            .assign(to: \.text, on: bestDiscountPrice)
             .sink { [weak self] discountPrice in
