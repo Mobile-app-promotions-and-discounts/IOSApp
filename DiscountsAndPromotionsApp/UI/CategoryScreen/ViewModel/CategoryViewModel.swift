@@ -10,14 +10,17 @@ final class CategoryViewModel: CategoryViewModelProtocol {
         }
     }
 
-    private var dataService: DataServiceProtocol
-    private var profileService: ProfileServiceProtocol
+    private let dataService: DataServiceProtocol
+    private let profileService: ProfileServiceProtocol
+    private let categoryID: UUID
+    private var categoryName: String?
 
     private var cancellables = Set<AnyCancellable>()
 
-    init(dataService: DataServiceProtocol, profileService: ProfileServiceProtocol) {
+    init(dataService: DataServiceProtocol, profileService: ProfileServiceProtocol, categoryID: UUID) {
         self.dataService = dataService
         self.profileService = profileService
+        self.categoryID = categoryID
         setupBindings()
     }
 
@@ -28,6 +31,13 @@ final class CategoryViewModel: CategoryViewModelProtocol {
     func getProduct(for index: Int) -> ProductCellUIModel {
         let product = products[index]
         return convertModels(for: product)
+    }
+
+    func getTitle() -> String {
+        if let name = categoryName {
+            return NSLocalizedString(name, tableName: "MainFlow", comment: "")
+        }
+        return ""
     }
 
     func likeButtonTapped(for productID: UUID) {
@@ -46,10 +56,20 @@ final class CategoryViewModel: CategoryViewModelProtocol {
 
     private func setupBindings() {
         // Доработать под каждую категорию, с новым методом в дата сервисе
-        dataService.actualProductsList
-            .sink { [weak self] productsList in
+        dataService.actualGoodsList
+            .sink { [weak self] goodsList in
                 guard let self = self else { return }
-                self.products = productsList
+
+                // Фильтрация продуктов по категории
+                let sortedGoodsList = goodsList.filter { product in
+                    product.category.id == self.categoryID
+                }
+                self.products = sortedGoodsList
+
+                // Если список не пуст, сохраняем имя категории
+                if let firstProduct = sortedGoodsList.first {
+                    self.categoryName = firstProduct.category.name
+                }
             }
             .store(in: &cancellables)
     }

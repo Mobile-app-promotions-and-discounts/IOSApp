@@ -54,7 +54,8 @@ final class SearchResultsViewController: ScannerEnabledViewController {
             make.trailing.equalToSuperview().offset(-24)
         }
 
-        layoutProvider.createCategoryScreenLayout(for: resultsCollectionView, in: view)
+       // Изменил метод для создания layout
+//        layoutProvider.createCategoryScreenLayout(for: resultsCollectionView, in: view)
         view.addSubview(resultsCollectionView)
         resultsCollectionView.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(12)

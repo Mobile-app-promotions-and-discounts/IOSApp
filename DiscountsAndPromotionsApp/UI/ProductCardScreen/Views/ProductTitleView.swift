@@ -5,15 +5,15 @@ class ProductTitleView: UIView {
 
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+        label.font = CherryFonts.headerLarge
         label.textColor = .black
         return label
     }()
 
     private let weightLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
-        label.textColor = .gray
+        label.font = CherryFonts.textMedium
+        label.textColor = .black
         return label
     }()
 
