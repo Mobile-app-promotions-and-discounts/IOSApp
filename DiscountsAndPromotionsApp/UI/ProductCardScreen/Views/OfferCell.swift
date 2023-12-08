@@ -150,7 +150,7 @@ class OfferTableViewCell: UITableViewCell {
         addressLabel.text = offer.store.location.street
         priceLabel.text = "\(Int(offer.price)) ₽"
 //        originalPriceLabel.text = ""
-        discountLabel.text = "-\(String(describing: offer.discount?.discountRate))%"
+        discountLabel.text = "-\(String(describing: offer.discount?.discountRate ?? 30)) %"
     }
 
     @objc func goToStoreCard() {
