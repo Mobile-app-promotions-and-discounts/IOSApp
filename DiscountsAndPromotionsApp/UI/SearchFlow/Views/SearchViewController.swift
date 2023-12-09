@@ -19,8 +19,6 @@ final class SearchViewController: SearchEnabledViewController {
     }
 
     private func setupUI() {
-        navigationItem.hidesBackButton = true
-        setupNavigation()
         view.addSubview(categoriesTable)
         categoriesTable.snp.makeConstraints { make in
             make.top.bottom.equalToSuperview()
@@ -28,18 +26,6 @@ final class SearchViewController: SearchEnabledViewController {
             make.trailing.equalToSuperview().offset(-16)
         }
         categoriesTable.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
-    }
-
-    private func setupNavigation() {
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: .icBack,
-                                                           style: .plain,
-                                                           target: self,
-                                                           action: #selector(backAction))
-    }
-
-    @objc
-    private func backAction() {
-        coordinator?.navigateToMainScreen()
     }
 }
 
