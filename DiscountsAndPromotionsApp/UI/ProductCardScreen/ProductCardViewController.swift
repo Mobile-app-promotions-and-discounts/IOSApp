@@ -168,7 +168,7 @@ class ProductCardViewController: UIViewController {
         titleView.snp.makeConstraints { make in
             make.top.equalTo(titleAndRatingView).offset(16)
             make.leading.equalTo(contentView)
-            make.height.equalTo(43)
+            make.height.equalTo(50)
             make.width.equalTo(contentView.frame.width)
         }
         ratingView.snp.makeConstraints { make in
