@@ -9,6 +9,7 @@ enum AppError: Error {
     case locationError
     case profileError(String)
     case customError(String)
+    case authorizationError
 }
 
 final class ErrorHandler {
@@ -34,6 +35,8 @@ final class ErrorHandler {
             return error
         case .customError(let message):
             return message
+        case .authorizationError:
+            return L10n.Authorization.authorizationError
         }
     }
 

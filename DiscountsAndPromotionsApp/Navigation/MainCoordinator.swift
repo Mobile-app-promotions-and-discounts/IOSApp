@@ -15,6 +15,12 @@ final class MainCoordinator: Coordinator {
     }
 
     func start() {
+        let splashViewController = SplashViewController()
+        splashViewController.coordinator = self
+        navigationController.viewControllers = [splashViewController]
+    }
+
+    func navigateToMainScreen() {
         // ВРЕМЕННО - тест сервиса
         AuthService.shared.getToken(for: NetworkBaseConfiguration.testUser)
         DispatchQueue.main.asyncAfter(deadline: .now() + 5, execute: {
@@ -24,6 +30,14 @@ final class MainCoordinator: Coordinator {
         let mainTabBarController = MainTabBarController()
         configureChildCoordinators(with: mainTabBarController)
         navigationController.viewControllers = [mainTabBarController]
+    }
+
+    func navigateToAuthScreen(from splashViewController: UIViewController) {
+        let loginViewController = LoginViewController()
+        loginViewController.coordinator = self
+        loginViewController.modalPresentationStyle = .custom
+        loginViewController.transitioningDelegate = splashViewController as? any UIViewControllerTransitioningDelegate
+        splashViewController.present(loginViewController, animated: true)
     }
 
     private func configureChildCoordinators(with tabBarController: MainTabBarController) {
