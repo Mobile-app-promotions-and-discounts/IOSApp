@@ -268,7 +268,7 @@ final class MockDataService: DataServiceProtocol {
                         category: categoryProducts,
                         image: ProductImage(mainImage: "tomatoMock",
                                             additionalPhoto: nil),
-                        rating: nil,
+                        rating: 3,
                         offers: [Offer(price: 150,
                                        discount: nil,
                                        store: Store(name: "Пятерочка",

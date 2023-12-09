@@ -22,7 +22,7 @@ class ProductReviewView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureView()
-//        setupBindings()
+        setupBindings()
         setupTitleLabel()
         setupStarsStackView()
         setupReviewTextView()

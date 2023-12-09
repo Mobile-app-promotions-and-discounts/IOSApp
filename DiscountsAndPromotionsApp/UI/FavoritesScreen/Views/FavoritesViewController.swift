@@ -127,4 +127,11 @@ extension FavoritesViewController: UICollectionViewDataSource {
 
 // MARK: - UICollectionViewDelegateFlowLayout
 
-extension FavoritesViewController: UICollectionViewDelegateFlowLayout {}
+extension FavoritesViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let uiModel = viewModel.getProduct(for: indexPath.row)
+        if let product = viewModel.getProductById(uiModel.id) {
+        coordinator?.navigateToFavoriteProductScreen(for: product)
+        }
+    }
+}
