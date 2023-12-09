@@ -26,8 +26,8 @@ class PriceInfoView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configure(with price: Double, discountPrice: Double) {
-        print("Configuring with price: \(Int(price)), discountPrice: \(Int(discountPrice))")
+    func configure(with price: Int, discountPrice: Int) {
+        print("Configuring with price: \(price), discountPrice: \(discountPrice)")
         viewModel?.updatePrice(price)
         viewModel?.updateDiscountPrice(discountPrice)
     }
@@ -37,7 +37,6 @@ class PriceInfoView: UIView {
         viewModel?.pricePublisher
             .map { "\($0) ₽" }
             .receive(on: DispatchQueue.main)
-//            .assign(to: \.text, on: worstOriginPrice)
             .sink { [weak self] price in
                 print("Setting worstOriginPrice text to: \(price)")
                 self?.worstOriginPrice.text = price}
@@ -46,7 +45,6 @@ class PriceInfoView: UIView {
         viewModel?.discountPricePublisher
             .map { "от \($0) ₽"}
             .receive(on: DispatchQueue.main)
-//            .assign(to: \.text, on: bestDiscountPrice)
             .sink { [weak self] discountPrice in
                     print("Setting bestDiscountPrice text to: \(discountPrice)")
                     self?.bestDiscountPrice.text = discountPrice
