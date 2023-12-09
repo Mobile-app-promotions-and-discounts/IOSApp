@@ -40,7 +40,7 @@ final class ScanCaptureSessionController: NSObject, AVCaptureMetadataOutputObjec
     func setupCaptureSession() {
         guard let videoCaptureDevice = AVCaptureDevice.default(for: .video)
             else {
-            failed()
+//            failed()
             return
         }
         let videoInput: AVCaptureDeviceInput
@@ -48,14 +48,14 @@ final class ScanCaptureSessionController: NSObject, AVCaptureMetadataOutputObjec
         do {
             videoInput = try AVCaptureDeviceInput(device: videoCaptureDevice)
         } catch {
-            failed()
+//            failed()
             return
         }
 
         if captureSession.canAddInput(videoInput) {
             captureSession.addInput(videoInput)
         } else {
-            failed()
+//            failed()
             return
         }
 
@@ -100,7 +100,7 @@ final class ScanCaptureSessionController: NSObject, AVCaptureMetadataOutputObjec
     }
 
     private func failed() {
-        coordinator?.goBack()
+        coordinator?.navigateBack()
         coordinator?.scanError()
     }
 

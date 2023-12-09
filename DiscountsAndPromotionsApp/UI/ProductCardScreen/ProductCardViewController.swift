@@ -12,7 +12,7 @@ private struct TableViewConstants {
 
 class ProductCardViewController: UIViewController {
 
-    weak var coordinator: MainScreenCoordinator?
+    weak var coordinator: Coordinator?
 
     private var product: Product?
     private var cancellables = Set<AnyCancellable>()
@@ -88,11 +88,7 @@ class ProductCardViewController: UIViewController {
                                                selector: #selector(keyboardWillHide(notification: )),
                                                name: UIResponder.keyboardWillHideNotification,
                                                object: nil)
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        navigationController?.navigationBar.isHidden = false
+        navigationController?.navigationBar.isHidden = true
     }
 
     private func buttonsLayout() {
@@ -300,7 +296,7 @@ class ProductCardViewController: UIViewController {
     }
 
     @objc func backButtonTapped() {
-        navigationController?.popViewController(animated: true)
+        coordinator?.navigateBack()
         print("Закрытие экрана")
     }
 

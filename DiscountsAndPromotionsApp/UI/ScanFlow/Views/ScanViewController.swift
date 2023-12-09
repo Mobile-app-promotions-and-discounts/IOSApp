@@ -220,15 +220,6 @@ final class ScanViewController: UIViewController {
 
         let modePublisher = modeControl.segmentPublisher()
         viewModel.bindSegmentedControl(index: modePublisher)
-//        // поведение кнопок выбора режима
-//        viewModel.manualInputUpdate
-//            .receive(on: DispatchQueue.main)
-//            .sink { [weak self] manualInputUI in
-//                guard let self else { return }
-//                self.scanButton.isSelected = !manualInputUI
-//                self.manualButton.isSelected = manualInputUI
-//            }
-//            .store(in: &subscriptions)
 
         // поведение интерфейса ввода штрихкода
         viewModel.manualInputUpdate
@@ -299,21 +290,11 @@ extension ScanViewController {
 
     @objc
     private func goBack() {
-        coordinator?.goBack()
+        coordinator?.navigateBack()
     }
 
     @objc
     private func doneButtonTapped() {
         viewModel.checkBarcode()
     }
-
-//    @objc
-//    private func scanButtonTapped() {
-//        viewModel.setManualInputActive(to: false)
-//    }
-//
-//    @objc
-//    private func manualButtonTapped() {
-//        viewModel.setManualInputActive(to: true)
-//    }
 }

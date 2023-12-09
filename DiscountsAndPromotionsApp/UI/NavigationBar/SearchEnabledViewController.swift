@@ -26,6 +26,11 @@ class SearchEnabledViewController: UIViewController {
         setupSearchBar()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.isHidden = false
+    }
+
     private func setupSearchBar() {
         searchBar.searchTextField.backgroundColor = .cherryWhite
         let placeholderAttributes = [NSAttributedString.Key.font: CherryFonts.inputSmall,
@@ -49,7 +54,6 @@ class SearchEnabledViewController: UIViewController {
 
     private func setupUI() {
         view.backgroundColor = .cherryLightBlue
-
         navigationItem.hidesBackButton = true
         if self != navigationController?.viewControllers[0] {
             navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)

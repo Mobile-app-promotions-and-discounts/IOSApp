@@ -6,8 +6,12 @@ final class ScanFlowCoordinator: Coordinator {
     // вынес из функции чтобы вьюконтроллер не исчезал из памяти и кнопка работала
     private var scanVC: ScanViewController?
 
-    init(navigationController: UINavigationController) {
+    private var dataService: DataServiceProtocol
+
+    init(navigationController: UINavigationController,
+         dataService: DataServiceProtocol) {
         self.navigationController = navigationController
+        self.dataService = dataService
     }
 
     func start() {
@@ -16,7 +20,8 @@ final class ScanFlowCoordinator: Coordinator {
 
     func showScanner() {
         let captureSessionController = ScanCaptureSessionController(coordinator: self)
-        let viewModel = ScanFlowViewModel()
+        let viewModel = ScanFlowViewModel(dataService: dataService,
+                                          coordinator: self)
         scanVC = ScanViewController(viewModel: viewModel,
                                         captureSessionController: captureSessionController,
                                         scanPreviewLayer: captureSessionController.previewLayer)
@@ -32,11 +37,15 @@ final class ScanFlowCoordinator: Coordinator {
         navigationController.show(scanVC, sender: nil)
     }
 
-    func goBack() {
-        navigationController.popViewController(animated: true)
-    }
-
     func scanError() {
         ErrorHandler.handle(error: .barcodeScanError)
+    }
+
+    func showProduct(_ product: Product) {
+        let productVC = ProductCardViewController(product: product)
+        productVC.hidesBottomBarWhenPushed = true
+        productVC.coordinator = self
+        navigationController.show(productVC, sender: nil)
+        navigationController.navigationBar.isHidden = true
     }
 }
