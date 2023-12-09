@@ -25,8 +25,7 @@ final class FavoritesScreenCoordinator: Coordinator {
     func navigateToFavoriteProductScreen(for product: Product) {
         let productVC = ProductCardViewController(product: product)
         productVC.hidesBottomBarWhenPushed = true
-//        productVC.coordinator = self
+        productVC.coordinator = self
         navigationController.pushViewController(productVC, animated: true)
-        navigationController.navigationBar.isHidden = true
     }
 }

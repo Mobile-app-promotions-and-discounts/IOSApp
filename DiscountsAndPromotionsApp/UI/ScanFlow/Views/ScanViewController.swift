@@ -290,21 +290,11 @@ extension ScanViewController {
 
     @objc
     private func goBack() {
-        coordinator?.goBack()
+        coordinator?.navigateBack()
     }
 
     @objc
     private func doneButtonTapped() {
         viewModel.checkBarcode()
     }
-
-//    @objc
-//    private func scanButtonTapped() {
-//        viewModel.setManualInputActive(to: false)
-//    }
-//
-//    @objc
-//    private func manualButtonTapped() {
-//        viewModel.setManualInputActive(to: true)
-//    }
 }

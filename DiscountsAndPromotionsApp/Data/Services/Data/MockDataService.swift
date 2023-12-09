@@ -316,7 +316,7 @@ final class MockDataService: DataServiceProtocol {
                                                                             building: 10,
                                                                             postalIndex: 117099),
                                                     chainStore: nil))]),
-                Product(barcode: "",
+                Product(barcode: "12345678",
                         name: "Тыква Баттернат",
                         description: "3 кг",
                         category: categoryProducts,

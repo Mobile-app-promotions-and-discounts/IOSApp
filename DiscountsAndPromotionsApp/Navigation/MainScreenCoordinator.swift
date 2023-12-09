@@ -56,7 +56,6 @@ final class MainScreenCoordinator: Coordinator {
         productVC.hidesBottomBarWhenPushed = true
         productVC.coordinator = self
         navigationController.pushViewController(productVC, animated: true)
-        navigationController.navigationBar.isHidden = true
     }
 
     func navigateToMainScreen() {
