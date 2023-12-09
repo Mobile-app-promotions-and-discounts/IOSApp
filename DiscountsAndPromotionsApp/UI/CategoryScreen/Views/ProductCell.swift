@@ -26,20 +26,35 @@ final class ProductCell: UICollectionViewCell {
     private lazy var productImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.backgroundColor = .cherryGrayBlue
-        imageView.layer.cornerRadius = 10
+        imageView.layer.cornerRadius = CornerRadius.small.cgFloat()
+        imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFill
         return imageView
+    }()
+
+    private lazy var discountBGView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.cherryYellow
+        view.layer.cornerRadius = CornerRadius.regular.cgFloat()
+        return view
+    }()
+
+    private lazy var discountLabel: UILabel = {
+        let label = UILabel()
+        label.font = CherryFonts.textSmall
+        return label
     }()
 
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 2
-        label.font = UIFont.systemFont(ofSize: 14, weight: .light)
+        label.font = CherryFonts.headerSmall
         return label
     }()
 
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 12, weight: .light)
+        label.font = CherryFonts.textSmall
         return label
     }()
 
@@ -51,28 +66,14 @@ final class ProductCell: UICollectionViewCell {
         return stack
     }()
 
-    private lazy var lowPriceLabel: UILabel = {
+    private lazy var priceLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+        label.font = CherryFonts.headerMedium
         return label
-    }()
-
-    private lazy var highPriceLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14, weight: .bold)
-        return label
-    }()
-
-    private lazy var priceStackView: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [lowPriceLabel, highPriceLabel])
-        stack.axis = .vertical
-        stack.distribution = .fillEqually
-        stack.spacing = 2
-        return stack
     }()
 
     private lazy var likeButton: UIButton = {
-        let button = UIButton(type: .system)
+        let button = UIButton(type: .custom)
         button.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -86,18 +87,12 @@ final class ProductCell: UICollectionViewCell {
 
     func configure(with model: ProductCellUIModel) {
         self.productID = model.id
-        nameLabel.text = model.name
-        descriptionLabel.text = model.description
-        likeButton.setImage(model.isFavorite ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart"), for: .normal)
-
-        guard
-            let lowerPrice = model.lowerPrice,
-            let higherPrice = model.higherPrice else {
-            return
-        }
-
-        lowPriceLabel.text = "от \(String(describing: lowerPrice.customFormatted())) ₽"
-        highPriceLabel.text = "от \(String(describing: higherPrice.customFormatted())) ₽"
+        self.nameLabel.text = model.name
+        self.productImageView.image = model.image
+        self.descriptionLabel.text = model.description
+        self.likeButton.setImage(model.isFavorite ? UIImage.icHeartFill : UIImage.icHeart, for: .normal)
+        self.priceLabel.text = model.formattedPriceRange
+        self.discountLabel.text = model.formattedDiscount
     }
 
     // MARK: - Private methods
@@ -105,8 +100,8 @@ final class ProductCell: UICollectionViewCell {
     @objc
     private func likeButtonTapped() {
         // Переключение изображения кнопки "лайк"
-        let isFavoriteNow = likeButton.currentImage == UIImage(systemName: "heart")
-        likeButton.setImage(isFavoriteNow ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart"), for: .normal)
+        let isFavoriteNow = likeButton.currentImage == UIImage.icHeart
+        likeButton.setImage(isFavoriteNow ? UIImage.icHeartFill : UIImage.icHeart, for: .normal)
 
         if let productID {
             likeButtonTappedPublisher.send(productID)
@@ -114,12 +109,14 @@ final class ProductCell: UICollectionViewCell {
     }
 
     private func setupViews() {
-        contentView.backgroundColor = .cherryWhite
+        contentView.backgroundColor = .cherryLightBlue
         contentView.layer.cornerRadius = 10
 
         [productImageView,
+         discountBGView,
+         discountLabel,
          nameAndDescriptionStackView,
-         priceStackView,
+         priceLabel,
          likeButton].forEach { contentView.addSubview($0) }
 
         productImageView.snp.makeConstraints { make in
@@ -127,12 +124,22 @@ final class ProductCell: UICollectionViewCell {
             make.height.equalTo(128)
         }
 
+        discountBGView.snp.makeConstraints { make in
+            make.top.leading.equalTo(productImageView).inset(6)
+            make.height.equalTo(24)
+            make.width.equalTo(64)
+        }
+
+        discountLabel.snp.makeConstraints { make in
+            make.centerX.centerY.equalTo(discountBGView)
+        }
+
         nameAndDescriptionStackView.snp.makeConstraints { make in
             make.top.equalTo(productImageView.snp.bottom).inset(-8)
             make.leading.trailing.equalTo(productImageView)
         }
 
-        priceStackView.snp.makeConstraints { make in
+        priceLabel.snp.makeConstraints { make in
             make.leading.bottom.equalToSuperview().inset(8)
         }
 

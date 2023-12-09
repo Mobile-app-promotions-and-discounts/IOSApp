@@ -54,7 +54,8 @@ final class SearchResultsViewController: ScannerEnabledViewController {
             make.trailing.equalToSuperview().offset(-24)
         }
 
-        layoutProvider.createCategoryScreenLayout(for: resultsCollectionView, in: view)
+       // Изменил метод для создания layout
+//        layoutProvider.createCategoryScreenLayout(for: resultsCollectionView, in: view)
         view.addSubview(resultsCollectionView)
         resultsCollectionView.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(12)
@@ -73,11 +74,8 @@ final class SearchResultsViewController: ScannerEnabledViewController {
     }
 
     private func setupNavigation() {
-        navigationItem.hidesBackButton = true
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: .icBack,
-                                                           style: .plain,
-                                                           target: self,
-                                                           action: #selector(backAction))
+        backButton.removeTarget(self, action: nil, for: .touchUpInside)
+        backButton.addTarget(self, action: #selector(backAction), for: .touchUpInside)
     }
 
     @objc

@@ -1,0 +1,61 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "AboutGoods" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Как Вам этот товар? "
+          }
+        }
+      }
+    },
+    "intoFavorites" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В Избранное"
+          }
+        }
+      }
+    },
+    "Shop's Offers" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Предложения Магазинов"
+          }
+        }
+      }
+    },
+    "To Shop" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В Магазин"
+          }
+        }
+      }
+    },
+    "YourReview" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ваш отзыв"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

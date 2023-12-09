@@ -2,9 +2,11 @@ import UIKit
 
 // Группы ошибок - стоит дополнять по мере развития приложения.
 enum AppError: Error {
+    case authError
     case networkError
     case parsingError
     case barcodeScanError
+    case locationError
     case profileError(String)
     case customError(String)
     case authorizationError
@@ -19,12 +21,16 @@ final class ErrorHandler {
 
     private static func message(for error: AppError) -> String {
         switch error {
+        case .authError:
+            return NSLocalizedString("authError", tableName: "ErrorHandler", comment: "")
         case .networkError:
             return NSLocalizedString("networkError", tableName: "ErrorHandler", comment: "")
         case .parsingError:
             return NSLocalizedString("parsingError", tableName: "ErrorHandler", comment: "")
         case .barcodeScanError:
             return NSLocalizedString("barcodeScanError", tableName: "ErrorHandler", comment: "")
+        case .locationError:
+            return NSLocalizedString("locationError", tableName: "ErrorHandler", comment: "")
         case .profileError(let error):
             return error
         case .customError(let message):

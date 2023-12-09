@@ -19,8 +19,6 @@ final class SearchViewController: SearchEnabledViewController {
     }
 
     private func setupUI() {
-        navigationItem.hidesBackButton = true
-        setupNavigation()
         view.addSubview(categoriesTable)
         categoriesTable.snp.makeConstraints { make in
             make.top.bottom.equalToSuperview()
@@ -29,23 +27,12 @@ final class SearchViewController: SearchEnabledViewController {
         }
         categoriesTable.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
     }
-
-    private func setupNavigation() {
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: .icBack,
-                                                           style: .plain,
-                                                           target: self,
-                                                           action: #selector(backAction))
-    }
-
-    @objc
-    private func backAction() {
-        coordinator?.navigateToMainScreen()
-    }
 }
 
 extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        coordinator?.navigateToCategoryScreen()
+        // ЗАГЛУШКА С UUID - подробнее смотри в координаторе
+        coordinator?.navigateToCategoryScreen(with: UUID())
     }
 }
 

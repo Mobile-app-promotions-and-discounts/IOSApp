@@ -1,10 +1,7 @@
 import UIKit
 
 final class GenericNavigationController: UINavigationController {
-    private var roundedBackground = UIView()
-    private var clippedView = UIView()
-    private var navBarFrame = CGRect()
-    private let cornerRadius = CornerRadius.regular.cgFloat()
+    var scanCoordinator: ScanFlowCoordinator?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -12,49 +9,32 @@ final class GenericNavigationController: UINavigationController {
     }
 
     private func setupNavBar() {
-        let appearence = UINavigationBarAppearance()
-        appearence.configureWithTransparentBackground()
-        appearence.backgroundColor = .cherryMainAccent
-        appearence.setBackIndicatorImage(.icBack, transitionMaskImage: .icBack)
+        let imageSize = CGSize(width: navigationBar.frame.width, height: navigationBar.frame.width)
+        let image = makeNavBackground(size: imageSize,
+                                      color: .cherryMainAccent,
+                                      cornerRadius: CornerRadius.regular.cgFloat())
 
-        navigationBar.standardAppearance = appearence
-        navigationBar.scrollEdgeAppearance = appearence
-        navigationBar.compactAppearance = appearence
+        let standardAppearance = UINavigationBarAppearance()
+        standardAppearance.configureWithTransparentBackground()
+        standardAppearance.backgroundImage = image
+        standardAppearance.backgroundImageContentMode = .bottom
 
-        navigationBar.barStyle = .black
-
-        navigationBar.backgroundColor = .clear
-        navigationBar.barTintColor = .clear
-        navigationBar.shadowImage = UIImage()
-        navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationBar.isTranslucent = true
-
-        navigationBar.clipsToBounds = true
-        navigationBar.layer.cornerRadius = CornerRadius.regular.cgFloat()
-        navigationBar.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
-
+        navigationBar.standardAppearance = standardAppearance
+        navigationBar.scrollEdgeAppearance = standardAppearance
         navigationBar.tintColor = .cherryWhite
-
-        roundedBackground.backgroundColor = .cherryMainAccent
-        roundedBackground.layer.cornerRadius = cornerRadius
-        roundedBackground.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
-        clippedView.backgroundColor = .clear
-        clippedView.clipsToBounds = true
-        navigationBar.addSubview(clippedView)
-        clippedView.addSubview(roundedBackground)
     }
 
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        navBarFrame = CGRect(origin: CGPoint(x: 0,
-                                             y: -cornerRadius),
-                                 size: CGSize(width: navigationBar.bounds.width,
-                                              height: cornerRadius*2))
-        roundedBackground.frame = navBarFrame
-        let clippedFrame = CGRect(origin: CGPoint(x: navigationBar.bounds.minX,
-                                               y: navigationBar.bounds.maxY),
-                                   size: CGSize(width: navigationBar.bounds.width,
-                                                height: cornerRadius))
-        clippedView.frame = clippedFrame
+    private func makeNavBackground(size: CGSize, color: UIColor, cornerRadius: CGFloat) -> UIImage? {
+        let renderer = UIGraphicsImageRenderer(size: size)
+        let image = renderer.image { context in
+            color.setFill()
+            let path = UIBezierPath(roundedRect: CGRect(origin: .zero, size: size),
+                                    byRoundingCorners: [.bottomLeft, .bottomRight],
+                                    cornerRadii: CGSize(width: cornerRadius, height: cornerRadius))
+            context.cgContext.addPath(path.cgPath)
+            context.cgContext.clip()
+            context.fill(CGRect(origin: .zero, size: size))
+        }
+        return image
     }
 }
