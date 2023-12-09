@@ -98,6 +98,13 @@ class ProductCardViewController: UIViewController {
     private func buttonsLayout() {
         [backButton, exportButton].forEach {
             view.addSubview($0)
+
+            $0.tintColor = .cherryWhite
+            $0.layer.shadowColor = UIColor.cherryBlack.cgColor
+            $0.layer.shadowRadius = 10.0
+            $0.layer.shadowOpacity = 1.0
+            $0.layer.shadowOffset = CGSize(width: 0, height: 0)
+            $0.layer.masksToBounds = false
         }
 
         backButton.setImage(UIImage(named: "backImage"), for: .normal)
