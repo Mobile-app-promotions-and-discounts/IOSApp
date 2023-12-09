@@ -15,21 +15,18 @@ final class MainCoordinator: Coordinator {
     }
 
     func start() {
-<<<<<<< HEAD
         let splashViewController = SplashViewController()
         splashViewController.coordinator = self
         navigationController.viewControllers = [splashViewController]
     }
 
     func navigateToMainScreen() {
-=======
         // ВРЕМЕННО - тест сервиса
         AuthService.shared.getToken(for: NetworkBaseConfiguration.testUser)
         DispatchQueue.main.asyncAfter(deadline: .now() + 5, execute: {
             UserNetworkService.shared.fetchUser()
         })
 
->>>>>>> dev
         let mainTabBarController = MainTabBarController()
         configureChildCoordinators(with: mainTabBarController)
         navigationController.viewControllers = [mainTabBarController]
