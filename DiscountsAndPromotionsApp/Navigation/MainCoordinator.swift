@@ -21,12 +21,6 @@ final class MainCoordinator: Coordinator {
     }
 
     func navigateToMainScreen() {
-        // ВРЕМЕННО - тест сервиса
-        AuthService.shared.getToken(for: NetworkBaseConfiguration.testUser)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5, execute: {
-            UserNetworkService.shared.fetchUser()
-        })
-
         let mainTabBarController = MainTabBarController()
         configureChildCoordinators(with: mainTabBarController)
         navigationController.viewControllers = [mainTabBarController]

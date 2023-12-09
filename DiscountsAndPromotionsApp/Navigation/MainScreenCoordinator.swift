@@ -36,15 +36,17 @@ final class MainScreenCoordinator: Coordinator {
     }
 
     func navigateToSearchScreen() {
-        let searchController = SearchViewController()
+        let viewModel = SearchViewModel(dataService: dataService)
+        let searchController = SearchViewController(viewModel: viewModel)
         searchController.coordinator = self
         navigationController.pushViewController(searchController, animated: true)
     }
 
     func navigateToSearchResultsScreen(for prompt: String) {
-        // ЗАГЛУШКА UUID categoryViewModel - работает с конкретным массивом продуктов по ID категории
-        let categoryViewModel = CategoryViewModel(dataService: dataService, profileService: profileService, categoryID: UUID())
-        let searchResultsController = SearchResultsViewController(viewModel: categoryViewModel)
+        let viewModel = SearchResultsViewModel(dataService: dataService,
+                                               profileService: profileService,
+                                               searchText: prompt)
+        let searchResultsController = SearchResultsViewController(viewModel: viewModel)
         searchResultsController.coordinator = self
         navigationController.pushViewController(searchResultsController, animated: true)
     }
