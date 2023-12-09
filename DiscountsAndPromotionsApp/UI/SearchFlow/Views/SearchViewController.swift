@@ -1,7 +1,7 @@
 import Combine
 import UIKit
 
-final class SearchViewController: SearchEnabledViewController {
+ final class SearchViewController: SearchEnabledViewController {
     weak var coordinator: MainScreenCoordinator?
     private var viewModel: SearchViewModel
     private var subscriptions = Set<AnyCancellable>()
@@ -30,6 +30,7 @@ final class SearchViewController: SearchEnabledViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setupNavigation()
         setupBindings()
     }
 
@@ -52,9 +53,19 @@ final class SearchViewController: SearchEnabledViewController {
             }
             .store(in: &subscriptions)
     }
-}
 
-extension SearchViewController: UITableViewDelegate {
+     private func setupNavigation() {
+         backButton.removeTarget(self, action: nil, for: .touchUpInside)
+         backButton.addTarget(self, action: #selector(backAction), for: .touchUpInside)
+     }
+
+     @objc
+     private func backAction() {
+         coordinator?.navigateToMainScreen()
+     }
+ }
+
+ extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let categoryID = viewModel.getCategoryID(for: indexPath.row) {
             self.coordinator?.navigateToCategoryScreen(with: categoryID)
@@ -62,9 +73,9 @@ extension SearchViewController: UITableViewDelegate {
             ErrorHandler.handle(error: .customError("Потерялась категория"))
         }
     }
-}
+ }
 
-extension SearchViewController: UITableViewDataSource {
+ extension SearchViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         viewModel.categories.count
     }
@@ -82,10 +93,10 @@ extension SearchViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 52
     }
-}
+ }
 
-// MARK: - Search field delegate
-extension SearchViewController {
+ // MARK: - Search field delegate
+ extension SearchViewController {
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchBar.becomeFirstResponder()
     }
@@ -95,4 +106,4 @@ extension SearchViewController {
             coordinator?.navigateToSearchResultsScreen(for: text)
         }
     }
-}
+ }
