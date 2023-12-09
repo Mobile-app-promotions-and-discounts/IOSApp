@@ -36,7 +36,8 @@ final class MainScreenCoordinator: Coordinator {
     }
 
     func navigateToSearchScreen() {
-        let searchController = SearchViewController()
+        let viewModel = SearchViewModel(dataService: dataService)
+        let searchController = SearchViewController(viewModel: viewModel)
         searchController.coordinator = self
         navigationController.pushViewController(searchController, animated: true)
     }
