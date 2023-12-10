@@ -131,6 +131,8 @@
 		BEF503B22B15262F00577D7F /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF503B12B15262F00577D7F /* Profile.swift */; };
 		BEF503B42B15287F00577D7F /* MockProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF503B32B15287F00577D7F /* MockProfileService.swift */; };
 		BEF503B62B15288C00577D7F /* ProfileServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF503B52B15288C00577D7F /* ProfileServiceProtocol.swift */; };
+		D02E38722B25DB4500B3D27E /* ChooseRegionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02E38712B25DB4500B3D27E /* ChooseRegionViewController.swift */; };
+		D02E38742B261FA700B3D27E /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02E38732B261FA700B3D27E /* String+Extension.swift */; };
 		D059EB8F2B1FC1CB004C8A1A /* ProfileFlow.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = D059EB8E2B1FC1CA004C8A1A /* ProfileFlow.xcstrings */; };
 		D059EB922B205F3F004C8A1A /* RegionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D059EB912B205F3F004C8A1A /* RegionViewController.swift */; };
 		D059EB982B2252F7004C8A1A /* ChangeAvatarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D059EB972B2252F7004C8A1A /* ChangeAvatarViewController.swift */; };
@@ -275,6 +277,8 @@
 		BEF503B12B15262F00577D7F /* Profile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		BEF503B32B15287F00577D7F /* MockProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockProfileService.swift; sourceTree = "<group>"; };
 		BEF503B52B15288C00577D7F /* ProfileServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileServiceProtocol.swift; sourceTree = "<group>"; };
+		D02E38712B25DB4500B3D27E /* ChooseRegionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseRegionViewController.swift; sourceTree = "<group>"; };
+		D02E38732B261FA700B3D27E /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		D059EB8E2B1FC1CA004C8A1A /* ProfileFlow.xcstrings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json.xcstrings; name = ProfileFlow.xcstrings; path = ../../ProfileFlow.xcstrings; sourceTree = "<group>"; };
 		D059EB912B205F3F004C8A1A /* RegionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionViewController.swift; sourceTree = "<group>"; };
 		D059EB972B2252F7004C8A1A /* ChangeAvatarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeAvatarViewController.swift; sourceTree = "<group>"; };
@@ -801,6 +805,7 @@
 				BCB7F91F2B0D150700EE20A0 /* UITextFieldExtensions.swift */,
 				BEBA94502B14E4B900ABE1AD /* UIViewController+Extension.swift */,
 				BC05456B2B1D0A33008D65A3 /* UISegmentedControl+Extensions.swift */,
+				D02E38732B261FA700B3D27E /* String+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -904,6 +909,7 @@
 			isa = PBXGroup;
 			children = (
 				D059EB912B205F3F004C8A1A /* RegionViewController.swift */,
+				D02E38712B25DB4500B3D27E /* ChooseRegionViewController.swift */,
 			);
 			path = Region;
 			sourceTree = "<group>";
@@ -1072,6 +1078,7 @@
 				BCCF500B2B1B4AF10067A552 /* ScanCaptureSessionController.swift in Sources */,
 				BE3524762B02B62B00746581 /* MainCoordinator.swift in Sources */,
 				BCCF50272B1B4E090067A552 /* UIButton+Extension.swift in Sources */,
+				D02E38742B261FA700B3D27E /* String+Extension.swift in Sources */,
 				BCAC6B7F2B223C4100AD5C96 /* AuthTokenStorage.swift in Sources */,
 				BE521A8F2B04DF5D005F2FE7 /* MockDataService.swift in Sources */,
 				BE70C22D2B20965F004FD1E9 /* SortsHeaderView.swift in Sources */,
@@ -1096,6 +1103,7 @@
 				BE8E70B42B0E74F600BEAA5A /* ProfileScreenCoordinator.swift in Sources */,
 				92787FA82B21EEE00045B678 /* LoginViewModelProtocol.swift in Sources */,
 				BCCF50212B1B4AF10067A552 /* RatingView.swift in Sources */,
+				D02E38722B25DB4500B3D27E /* ChooseRegionViewController.swift in Sources */,
 				BC93BB722B0C814F008BE2AD /* PrimaryButton.swift in Sources */,
 				BCCF50102B1B4AF10067A552 /* ProductCellUIModel.swift in Sources */,
 				BCCF501F2B1B4AF10067A552 /* PriceInfoView.swift in Sources */,
@@ -1282,7 +1290,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 3YZWNV863X;
+				DEVELOPMENT_TEAM = 6P6HF74P83;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DiscountsAndPromotionsApp/Configuration/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Доступ к камере нужен для сканирования штрихкодов";
@@ -1314,7 +1322,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 7XT93683G9;
+				DEVELOPMENT_TEAM = 6P6HF74P83;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DiscountsAndPromotionsApp/Configuration/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Доступ к камере нужен для сканирования штрихкодов";

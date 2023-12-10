@@ -16,7 +16,7 @@ final class TextField: UITextField {
         super.init(frame: .zero)
 
         self.backgroundColor = .cherryLightBlue
-        self.layer.cornerRadius = 10
+        self.layer.cornerRadius = CornerRadius.regular.cgFloat()
         self.layer.masksToBounds = true
         self.font = CherryFonts.headerMedium
         self.attributedPlaceholder = NSAttributedString(string: "Placeholder Text", attributes: [

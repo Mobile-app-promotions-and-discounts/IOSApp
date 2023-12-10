@@ -9,7 +9,7 @@ final class NetworkClient: NetworkClientProtocol {
     func request<T: Decodable>(endpoint: Endpoint,
                                additionalPath: String?,
                                headers: [String: String]?,
-                               parameters: [String: String]?) -> AnyPublisher<T, AppError> {
+                               parameters: [String: Any]?) -> AnyPublisher<T, AppError> {
         var extraPath = ""
         if let additionalPath {
             extraPath = additionalPath + "/"
