@@ -101,7 +101,7 @@ extension ChooseRegionViewController: MKLocalSearchCompleterDelegate {
     func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
         var completerResults: [String] = []
         completer.results.forEach { result in
-            if result.subtitle.contains("Россия") {
+            if result.subtitle.contains("Россия") || result.subtitle.contains("Russia") {
                 completerResults.append(result.title)
             }
         }
@@ -109,7 +109,7 @@ extension ChooseRegionViewController: MKLocalSearchCompleterDelegate {
         searchResults.sort()
         resultsTable.reloadData()
     }
-    
+
     private func completer(completer: MKLocalSearchCompleter, didFailWithError error: NSError) {
         ErrorHandler.handle(error: .locationError)
     }
@@ -134,6 +134,11 @@ extension ChooseRegionViewController: UITableViewDataSource {
 
 extension ChooseRegionViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(searchResults[indexPath.row])
+        NotificationCenter.default.post(
+            name: Notification.Name("manualLocation"),
+            object: searchResults[indexPath.row]
+        )
+
+        coordinator?.exit(hideNavBar: false)
     }
 }

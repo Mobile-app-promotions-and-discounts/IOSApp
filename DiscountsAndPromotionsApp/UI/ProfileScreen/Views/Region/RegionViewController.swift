@@ -1,5 +1,6 @@
 import UIKit
 import CoreLocation
+import Combine
 
 final class RegionViewController: UIViewController {
     // MARK: - Public properties
@@ -8,8 +9,21 @@ final class RegionViewController: UIViewController {
     // MARK: - Private properties
     private let viewModel: ProfileViewModelProtocol
 
+    private var location: String? {
+        didSet {
+            NotificationCenter.default.post(
+                name: Notification.Name("updateLocation"),
+                object: location
+            )
+            self.regionButton.buttonTitle.text = location
+            UserDefaults.standard.setValue(location, forKey: "storedLocation")
+        }
+    }
+
     private var locationManager: CLLocationManager?
     private var locationKey = "locationEnabled"
+
+    private var manualLocation = Set<AnyCancellable>()
 
     // MARK: - Layout elements
     private lazy var backButton = UIBarButtonItem(
@@ -67,6 +81,19 @@ final class RegionViewController: UIViewController {
         let locationAllowed = UserDefaults.standard.bool(forKey: locationKey)
         locationSwitch.isOn = locationAllowed
         if locationAllowed { locationManager?.requestLocation() }
+        if let location = UserDefaults.standard.string(forKey: "storedLocation") {
+            regionButton.buttonTitle.text = location
+        }
+
+        NotificationCenter.default
+            .publisher(for: Notification.Name("manualLocation"))
+            .sink { object in
+                self.location = object.object as? String
+                self.locationSwitch.isOn = false
+                UserDefaults.standard.set(false, forKey: self.locationKey)
+                self.locationManager?.stopUpdatingLocation()
+            }
+            .store(in: &manualLocation)
 
     }
 
@@ -140,12 +167,7 @@ extension RegionViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
         location.fetchCityAndCountry(completion: { city, _, _ in
-            self.regionButton.buttonTitle.text = city
-
-            NotificationCenter.default.post(
-                name: Notification.Name("updateLocation"),
-                object: city
-            )
+            self.location = city
         })
     }
 
