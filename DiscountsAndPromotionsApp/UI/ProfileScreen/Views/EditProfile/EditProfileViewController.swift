@@ -76,10 +76,6 @@ final class EditProfileViewController: UIViewController, UINavigationControllerD
         self.coordinator?.exit(hideNavBar: true)
     }
 
-    private func validateProfile(profile: ProfileModel) {
-        // TODO: add validation
-    }
-
     private func setupNavBar() {
         self.navigationController?.navigationBar.isHidden = false
         // Предлагаю обсудить с дизайнерами использование кастомного стиля, по-моему Apple такое не поощряет

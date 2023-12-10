@@ -106,7 +106,6 @@ final class EditProfileView: UIView {
             email: emailTextField.text ?? "",
             birthdate: birthdateTextField.text,
             gender: genderTextField.text == "🙎🏼‍♂️")
-
         return profile
     }
 

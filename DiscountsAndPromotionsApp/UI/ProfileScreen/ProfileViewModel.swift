@@ -73,13 +73,11 @@ final class ProfileViewModel: ProfileViewModelProtocol {
     }
 
     func putProfileData(profile: ProfileModel) {
-        print(profile)
         guard let id = profile.id,
               let id = Int(id) else { return }
         networkService.editUser(
             [
                 "phone": profile.phone ?? "",
-                "foto": "https://cs5.pikabu.ru/post_img/2014/09/18/8/1411040079_1214254849.jpg",
                 "first_name": profile.firstName ?? "",
                 "last_name": profile.lastName ?? ""
             ],
