@@ -3,12 +3,12 @@ import UIKit
 enum SearchCategory: String, CaseIterable {
     case groceries = "Продукты"
     case clothes = "Одежда и обувь"
-    case home = "Для дома и сада"
+    case home = "Дом и сад"
     case cosmetics = "Косметика и гигиена"
     case children = "Для детей"
     case pets = "Зоотовары"
     case cars = "Авто"
-    case party = "К празднику"
+    case party = "Праздник"
 
     func getIcon() -> UIImage? {
         switch self {
