@@ -30,7 +30,7 @@ final class RegionViewController: UIViewController {
         let regionButton = ProfileAssetButton()
         regionButton.backgroundColor = .cherryLightBlue
         regionButton.buttonImage.image = .buttonRegionGreen
-        regionButton.buttonTitle.text = "Moscow"
+        regionButton.buttonTitle.text = "..."
         regionButton.addTarget(self, action: #selector(regionDidTap), for: .touchUpInside)
         return regionButton
     }()
@@ -67,6 +67,7 @@ final class RegionViewController: UIViewController {
         let locationAllowed = UserDefaults.standard.bool(forKey: locationKey)
         locationSwitch.isOn = locationAllowed
         if locationAllowed { locationManager?.requestLocation() }
+
     }
 
     init(viewModel: ProfileViewModelProtocol) {
@@ -91,7 +92,7 @@ final class RegionViewController: UIViewController {
 
     @objc
     private func regionDidTap() {
-        // Пока не придумал, что тут должно происходить
+        coordinator?.navigateToChooseRegionScreen()
     }
 
     @objc
@@ -108,7 +109,7 @@ final class RegionViewController: UIViewController {
 
     @objc
     private func didTapBackButton() {
-        self.coordinator?.exit()
+        self.coordinator?.exit(hideNavBar: true)
     }
 
     // MARK: - Layout methods

@@ -119,6 +119,7 @@
 		BEF503B22B15262F00577D7F /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF503B12B15262F00577D7F /* Profile.swift */; };
 		BEF503B42B15287F00577D7F /* MockProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF503B32B15287F00577D7F /* MockProfileService.swift */; };
 		BEF503B62B15288C00577D7F /* ProfileServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF503B52B15288C00577D7F /* ProfileServiceProtocol.swift */; };
+		D02E38722B25DB4500B3D27E /* ChooseRegionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02E38712B25DB4500B3D27E /* ChooseRegionViewController.swift */; };
 		D059EB8F2B1FC1CB004C8A1A /* ProfileFlow.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = D059EB8E2B1FC1CA004C8A1A /* ProfileFlow.xcstrings */; };
 		D059EB922B205F3F004C8A1A /* RegionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D059EB912B205F3F004C8A1A /* RegionViewController.swift */; };
 		D059EB982B2252F7004C8A1A /* ChangeAvatarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D059EB972B2252F7004C8A1A /* ChangeAvatarViewController.swift */; };
@@ -252,6 +253,7 @@
 		BEF503B12B15262F00577D7F /* Profile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		BEF503B32B15287F00577D7F /* MockProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockProfileService.swift; sourceTree = "<group>"; };
 		BEF503B52B15288C00577D7F /* ProfileServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileServiceProtocol.swift; sourceTree = "<group>"; };
+		D02E38712B25DB4500B3D27E /* ChooseRegionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseRegionViewController.swift; sourceTree = "<group>"; };
 		D059EB8E2B1FC1CA004C8A1A /* ProfileFlow.xcstrings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json.xcstrings; name = ProfileFlow.xcstrings; path = ../../ProfileFlow.xcstrings; sourceTree = "<group>"; };
 		D059EB912B205F3F004C8A1A /* RegionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionViewController.swift; sourceTree = "<group>"; };
 		D059EB972B2252F7004C8A1A /* ChangeAvatarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeAvatarViewController.swift; sourceTree = "<group>"; };
@@ -838,6 +840,7 @@
 			isa = PBXGroup;
 			children = (
 				D059EB912B205F3F004C8A1A /* RegionViewController.swift */,
+				D02E38712B25DB4500B3D27E /* ChooseRegionViewController.swift */,
 			);
 			path = Region;
 			sourceTree = "<group>";
@@ -1020,6 +1023,7 @@
 				BC6046232B1E4BC600536EB3 /* TextField.swift in Sources */,
 				BE8E70B42B0E74F600BEAA5A /* ProfileScreenCoordinator.swift in Sources */,
 				BCCF50212B1B4AF10067A552 /* RatingView.swift in Sources */,
+				D02E38722B25DB4500B3D27E /* ChooseRegionViewController.swift in Sources */,
 				BC93BB722B0C814F008BE2AD /* PrimaryButton.swift in Sources */,
 				BCCF50102B1B4AF10067A552 /* ProductCellUIModel.swift in Sources */,
 				BCCF501F2B1B4AF10067A552 /* PriceInfoView.swift in Sources */,

@@ -288,6 +288,17 @@
         }
       }
     },
+    "Search" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поиск"
+          }
+        }
+      }
+    },
     "Support" : {
       "extractionState" : "manual",
       "localizations" : {
