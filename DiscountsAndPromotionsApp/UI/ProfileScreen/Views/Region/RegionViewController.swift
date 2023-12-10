@@ -44,7 +44,8 @@ final class RegionViewController: UIViewController {
         let regionButton = ProfileAssetButton()
         regionButton.backgroundColor = .cherryLightBlue
         regionButton.buttonImage.image = .buttonRegionGreen
-        regionButton.buttonTitle.text = "..."
+        regionButton.buttonTitle.text = UserDefaults.standard.string(forKey: locationKey) ??
+        NSLocalizedString("Unknown", tableName: "ProfileFlow", comment: "")
         regionButton.addTarget(self, action: #selector(regionDidTap), for: .touchUpInside)
         return regionButton
     }()
@@ -127,6 +128,7 @@ final class RegionViewController: UIViewController {
         UserDefaults.standard.set(locationSwitch.isOn, forKey: locationKey)
 
         if locationSwitch.isOn {
+            regionButton.buttonTitle.text = NSLocalizedString("Locating", tableName: "ProfileFlow", comment: "")
             locationManager?.requestWhenInUseAuthorization()
             locationManager?.requestLocation()
         } else {

@@ -26,6 +26,7 @@ final class ChooseRegionViewController: UIViewController {
 
     private lazy var resultsTable: UITableView = {
         let resultsTable = UITableView()
+        resultsTable.backgroundColor = .cherryWhite
         resultsTable.layer.cornerRadius = CornerRadius.regular.cgFloat()
         resultsTable.layer.masksToBounds = true
         resultsTable.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
@@ -122,11 +123,9 @@ extension ChooseRegionViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ResultCell", for: indexPath as IndexPath)
-        //        if indexPath.row == tableView.numberOfRows(inSection: 0) - 1 {
-        //            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: tableView.bounds.width)
-//        }
         cell.textLabel?.text = searchResults[indexPath.row]
         cell.backgroundColor = .cherryLightBlue
+        cell.textLabel?.textColor = .cherryBlack
         cell.selectionStyle = .none
         return cell
     }

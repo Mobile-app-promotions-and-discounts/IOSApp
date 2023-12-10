@@ -45,6 +45,7 @@ final class EditProfileView: UIView {
     private lazy var phoneTextField: TextField = {
         let phoneTextField = TextField()
         phoneTextField.placeholder = NSLocalizedString("Phone", tableName: "ProfileFlow", comment: "")
+        phoneTextField.delegate = self
         return phoneTextField
     }()
 
@@ -241,5 +242,16 @@ final class EditProfileView: UIView {
             make.top.equalTo(birthdateTextField.snp.bottom).offset(4)
         }
     }
+}
 
+extension EditProfileView: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        guard let unformattedNumber = textField.text else { return }
+        phoneTextField.text = unformattedNumber.formatPhoneNumber()
+    }
 }
