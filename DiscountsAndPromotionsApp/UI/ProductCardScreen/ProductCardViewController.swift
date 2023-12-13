@@ -6,7 +6,7 @@ private struct TableViewConstants {
     static let headerHeight: CGFloat = 19
     static let footerHeight: CGFloat = 12
     static let topPadding: CGFloat = 12
-    static let cellHeight: CGFloat = 85
+    static let cellHeight: CGFloat = 60
     static let cellSpacing: CGFloat = 8
 }
 
@@ -181,7 +181,7 @@ class ProductCardViewController: UIViewController {
 
         offersTableView.layer.cornerRadius = CornerRadius.regular.cgFloat()
         offersTableView.snp.makeConstraints { make in
-            make.top.equalTo(ratingView.snp.bottom).offset(32)
+            make.top.equalTo(ratingView.snp.bottom).offset(22)
             make.leading.trailing.equalTo(contentView)
             make.height.equalTo(calculateTableViewHeight())
             make.width.equalTo(contentView.frame.width)
@@ -340,6 +340,7 @@ extension ProductCardViewController {
 
 extension ProductCardViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print("Число магазинов - \(product?.offers.count ?? 3)")
         return product?.offers.count ?? 3 // TODO: Нужно сделать только чтобы максимум три магазина
     }
 
@@ -360,7 +361,7 @@ extension ProductCardViewController: UITableViewDataSource {
 
 extension ProductCardViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 85 // высота каждой ячейки
+        return 60 // высота каждой ячейки
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
