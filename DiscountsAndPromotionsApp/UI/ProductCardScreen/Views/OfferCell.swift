@@ -55,9 +55,19 @@ class OfferTableViewCell: UITableViewCell {
         logoImageView.backgroundColor = .lightGray
     }
 
+//    private func configureDiscountView() {
+//        discountView.layer.cornerRadius = 6
+//        discountView.backgroundColor = .cherryYellow
+//    }
+//
     private func configureGoToStoreButton() {
-        goToStoreButton.setImage(UIImage(systemName: "chevron.forward"), for: .normal)
-        goToStoreButton.tintColor = .cherryGray
+        goToStoreButton.setTitle("В магазин", for: .normal)
+        goToStoreButton.titleLabel?.font = CherryFonts.headerSmall
+        goToStoreButton.setTitleColor(.cherryMainAccent, for: .normal)
+        goToStoreButton.layer.borderWidth = 1
+        goToStoreButton.layer.borderColor = UIColor.cherryPrimaryPressed.cgColor
+        goToStoreButton.layer.cornerRadius = CornerRadius.regular.cgFloat()
+        goToStoreButton.backgroundColor = .cherryWhite
         goToStoreButton.addTarget(self, action: #selector(goToStoreCard), for: .touchUpInside)
     }
 
@@ -124,8 +134,8 @@ class OfferTableViewCell: UITableViewCell {
         goToStoreButton.snp.makeConstraints { make in
             make.trailing.equalTo(backgroundViewBoard.snp.trailing).offset(-paddingH)
             make.centerY.equalTo(backgroundViewBoard.snp.centerY)
-            make.width.equalTo(24)
-            make.height.equalTo(24)
+            make.width.equalTo(83)
+            make.height.equalTo(32)
         }
     }
 

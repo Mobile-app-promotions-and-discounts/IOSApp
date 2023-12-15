@@ -14,6 +14,7 @@ class ProductReviewView: UIView {
     private let titleLabel = UILabel()
     private let starsStackView = UIStackView()
     private let reviewTextView = UITextView()
+    private let attachButton = UIButton()
     private let submitButton = UIButton()
 
     private var rating: Int = 1
@@ -28,6 +29,7 @@ class ProductReviewView: UIView {
         setupReviewTextView()
         setupTextView()
         setupSubmitButton()
+        setupAttachButton()
         setupConstraints()
 
     }
@@ -43,6 +45,8 @@ class ProductReviewView: UIView {
 
     private func setupTitleLabel() {
         titleLabel.text = "Как Вам этот товар?"
+        titleLabel.numberOfLines = 0
+        titleLabel.textAlignment = .center
         titleLabel.font = CherryFonts.headerLarge
         addSubview(titleLabel)
     }
@@ -102,16 +106,23 @@ class ProductReviewView: UIView {
         reviewTextView.inputAccessoryView = toolbar
     }
 
+    private func setupAttachButton() {
+        attachButton.setImage(UIImage(named: "ic_attach"), for: .normal)
+        addSubview(attachButton)
+    }
+
     private func setupSubmitButton() {
-        submitButton.setImage(UIImage(named: "send"), for: .normal)
+        submitButton.setImage(UIImage(named: "ic_send"), for: .normal)
         addSubview(submitButton)
     }
 
     private func setupConstraints() {
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(self.snp.top).offset(12)
-            make.centerX.equalTo(self.snp.centerX)
-            make.height.equalTo(27)
+//            make.centerX.equalTo(self.snp.centerX)
+            make.leading.equalTo(self).offset(16)
+            make.trailing.equalTo(self).offset(-16)
+//            make.height.equalTo(27)
         }
 
         starsStackView.snp.makeConstraints { make in
@@ -122,15 +133,21 @@ class ProductReviewView: UIView {
 
         reviewTextView.snp.makeConstraints { make in
             make.top.equalTo(starsStackView.snp.bottom).offset(20)
-            make.leading.equalTo(self.snp.leading).offset(12)
-            make.trailing.equalTo(self.snp.trailing).offset(-12)
+            make.leading.equalTo(self.snp.leading).offset(16)
+            make.trailing.equalTo(self.snp.trailing).offset(-16)
             make.bottom.equalTo(self.snp.bottom).offset(-12)
             make.height.greaterThanOrEqualTo(79)
         }
 
         submitButton.snp.makeConstraints { make in
-            make.trailing.equalTo(reviewTextView.snp.trailing).offset(-8)
+            make.trailing.equalTo(reviewTextView).offset(-8)
             make.bottom.equalTo(self.snp.bottom).offset(-20)
+            make.height.width.equalTo(24)
+        }
+
+        attachButton.snp.makeConstraints { make in
+            make.trailing.equalTo(reviewTextView).offset(-8)
+            make.bottom.equalTo(submitButton.snp.top).offset(-16)
             make.height.width.equalTo(24)
         }
     }
@@ -173,6 +190,10 @@ class ProductReviewView: UIView {
                 button.tintColor = index < rating ? .cherryYellow : .cherryGray
             }
         }
+    }
+
+    func configure(with name: String) {
+        titleLabel.text = "Как вам «\(name)» ?"
     }
 
     @objc private func cancelButtonTapped() {

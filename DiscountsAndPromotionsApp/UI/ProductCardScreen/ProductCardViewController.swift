@@ -97,9 +97,9 @@ class ProductCardViewController: UIViewController {
 
             $0.tintColor = .cherryWhite
             $0.layer.shadowColor = UIColor.cherryBlack.cgColor
-            $0.layer.shadowRadius = 10.0
-            $0.layer.shadowOpacity = 1.0
-            $0.layer.shadowOffset = CGSize(width: 0, height: 0)
+            $0.layer.shadowRadius = 5.0
+            $0.layer.shadowOpacity = 0.8
+            $0.layer.shadowOffset = CGSize(width: 0, height: 2)
             $0.layer.masksToBounds = false
         }
 
@@ -286,6 +286,10 @@ class ProductCardViewController: UIViewController {
             ratingView.configure(with: rating, numberOfReviews: 0)
         } else {
             ratingView.configure(with: 1.0, numberOfReviews: 1)
+        }
+
+        if let productName = product?.name {
+            reviewView.configure(with: productName)
         }
 
         if let product = product {

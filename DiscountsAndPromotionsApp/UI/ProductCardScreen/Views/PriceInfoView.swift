@@ -97,7 +97,7 @@ class PriceInfoView: UIView {
     }
 
     private func setupToFavoritesButton() {
-        toFavoritesButton.setTitle("В Избранное", for: .normal)
+        toFavoritesButton.setTitle("В избранное", for: .normal)
         toFavoritesButton.backgroundColor = .lightGray
         toFavoritesButton.layer.cornerRadius = CornerRadius.regular.cgFloat()
         toFavoritesButton.titleLabel?.font = CherryFonts.headerMedium

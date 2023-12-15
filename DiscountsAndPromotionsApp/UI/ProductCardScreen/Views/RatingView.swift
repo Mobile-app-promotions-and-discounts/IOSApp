@@ -51,12 +51,6 @@ class RatingView: UIView {
         addSubview(numberOfReviewsLabel)
         addSubview(reviewsButton)
 
-//        starsStackView.snp.makeConstraints { make in
-//            make.top.equalToSuperview().offset(8)
-//            make.leading.equalToSuperview().offset(12)
-//            make.height.equalTo(16)
-//        }
-
         starsStackView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(12)
             make.bottom.equalToSuperview().offset(-12)
@@ -71,7 +65,6 @@ class RatingView: UIView {
 
         numberOfReviewsLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(12)
-//            make.leading.equalToSuperview().offset(12)
             make.bottom.equalToSuperview().offset(-12)
             make.trailing.equalTo(reviewsButton.snp.leading).offset(-8)
             make.height.equalTo(19)
