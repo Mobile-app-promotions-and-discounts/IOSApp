@@ -6,6 +6,8 @@ final class EditProfileView: UIView {
     // MARK: - Private properties
     private var viewController: EditProfileViewController
 
+    private var userId: String?
+
     private let noImage = UIImage.avatar
 
     // MARK: - Layout elements
@@ -43,6 +45,7 @@ final class EditProfileView: UIView {
     private lazy var phoneTextField: TextField = {
         let phoneTextField = TextField()
         phoneTextField.placeholder = NSLocalizedString("Phone", tableName: "ProfileFlow", comment: "")
+        phoneTextField.delegate = self
         return phoneTextField
     }()
 
@@ -95,7 +98,7 @@ final class EditProfileView: UIView {
     // MARK: - Public methods
     func collectFieldsToProfile() -> ProfileModel {
         let profile = ProfileModel(
-            id: nil,
+            id: userId,
             avatar: avatarImage == noImage ? nil : avatarImage.image?.pngData(),
             firstName: firstNameTextField.text,
             lastName: lastNameTextField.text,
@@ -113,6 +116,7 @@ final class EditProfileView: UIView {
 
     // MARK: - Private methods
     private func prefillFields(profile: ProfileModel) {
+        if let id = profile.id { userId = id }
         if let avatar = profile.avatar { avatarImage.image = UIImage(data: avatar) }
         if let firstName = profile.firstName { firstNameTextField.text = firstName }
         if let lastName = profile.lastName { lastNameTextField.text = lastName }
@@ -238,5 +242,16 @@ final class EditProfileView: UIView {
             make.top.equalTo(birthdateTextField.snp.bottom).offset(4)
         }
     }
+}
 
+extension EditProfileView: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        guard let unformattedNumber = textField.text else { return }
+        phoneTextField.text = unformattedNumber.formatPhoneNumber()
+    }
 }

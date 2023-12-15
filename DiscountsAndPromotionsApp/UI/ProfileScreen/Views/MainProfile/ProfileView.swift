@@ -15,7 +15,7 @@ final class ProfileView: UIView {
         editButton.tintColor = .cherryBlack
         let image = UIImage.editButton
         editButton.setImage(image, for: .normal)
-        editButton.layer.cornerRadius = 12
+        editButton.layer.cornerRadius = CornerRadius.regular.cgFloat()
         editButton.addTarget(self, action: #selector(editDidTap), for: .touchUpInside)
         return editButton
     }()
@@ -62,7 +62,9 @@ final class ProfileView: UIView {
         let regionButton = ProfileAssetButton()
         regionButton.buttonImage.image = .buttonRegion
         regionButton.buttonTitle.text = NSLocalizedString("Region", tableName: "ProfileFlow", comment: "")
-        regionButton.buttonSubtitle.text = nil
+        if let location = UserDefaults.standard.string(forKey: "storedLocation") {
+            regionButton.buttonSubtitle.text = location
+        }
         regionButton.addTarget(self, action: #selector(regionDidTap), for: .touchUpInside)
         return regionButton
     }()

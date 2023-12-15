@@ -6,7 +6,7 @@ final class CameraButton: UIButton {
         super.init(frame: .zero)
 
         self.backgroundColor = .cherryLightBlue
-        self.layer.cornerRadius = 10
+        self.layer.cornerRadius = CornerRadius.regular.cgFloat()
         self.layer.masksToBounds = true
         self.setTitleColor(.cherryBlue, for: .normal)
         self.titleLabel?.font = CherryFonts.headerMedium

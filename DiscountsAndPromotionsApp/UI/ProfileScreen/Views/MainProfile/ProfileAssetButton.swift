@@ -47,7 +47,7 @@ final class ProfileAssetButton: UIButton {
             make.height.equalTo(52)
         }
         self.backgroundColor = .cherryWhite
-        layer.cornerRadius = 10
+        layer.cornerRadius = CornerRadius.regular.cgFloat()
 
         addButtonImage()
         addLabels()
