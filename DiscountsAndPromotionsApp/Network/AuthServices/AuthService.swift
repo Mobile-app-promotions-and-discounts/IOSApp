@@ -15,9 +15,12 @@ final class AuthService: AuthServiceProtocol {
     private let networkClient: NetworkClientProtocol
     private let requestConstructor: NetworkRequestConstructorProtocol
 
-    var subscriptions = Set<AnyCancellable>()
-
     private (set) var isTokenValidUpdate = PassthroughSubject<Bool, Never>()
+    private var isTokenValid: Bool = false {
+        didSet {
+            isTokenValidUpdate.send(isTokenValid)
+        }
+    }
 
     init(tokenStorage: AuthTokenStorage = AuthTokenStorage.shared,
          networkClient: NetworkClientProtocol,
@@ -49,7 +52,7 @@ final class AuthService: AuthServiceProtocol {
                     print("Token obtained successfully")
 
                     guard let self else { return }
-                    self.isTokenValidUpdate.send(true)
+                    self.isTokenValid = true
                     self.tokenStorage.accessToken = token.access
                     if let refresh = token.refresh {
                         self.tokenStorage.refreshToken = refresh
@@ -58,7 +61,7 @@ final class AuthService: AuthServiceProtocol {
             } catch let error {
                 print("Error getting token: \(error.localizedDescription)")
 
-                isTokenValidUpdate.send(false)
+                isTokenValid = false
                 if let error = error as? AppError {
                     ErrorHandler.handle(error: error)
                 } else {
@@ -91,7 +94,7 @@ final class AuthService: AuthServiceProtocol {
                     print("Token is valid")
 
                     guard let self else { return }
-                    self.isTokenValidUpdate.send(true)
+                    self.isTokenValid = true
                 }
             } catch let error {
                 print("Token validation error: \(error.localizedDescription). Refreshing")
@@ -123,13 +126,13 @@ final class AuthService: AuthServiceProtocol {
                     print("Token is refreshed")
 
                     guard let self else { return }
-                    self.isTokenValidUpdate.send(true)
+                    self.isTokenValid = true
                     self.tokenStorage.accessToken = token.access
                 }
             } catch let error {
                 print("Token refresh error: \(error.localizedDescription)")
 
-                isTokenValidUpdate.send(false)
+                self.isTokenValid = false
                 if let error = error as? AppError {
                     ErrorHandler.handle(error: error)
                 } else {

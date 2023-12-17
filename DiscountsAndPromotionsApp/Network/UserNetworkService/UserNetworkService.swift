@@ -13,7 +13,6 @@ protocol UserNetworkServiceProtocol {
  final class UserNetworkService: UserNetworkServiceProtocol {
     static let shared = UserNetworkService(networkClient: NetworkClient())
     private var networkClient: NetworkClientProtocol
-    private var subscriptions = Set<AnyCancellable>()
 
     private var user = UserResponseModel(phone: "",
                                          role: "",
