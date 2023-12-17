@@ -2,18 +2,18 @@ import Foundation
 
 protocol NetworkRequestConstructorProtocol {
     func makeRequest(endpoint: Endpoint,
-                 additionalPath: String?,
-                 headers: [String: String]?,
-                 parameters: [String: Any]?) -> URLRequest?
+                     additionalPath: String?,
+                     headers: [String: String]?,
+                     parameters: [String: Any]?) -> URLRequest?
 }
 
 final class NetworkRequestConstructor: NetworkRequestConstructorProtocol {
     static let shared = NetworkRequestConstructor()
 
     func makeRequest(endpoint: Endpoint,
-                 additionalPath: String?,
-                 headers: [String: String]?,
-                 parameters: [String: Any]?) -> URLRequest? {
+                     additionalPath: String?,
+                     headers: [String: String]?,
+                     parameters: [String: Any]?) -> URLRequest? {
         var extraPath = ""
         if let additionalPath {
             extraPath = additionalPath

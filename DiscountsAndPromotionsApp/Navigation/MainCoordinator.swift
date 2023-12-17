@@ -9,7 +9,7 @@ final class MainCoordinator: Coordinator {
 
     private let networkClient: NetworkClientProtocol
     private let authService: AuthServiceProtocol
-//    private let userNetworkService: UserNetworkServiceProtocol
+    private let userNetworkService: UserNetworkServiceProtocol
 //    private let categoryNetworkService: CategoryNetworkService
 //    private let productNetworkService: ProductNetworkService
 
@@ -20,7 +20,7 @@ final class MainCoordinator: Coordinator {
         // Network Services
         self.networkClient = networkClient
         self.authService = AuthService(networkClient: networkClient)
-//        self.userNetworkService = UserNetworkService(networkClient: networkClient)
+        self.userNetworkService = UserNetworkService(networkClient: networkClient)
 //        self.categoryNetworkService = CategoryNetworkService(networkClient: networkClient)
 //        self.productNetworkService = ProductNetworkService(networkClient: networkClient)
 
@@ -32,16 +32,6 @@ final class MainCoordinator: Coordinator {
         let splashViewController = SplashViewController()
         splashViewController.coordinator = self
         navigationController.viewControllers = [splashViewController]
-
-        // временно для теста сервисов
-        authService.getToken(for: UserRequestModel(username: NetworkBaseConfiguration.testUser.username,
-                                                   password: NetworkBaseConfiguration.testUser.password))
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: { [weak self] in
-            self?.authService.verifyToken()
-        })
-        DispatchQueue.main.asyncAfter(deadline: .now() + 6, execute: { [weak self] in
-            self?.authService.refreshToken()
-        })
     }
 
     func navigateToMainScreen() {
