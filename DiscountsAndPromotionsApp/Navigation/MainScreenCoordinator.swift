@@ -26,22 +26,27 @@ final class MainScreenCoordinator: Coordinator {
         navigationController.pushViewController(mainViewController, animated: false)
     }
 
-    func navigateToCategoryScreen() {
-        let categoryViewModel = CategoryViewModel(dataService: dataService, profileService: profileService)
+    func navigateToCategoryScreen(with ID: UUID) {
+        let categoryViewModel = CategoryViewModel(dataService: dataService,
+                                                  profileService: profileService,
+                                                  categoryID: ID)
         let categoryViewController = CategoryViewController(viewModel: categoryViewModel)
         categoryViewController.coordinator = self
         navigationController.pushViewController(categoryViewController, animated: true)
     }
 
     func navigateToSearchScreen() {
-        let searchController = SearchViewController()
+        let viewModel = SearchViewModel(dataService: dataService)
+        let searchController = SearchViewController(viewModel: viewModel)
         searchController.coordinator = self
         navigationController.pushViewController(searchController, animated: true)
     }
 
     func navigateToSearchResultsScreen(for prompt: String) {
-        let categoryViewModel = CategoryViewModel(dataService: dataService, profileService: profileService)
-        let searchResultsController = SearchResultsViewController(viewModel: categoryViewModel)
+        let viewModel = SearchResultsViewModel(dataService: dataService,
+                                               profileService: profileService,
+                                               searchText: prompt)
+        let searchResultsController = SearchResultsViewController(viewModel: viewModel)
         searchResultsController.coordinator = self
         navigationController.pushViewController(searchResultsController, animated: true)
     }
@@ -51,7 +56,6 @@ final class MainScreenCoordinator: Coordinator {
         productVC.hidesBottomBarWhenPushed = true
         productVC.coordinator = self
         navigationController.pushViewController(productVC, animated: true)
-        navigationController.navigationBar.isHidden = true
     }
 
     func navigateToMainScreen() {

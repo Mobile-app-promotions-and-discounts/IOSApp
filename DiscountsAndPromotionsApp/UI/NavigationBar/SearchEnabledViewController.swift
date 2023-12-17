@@ -3,6 +3,19 @@ import UIKit
 class SearchEnabledViewController: UIViewController {
     private(set) var searchBar = UISearchBar()
 
+    lazy var backButton = { [weak self] in
+        guard let self else {
+            return UIButton()
+        }
+        let backButton = UIButton(type: .system)
+        backButton.setImage(.icBack, for: .normal)
+        backButton.addTarget(self,
+                             action: #selector(defaultBackAction),
+                             for: .touchUpInside)
+        backButton.contentMode = .right
+        return backButton
+    }()
+
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
@@ -15,12 +28,10 @@ class SearchEnabledViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setNeedsStatusBarAppearanceUpdate()
+        navigationController?.navigationBar.isHidden = false
     }
 
     private func setupSearchBar() {
-        navigationItem.backButtonDisplayMode = .minimal
-
         searchBar.searchTextField.backgroundColor = .cherryWhite
         let placeholderAttributes = [NSAttributedString.Key.font: CherryFonts.inputSmall,
                                      NSAttributedString.Key.foregroundColor: UIColor.cherryGrayBlue]
@@ -29,9 +40,7 @@ class SearchEnabledViewController: UIViewController {
         searchBar.searchTextField.defaultTextAttributes = textAttributes as [NSAttributedString.Key: Any]
         searchBar.searchTextField.textColor = .cherryBlack
         searchBar.searchTextField.typingAttributes = textAttributes as [NSAttributedString.Key: Any]
-        searchBar.searchTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("searchPlaceholder",
-                                                                                                       tableName: "MainFlow",
-                                                                                                       comment: ""),
+        searchBar.searchTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("searchPlaceholder", tableName: "MainFlow", comment: ""),
                                                                              attributes: placeholderAttributes as [NSAttributedString.Key: Any])
         searchBar.setImage(.searchIcon, for: .search, state: .normal)
         searchBar.setImage(.icClose, for: .clear, state: .normal)
@@ -44,7 +53,17 @@ class SearchEnabledViewController: UIViewController {
     }
 
     private func setupUI() {
-         view.backgroundColor = .cherryLightBlue
+        view.backgroundColor = .cherryLightBlue
+        navigationItem.hidesBackButton = true
+        if self != navigationController?.viewControllers[0] {
+            navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
+        }
+    }
+
+    @objc
+    private func defaultBackAction() {
+        // не уверен стоит ли в протокол отдельный координатор добавлять и везде прокидывать?
+        navigationController?.popViewController(animated: true)
     }
 }
 

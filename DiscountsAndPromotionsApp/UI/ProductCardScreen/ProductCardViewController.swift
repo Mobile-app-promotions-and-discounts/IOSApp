@@ -12,7 +12,7 @@ private struct TableViewConstants {
 
 class ProductCardViewController: UIViewController {
 
-    weak var coordinator: MainScreenCoordinator?
+    weak var coordinator: Coordinator?
 
     private var product: Product?
     private var cancellables = Set<AnyCancellable>()
@@ -44,18 +44,16 @@ class ProductCardViewController: UIViewController {
     private let offersTableView = UITableView()
     private var reviewViewViewModel: ProductReviewViewModelProtocol
     private let reviewView = ProductReviewView()
-    private var priceInfoViewModel: PriceInfoViewViewModelProtocol
+    private var priceInfoViewModel: PriceInfoViewViewModelProtocol?
     private let priceInfoView = PriceInfoView()
     private let backButton = UIButton()
     private let exportButton = UIButton()
 
     init(product: Product,
          ratingViewModel: RatingViewViewModelProtocol = RatingViewViewModel(),
-         reviewViewViewModel: ProductReviewViewModelProtocol = ProductReviewViewModel(),
-         priceInfoViewModel: PriceInfoViewViewModelProtocol = PriceInfoViewViewModel()) {
+         reviewViewViewModel: ProductReviewViewModelProtocol = ProductReviewViewModel()) {
         self.ratingViewModel = ratingViewModel
         self.reviewViewViewModel = reviewViewViewModel
-        self.priceInfoViewModel = priceInfoViewModel
         self.product = product
         super.init(nibName: nil, bundle: nil)
     }
@@ -75,11 +73,12 @@ class ProductCardViewController: UIViewController {
 
         productScrollView.contentInsetAdjustmentBehavior = .never
         setupProductLayout()
-        configureViews()
         setupPriceInfoView()
         setupProductReviewView()
         setupRatingView()
+        configureViews()
         buttonsLayout()
+        print("Product in ProductCardViewController: \(String(describing: product))")
 
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow(notification: )),
@@ -89,16 +88,19 @@ class ProductCardViewController: UIViewController {
                                                selector: #selector(keyboardWillHide(notification: )),
                                                name: UIResponder.keyboardWillHideNotification,
                                                object: nil)
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        navigationController?.navigationBar.isHidden = false
+        navigationController?.navigationBar.isHidden = true
     }
 
     private func buttonsLayout() {
         [backButton, exportButton].forEach {
             view.addSubview($0)
+
+            $0.tintColor = .cherryWhite
+            $0.layer.shadowColor = UIColor.cherryBlack.cgColor
+            $0.layer.shadowRadius = 10.0
+            $0.layer.shadowOpacity = 1.0
+            $0.layer.shadowOffset = CGSize(width: 0, height: 0)
+            $0.layer.masksToBounds = false
         }
 
         backButton.setImage(UIImage(named: "backImage"), for: .normal)
@@ -143,7 +145,7 @@ class ProductCardViewController: UIViewController {
         productScrollView.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.leading.trailing.equalToSuperview()
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+            make.bottom.equalToSuperview()
         }
         contentView.snp.makeConstraints { make in
             make.top.leading.bottom.trailing.equalTo(productScrollView)
@@ -166,7 +168,7 @@ class ProductCardViewController: UIViewController {
         titleView.snp.makeConstraints { make in
             make.top.equalTo(titleAndRatingView).offset(16)
             make.leading.equalTo(contentView)
-            make.height.equalTo(43)
+            make.height.equalTo(50)
             make.width.equalTo(contentView.frame.width)
         }
         ratingView.snp.makeConstraints { make in
@@ -211,10 +213,15 @@ class ProductCardViewController: UIViewController {
     }
 
     private func setupPriceInfoView() {
+        guard let product = product else {
+            print("Product is nil in setupPriceInfoView")
+            return }
+        priceInfoViewModel = PriceInfoViewViewModel(profileService: MockProfileService(), product: product)
         priceInfoView.backgroundColor = .cherryWhite
         priceInfoView.layer.cornerRadius = CornerRadius.regular.cgFloat()
         priceInfoView.viewModel = priceInfoViewModel
-        priceInfoViewModel.addToFavorites
+        print("ViewModel is set in PriceInfoView")
+        priceInfoViewModel?.addToFavorites
             .sink { [weak self] in
                 self?.addToFavorites()
             }
@@ -242,6 +249,7 @@ class ProductCardViewController: UIViewController {
     }
 
     private func addToFavorites() {
+        navigationController?.popViewController(animated: true)
         print("Нажатие кнопки В избранное")
     }
 
@@ -279,10 +287,16 @@ class ProductCardViewController: UIViewController {
         } else {
             ratingView.configure(with: 1.0, numberOfReviews: 1)
         }
+
+        if let product = product {
+            let minPrice = product.findMinMaxOffers().minOffer?.price ?? 0
+            print("Configuring PriceInfoView with price: \(minPrice)")
+            priceInfoView.configure(with: 180, discountPrice: Int(minPrice))
+        }
     }
 
     @objc func backButtonTapped() {
-        navigationController?.popViewController(animated: true)
+        coordinator?.navigateBack()
         print("Закрытие экрана")
     }
 
@@ -310,7 +324,7 @@ extension ProductCardViewController {
         if reviewView.isFirstResponder {
             let rectInScrollView = productScrollView.convert(reviewView.frame, from: contentView)
             let offset = rectInScrollView.maxY - (view.bounds.height - keyboardHeight)
-            let adjustedOffset = offset + 16
+            let adjustedOffset = offset + 30
             if offset > 0 {
                 productScrollView.setContentOffset(CGPoint(x: 0, y: adjustedOffset), animated: true)
             }

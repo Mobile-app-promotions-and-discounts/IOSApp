@@ -29,18 +29,33 @@ final class MainCoordinator: Coordinator {
     }
 
     func start() {
-        // ВРЕМЕННО - тест сервиса
+        let splashViewController = SplashViewController()
+        splashViewController.coordinator = self
+        navigationController.viewControllers = [splashViewController]
+
+        //временно для теста сервисов
         categoryNetworkService.fetchCategories()
         productNetworkService.getProduct(productID: 5)
+    }
 
+    func navigateToMainScreen() {
         let mainTabBarController = MainTabBarController()
         configureChildCoordinators(with: mainTabBarController)
         navigationController.viewControllers = [mainTabBarController]
     }
 
+    func navigateToAuthScreen(from splashViewController: UIViewController) {
+        let loginViewController = LoginViewController()
+        loginViewController.coordinator = self
+        loginViewController.modalPresentationStyle = .custom
+        loginViewController.transitioningDelegate = splashViewController as? any UIViewControllerTransitioningDelegate
+        splashViewController.present(loginViewController, animated: true)
+    }
+
     private func configureChildCoordinators(with tabBarController: MainTabBarController) {
         // Создание и запуск дочерних координаторов
-        let scanCoordinator = ScanFlowCoordinator(navigationController: navigationController)
+        let scanCoordinator = ScanFlowCoordinator(navigationController: navigationController,
+                                                  dataService: dataService)
 
         let mainScreenNavigationController = GenericNavigationController()
         mainScreenNavigationController.scanCoordinator = scanCoordinator

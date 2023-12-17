@@ -6,8 +6,10 @@ enum AppError: Error {
     case networkError
     case parsingError
     case barcodeScanError
+    case locationError
     case profileError(String)
     case customError(String)
+    case authorizationError
 }
 
 final class ErrorHandler {
@@ -27,10 +29,14 @@ final class ErrorHandler {
             return NSLocalizedString("parsingError", tableName: "ErrorHandler", comment: "")
         case .barcodeScanError:
             return NSLocalizedString("barcodeScanError", tableName: "ErrorHandler", comment: "")
+        case .locationError:
+            return NSLocalizedString("locationError", tableName: "ErrorHandler", comment: "")
         case .profileError(let error):
             return error
         case .customError(let message):
             return message
+        case .authorizationError:
+            return L10n.Authorization.authorizationError
         }
     }
 

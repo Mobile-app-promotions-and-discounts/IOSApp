@@ -13,14 +13,14 @@ final class ProfileAssetButton: UIButton {
 
     var buttonTitle: UILabel = {
         let buttonTitleLabel = UILabel()
-        buttonTitleLabel.font = .boldSystemFont(ofSize: 14)
+        buttonTitleLabel.font = CherryFonts.headerMedium
         buttonTitleLabel.textColor = .black
         return buttonTitleLabel
     }()
 
     var buttonSubtitle: UILabel = {
         let buttonTitleLabel = UILabel()
-        buttonTitleLabel.font = .systemFont(ofSize: 14)
+        buttonTitleLabel.font = CherryFonts.textSmall
         buttonTitleLabel.textColor = .black
         return buttonTitleLabel
     }()
@@ -28,10 +28,15 @@ final class ProfileAssetButton: UIButton {
     private var labelStack: UIStackView = {
         let labelStack = UIStackView()
         labelStack.axis = .vertical
-        labelStack.spacing = 2
         labelStack.alignment = .leading
         labelStack.isUserInteractionEnabled = false
         return labelStack
+    }()
+
+    private lazy var disclosureIndicator: UIImageView = {
+        let disclosureIndicator = UIImageView()
+        disclosureIndicator.image = UIImage.buttonDisclosure
+        return disclosureIndicator
     }()
 
     // MARK: - Lifecycle
@@ -41,10 +46,12 @@ final class ProfileAssetButton: UIButton {
         snp.makeConstraints { make in
             make.height.equalTo(52)
         }
-        layer.cornerRadius = 10
+        self.backgroundColor = .cherryWhite
+        layer.cornerRadius = CornerRadius.regular.cgFloat()
 
         addButtonImage()
         addLabels()
+        addDisclosureIndicator()
     }
 
     required init?(coder: NSCoder) {
@@ -52,10 +59,21 @@ final class ProfileAssetButton: UIButton {
     }
 
     // MARK: - Private Methods
+    func removeImages() {
+        self.backgroundColor = nil
+        self.buttonImage.image = nil
+        self.disclosureIndicator.image = nil
+        labelStack.snp.remakeConstraints { make in
+            make.leading.equalTo(self).inset(12)
+            make.centerY.equalTo(self)
+        }
+    }
+
+    // MARK: - Private Methods
     private func addButtonImage() {
         addSubview(buttonImage)
         buttonImage.snp.makeConstraints { make in
-            make.height.width.equalTo(28)
+            make.height.width.equalTo(24)
             make.centerY.equalTo(self)
             make.leading.equalTo(self).inset(12)
         }
@@ -66,8 +84,17 @@ final class ProfileAssetButton: UIButton {
         labelStack.addArrangedSubview(buttonTitle)
         labelStack.addArrangedSubview(buttonSubtitle)
         labelStack.snp.makeConstraints { make in
-            make.leading.equalTo(buttonImage.snp.trailing).offset(8)
+            make.leading.equalTo(buttonImage.snp.trailing).offset(4)
             make.centerY.trailing.equalTo(self)
+        }
+    }
+
+    private func addDisclosureIndicator() {
+        addSubview(disclosureIndicator)
+        disclosureIndicator.snp.makeConstraints { make in
+            make.height.width.equalTo(24)
+            make.centerY.equalTo(self)
+            make.trailing.equalTo(self).inset(12)
         }
     }
 }

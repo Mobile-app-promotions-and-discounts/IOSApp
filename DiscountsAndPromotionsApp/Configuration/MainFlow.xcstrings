@@ -32,6 +32,7 @@
       }
     },
     "nothingFound" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

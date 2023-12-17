@@ -21,4 +21,11 @@ final class FavoritesScreenCoordinator: Coordinator {
         favoritesViewController.coordinator = self
         navigationController.pushViewController(favoritesViewController, animated: false)
     }
+
+    func navigateToFavoriteProductScreen(for product: Product) {
+        let productVC = ProductCardViewController(product: product)
+        productVC.hidesBottomBarWhenPushed = true
+        productVC.coordinator = self
+        navigationController.pushViewController(productVC, animated: true)
+    }
 }

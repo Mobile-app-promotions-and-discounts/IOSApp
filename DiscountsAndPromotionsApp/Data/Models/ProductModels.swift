@@ -61,8 +61,8 @@ struct Offer: Codable {
 }
 
 struct ProductImage: Codable {
-    let mainImage: String
-    let additionalPhoto: [String]
+    let mainImage: String?
+    let additionalPhoto: [String]?
 }
 
 struct Store: Codable {
@@ -86,8 +86,8 @@ struct Store: Codable {
 }
 
 struct StoreImage: Codable {
-    let mainImage: String
-    let logoImage: String
+    let mainImage: String?
+    let logoImage: String?
 }
 
 struct StoreLocation: Codable {
@@ -121,5 +121,24 @@ extension Product {
         let maxOffer = offers.max(by: { $0.price < $1.price })
 
         return (minOffer, maxOffer)
+    }
+
+    // Функция для поиска максимальной текущей скидки на продукт
+    func findMaxCurrentDiscount() -> Discount? {
+        // Текущая дата для сравнения с датами скидок
+        let currentDate = Date()
+
+        // Фильтруем предложения, оставляем только те, где есть скидка и она действительна
+        let validDiscounts = offers.compactMap { offer -> Discount? in
+            guard let discount = offer.discount,
+                  currentDate >= discount.discountStart,
+                  currentDate <= discount.discountEnd else {
+                return nil
+            }
+            return discount
+        }
+
+        // Ищем предложение с максимальной скидкой
+        return validDiscounts.max(by: { $0.discountRate < $1.discountRate })
     }
 }

@@ -14,8 +14,12 @@ protocol ScanFlowViewModelProtocol {
 }
 
 final class ScanFlowViewModel: ScanFlowViewModelProtocol {
+    private let dataService: DataServiceProtocol
+    private let coordinator: ScanFlowCoordinator
+
     private (set) var manualInputUpdate = PassthroughSubject<Bool, Never>()
     private (set) var validBarcodeUpdate = PassthroughSubject<Bool, Never>()
+
     @Published private var isManualInputActive: Bool = false {
         didSet {
             manualInputUpdate.send(isManualInputActive)
@@ -29,6 +33,12 @@ final class ScanFlowViewModel: ScanFlowViewModelProtocol {
     private var currentBarcode: String = ""
 
     private var subscriptions: Set<AnyCancellable> = Set()
+
+    init(dataService: DataServiceProtocol,
+         coordinator: ScanFlowCoordinator) {
+        self.dataService = dataService
+        self.coordinator = coordinator
+    }
 
     func bindBarcode(code: AnyPublisher<String, Never>) -> AnyPublisher<Bool, Never> {
         code.sink { [weak self] barcode in
@@ -64,17 +74,18 @@ final class ScanFlowViewModel: ScanFlowViewModelProtocol {
     }
 
     private func makeBarcodeRequest(code: String) {
-        // TODO: связать с сетевым слоем
-        print("Barcode for \(code)")
-        // временное наглядное решение
-        if let window = UIApplication.shared.windows.first(where: { $0.isKeyWindow }),
-           let navigationController = window.rootViewController as? UINavigationController {
-            let topController = navigationController.viewControllers.last
-            let alert = UIAlertController(title: "Код отсканирован",
-                                          message: "\(code)",
-                                          preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default))
-            topController?.present(alert, animated: true)
-        }
+        dataService.actualGoodsList
+            .sink { [weak self] goodsList in
+                guard let self = self else { return }
+                let sortedGoodsList = goodsList.filter { product in
+                    return product.barcode == code
+                }
+                if let product = sortedGoodsList.first {
+                    coordinator.showProduct(product)
+                } else {
+                    coordinator.scanError()
+                }
+            }
+            .store(in: &subscriptions)
     }
 }

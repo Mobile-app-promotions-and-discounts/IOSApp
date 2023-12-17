@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "ep_edit-pen@1x.png",
+      "filename" : "edit-2@1x.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "ep_edit-pen@2x.png",
+      "filename" : "edit-2@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "ep_edit-pen@3x.png",
+      "filename" : "edit-2@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

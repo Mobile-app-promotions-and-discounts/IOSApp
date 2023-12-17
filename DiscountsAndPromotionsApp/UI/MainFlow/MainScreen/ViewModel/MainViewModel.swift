@@ -94,8 +94,13 @@ final class MainViewModel: MainViewModelProtocol {
         return StoreUIModel(store: store)
     }
 
+    func getCategoryID(for index: Int) -> UUID {
+        let category = categories[index]
+        return category.id
+    }
+
     private func setupBindings() {
-        dataService.actualProductsList
+        dataService.actualGoodsList
             .sink { [weak self] productsList in
                 guard let self = self else { return }
                 self.products = productsList

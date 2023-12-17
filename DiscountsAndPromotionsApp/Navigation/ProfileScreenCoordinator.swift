@@ -16,8 +16,8 @@ final class ProfileScreenCoordinator: Coordinator {
         navigationController.pushViewController(profileViewController, animated: false)
     }
 
-    func exit() {
-        self.navigationController.navigationBar.isHidden = true
+    func exit(hideNavBar: Bool) {
+        self.navigationController.navigationBar.isHidden = hideNavBar
         navigationController.popViewController(animated: true)
     }
 
@@ -28,10 +28,15 @@ final class ProfileScreenCoordinator: Coordinator {
     }
 
     func navigateToRegionScreen() {
-        // Заглушка до реализации функционала
-        let alert = UIAlertController(title: "Region", message: "📍", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .cancel))
-        navigationController.present(alert, animated: true)
+        let regionViewController = RegionViewController(viewModel: profileViewModel)
+        regionViewController.coordinator = self
+        navigationController.pushViewController(regionViewController, animated: true)
+    }
+
+    func navigateToChooseRegionScreen() {
+        let chooseRegionViewController = ChooseRegionViewController()
+        chooseRegionViewController.coordinator = self
+        navigationController.pushViewController(chooseRegionViewController, animated: true)
     }
 
     func navigateToReviewsScreen() {

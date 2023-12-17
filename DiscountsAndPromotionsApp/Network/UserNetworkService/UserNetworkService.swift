@@ -6,11 +6,12 @@ protocol UserNetworkServiceProtocol {
 
     func registerUser(_ user: UserRequestModel)
     func deleteUser(id: Int, password: String)
-    func editUser(_ newUserParameters: [String: String], id: Int)
+    func editUser(_ newUserParameters: [String: Any], id: Int)
     func fetchUser()
 }
 
 final class UserNetworkService: UserNetworkServiceProtocol {
+    static let shared = UserNetworkService(networkClient: NetworkClient())
     private var networkClient: NetworkClientProtocol
     private var subscriptions = Set<AnyCancellable>()
 
@@ -109,10 +110,10 @@ final class UserNetworkService: UserNetworkServiceProtocol {
     }
 
     // MARK: - Отредактировать пользователя (передать новые ключи + значения)
-    func editUser(_ newUserParameters: [String: String], id: Int) {
+    func editUser(_ newUserParameters: [String: Any], id: Int) {
         let publisher: AnyPublisher<UserResponseModel, AppError> = networkClient.request(
-            endpoint: .newUser,
-            additionalPath: "\(id)/",
+            endpoint: .editUser,
+            additionalPath: "\(id)",
             headers: NetworkBaseConfiguration.tokenHeader(),
             parameters: newUserParameters
         )

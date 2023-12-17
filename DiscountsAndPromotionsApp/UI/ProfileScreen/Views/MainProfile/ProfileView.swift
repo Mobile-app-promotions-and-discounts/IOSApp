@@ -1,45 +1,53 @@
 import UIKit
 import SnapKit
+import Combine
 
 final class ProfileView: UIView {
 
     // MARK: - Private properties
-    //    private let viewModel: ProfileViewModelProtocol
     private let viewController: ProfileViewController
+
+    private var locationUpdated = Set<AnyCancellable>()
 
     // MARK: - Layout elements
     private lazy var editButton: UIButton = {
         let editButton = UIButton()
-        editButton.backgroundColor = .buttonBG
-        editButton.tintColor = .black
-        let image = UIImage(named: "EditButton")
+        editButton.tintColor = .cherryBlack
+        let image = UIImage.editButton
         editButton.setImage(image, for: .normal)
-        editButton.layer.cornerRadius = 18
+        editButton.layer.cornerRadius = CornerRadius.regular.cgFloat()
         editButton.addTarget(self, action: #selector(editDidTap), for: .touchUpInside)
         return editButton
     }()
 
     private lazy var avatarImage: UIImageView = {
-        let noImage = UIImage(systemName: "person.circle")?.withTintColor(.buttonBG, renderingMode: .alwaysOriginal)
+        let noImage = UIImage.avatar
         let avatarImage = UIImageView(image: noImage)
-        avatarImage.layer.cornerRadius = 23
+        avatarImage.layer.cornerRadius = 29
         avatarImage.layer.masksToBounds = true
         return avatarImage
     }()
 
+    private lazy var labelsStack: UIStackView = {
+        let labelsStack = UIStackView()
+        labelsStack.axis = .vertical
+        labelsStack.spacing = 4
+        return labelsStack
+    }()
+
     private lazy var nameLabel: UILabel = {
         let nameLabel = UILabel()
-        nameLabel.text = "Иван Иванов"
-        nameLabel.font = UIFont.boldSystemFont(ofSize: 20)
-        nameLabel.textColor = .black
+        nameLabel.text = "User Name"
+        nameLabel.font = CherryFonts.headerLarge
+        nameLabel.textColor = .cherryBlack
         return nameLabel
     }()
 
     private lazy var phoneLabel: UILabel = {
         let phoneLabel = UILabel()
         phoneLabel.text = "+ 7 (111) 111-11-11"
-        phoneLabel.font = UIFont.systemFont(ofSize: 15)
-        phoneLabel.textColor = .black
+        phoneLabel.font = CherryFonts.textMedium
+        phoneLabel.textColor = .cherryBlack
         return phoneLabel
     }()
 
@@ -52,49 +60,64 @@ final class ProfileView: UIView {
 
     private lazy var regionButton: ProfileAssetButton = {
         let regionButton = ProfileAssetButton()
+        regionButton.buttonImage.image = .buttonRegion
         regionButton.buttonTitle.text = NSLocalizedString("Region", tableName: "ProfileFlow", comment: "")
-        regionButton.buttonSubtitle.text = "Moscow"
-        regionButton.backgroundColor = .buttonBG
+        if let location = UserDefaults.standard.string(forKey: "storedLocation") {
+            regionButton.buttonSubtitle.text = location
+        }
         regionButton.addTarget(self, action: #selector(regionDidTap), for: .touchUpInside)
         return regionButton
     }()
 
     private lazy var reviewsButton: ProfileAssetButton = {
         let reviewsButton = ProfileAssetButton()
+        reviewsButton.buttonImage.image = .buttonReviews
         reviewsButton.buttonTitle.text = NSLocalizedString("MyReviews", tableName: "ProfileFlow", comment: "")
-        reviewsButton.backgroundColor = .buttonBG
         reviewsButton.addTarget(self, action: #selector(reviewsDidTap), for: .touchUpInside)
         return reviewsButton
     }()
 
     private lazy var notificationsButton: ProfileAssetButton = {
         let notificationsButton = ProfileAssetButton()
+        notificationsButton.buttonImage.image = .buttonNotification
         notificationsButton.buttonTitle.text = NSLocalizedString("Notifications", tableName: "ProfileFlow", comment: "")
-        notificationsButton.backgroundColor = .buttonBG
         notificationsButton.addTarget(self, action: #selector(notificationsDidTap), for: .touchUpInside)
         return notificationsButton
     }()
 
     private lazy var supportButton: ProfileAssetButton = {
         let supportButton = ProfileAssetButton()
+        supportButton.buttonImage.image = .buttonSupport
         supportButton.buttonTitle.text = NSLocalizedString("Support", tableName: "ProfileFlow", comment: "")
-        supportButton.backgroundColor = .buttonBG
         supportButton.addTarget(self, action: #selector(supportDidTap), for: .touchUpInside)
         return supportButton
     }()
 
-    private lazy var deleteAccountButton: ProfileAssetButton = {
-        let deleteAccountButton = ProfileAssetButton()
-        deleteAccountButton.buttonTitle.text = NSLocalizedString("DeleteAccount", tableName: "ProfileFlow", comment: "")
-        deleteAccountButton.addTarget(self, action: #selector(deleteAccountDidTap), for: .touchUpInside)
-        return deleteAccountButton
+    private lazy var aboutButton: ProfileAssetButton = {
+        let aboutButton = ProfileAssetButton()
+        aboutButton.buttonImage.image = .buttonAbout
+        aboutButton.buttonTitle.text = NSLocalizedString("About", tableName: "ProfileFlow", comment: "")
+        aboutButton.addTarget(self, action: #selector(supportDidTap), for: .touchUpInside)
+        return aboutButton
     }()
+
+    private lazy var padding = UIView()
 
     private lazy var exitProfileButton: ProfileAssetButton = {
         let exitProfileButton = ProfileAssetButton()
+        exitProfileButton.removeImages()
         exitProfileButton.buttonTitle.text = NSLocalizedString("ExitProfile", tableName: "ProfileFlow", comment: "")
         exitProfileButton.addTarget(self, action: #selector(exitAccountDidTap), for: .touchUpInside)
         return exitProfileButton
+    }()
+
+    private lazy var deleteAccountButton: ProfileAssetButton = {
+        let deleteAccountButton = ProfileAssetButton()
+        deleteAccountButton.removeImages()
+        deleteAccountButton.buttonTitle.text = NSLocalizedString("DeleteAccount", tableName: "ProfileFlow", comment: "")
+        deleteAccountButton.buttonTitle.textColor = .cherryMainAccent
+        deleteAccountButton.addTarget(self, action: #selector(deleteAccountDidTap), for: .touchUpInside)
+        return deleteAccountButton
     }()
 
     // MARK: - Lifecycle
@@ -103,13 +126,20 @@ final class ProfileView: UIView {
 
         super.init(frame: .zero)
 
-        self.backgroundColor = .cherryLightBlue
+        self.backgroundColor = .cherryWhite
 
-        addEditButton()
         addAvatar()
-        addNameLabel()
-        addPhoneLabel()
+        addEditButton()
+        addLabelsStack()
         addButtons()
+
+        NotificationCenter.default
+            .publisher(for: Notification.Name("updateLocation"))
+            .sink { location in
+                guard let location = location.object as? String else { return }
+                self.regionButton.buttonSubtitle.text = location
+            }
+            .store(in: &locationUpdated)
     }
 
     required init?(coder: NSCoder) {
@@ -169,37 +199,32 @@ final class ProfileView: UIView {
     }
 
     // MARK: - Layout methods
-    private func addEditButton() {
-        self.addSubview(editButton)
-        editButton.snp.makeConstraints { make in
-            make.height.width.equalTo(36)
-            make.top.equalTo(safeAreaLayoutGuide.snp.top).inset(12)
-            make.trailing.equalTo(snp.trailing).inset(16)
-        }
-    }
-
     private func addAvatar() {
         self.addSubview(avatarImage)
         avatarImage.snp.makeConstraints { make in
-            make.height.width.equalTo(46)
+            make.height.width.equalTo(59)
             make.top.equalTo(safeAreaLayoutGuide.snp.top).inset(12)
             make.leading.equalTo(snp.leading).inset(16)
         }
     }
 
-    private func addNameLabel() {
-        self.addSubview(nameLabel)
-        nameLabel.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide.snp.top).inset(12)
-            make.leading.equalTo(avatarImage.snp.trailing).offset(16)
+    private func addEditButton() {
+        self.addSubview(editButton)
+        editButton.snp.makeConstraints { make in
+            make.height.width.equalTo(24)
+            make.centerY.equalTo(avatarImage)
+            make.trailing.equalTo(self).inset(16)
         }
     }
 
-    private func addPhoneLabel() {
-        self.addSubview(phoneLabel)
-        phoneLabel.snp.makeConstraints { make in
-            make.top.equalTo(nameLabel.snp.bottom).offset(4)
-            make.leading.equalTo(nameLabel.snp.leading)
+    private func addLabelsStack() {
+        self.addSubview(labelsStack)
+        labelsStack.addArrangedSubview(nameLabel)
+        labelsStack.addArrangedSubview(phoneLabel)
+        labelsStack.snp.makeConstraints { make in
+            make.leading.equalTo(avatarImage.snp.trailing).offset(8)
+            make.trailing.equalTo(editButton.snp.leading).inset(8)
+            make.centerY.equalTo(avatarImage.snp.centerY)
         }
     }
 
@@ -208,13 +233,19 @@ final class ProfileView: UIView {
          reviewsButton,
          notificationsButton,
          supportButton,
-         deleteAccountButton,
-         exitProfileButton].forEach { buttonStack.addArrangedSubview($0) }
+         aboutButton,
+         padding,
+         exitProfileButton,
+         deleteAccountButton
+        ].forEach { buttonStack.addArrangedSubview($0) }
 
         self.addSubview(buttonStack)
         buttonStack.snp.makeConstraints { make in
             make.top.equalTo(phoneLabel.snp.bottom).offset(20)
             make.leading.trailing.equalTo(self).inset(16)
+        }
+        padding.snp.makeConstraints { make in
+            make.height.equalTo(16)
         }
     }
 }

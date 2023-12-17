@@ -1,16 +1,19 @@
 import UIKit
 import SnapKit
+import Combine
 
 final class EditProfileView: UIView {
-    // MARK: - Properties
+    // MARK: - Private properties
     private var viewController: EditProfileViewController
 
-    private let noImage = UIImage(systemName: "person.circle")?.withTintColor(.buttonBG, renderingMode: .alwaysOriginal)
+    private var userId: String?
+
+    private let noImage = UIImage.avatar
 
     // MARK: - Layout elements
     private lazy var avatarImage: UIImageView = {
         let avatarImage = UIImageView(image: noImage)
-        avatarImage.layer.cornerRadius = 65
+        avatarImage.layer.cornerRadius = 81
         avatarImage.layer.masksToBounds = true
         return avatarImage
     }()
@@ -18,8 +21,8 @@ final class EditProfileView: UIView {
     private lazy var changeAvatarLabel: UILabel = {
         let changeAvatarLabel = UILabel()
         changeAvatarLabel.text = NSLocalizedString("ChoosePhoto", tableName: "ProfileFlow", comment: "")
-        changeAvatarLabel.font = .systemFont(ofSize: 20)
-        changeAvatarLabel.textColor = .systemBlue
+        changeAvatarLabel.font = CherryFonts.textLarge
+        changeAvatarLabel.textColor = .cherryBlue
         changeAvatarLabel.textAlignment = .center
         let tapAction = UITapGestureRecognizer(target: self, action: #selector(changeAvatarDidTap(_:)))
         changeAvatarLabel.isUserInteractionEnabled = true
@@ -30,48 +33,25 @@ final class EditProfileView: UIView {
     private lazy var firstNameTextField: TextField = {
         let firstNameTextField = TextField()
         firstNameTextField.placeholder = NSLocalizedString("FirstName", tableName: "ProfileFlow", comment: "")
-        firstNameTextField.backgroundColor = .buttonBG
-        firstNameTextField.layer.cornerRadius = 10
-        firstNameTextField.layer.masksToBounds = true
-        firstNameTextField.font = .systemFont(ofSize: 14)
-        firstNameTextField.textColor = .black
-        firstNameTextField.insets = UIEdgeInsets(top: 0, left: 12, bottom: 0, right: 12)
         return firstNameTextField
     }()
 
     private lazy var lastNameTextField: TextField = {
         let lastNameTextField = TextField()
         lastNameTextField.placeholder = NSLocalizedString("LastName", tableName: "ProfileFlow", comment: "")
-        lastNameTextField.backgroundColor = .buttonBG
-        lastNameTextField.layer.cornerRadius = 10
-        lastNameTextField.layer.masksToBounds = true
-        lastNameTextField.font = .systemFont(ofSize: 14)
-        lastNameTextField.textColor = .black
-        lastNameTextField.insets = UIEdgeInsets(top: 0, left: 12, bottom: 0, right: 12)
         return lastNameTextField
     }()
 
     private lazy var phoneTextField: TextField = {
         let phoneTextField = TextField()
         phoneTextField.placeholder = NSLocalizedString("Phone", tableName: "ProfileFlow", comment: "")
-        phoneTextField.backgroundColor = .buttonBG
-        phoneTextField.layer.cornerRadius = 10
-        phoneTextField.layer.masksToBounds = true
-        phoneTextField.font = .systemFont(ofSize: 14)
-        phoneTextField.textColor = .black
-        phoneTextField.insets = UIEdgeInsets(top: 0, left: 12, bottom: 0, right: 12)
+        phoneTextField.delegate = self
         return phoneTextField
     }()
 
     private lazy var emailTextField: TextField = {
         let emailTextField = TextField()
         emailTextField.placeholder = "Email"
-        emailTextField.backgroundColor = .buttonBG
-        emailTextField.layer.cornerRadius = 10
-        emailTextField.layer.masksToBounds = true
-        emailTextField.font = .systemFont(ofSize: 14)
-        emailTextField.textColor = .black
-        emailTextField.insets = UIEdgeInsets(top: 0, left: 12, bottom: 0, right: 12)
         emailTextField.isUserInteractionEnabled = false
         return emailTextField
     }()
@@ -79,15 +59,10 @@ final class EditProfileView: UIView {
     private lazy var birthdateTextField: TextField = {
         let birthdateTextField = TextField()
         birthdateTextField.placeholder = NSLocalizedString("Birthdate", tableName: "ProfileFlow", comment: "")
-        birthdateTextField.backgroundColor = .buttonBG
-        birthdateTextField.layer.cornerRadius = 10
-        birthdateTextField.layer.masksToBounds = true
-        birthdateTextField.font = .systemFont(ofSize: 14)
-        birthdateTextField.textColor = .black
-        birthdateTextField.insets = UIEdgeInsets(top: 0, left: 12, bottom: 0, right: 12)
         birthdateTextField.datePicker(target: self,
                                       doneAction: #selector(datePickerDoneAction),
                                       cancelAction: #selector(datePickerCancelAction),
+                                      deleteAction: #selector(datePickerDeleteAction),
                                       datePickerMode: .date)
         return birthdateTextField
     }()
@@ -95,12 +70,6 @@ final class EditProfileView: UIView {
     private lazy var genderTextField: TextField = {
         let genderTextField = TextField()
         genderTextField.placeholder = NSLocalizedString("Gender", tableName: "ProfileFlow", comment: "")
-        genderTextField.backgroundColor = .buttonBG
-        genderTextField.layer.cornerRadius = 10
-        genderTextField.layer.masksToBounds = true
-        genderTextField.font = .systemFont(ofSize: 14)
-        genderTextField.textColor = .black
-        genderTextField.insets = UIEdgeInsets(top: 0, left: 12, bottom: 0, right: 12)
         let tapAction = UITapGestureRecognizer(target: self, action: #selector(chooseGenderDidTap(_:)))
         genderTextField.isUserInteractionEnabled = true
         genderTextField.addGestureRecognizer(tapAction)
@@ -112,7 +81,7 @@ final class EditProfileView: UIView {
         self.viewController = viewController
         super.init(frame: .zero)
 
-        self.backgroundColor = .cherryLightBlue
+        self.backgroundColor = .cherryWhite
 
         addAvatar()
         addNameFields()
@@ -129,8 +98,8 @@ final class EditProfileView: UIView {
     // MARK: - Public methods
     func collectFieldsToProfile() -> ProfileModel {
         let profile = ProfileModel(
-            id: nil,
-            avatar: avatarImage.image?.pngData(),
+            id: userId,
+            avatar: avatarImage == noImage ? nil : avatarImage.image?.pngData(),
             firstName: firstNameTextField.text,
             lastName: lastNameTextField.text,
             phone: phoneTextField.text,
@@ -147,6 +116,7 @@ final class EditProfileView: UIView {
 
     // MARK: - Private methods
     private func prefillFields(profile: ProfileModel) {
+        if let id = profile.id { userId = id }
         if let avatar = profile.avatar { avatarImage.image = UIImage(data: avatar) }
         if let firstName = profile.firstName { firstNameTextField.text = firstName }
         if let lastName = profile.lastName { lastNameTextField.text = lastName }
@@ -170,6 +140,12 @@ final class EditProfileView: UIView {
     }
 
     @objc
+    private func datePickerDeleteAction() {
+        self.birthdateTextField.text = ""
+        self.birthdateTextField.resignFirstResponder()
+    }
+
+    @objc
     private func datePickerDoneAction() {
         if let datePickerView = self.birthdateTextField.inputView as? UIDatePicker {
             self.birthdateTextField.text = datePickerView.date.customFormatted()
@@ -180,7 +156,7 @@ final class EditProfileView: UIView {
     @objc
     private func chooseGenderDidTap(_ sender: UITapGestureRecognizer) {
         let alert = UIAlertController(
-            title: NSLocalizedString("Gender", tableName: "ProfileFlow", comment: ""),
+            title: nil,
             message: nil,
             preferredStyle: UIAlertController.Style.alert
         )
@@ -191,6 +167,20 @@ final class EditProfileView: UIView {
         alert.addAction(UIAlertAction(title: "🙎🏼‍♀️", style: UIAlertAction.Style.default, handler: {_ in
             self.genderTextField.text = "🙎🏼‍♀️"
         }))
+        if self.genderTextField.text != "" {
+            alert.addAction(UIAlertAction(
+                title: NSLocalizedString("Delete", tableName: "ProfileFlow", comment: ""),
+                style: UIAlertAction.Style.destructive,
+                handler: {_ in
+                self.genderTextField.text = ""
+            }))
+        }
+        alert.addAction(UIAlertAction(
+            title: NSLocalizedString("Cancel", tableName: "ProfileFlow", comment: ""),
+            style: UIAlertAction.Style.default,
+            handler: {_ in
+                alert.dismiss(animated: true)
+        }))
 
         self.viewController.present(alert, animated: true, completion: nil)
     }
@@ -199,8 +189,8 @@ final class EditProfileView: UIView {
     private func addAvatar() {
         self.addSubview(avatarImage)
         avatarImage.snp.makeConstraints { make in
-            make.height.width.equalTo(130)
-            make.top.equalTo(safeAreaLayoutGuide.snp.top).inset(20)
+            make.height.width.equalTo(162)
+            make.top.equalTo(safeAreaLayoutGuide.snp.top).inset(24)
             make.centerX.equalTo(self)
         }
         self.addSubview(changeAvatarLabel)
@@ -252,5 +242,16 @@ final class EditProfileView: UIView {
             make.top.equalTo(birthdateTextField.snp.bottom).offset(4)
         }
     }
+}
 
+extension EditProfileView: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        guard let unformattedNumber = textField.text else { return }
+        phoneTextField.text = unformattedNumber.formatPhoneNumber()
+    }
 }
