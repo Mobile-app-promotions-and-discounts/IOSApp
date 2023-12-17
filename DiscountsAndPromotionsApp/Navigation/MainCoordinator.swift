@@ -34,8 +34,14 @@ final class MainCoordinator: Coordinator {
         navigationController.viewControllers = [splashViewController]
 
         // временно для теста сервисов
-        categoryNetworkService.fetchCategories()
-        productNetworkService.getProduct(productID: 5)
+        authService.getToken(for: UserRequestModel(username: NetworkBaseConfiguration.testUser.username,
+                                                   password: NetworkBaseConfiguration.testUser.password))
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: { [weak self] in
+            self?.authService.verifyToken()
+        })
+        DispatchQueue.main.asyncAfter(deadline: .now() + 6, execute: { [weak self] in
+            self?.authService.refreshToken()
+        })
     }
 
     func navigateToMainScreen() {

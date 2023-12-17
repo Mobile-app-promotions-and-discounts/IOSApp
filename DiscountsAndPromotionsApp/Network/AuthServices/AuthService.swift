@@ -14,6 +14,8 @@ final class AuthService: AuthServiceProtocol {
     private let tokenStorage: AuthTokenStorage
     private let networkClient: NetworkClientProtocol
 
+    var subscriptions = Set<AnyCancellable>()
+
     private (set) var isTokenValidUpdate = PassthroughSubject<Bool, Never>()
 
     init(tokenStorage: AuthTokenStorage = AuthTokenStorage.shared,
@@ -24,8 +26,6 @@ final class AuthService: AuthServiceProtocol {
 
     // MARK: - Авторизоваться и получить токен
     func getToken(for user: UserRequestModel) {
-        var subscriptions = Set<AnyCancellable>()
-
         let userParams: [String: String] = [
             "username": user.username,
             "password": user.password
@@ -57,8 +57,6 @@ final class AuthService: AuthServiceProtocol {
 
     // MARK: - Проверить, что токен действителен
     func verifyToken() {
-        var subscriptions = Set<AnyCancellable>()
-
         let access: String = tokenStorage.accessToken ?? ""
         let tokenParams: [String: String] = [
             "token": access
@@ -75,6 +73,7 @@ final class AuthService: AuthServiceProtocol {
             switch completion {
             case .finished:
                 print("Token is valid")
+                self?.isTokenValidUpdate.send(true)
             case .failure(let error):
                 print("Token validation error: \(error)")
                 self?.refreshToken()
@@ -85,8 +84,6 @@ final class AuthService: AuthServiceProtocol {
 
     // MARK: - Обновить токен, если он просрочен
     func refreshToken() {
-        var subscriptions = Set<AnyCancellable>()
-
         let refresh: String = tokenStorage.refreshToken ?? ""
         let tokenParams: [String: String] = [
             "refresh": refresh
@@ -102,13 +99,14 @@ final class AuthService: AuthServiceProtocol {
             .sink { [weak self] completion in
             switch completion {
             case .finished:
-                print("Token is valid")
+                print("Token is refreshed")
             case .failure(let error):
-                print("Token validation error: \(error)")
-                self?.refreshToken()
+                print("Token refresh error: \(error)")
+                self?.isTokenValidUpdate.send(false)
             }
         } receiveValue: { [weak self] token in
             self?.tokenStorage.accessToken = token.access
+            self?.isTokenValidUpdate.send(true)
         }
         .store(in: &subscriptions)
     }
