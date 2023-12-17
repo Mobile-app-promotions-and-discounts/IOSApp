@@ -36,12 +36,12 @@ final class MainCoordinator: Coordinator {
         // временно для теста сервисов
         authService.getToken(for: UserRequestModel(username: NetworkBaseConfiguration.testUser.username,
                                                    password: NetworkBaseConfiguration.testUser.password))
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: { [weak self] in
-//            self?.authService.verifyToken()
-//        })
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 6, execute: { [weak self] in
-//            self?.authService.refreshToken()
-//        })
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: { [weak self] in
+            self?.authService.verifyToken()
+        })
+        DispatchQueue.main.asyncAfter(deadline: .now() + 6, execute: { [weak self] in
+            self?.authService.refreshToken()
+        })
     }
 
     func navigateToMainScreen() {

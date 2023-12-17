@@ -5,8 +5,8 @@ protocol AuthServiceProtocol {
     var isTokenValidUpdate: PassthroughSubject<Bool, Never> { get }
 
     func getToken(for user: UserRequestModel)
-//    func verifyToken()
-//    func refreshToken()
+    func verifyToken()
+    func refreshToken()
     func logout()
 }
 
@@ -45,6 +45,7 @@ final class AuthService: AuthServiceProtocol {
             do {
                 let token: TokenResponseModel = try await networkClient.request(for: urlRequest)
                 await MainActor.run { [weak self] in
+                    print(token)
                     print("Token obtained successfully")
 
                     guard let self else { return }
@@ -68,60 +69,75 @@ final class AuthService: AuthServiceProtocol {
     }
 
     // MARK: - Проверить, что токен действителен
-//    func verifyToken() {
-//        let access: String = tokenStorage.accessToken ?? ""
-//        let tokenParams: [String: String] = [
-//            "token": access
-//        ]
-//
-//        let publisher: AnyPublisher<Data, AppError> = networkClient.requestWithEmptyResponse(
-//            endpoint: Endpoint.verifyToken,
-//            additionalPath: nil,
-//            headers: nil,
-//            parameters: tokenParams)
-//
-//        publisher
-//            .sink { [weak self] completion in
-//            switch completion {
-//            case .finished:
-//                print("Token is valid")
-//                self?.isTokenValidUpdate.send(true)
-//            case .failure(let error):
-//                print("Token validation error: \(error)")
-//                self?.refreshToken()
-//            }
-//        } receiveValue: { _ in }
-//        .store(in: &subscriptions)
-//    }
+    func verifyToken() {
+        let access: String = tokenStorage.accessToken ?? ""
+        let tokenParams: [String: String] = [
+            "token": access
+        ]
+
+        guard let urlRequest = requestConstructor.makeRequest(endpoint: Endpoint.verifyToken,
+                                                              additionalPath: nil,
+                                                              headers: nil,
+                                                              parameters: tokenParams) else {
+            ErrorHandler.handle(error: AppError.customError("invalid request"))
+            return
+        }
+
+        Task {
+            do {
+                let responseData: NetworkErrorDescriptionModel = try await networkClient.request(for: urlRequest)
+                await MainActor.run {[weak self] in
+                    print(responseData)
+                    print("Token is valid")
+
+                    guard let self else { return }
+                    self.isTokenValidUpdate.send(true)
+                }
+            } catch let error {
+                print("Token validation error: \(error.localizedDescription). Refreshing")
+                refreshToken()
+            }
+        }
+    }
 
     // MARK: - Обновить токен, если он просрочен
-//    func refreshToken() {
-//        let refresh: String = tokenStorage.refreshToken ?? ""
-//        let tokenParams: [String: String] = [
-//            "refresh": refresh
-//        ]
-//
-//        let publisher: AnyPublisher<TokenResponseModel, AppError> = networkClient.request(
-//            endpoint: Endpoint.refreshToken,
-//            additionalPath: nil,
-//            headers: nil,
-//            parameters: tokenParams)
-//
-//        publisher
-//            .sink { [weak self] completion in
-//            switch completion {
-//            case .finished:
-//                print("Token is refreshed")
-//            case .failure(let error):
-//                print("Token refresh error: \(error)")
-//                self?.isTokenValidUpdate.send(false)
-//            }
-//        } receiveValue: { [weak self] token in
-//            self?.tokenStorage.accessToken = token.access
-//            self?.isTokenValidUpdate.send(true)
-//        }
-//        .store(in: &subscriptions)
-//    }
+    func refreshToken() {
+        let refresh: String = tokenStorage.refreshToken ?? ""
+        let tokenParams: [String: String] = [
+            "refresh": refresh
+        ]
+
+        guard let urlRequest = requestConstructor.makeRequest(endpoint: Endpoint.refreshToken,
+                                                              additionalPath: nil,
+                                                              headers: nil,
+                                                              parameters: tokenParams) else {
+            ErrorHandler.handle(error: AppError.customError("invalid request"))
+            return
+        }
+
+        Task {
+            do {
+                let token: TokenResponseModel = try await networkClient.request(for: urlRequest)
+                await MainActor.run { [weak self] in
+                    print(token)
+                    print("Token is refreshed")
+
+                    guard let self else { return }
+                    self.isTokenValidUpdate.send(true)
+                    self.tokenStorage.accessToken = token.access
+                }
+            } catch let error {
+                print("Token refresh error: \(error.localizedDescription)")
+
+                isTokenValidUpdate.send(false)
+                if let error = error as? AppError {
+                    ErrorHandler.handle(error: error)
+                } else {
+                    ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
+                }
+            }
+        }
+    }
 
     // MARK: - Удалить из связки ключей сохраненный токен
     func logout() {
