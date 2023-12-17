@@ -2,6 +2,8 @@ import Foundation
 
 enum Endpoint {
     case getToken
+    case verifyToken
+    case refreshToken
     case getUser
     case deleteUser
     case newUser
@@ -18,6 +20,10 @@ enum Endpoint {
         switch self {
         case .getToken:
             path += "/auth/jwt/create/"
+        case .verifyToken:
+            path += "/auth/jwt/verify/"
+        case .refreshToken:
+            path += "/auth/jwt/refresh/"
         case .getUser:
             path += "/auth/users/me/"
         case .deleteUser, .newUser, .editUser:
@@ -34,7 +40,10 @@ enum Endpoint {
 
     var method: HttpMethod {
         switch self {
-        case .getToken, .newUser:
+        case .getToken,
+                .refreshToken,
+                .verifyToken,
+                .newUser:
             return .post
         case .getUser,
                 .getCategory,
@@ -65,7 +74,7 @@ struct NetworkBaseConfiguration {
     static let testUser = UserRequestModel(username: "ivanov@example.com",
                                            password: "cherryapp")
     static let baseURL = "http://193.107.239.130"
-    static func tokenHeader() -> [String: String] {
+    static func accessTokenHeader() -> [String: String] {
         let token = AuthTokenStorage.shared.accessToken ?? ""
         return ["Authorization": "Bearer \(token)"]
     }

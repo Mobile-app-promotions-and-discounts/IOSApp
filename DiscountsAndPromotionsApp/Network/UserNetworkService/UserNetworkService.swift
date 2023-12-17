@@ -37,7 +37,7 @@ final class UserNetworkService: UserNetworkServiceProtocol {
         let publisher: AnyPublisher<UserResponseModel, AppError> = networkClient.request(
             endpoint: .getUser,
             additionalPath: nil,
-            headers: NetworkBaseConfiguration.tokenHeader(),
+            headers: NetworkBaseConfiguration.accessTokenHeader(),
             parameters: nil
         )
 
@@ -90,7 +90,7 @@ final class UserNetworkService: UserNetworkServiceProtocol {
         let publisher: AnyPublisher<Data, AppError> = networkClient.requestWithEmptyResponse(
             endpoint: .deleteUser,
             additionalPath: "\(id)/",
-            headers: NetworkBaseConfiguration.tokenHeader(),
+            headers: NetworkBaseConfiguration.accessTokenHeader(),
             parameters: parameters
         )
 
@@ -114,7 +114,7 @@ final class UserNetworkService: UserNetworkServiceProtocol {
         let publisher: AnyPublisher<UserResponseModel, AppError> = networkClient.request(
             endpoint: .editUser,
             additionalPath: "\(id)",
-            headers: NetworkBaseConfiguration.tokenHeader(),
+            headers: NetworkBaseConfiguration.accessTokenHeader(),
             parameters: newUserParameters
         )
 
