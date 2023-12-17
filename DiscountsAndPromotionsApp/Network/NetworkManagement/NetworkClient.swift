@@ -12,7 +12,6 @@ final class NetworkClient: NetworkClientProtocol {
         switch statusCode {
         case 200..<300:
             do {
-                print(data)
                 return try decoder.decode(T.self, from: data)
             } catch {
                 throw AppError.parsingError

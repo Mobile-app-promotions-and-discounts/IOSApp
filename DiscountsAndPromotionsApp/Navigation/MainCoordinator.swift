@@ -10,7 +10,7 @@ final class MainCoordinator: Coordinator {
     private let networkClient: NetworkClientProtocol
     private let authService: AuthServiceProtocol
     private let userNetworkService: UserNetworkServiceProtocol
-//    private let categoryNetworkService: CategoryNetworkService
+    private let categoryNetworkService: CategoryNetworkService
 //    private let productNetworkService: ProductNetworkService
 
     init(navigationController: UINavigationController, networkClient: NetworkClientProtocol = NetworkClient()) {
@@ -21,7 +21,7 @@ final class MainCoordinator: Coordinator {
         self.networkClient = networkClient
         self.authService = AuthService(networkClient: networkClient)
         self.userNetworkService = UserNetworkService(networkClient: networkClient)
-//        self.categoryNetworkService = CategoryNetworkService(networkClient: networkClient)
+        self.categoryNetworkService = CategoryNetworkService(networkClient: networkClient)
 //        self.productNetworkService = ProductNetworkService(networkClient: networkClient)
 
         self.navigationController = navigationController
@@ -32,6 +32,9 @@ final class MainCoordinator: Coordinator {
         let splashViewController = SplashViewController()
         splashViewController.coordinator = self
         navigationController.viewControllers = [splashViewController]
+
+        // тест сетевых сервисов
+        categoryNetworkService.fetchCategories()
     }
 
     func navigateToMainScreen() {
