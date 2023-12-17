@@ -33,7 +33,7 @@ final class MainCoordinator: Coordinator {
         splashViewController.coordinator = self
         navigationController.viewControllers = [splashViewController]
 
-        //временно для теста сервисов
+        // временно для теста сервисов
         categoryNetworkService.fetchCategories()
         productNetworkService.getProduct(productID: 5)
     }

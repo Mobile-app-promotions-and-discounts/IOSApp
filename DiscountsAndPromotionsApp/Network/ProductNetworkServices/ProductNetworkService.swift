@@ -21,7 +21,9 @@ final class ProductNetworkService: ProductNetworkServiceProtocol {
                                                rating: nil,
                                                category: nil,
                                                description: nil,
-                                               image: nil,
+                                               mainImage: "",
+                                               barcode: "",
+                                               stores: [],
                                                isFavorited: false) {
         didSet {
             productUpdate.send(product)
