@@ -112,6 +112,7 @@
 		BCD4B4732B2F5B6F00539CD1 /* StoreResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD4B4722B2F5B6F00539CD1 /* StoreResponseModel.swift */; };
 		BCD4B4752B2F5DA600539CD1 /* LocationResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD4B4742B2F5DA600539CD1 /* LocationResponseModel.swift */; };
 		BCD4B4772B2F5DDE00539CD1 /* StoreChainResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD4B4762B2F5DDE00539CD1 /* StoreChainResponseModel.swift */; };
+		BCD4B47E2B2F733D00539CD1 /* NetworkRequestConstructor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD4B47D2B2F733D00539CD1 /* NetworkRequestConstructor.swift */; };
 		BE2774BC2B0FD0890000C8C2 /* MainFlow.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = BE2774BB2B0FD0890000C8C2 /* MainFlow.xcstrings */; };
 		BE35244E2B02ABA200746581 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE35244D2B02ABA200746581 /* AppDelegate.swift */; };
 		BE3524502B02ABA200746581 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE35244F2B02ABA200746581 /* SceneDelegate.swift */; };
@@ -269,6 +270,7 @@
 		BCD4B4722B2F5B6F00539CD1 /* StoreResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreResponseModel.swift; sourceTree = "<group>"; };
 		BCD4B4742B2F5DA600539CD1 /* LocationResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationResponseModel.swift; sourceTree = "<group>"; };
 		BCD4B4762B2F5DDE00539CD1 /* StoreChainResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreChainResponseModel.swift; sourceTree = "<group>"; };
+		BCD4B47D2B2F733D00539CD1 /* NetworkRequestConstructor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequestConstructor.swift; sourceTree = "<group>"; };
 		BE2774BB2B0FD0890000C8C2 /* MainFlow.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = MainFlow.xcstrings; sourceTree = "<group>"; };
 		BE35244A2B02ABA200746581 /* DiscountsAndPromotionsApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DiscountsAndPromotionsApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE35244D2B02ABA200746581 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -456,6 +458,7 @@
 		BCAC6B672B223C4100AD5C96 /* NetworkManagement */ = {
 			isa = PBXGroup;
 			children = (
+				BCD4B47D2B2F733D00539CD1 /* NetworkRequestConstructor.swift */,
 				BCAC6B682B223C4100AD5C96 /* NetworkClient.swift */,
 				BCAC6B692B223C4100AD5C96 /* NetworkClientProtocol.swift */,
 				BCAC6B6A2B223C4100AD5C96 /* Models */,
@@ -1086,6 +1089,7 @@
 				BCAC6B782B223C4100AD5C96 /* NetworkClientProtocol.swift in Sources */,
 				BCCF50132B1B4AF10067A552 /* ScannerEnabledViewController.swift in Sources */,
 				BCB7F9202B0D150700EE20A0 /* UITextFieldExtensions.swift in Sources */,
+				BCD4B47E2B2F733D00539CD1 /* NetworkRequestConstructor.swift in Sources */,
 				BC93BB742B0C8166008BE2AD /* ScannerNavButton.swift in Sources */,
 				BCAC6B792B223C4100AD5C96 /* NetworkErrorDescriptionModel.swift in Sources */,
 				92787F682B1F14500045B678 /* AuthTokenKeychainStorage.swift in Sources */,
