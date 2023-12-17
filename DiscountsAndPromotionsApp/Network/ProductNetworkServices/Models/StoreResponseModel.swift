@@ -1,16 +1,7 @@
 import Foundation
 
-struct StoreElementResponseModel: Codable {
-   let id: Int
-   let discount: DiscountResponseModel?
- //  let store: StoreResponseModel?
-   let price: String?
-}
-
-typealias ProductsInStore = [StoreElementResponseModel]
-
 struct StoreResponseModel: Codable {
-   let id: Int?
+   let id: Int
    let location: LocationResponseModel?
    let chainStore: StoreChainResponseModel?
    let name: String?
@@ -21,14 +12,3 @@ struct StoreResponseModel: Codable {
        case name
    }
 }
-
-struct LocationResponseModel: Codable {
-   let id: Int
-   let region, city, street, building: String?
-}
-
-struct StoreChainResponseModel: Codable {
-
-}
-
-typealias StoreChainsResponseModel = [StoreChainResponseModel]
