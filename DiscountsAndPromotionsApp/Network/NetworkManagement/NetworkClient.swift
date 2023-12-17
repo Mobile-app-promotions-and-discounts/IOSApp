@@ -4,11 +4,6 @@ import Foundation
 final class NetworkClient: NetworkClientProtocol {
     private let decoder = JSONDecoder()
     private let session = URLSession.shared
-    private let requestConstructor: NetworkRequestConstructor
-    
-    init(requestConstructor: NetworkRequestConstructor = NetworkRequestConstructor.shared) {
-        self.requestConstructor = requestConstructor
-    }
 
 //    func request<T: Decodable>(endpoint: Endpoint,
 //                               additionalPath: String?,
@@ -64,10 +59,10 @@ final class NetworkClient: NetworkClientProtocol {
 //
 //        return publisher
 //    }
-    
+
     func request<T: Decodable>(for urlRequest: URLRequest) async throws -> T {
         let (data, response) = try await session.data(for: urlRequest)
-        
+
         let statusCode = (response as? HTTPURLResponse)?.statusCode ?? 400
         switch statusCode {
         case 200..<300:

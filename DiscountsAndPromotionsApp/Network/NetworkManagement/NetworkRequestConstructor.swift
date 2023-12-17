@@ -1,7 +1,7 @@
 import Foundation
 
 protocol NetworkRequestConstructorProtocol {
-    func request(endpoint: Endpoint,
+    func makeRequest(endpoint: Endpoint,
                  additionalPath: String?,
                  headers: [String: String]?,
                  parameters: [String: Any]?) -> URLRequest?
@@ -9,8 +9,8 @@ protocol NetworkRequestConstructorProtocol {
 
 final class NetworkRequestConstructor: NetworkRequestConstructorProtocol {
     static let shared = NetworkRequestConstructor()
-    
-    func request(endpoint: Endpoint,
+
+    func makeRequest(endpoint: Endpoint,
                  additionalPath: String?,
                  headers: [String: String]?,
                  parameters: [String: Any]?) -> URLRequest? {
@@ -37,7 +37,7 @@ final class NetworkRequestConstructor: NetworkRequestConstructorProtocol {
                 request.setValue(value, forHTTPHeaderField: key)
             }
         }
-        
+
         return request
     }
 }
