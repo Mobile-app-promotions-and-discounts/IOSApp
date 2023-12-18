@@ -1,33 +1,40 @@
 import UIKit
 
 final class GenericNavigationController: UINavigationController {
-    private var roundedBackground = UIView()
-    private var navBarFrame = CGRect()
-    private let cornerRadius = CornerRadius.regular.cgFloat()
+    var scanCoordinator: ScanFlowCoordinator?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let appearence = UINavigationBarAppearance()
-        appearence.configureWithTransparentBackground()
-        appearence.backgroundColor = .cherryMainAccent
-
-        navigationBar.standardAppearance = appearence
-        navigationBar.scrollEdgeAppearance = appearence
-        navigationBar.compactAppearance = appearence
-
-        navigationBar.tintColor = .cherryWhite
-
-        navigationBar.addSubview(roundedBackground)
-        roundedBackground.backgroundColor = UIColor.cherryMainAccent
-        roundedBackground.layer.cornerRadius = cornerRadius
-        roundedBackground.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
+        setupNavBar()
     }
-    override func viewDidLayoutSubviews() {
-        navBarFrame = CGRect(origin: CGPoint(x: navigationBar.bounds.minX,
-                                             y: navigationBar.bounds.maxY - cornerRadius),
-                                 size: CGSize(width: navigationBar.bounds.width,
-                                              height: cornerRadius*2))
-        roundedBackground.frame = navBarFrame
-        navigationBar.sendSubviewToBack(roundedBackground)
+
+    private func setupNavBar() {
+        let imageSize = CGSize(width: navigationBar.frame.width, height: navigationBar.frame.width)
+        let image = makeNavBackground(size: imageSize,
+                                      color: .cherryMainAccent,
+                                      cornerRadius: CornerRadius.regular.cgFloat())
+
+        let standardAppearance = UINavigationBarAppearance()
+        standardAppearance.configureWithTransparentBackground()
+        standardAppearance.backgroundImage = image
+        standardAppearance.backgroundImageContentMode = .bottom
+
+        navigationBar.standardAppearance = standardAppearance
+        navigationBar.scrollEdgeAppearance = standardAppearance
+        navigationBar.tintColor = .cherryWhite
+    }
+
+    private func makeNavBackground(size: CGSize, color: UIColor, cornerRadius: CGFloat) -> UIImage? {
+        let renderer = UIGraphicsImageRenderer(size: size)
+        let image = renderer.image { context in
+            color.setFill()
+            let path = UIBezierPath(roundedRect: CGRect(origin: .zero, size: size),
+                                    byRoundingCorners: [.bottomLeft, .bottomRight],
+                                    cornerRadii: CGSize(width: cornerRadius, height: cornerRadius))
+            context.cgContext.addPath(path.cgPath)
+            context.cgContext.clip()
+            context.fill(CGRect(origin: .zero, size: size))
+        }
+        return image
     }
 }

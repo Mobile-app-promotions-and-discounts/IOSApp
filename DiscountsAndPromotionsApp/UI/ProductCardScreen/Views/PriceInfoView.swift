@@ -3,15 +3,17 @@ import SnapKit
 import Combine
 
 class PriceInfoView: UIView {
-    var viewModel: PriceInfoViewViewModel? {
+
+    var viewModel: PriceInfoViewViewModelProtocol? {
         didSet {
+            print("ViewModel is set")
             bindViewModel()
         }
     }
 
     private var cancellables = Set<AnyCancellable>()
 
-    private let toFavoritesButton = UIButton()
+    private let toFavoritesButton = PrimaryButton()
     private let worstOriginPrice = UILabel()
     private let bestDiscountPrice = UILabel()
 
@@ -24,27 +26,50 @@ class PriceInfoView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configure(with price: Double, discountPrice: Double) {
-        viewModel?.price = price
-        viewModel?.discountPrice = discountPrice
+    func configure(with price: Int, discountPrice: Int) {
+        print("Configuring with price: \(price), discountPrice: \(discountPrice)")
+        viewModel?.updatePrice(price)
+        viewModel?.updateDiscountPrice(discountPrice)
     }
 
     private func bindViewModel() {
-        viewModel?.$price
-            .map {String($0)}
-            .assign(to: \.text, on: worstOriginPrice)
+        print("Binding ViewModel")
+        viewModel?.pricePublisher
+            .map { "\($0) ₽" }
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] price in
+                print("Setting worstOriginPrice text to: \(price)")
+                self?.worstOriginPrice.text = price}
             .store(in: &cancellables)
 
-        viewModel?.$discountPrice
-            .map { "от (\($0))р"}
-            .assign(to: \.text, on: bestDiscountPrice)
+        viewModel?.discountPricePublisher
+            .map { "от \($0) ₽"}
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] discountPrice in
+                    print("Setting bestDiscountPrice text to: \(discountPrice)")
+                    self?.bestDiscountPrice.text = discountPrice
+                }
             .store(in: &cancellables)
 
         toFavoritesButton.publisher(for: .touchUpInside)
-            .sink { [weak viewModel] _ in
-                viewModel?.addToFavorites.send()
+            .sink { [weak self] _ in
+                self?.viewModel?.addToFavorites.send()
+                self?.viewModel?.toggleFavorite()
+                self?.updateFavoritesButtonState()
             }
             .store(in: &cancellables)
+
+        updateFavoritesButtonState()
+    }
+
+    private func updateFavoritesButtonState() {
+        if let isFavorite = viewModel?.isFavorite {
+            toFavoritesButton.isUserInteractionEnabled = !isFavorite
+            toFavoritesButton.backgroundColor = isFavorite ? .cherryPrimaryDisabled : .cherryMainAccent
+        } else {
+            toFavoritesButton.isUserInteractionEnabled = true
+            toFavoritesButton.backgroundColor = .cherryMainAccent
+        }
     }
 
     private func setupLayout() {
@@ -56,7 +81,7 @@ class PriceInfoView: UIView {
 
     private func setupWorstOriginPriceLabel() {
         worstOriginPrice.textColor = .gray
-        worstOriginPrice.font = .systemFont(ofSize: 14)
+        worstOriginPrice.font = CherryFonts.textMedium
         worstOriginPrice.attributedText = NSAttributedString(
             string: "300р",
             attributes: [NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.single.rawValue]
@@ -66,7 +91,7 @@ class PriceInfoView: UIView {
 
     private func setupBestDiscountPriceLabel() {
         bestDiscountPrice.textColor = .black
-        bestDiscountPrice.font = .boldSystemFont(ofSize: 24)
+        bestDiscountPrice.font = CherryFonts.headerExtraLarge
         bestDiscountPrice.text = "от 150р"
         addSubview(bestDiscountPrice)
     }
@@ -74,9 +99,9 @@ class PriceInfoView: UIView {
     private func setupToFavoritesButton() {
         toFavoritesButton.setTitle("В Избранное", for: .normal)
         toFavoritesButton.backgroundColor = .lightGray
-        toFavoritesButton.layer.cornerRadius = 10
-        toFavoritesButton.titleLabel?.font = .boldSystemFont(ofSize: 16)
-        toFavoritesButton.tintColor = .black
+        toFavoritesButton.layer.cornerRadius = CornerRadius.regular.cgFloat()
+        toFavoritesButton.titleLabel?.font = CherryFonts.headerMedium
+        toFavoritesButton.tintColor = .cherryBlack
         addSubview(toFavoritesButton)
     }
 

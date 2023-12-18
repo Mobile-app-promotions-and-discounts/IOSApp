@@ -1,7 +1,6 @@
 import UIKit
 
 class ScannerEnabledViewController: SearchEnabledViewController {
-    weak var scanCoordinator: ScanFlowCoordinator?
     private var scanButton = UIButton(type: .infoDark)
 
     override func viewDidLoad() {
@@ -16,12 +15,15 @@ class ScannerEnabledViewController: SearchEnabledViewController {
         scanButton.setImage(UIImage.scannerIcon, for: .normal)
         scanButton.snp.makeConstraints { make in
             make.centerY.equalTo(searchBar.snp.centerY)
-            make.trailing.equalTo(searchBar.snp.trailing).offset(-40)
+            make.trailing.equalTo(searchBar.snp.trailing).offset(-28)
         }
     }
 
     @objc
     private func showScanner() {
-        scanCoordinator?.showScanner()
+        if let navController = navigationController as? GenericNavigationController,
+        let scanCoordinator = navController.scanCoordinator {
+            scanCoordinator.showScanner()
+        }
     }
 }

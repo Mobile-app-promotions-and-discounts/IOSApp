@@ -15,23 +15,42 @@ final class MainCoordinator: Coordinator {
     }
 
     func start() {
+        let splashViewController = SplashViewController()
+        splashViewController.coordinator = self
+        navigationController.viewControllers = [splashViewController]
+    }
+
+    func navigateToMainScreen() {
         let mainTabBarController = MainTabBarController()
         configureChildCoordinators(with: mainTabBarController)
         navigationController.viewControllers = [mainTabBarController]
     }
 
+    func navigateToAuthScreen(from splashViewController: UIViewController) {
+        let loginViewController = LoginViewController()
+        loginViewController.coordinator = self
+        loginViewController.modalPresentationStyle = .custom
+        loginViewController.transitioningDelegate = splashViewController as? any UIViewControllerTransitioningDelegate
+        splashViewController.present(loginViewController, animated: true)
+    }
+
     private func configureChildCoordinators(with tabBarController: MainTabBarController) {
         // Создание и запуск дочерних координаторов
-        let mainScreenCoordinator = MainScreenCoordinator(navigationController: GenericNavigationController(),
+        let scanCoordinator = ScanFlowCoordinator(navigationController: navigationController,
+                                                  dataService: dataService)
+
+        let mainScreenNavigationController = GenericNavigationController()
+        mainScreenNavigationController.scanCoordinator = scanCoordinator
+        let mainScreenCoordinator = MainScreenCoordinator(navigationController: mainScreenNavigationController,
                                                           dataService: dataService,
                                                           profileService: profileService)
-        let favoritesScreenCoordinator = FavoritesScreenCoordinator(navigationController: GenericNavigationController(),
+
+        let favoritesScreenNavigationController = GenericNavigationController()
+        favoritesScreenNavigationController.scanCoordinator = scanCoordinator
+        let favoritesScreenCoordinator = FavoritesScreenCoordinator(navigationController: favoritesScreenNavigationController,
                                                                     dataService: dataService,
                                                                     profileService: profileService)
-        let profileScreenCoordinator = ProfileScreenCoordinator(navigationController: GenericNavigationController())
-        let scanCoordinator = ScanFlowCoordinator(navigationController: navigationController)
-        mainScreenCoordinator.scanCoordinator = scanCoordinator
-        favoritesScreenCoordinator.scanCoordinator = scanCoordinator
+        let profileScreenCoordinator = ProfileScreenCoordinator(navigationController: UINavigationController())
 
         mainScreenCoordinator.start()
         favoritesScreenCoordinator.start()

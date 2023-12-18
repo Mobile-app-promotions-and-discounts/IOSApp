@@ -2,7 +2,7 @@ import UIKit
 import Combine
 import SnapKit
 
-final class FavoritesViewController: UIViewController {
+final class FavoritesViewController: ScannerEnabledViewController {
     weak var coordinator: FavoritesScreenCoordinator?
 
     private let viewModel: FavoritesViewModelProtocol
@@ -11,15 +11,23 @@ final class FavoritesViewController: UIViewController {
     private var cancellables = Set<AnyCancellable>()
 
     private lazy var favoritesCollectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+        let layout = layoutProvider.createGoodsScreensLayout()
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.showsVerticalScrollIndicator = false
         collectionView.register(ProductCell.self, forCellWithReuseIdentifier: ProductCell.reuseIdentifier)
-        collectionView.register(PromotionHeader.self,
+        collectionView.register(SortsHeaderView.self,
                                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                                withReuseIdentifier: PromotionHeader.reuseIdentifier)
+                                withReuseIdentifier: SortsHeaderView.reuseIdentifier)
+        collectionView.register(FooterView.self,
+                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
+                                withReuseIdentifier: FooterView.reuseIdentifier)
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.backgroundColor = .clear
+        collectionView.contentInset = UIEdgeInsets(top: 12,
+                                                   left: 0,
+                                                   bottom: 0,
+                                                   right: 0)
         return collectionView
     }()
 
@@ -40,16 +48,13 @@ final class FavoritesViewController: UIViewController {
     }
 
     private func setupViews() {
-        layoutProvider.createLayoutForCategoryScreen(for: favoritesCollectionView, in: view)
         // ToDo: цвет фона временный, для отладки
         view.backgroundColor = .cherryLightBlue
 
         view.addSubview(favoritesCollectionView)
 
         favoritesCollectionView.snp.makeConstraints { make in
-            make.left.right.equalToSuperview().inset(12)
-            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
-            make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
+            make.edges.equalToSuperview()
         }
     }
 
@@ -74,18 +79,29 @@ extension FavoritesViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         viewForSupplementaryElementOfKind kind: String,
                         at indexPath: IndexPath) -> UICollectionReusableView {
-        guard kind == UICollectionView.elementKindSectionHeader else {
-            return UICollectionReusableView()
+        if kind == UICollectionView.elementKindSectionHeader {
+            // Обработка заголовка
+            guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+                                                                               withReuseIdentifier: SortsHeaderView.reuseIdentifier,
+                                                                               for: indexPath) as? SortsHeaderView else {
+                return UICollectionReusableView()
+            }
+
+            let headerName = viewModel.getTitleForHeader()
+            header.configure(with: headerName)
+            return header
+        } else if kind == UICollectionView.elementKindSectionFooter {
+            // Обработка подвала
+            guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+                                                                               withReuseIdentifier: FooterView.reuseIdentifier,
+                                                                               for: indexPath) as? FooterView else {
+                return UICollectionReusableView()
+            }
+
+            return footer
         }
 
-        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
-                                                                           withReuseIdentifier: PromotionHeader.reuseIdentifier,
-                                                                           for: indexPath) as? PromotionHeader else {
-            return UICollectionReusableView()
-        }
-        let headerName = viewModel.getTitleForHeader()
-        header.configure(with: headerName)
-        return header
+        return UICollectionReusableView()
     }
 
     func collectionView(_ collectionView: UICollectionView,
@@ -112,10 +128,10 @@ extension FavoritesViewController: UICollectionViewDataSource {
 // MARK: - UICollectionViewDelegateFlowLayout
 
 extension FavoritesViewController: UICollectionViewDelegateFlowLayout {
-
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: collectionView.bounds.width, height: 50)
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let uiModel = viewModel.getProduct(for: indexPath.row)
+        if let product = viewModel.getProductById(uiModel.id) {
+        coordinator?.navigateToFavoriteProductScreen(for: product)
+        }
     }
 }

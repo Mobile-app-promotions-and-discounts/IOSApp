@@ -3,7 +3,6 @@ import UIKit
 final class FavoritesScreenCoordinator: Coordinator {
     var childCoordinators = [Coordinator]()
     var navigationController: UINavigationController
-    var scanCoordinator: ScanFlowCoordinator?
 
     private let dataService: DataServiceProtocol
     private let profileService: ProfileServiceProtocol
@@ -21,5 +20,12 @@ final class FavoritesScreenCoordinator: Coordinator {
         let favoritesViewController = FavoritesViewController(viewModel: viewModel)
         favoritesViewController.coordinator = self
         navigationController.pushViewController(favoritesViewController, animated: false)
+    }
+
+    func navigateToFavoriteProductScreen(for product: Product) {
+        let productVC = ProductCardViewController(product: product)
+        productVC.hidesBottomBarWhenPushed = true
+        productVC.coordinator = self
+        navigationController.pushViewController(productVC, animated: true)
     }
 }
