@@ -17,7 +17,30 @@ final class NetworkClient: NetworkClientProtocol {
                 throw AppError.parsingError
             }
         default:
-            throw AppError.networkError
+            do {
+                let error = try decoder.decode(NetworkErrorDescriptionModel.self, from: data)
+                throw AppError.customError("\(error)")
+            } catch {
+                throw AppError.networkError
+            }
+        }
+    }
+
+    func request(for urlRequest: URLRequest) async throws -> Result<URLResponse, AppError> {
+        let (data, response) = try await session.data(for: urlRequest)
+
+        let statusCode = (response as? HTTPURLResponse)?.statusCode ?? 400
+        print(statusCode)
+        switch statusCode {
+        case 200..<300:
+            return .success(response)
+        default:
+            do {
+                let error = try decoder.decode(NetworkErrorDescriptionModel.self, from: data)
+                return .failure(AppError.customError("\(error)"))
+            } catch {
+                throw AppError.networkError
+            }
         }
     }
 }

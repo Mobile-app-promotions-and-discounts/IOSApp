@@ -88,13 +88,17 @@ final class AuthService: AuthServiceProtocol {
 
         Task {
             do {
-                let responseData: NetworkErrorDescriptionModel = try await networkClient.request(for: urlRequest)
-                await MainActor.run {[weak self] in
-                    print(responseData)
+                let response: Result = try await networkClient.request(for: urlRequest)
+                switch response {
+                case .success(let response):
+                    print(response)
                     print("Token is valid")
 
-                    guard let self else { return }
-                    self.isTokenValid = true
+                    await MainActor.run {[weak self] in
+                        self?.isTokenValid = true
+                    }
+                case .failure(let error):
+                    throw error
                 }
             } catch let error {
                 print("Token validation error: \(error.localizedDescription). Refreshing")

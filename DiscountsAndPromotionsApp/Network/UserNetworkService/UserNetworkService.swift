@@ -10,7 +10,7 @@ protocol UserNetworkServiceProtocol {
     func fetchUser()
 }
 
- final class UserNetworkService: UserNetworkServiceProtocol {
+final class UserNetworkService: UserNetworkServiceProtocol {
     static let shared = UserNetworkService(networkClient: NetworkClient())
     private var networkClient: NetworkClientProtocol
     private let requestConstructor: NetworkRequestConstructorProtocol
@@ -66,42 +66,42 @@ protocol UserNetworkServiceProtocol {
         }
     }
 
-     // MARK: - Регистрация нового пользователя
-     func registerUser(_ user: UserRequestModel) {
-         let userParameters: [String: String] = [
+    // MARK: - Регистрация нового пользователя
+    func registerUser(_ user: UserRequestModel) {
+        let userParameters: [String: String] = [
             "username": user.username,
             "password": user.password
-         ]
+        ]
 
-         guard let urlRequest = requestConstructor.makeRequest(endpoint: .newUser,
-                                                               additionalPath: nil,
-                                                               headers: nil,
-                                                               parameters: userParameters) else {
-             ErrorHandler.handle(error: AppError.customError("invalid request"))
-             return
-         }
+        guard let urlRequest = requestConstructor.makeRequest(endpoint: .newUser,
+                                                              additionalPath: nil,
+                                                              headers: nil,
+                                                              parameters: userParameters) else {
+            ErrorHandler.handle(error: AppError.customError("invalid request"))
+            return
+        }
 
-         Task {
-             do {
-                 let userResponse: UserResponseModel = try await networkClient.request(for: urlRequest)
-                 await MainActor.run { [weak self] in
-                     print(userResponse)
-                     print("Registration successful")
+        Task {
+            do {
+                let userResponse: UserResponseModel = try await networkClient.request(for: urlRequest)
+                await MainActor.run { [weak self] in
+                    print(userResponse)
+                    print("Registration successful")
 
-                     guard let self else { return }
-                     self.user = userResponse
-                 }
-             } catch let error {
-                 print("Registration error: \(error.localizedDescription)")
+                    guard let self else { return }
+                    self.user = userResponse
+                }
+            } catch let error {
+                print("Registration error: \(error.localizedDescription)")
 
-                 if let error = error as? AppError {
-                     ErrorHandler.handle(error: error)
-                 } else {
-                     ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
-                 }
-             }
-         }
-     }
+                if let error = error as? AppError {
+                    ErrorHandler.handle(error: error)
+                } else {
+                    ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
+                }
+            }
+        }
+    }
 
     // MARK: - Удалить пользователя
     func deleteUser(id: Int, password: String) {
@@ -119,12 +119,16 @@ protocol UserNetworkServiceProtocol {
 
         Task {
             do {
-                let response: NetworkErrorDescriptionModel = try await networkClient.request(for: urlRequest)
-                await MainActor.run {
+                let response: Result = try await networkClient.request(for: urlRequest)
+                switch response {
+                case .success:
                     print(response)
                     print("Account successfuly deleted")
-
-                    // TODO: - отработать действия при удалении аккаунта
+                    await MainActor.run {
+                        // TODO: - отработать действия при удалении аккаунта
+                    }
+                case .failure(let error):
+                    throw error
                 }
             } catch let error {
                 print("Account deletion error: \(error.localizedDescription)")
@@ -169,4 +173,4 @@ protocol UserNetworkServiceProtocol {
             }
         }
     }
- }
+}
