@@ -26,18 +26,18 @@ final class NetworkClient: NetworkClientProtocol {
         }
     }
 
-    func request(for urlRequest: URLRequest) async throws -> Result<URLResponse, AppError> {
+    func request(for urlRequest: URLRequest) async throws -> URLResponse {
         let (data, response) = try await session.data(for: urlRequest)
 
         let statusCode = (response as? HTTPURLResponse)?.statusCode ?? 400
         print(statusCode)
         switch statusCode {
         case 200..<300:
-            return .success(response)
+            return response
         default:
             do {
                 let error = try decoder.decode(NetworkErrorDescriptionModel.self, from: data)
-                return .failure(AppError.customError("\(error)"))
+                throw AppError.customError("\(error)")
             } catch {
                 throw AppError.networkError
             }
