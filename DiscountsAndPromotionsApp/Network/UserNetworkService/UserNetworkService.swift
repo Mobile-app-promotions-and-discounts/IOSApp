@@ -119,16 +119,10 @@ final class UserNetworkService: UserNetworkServiceProtocol {
 
         Task {
             do {
-                let response: Result = try await networkClient.request(for: urlRequest)
-                switch response {
-                case .success:
-                    print(response)
-                    print("Account successfuly deleted")
-                    await MainActor.run {
-                        // TODO: - отработать действия при удалении аккаунта
-                    }
-                case .failure(let error):
-                    throw error
+                let _: URLResponse = try await networkClient.request(for: urlRequest)
+                print("Account successfuly deleted")
+                await MainActor.run {
+                    // TODO: - отработать действия при удалении аккаунта
                 }
             } catch let error {
                 print("Account deletion error: \(error.localizedDescription)")
