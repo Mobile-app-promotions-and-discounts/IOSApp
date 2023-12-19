@@ -7,9 +7,23 @@ final class MainCoordinator: Coordinator {
     private let dataService: DataServiceProtocol
     private let profileService: ProfileServiceProtocol
 
-    init(navigationController: UINavigationController) {
+    private let networkClient: NetworkClientProtocol
+    private let authService: AuthServiceProtocol
+    private let userNetworkService: UserNetworkServiceProtocol
+    private let categoryNetworkService: CategoryNetworkService
+    private let productNetworkService: ProductNetworkService
+
+    init(navigationController: UINavigationController, networkClient: NetworkClientProtocol = NetworkClient()) {
         self.dataService = MockDataService()
         self.profileService = MockProfileService()
+
+//         Network Services
+        self.networkClient = networkClient
+        self.authService = AuthService(networkClient: networkClient)
+        self.userNetworkService = UserNetworkService(networkClient: networkClient)
+        self.categoryNetworkService = CategoryNetworkService(networkClient: networkClient)
+        self.productNetworkService = ProductNetworkService(networkClient: networkClient)
+
         self.navigationController = navigationController
         self.navigationController.navigationBar.isHidden = true
     }
