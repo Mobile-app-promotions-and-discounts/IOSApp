@@ -10,8 +10,9 @@ final class MainCoordinator: Coordinator {
     private let networkClient: NetworkClientProtocol
     private let authService: AuthServiceProtocol
     private let userNetworkService: UserNetworkServiceProtocol
-    private let categoryNetworkService: CategoryNetworkService
-    private let productNetworkService: ProductNetworkService
+    private let categoryNetworkService: CategoryNetworkServiceProtocol
+    private let productNetworkService: ProductNetworkServiceProtocol
+    private let storesNetworkService: StoreNetworkServiceProtocol
 
     init(navigationController: UINavigationController, networkClient: NetworkClientProtocol = NetworkClient()) {
         self.dataService = MockDataService()
@@ -23,6 +24,7 @@ final class MainCoordinator: Coordinator {
         self.userNetworkService = UserNetworkService(networkClient: networkClient)
         self.categoryNetworkService = CategoryNetworkService(networkClient: networkClient)
         self.productNetworkService = ProductNetworkService(networkClient: networkClient)
+        self.storesNetworkService = StoreNetworkService(networkClient: networkClient)
 
         self.navigationController = navigationController
         self.navigationController.navigationBar.isHidden = true
@@ -32,6 +34,8 @@ final class MainCoordinator: Coordinator {
         let splashViewController = SplashViewController()
         splashViewController.coordinator = self
         navigationController.viewControllers = [splashViewController]
+
+        storesNetworkService.fetchChains()
     }
 
     func navigateToMainScreen() {
