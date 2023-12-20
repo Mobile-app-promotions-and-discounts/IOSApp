@@ -10,6 +10,7 @@ enum Endpoint {
     case editUser
     case getCategories
     case getCategory
+    case getStores
     case getStoreChains
     case getStoreChain
     case getCategoryProducts
@@ -30,6 +31,8 @@ enum Endpoint {
             path += "/auth/users/"
         case .getCategory, .getCategories:
             path += "/api/v1/categories/"
+        case .getStores:
+            path += "/api/v1/stores/"
         case .getStoreChain, .getStoreChains:
             path += "/api/v1/chains/"
         case .getProduct, .getCategoryProducts:
@@ -50,6 +53,7 @@ enum Endpoint {
                 .getCategories,
                 .getCategoryProducts,
                 .getProduct,
+                .getStores,
                 .getStoreChain,
                 .getStoreChains:
             return .get

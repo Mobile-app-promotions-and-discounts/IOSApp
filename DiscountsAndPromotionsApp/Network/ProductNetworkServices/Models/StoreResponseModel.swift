@@ -12,3 +12,5 @@ struct StoreResponseModel: Codable {
        case name
    }
 }
+
+typealias StoresResponseModel = [StoreResponseModel]

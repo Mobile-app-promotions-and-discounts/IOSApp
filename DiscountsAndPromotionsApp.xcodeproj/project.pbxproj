@@ -113,6 +113,7 @@
 		BCD4B4752B2F5DA600539CD1 /* LocationResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD4B4742B2F5DA600539CD1 /* LocationResponseModel.swift */; };
 		BCD4B4772B2F5DDE00539CD1 /* StoreChainResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD4B4762B2F5DDE00539CD1 /* StoreChainResponseModel.swift */; };
 		BCD4B47E2B2F733D00539CD1 /* NetworkRequestConstructor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD4B47D2B2F733D00539CD1 /* NetworkRequestConstructor.swift */; };
+		BCD4B4802B31759100539CD1 /* StoreNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD4B47F2B31759100539CD1 /* StoreNetworkService.swift */; };
 		BE2774BC2B0FD0890000C8C2 /* MainFlow.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = BE2774BB2B0FD0890000C8C2 /* MainFlow.xcstrings */; };
 		BE35244E2B02ABA200746581 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE35244D2B02ABA200746581 /* AppDelegate.swift */; };
 		BE3524502B02ABA200746581 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE35244F2B02ABA200746581 /* SceneDelegate.swift */; };
@@ -271,6 +272,7 @@
 		BCD4B4742B2F5DA600539CD1 /* LocationResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationResponseModel.swift; sourceTree = "<group>"; };
 		BCD4B4762B2F5DDE00539CD1 /* StoreChainResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreChainResponseModel.swift; sourceTree = "<group>"; };
 		BCD4B47D2B2F733D00539CD1 /* NetworkRequestConstructor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequestConstructor.swift; sourceTree = "<group>"; };
+		BCD4B47F2B31759100539CD1 /* StoreNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreNetworkService.swift; sourceTree = "<group>"; };
 		BE2774BB2B0FD0890000C8C2 /* MainFlow.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = MainFlow.xcstrings; sourceTree = "<group>"; };
 		BE35244A2B02ABA200746581 /* DiscountsAndPromotionsApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DiscountsAndPromotionsApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE35244D2B02ABA200746581 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -516,6 +518,7 @@
 				BCAC6B832B2262C000AD5C96 /* Models */,
 				BCAC6B8C2B226F5C00AD5C96 /* CategoryNetworkService.swift */,
 				BCAC6B8E2B22726F00AD5C96 /* ProductNetworkService.swift */,
+				BCD4B47F2B31759100539CD1 /* StoreNetworkService.swift */,
 			);
 			path = ProductNetworkServices;
 			sourceTree = "<group>";
@@ -1140,6 +1143,7 @@
 				BCAC6B892B22630400AD5C96 /* ProductsInStoreResponseModel.swift in Sources */,
 				BE70C22D2B20965F004FD1E9 /* SortsHeaderView.swift in Sources */,
 				BCCF500D2B1B4AF10067A552 /* ScanViewController.swift in Sources */,
+				BCD4B4802B31759100539CD1 /* StoreNetworkService.swift in Sources */,
 				BCCF501B2B1B4AF10067A552 /* ProductReviewViewModel.swift in Sources */,
 				BCCF50192B1B4AF10067A552 /* FavoritesViewController.swift in Sources */,
 				BCCF50022B1B4AF10067A552 /* MainScreenSections.swift in Sources */,
