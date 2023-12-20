@@ -35,7 +35,9 @@ final class MainCoordinator: Coordinator {
         splashViewController.coordinator = self
         navigationController.viewControllers = [splashViewController]
 
-        storesNetworkService.fetchChains()
+        productNetworkService.getProducts(categoryID: 1,
+                                          searchItem: nil,
+                                          page: nil)
     }
 
     func navigateToMainScreen() {

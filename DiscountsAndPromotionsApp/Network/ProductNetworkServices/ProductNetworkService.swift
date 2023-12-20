@@ -5,7 +5,9 @@ protocol ProductNetworkServiceProtocol {
     var productListUpdate: PassthroughSubject<ProductGroupResponseModel, Never> { get }
     var productUpdate: PassthroughSubject<ProductResponseModel, Never> { get }
 
-    func getProducts(categoryID: Int, page: Int)
+    func getProducts(categoryID: Int?,
+                     searchItem: String?,
+                     page: Int?)
     func getProduct(productID: Int)
 }
 
@@ -41,13 +43,21 @@ final class ProductNetworkService: ProductNetworkServiceProtocol {
         self.requestConstructor = requestConstructor
     }
 
-    func getProducts(categoryID: Int, page: Int) {
-        let parameters = [
-            "category": categoryID,
-            "page": page
-        ]
+    func getProducts(categoryID: Int? = nil,
+                     searchItem: String? = nil,
+                     page: Int? = nil) {
+        var parameters: [String: Any] = [:]
+        if let categoryID {
+            parameters.updateValue(categoryID, forKey: "category")
+        }
+        if let searchItem {
+            parameters.updateValue(searchItem, forKey: "search")
+        }
+        if let page {
+            parameters.updateValue(page, forKey: "page")
+        }
 
-        guard let urlRequest = requestConstructor.makeRequest(endpoint: .getCategoryProducts,
+        guard let urlRequest = requestConstructor.makeRequest(endpoint: .getProducts,
                                                               additionalPath: "?" + parameters.queryString,
                                                               headers: nil,
                                                               parameters: nil) else {

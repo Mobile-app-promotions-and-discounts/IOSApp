@@ -13,7 +13,7 @@ enum Endpoint {
     case getStores
     case getStoreChains
     case getStoreChain
-    case getCategoryProducts
+    case getProducts
     case getProduct
 
     var URL: String {
@@ -35,7 +35,7 @@ enum Endpoint {
             path += "/api/v1/stores/"
         case .getStoreChain, .getStoreChains:
             path += "/api/v1/chains/"
-        case .getProduct, .getCategoryProducts:
+        case .getProduct, .getProducts:
             path += "/api/v1/products/"
         }
         return path
@@ -51,7 +51,7 @@ enum Endpoint {
         case .getUser,
                 .getCategory,
                 .getCategories,
-                .getCategoryProducts,
+                .getProducts,
                 .getProduct,
                 .getStores,
                 .getStoreChain,
