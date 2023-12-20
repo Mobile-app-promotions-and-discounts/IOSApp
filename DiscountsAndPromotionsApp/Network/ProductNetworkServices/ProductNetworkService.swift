@@ -19,7 +19,7 @@ final class ProductNetworkService: ProductNetworkServiceProtocol {
     private (set) var productUpdate = PassthroughSubject<ProductResponseModel, Never>()
 
     private var product = ProductResponseModel(id: 0,
-                                               name: nil,
+                                               name: "",
                                                rating: nil,
                                                category: nil,
                                                description: nil,

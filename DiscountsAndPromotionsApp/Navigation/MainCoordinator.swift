@@ -34,10 +34,6 @@ final class MainCoordinator: Coordinator {
         let splashViewController = SplashViewController()
         splashViewController.coordinator = self
         navigationController.viewControllers = [splashViewController]
-
-        productNetworkService.getProducts(categoryID: 1,
-                                          searchItem: nil,
-                                          page: nil)
     }
 
     func navigateToMainScreen() {
@@ -57,7 +53,7 @@ final class MainCoordinator: Coordinator {
     private func configureChildCoordinators(with tabBarController: MainTabBarController) {
         // Создание и запуск дочерних координаторов
         let scanCoordinator = ScanFlowCoordinator(navigationController: navigationController,
-                                                  dataService: dataService)
+                                                  productService: productNetworkService)
 
         let mainScreenNavigationController = GenericNavigationController()
         mainScreenNavigationController.scanCoordinator = scanCoordinator

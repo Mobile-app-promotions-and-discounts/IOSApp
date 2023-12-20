@@ -14,7 +14,7 @@ protocol ScanFlowViewModelProtocol {
 }
 
 final class ScanFlowViewModel: ScanFlowViewModelProtocol {
-    private let dataService: DataServiceProtocol
+    private let productService: ProductNetworkServiceProtocol
     private let coordinator: ScanFlowCoordinator
 
     private (set) var manualInputUpdate = PassthroughSubject<Bool, Never>()
@@ -34,10 +34,27 @@ final class ScanFlowViewModel: ScanFlowViewModelProtocol {
 
     private var subscriptions: Set<AnyCancellable> = Set()
 
-    init(dataService: DataServiceProtocol,
+    init(productService: ProductNetworkServiceProtocol,
          coordinator: ScanFlowCoordinator) {
-        self.dataService = dataService
+        self.productService = productService
         self.coordinator = coordinator
+
+        bindBarcodeRequest()
+    }
+
+    private func bindBarcodeRequest() {
+        productService.productListUpdate
+            .sink { [weak self] products in
+                guard let self else { return }
+
+                if let foundProduct = products.first {
+                    let product = foundProduct.convertToProductModel()
+                    coordinator.showProduct(product)
+                } else {
+                    self.coordinator.scanError()
+                }
+            }
+            .store(in: &subscriptions)
     }
 
     func bindBarcode(code: AnyPublisher<String, Never>) -> AnyPublisher<Bool, Never> {
@@ -74,18 +91,8 @@ final class ScanFlowViewModel: ScanFlowViewModelProtocol {
     }
 
     private func makeBarcodeRequest(code: String) {
-        dataService.actualGoodsList
-            .sink { [weak self] goodsList in
-                guard let self = self else { return }
-                let sortedGoodsList = goodsList.filter { product in
-                    return product.barcode == code
-                }
-                if let product = sortedGoodsList.first {
-                    coordinator.showProduct(product)
-                } else {
-                    coordinator.scanError()
-                }
-            }
-            .store(in: &subscriptions)
+        productService.getProducts(categoryID: nil,
+                                   searchItem: code,
+                                   page: nil)
     }
 }
