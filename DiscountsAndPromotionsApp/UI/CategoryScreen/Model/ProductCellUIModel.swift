@@ -1,7 +1,7 @@
 import UIKit
 
 struct ProductCellUIModel {
-    let id: UUID
+    let id: Int
     let image: UIImage?
     let name: String
     let description: String

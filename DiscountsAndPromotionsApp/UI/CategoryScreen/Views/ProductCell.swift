@@ -8,9 +8,9 @@ final class ProductCell: UICollectionViewCell {
     var cancellable: AnyCancellable?
 
     // PassthroughSubject для события нажатия кнопки
-    private (set) var likeButtonTappedPublisher = PassthroughSubject<UUID, Never>()
+    private (set) var likeButtonTappedPublisher = PassthroughSubject<Int, Never>()
 
-    private var productID: UUID?
+    private var productID: Int?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
