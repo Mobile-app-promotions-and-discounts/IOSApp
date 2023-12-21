@@ -12,12 +12,12 @@ final class CategoryViewModel: CategoryViewModelProtocol {
 
     private let dataService: DataServiceProtocol
     private let profileService: ProfileServiceProtocol
-    private let categoryID: UUID
+    private let categoryID: Int
     private var categoryName: String?
 
     private var cancellables = Set<AnyCancellable>()
 
-    init(dataService: DataServiceProtocol, profileService: ProfileServiceProtocol, categoryID: UUID) {
+    init(dataService: DataServiceProtocol, profileService: ProfileServiceProtocol, categoryID: Int) {
         self.dataService = dataService
         self.profileService = profileService
         self.categoryID = categoryID
@@ -40,11 +40,11 @@ final class CategoryViewModel: CategoryViewModelProtocol {
         return ""
     }
 
-    func getProductById(_ id: UUID) -> Product? {
+    func getProductById(_ id: Int) -> Product? {
         return products.first { $0.id == id }
     }
 
-    func likeButtonTapped(for productID: UUID) {
+    func likeButtonTapped(for productID: Int) {
         guard let productIndex = products.firstIndex(where: { $0.id == productID }) else {
             ErrorHandler.handle(error: .customError("Продукт с ID \(productID) не найден"))
             return
