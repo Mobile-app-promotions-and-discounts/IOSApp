@@ -21,12 +21,13 @@ final class ProductNetworkService: ProductNetworkServiceProtocol {
     private var product = ProductResponseModel(id: 0,
                                                name: "",
                                                rating: nil,
-                                               category: nil,
+                                               category: CategoryResponseModel(id: 0, name: ""),
                                                description: nil,
                                                mainImage: "",
                                                barcode: "",
                                                stores: [],
-                                               isFavorited: false) {
+                                               isFavorited: false,
+                                               images: []) {
         didSet {
             productUpdate.send(product)
         }
