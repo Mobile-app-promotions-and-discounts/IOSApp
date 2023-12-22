@@ -28,7 +28,7 @@ final class ScanViewController: UIViewController {
 
     private lazy var textField = {
         let barcodeField = UITextField()
-        barcodeField.delegate = self
+//        barcodeField.delegate = self
         barcodeField.backgroundColor = .systemBackground
         barcodeField.keyboardType = .numberPad
         let done: UIBarButtonItem = UIBarButtonItem(title: NSLocalizedString("barcodeDone",
@@ -46,8 +46,10 @@ final class ScanViewController: UIViewController {
         barcodeField.layer.borderColor = UIColor.cherryGrayBlue.cgColor
         let placeholderText = "•••••••• •••••"
         let placeholderAttributes = [NSAttributedString.Key.font: CherryFonts.textLarge,
-                                     NSAttributedString.Key.foregroundColor: UIColor.cherryGrayBlue]
-        let textAttributes = [NSAttributedString.Key.font: CherryFonts.textLarge]
+                                     NSAttributedString.Key.foregroundColor: UIColor.cherryGrayBlue,
+                                     NSAttributedString.Key.kern: 7]
+        let textAttributes = [NSAttributedString.Key.font: CherryFonts.textLarge,
+                              NSAttributedString.Key.kern: 7]
         barcodeField.attributedPlaceholder = NSAttributedString(string: placeholderText, attributes: placeholderAttributes as [NSAttributedString.Key: Any])
         barcodeField.defaultTextAttributes = textAttributes as [NSAttributedString.Key: Any]
         barcodeField.textColor = UIColor.cherryBlack
@@ -306,39 +308,20 @@ extension ScanViewController {
         viewModel.checkBarcode()
     }
 }
-
-extension ScanViewController: UITextFieldDelegate {
-    private func formattedBarcode(barcode: String) -> String {
-        var mask = "•••••••••••••"
-        let cleanBarcode = barcode.filter { $0.isWholeNumber }
-        print("clean \(cleanBarcode)")
-        var result = "" + cleanBarcode
-        if cleanBarcode.count <= mask.count {
-            for _ in 0...(mask.count - cleanBarcode.count) {
-                result += "•"
-            }
-        }
+//
+// extension ScanViewController: UITextFieldDelegate {
+//    private func formattedBarcode(barcode: String) -> String {
+//        let mask = "•••••••••••••"
+//        let cleanBarcode = barcode.filter { $0.isWholeNumber }
+//        print("clean \(cleanBarcode)")
+//        var result = "" + cleanBarcode
+//        if cleanBarcode.count <= mask.count {
+//            for _ in 0..<(mask.count - cleanBarcode.count) {
+//                result += "•"
+//            }
+//        }
 //        result.insert(contentsOf: " ", at: result.index(result.startIndex, offsetBy: 8))
-        return result
-    }
-
-//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-//
-//        guard let text = textField.text else { return false }
-//
-//        let fullString = (text as NSString).replacingCharacters(in: range, with: string)
-////        print(fullString)
-//
-////        textField.text = fullString
-//
-//        textField.delegate?.textFieldDidEndEditing?(textField)
-//
-//        return true
+//        print(result)
+//        return result
 //    }
-
-//    func textFieldDidEndEditing(_ textField: UITextField) {
-//        let code = formattedBarcode(barcode: textField.text ?? "")
-//        print("code" + code)
-//        textField.text = code
-//    }
-}
+// }

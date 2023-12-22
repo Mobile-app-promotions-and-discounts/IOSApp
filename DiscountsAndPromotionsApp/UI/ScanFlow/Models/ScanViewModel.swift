@@ -67,7 +67,7 @@ final class ScanFlowViewModel: ScanFlowViewModelProtocol {
         var mask = "•••••••••••••"
         var result = "" + barcode
         if barcode.count != mask.count {
-            for _ in 0...(mask.count - barcode.count) {
+            for _ in 0..<(mask.count - barcode.count) {
                 result += "•"
             }
         }
