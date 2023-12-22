@@ -19,5 +19,4 @@ extension UITextView {
             .map { _ in Void() }
             .eraseToAnyPublisher()
     }
-
 }

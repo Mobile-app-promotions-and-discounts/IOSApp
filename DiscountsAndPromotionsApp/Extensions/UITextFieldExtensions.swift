@@ -26,6 +26,12 @@ extension UITextField {
             .map { $0.text ?? "" }
             .eraseToAnyPublisher()
     }
+
+    var endEditingPublisher: AnyPublisher<String, Never> {
+        NotificationCenter.default.publisher(for: UITextField.textDidEndEditingNotification, object: self)
+            .map { ($0.object as? UITextView)?.text ?? "" }
+            .eraseToAnyPublisher()
+    }
 }
 
 extension UITextField {

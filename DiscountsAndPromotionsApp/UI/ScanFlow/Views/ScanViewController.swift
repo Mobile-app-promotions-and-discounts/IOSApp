@@ -28,6 +28,7 @@ final class ScanViewController: UIViewController {
 
     private lazy var textField = {
         let barcodeField = UITextField()
+        barcodeField.delegate = self
         barcodeField.backgroundColor = .systemBackground
         barcodeField.keyboardType = .numberPad
         let done: UIBarButtonItem = UIBarButtonItem(title: NSLocalizedString("barcodeDone",
@@ -43,7 +44,7 @@ final class ScanViewController: UIViewController {
         barcodeField.layer.cornerRadius = CornerRadius.regular.cgFloat()
         barcodeField.layer.borderWidth = 1
         barcodeField.layer.borderColor = UIColor.cherryGrayBlue.cgColor
-        let placeholderText = NSLocalizedString("barcodePlaceholder", tableName: "ScanFlow", comment: "")
+        let placeholderText = "•••••••• •••••"
         let placeholderAttributes = [NSAttributedString.Key.font: CherryFonts.textLarge,
                                      NSAttributedString.Key.foregroundColor: UIColor.cherryGrayBlue]
         let textAttributes = [NSAttributedString.Key.font: CherryFonts.textLarge]
@@ -278,6 +279,13 @@ final class ScanViewController: UIViewController {
             .receive(on: DispatchQueue.main)
             .assign(to: \.isHidden, on: barcodeReminderLabel)
             .store(in: &subscriptions)
+
+        viewModel.barcodePlaceholderUpdate
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] placeholder in
+                self?.textField.text = placeholder
+            }
+            .store(in: &subscriptions)
     }
 }
 
@@ -297,4 +305,40 @@ extension ScanViewController {
     private func doneButtonTapped() {
         viewModel.checkBarcode()
     }
+}
+
+extension ScanViewController: UITextFieldDelegate {
+    private func formattedBarcode(barcode: String) -> String {
+        var mask = "•••••••••••••"
+        let cleanBarcode = barcode.filter { $0.isWholeNumber }
+        print("clean \(cleanBarcode)")
+        var result = "" + cleanBarcode
+        if cleanBarcode.count <= mask.count {
+            for _ in 0...(mask.count - cleanBarcode.count) {
+                result += "•"
+            }
+        }
+//        result.insert(contentsOf: " ", at: result.index(result.startIndex, offsetBy: 8))
+        return result
+    }
+
+//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+//
+//        guard let text = textField.text else { return false }
+//
+//        let fullString = (text as NSString).replacingCharacters(in: range, with: string)
+////        print(fullString)
+//
+////        textField.text = fullString
+//
+//        textField.delegate?.textFieldDidEndEditing?(textField)
+//
+//        return true
+//    }
+
+//    func textFieldDidEndEditing(_ textField: UITextField) {
+//        let code = formattedBarcode(barcode: textField.text ?? "")
+//        print("code" + code)
+//        textField.text = code
+//    }
 }
