@@ -33,23 +33,15 @@ struct Category: Codable {
     let id: Int
     let name: String
     let image: String
-
-    init(id: Int = 0,
-         name: String,
-         image: String) {
-        self.id = id
-        self.name = name
-        self.image = image
-    }
 }
 
 struct Offer: Codable {
-    let id: Int
+    let id: UUID
     let price: Double
     let discount: Discount?
     let store: Store
 
-    init(id: Int = 0,
+    init(id: UUID = UUID(),
          price: Double,
          discount: Discount?,
          store: Store) {
