@@ -36,11 +36,11 @@ final class SearchResultsViewModel: CategoryViewModelProtocol {
         return "Результаты поиска"
     }
 
-    func getProductById(_ id: UUID) -> Product? {
+    func getProductById(_ id: Int) -> Product? {
         return products.first { $0.id == id }
     }
 
-    func likeButtonTapped(for productID: UUID) {
+    func likeButtonTapped(for productID: Int) {
         guard let productIndex = products.firstIndex(where: { $0.id == productID }) else {
             ErrorHandler.handle(error: .customError("Продукт с ID \(productID) не найден"))
             return

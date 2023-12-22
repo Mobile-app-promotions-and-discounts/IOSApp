@@ -14,7 +14,7 @@ protocol MainViewModelProtocol {
     func getTitleFor(section: MainSection) -> String
 
     func getCategory(for index: Int) -> CategoryUIModel?
-    func getCategoryID(for index: Int) -> UUID
+    func getCategoryID(for index: Int) -> Int
     func getPromotion(for index: Int) -> PromotionUIModel?
     func getStore(for index: Int) -> StoreUIModel
 }

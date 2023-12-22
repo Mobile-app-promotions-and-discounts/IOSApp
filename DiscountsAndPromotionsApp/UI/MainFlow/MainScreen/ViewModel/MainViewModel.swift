@@ -94,7 +94,7 @@ final class MainViewModel: MainViewModelProtocol {
         return StoreUIModel(store: store)
     }
 
-    func getCategoryID(for index: Int) -> UUID {
+    func getCategoryID(for index: Int) -> Int {
         let category = categories[index]
         return category.id
     }

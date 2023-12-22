@@ -10,7 +10,7 @@ struct CategoryVisualAttributes {
 // Сервис для управления визуальными атрибутами категорий
 final class PromotionVisualsService {
     private var categoryList: [Category] = []
-    private var visualsDict: [UUID: CategoryVisualAttributes] = [:]
+    private var visualsDict: [Int: CategoryVisualAttributes] = [:]
 
     func preparePromotionVisuals(_ categories: [Category]) {
         updateVisualDict(categoryList: categories)

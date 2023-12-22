@@ -30,11 +30,11 @@ final class FavoritesViewModel: FavoritesViewModelProtocol {
         return convertModels(for: product)
     }
 
-    func getProductById(_ id: UUID) -> Product? {
+    func getProductById(_ id: Int) -> Product? {
         return favoriteProducts.first { $0.id == id }
     }
 
-    func likeButtonTapped(for productID: UUID) {
+    func likeButtonTapped(for productID: Int) {
         guard let productIndex = favoriteProducts.firstIndex(where: { $0.id == productID }) else {
             ErrorHandler.handle(error: .customError("Продукт с ID \(productID) не найден"))
             return
