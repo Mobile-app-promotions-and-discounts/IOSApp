@@ -34,6 +34,8 @@ final class MainCoordinator: Coordinator {
         let splashViewController = SplashViewController()
         splashViewController.coordinator = self
         navigationController.viewControllers = [splashViewController]
+
+//        authService.getToken(for: NetworkBaseConfiguration.testUser)
     }
 
     func navigateToMainScreen() {

@@ -28,9 +28,27 @@ enum SearchCategory: String, CaseIterable {
             return .icCar
         case .party:
             return .icCake
+        }
+    }
 
-        default:
-            return UIImage(systemName: "circle.fill")?.withTintColor(.cherryGray)
+    func getID() -> Int {
+        switch self {
+        case .groceries:
+            return 0
+        case .clothes:
+            return 1
+        case .home:
+            return 2
+        case .cosmetics:
+            return 3
+        case .children:
+            return 4
+        case .pets:
+            return 5
+        case .cars:
+            return 5
+        case .party:
+            return 7
         }
     }
 }
