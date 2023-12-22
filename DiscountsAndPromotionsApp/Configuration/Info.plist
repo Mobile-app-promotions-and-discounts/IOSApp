@@ -2,15 +2,11 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>NSAppTransportSecurity</key>
-    <dict>
-        <key>NSAllowsArbitraryLoads</key>
-        <true/>
-    </dict>
-	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<true/>
-	<key>NSCameraUsageDescription</key>
-	<string>Доступ к камере нужен для сканирования штрихкодов</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Manrope-Bold.ttf</string>
@@ -36,9 +32,5 @@
 	</dict>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string></string>
 </dict>
 </plist>
