@@ -315,7 +315,7 @@ final class ScanViewController: UIViewController {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] placeholder in
                 guard let self else { return }
-                self.textField.text = placeholder
+                self.textField.attributedText = formatPlaceholder(placeholder)
                 var caretIndex = placeholder.filter { $0.isWholeNumber }.count
                 if caretIndex > 8 { caretIndex += 1 }
                 let caretPosition = self.textField.position(from: self.textField.beginningOfDocument, offset: caretIndex) ?? self.textField.endOfDocument
@@ -327,6 +327,27 @@ final class ScanViewController: UIViewController {
 
 // MARK: - Button selectors
 extension ScanViewController {
+    private func formatPlaceholder(_ placeholder: String) -> NSAttributedString {
+        var dotIndex = placeholder.filter { $0.isWholeNumber }.count
+        if dotIndex > 8 { dotIndex += 1 }
+        let dotRemainder = placeholder.count - dotIndex
+
+        let numberAttributes: [NSAttributedString.Key: Any] = [NSAttributedString.Key.font: CherryFonts.textLarge,
+                                                               NSAttributedString.Key.foregroundColor: UIColor.cherryBlack,
+                                                               NSAttributedString.Key.kern: 7]
+        let dotAttributes: [NSAttributedString.Key: Any] = [NSAttributedString.Key.font: CherryFonts.textLarge,
+                                                            NSAttributedString.Key.foregroundColor: UIColor.cherryGrayBlue,
+                                                            NSAttributedString.Key.kern: 7]
+
+        let formattedPlaceholderNumbers = NSMutableAttributedString(string: String(placeholder.prefix(dotIndex)),
+                                                                    attributes: numberAttributes)
+        let formattedPlaceholderDots = NSAttributedString(string: String(placeholder.suffix(dotRemainder)),
+                                                          attributes: dotAttributes)
+        formattedPlaceholderNumbers.append(formattedPlaceholderDots)
+
+        return formattedPlaceholderNumbers
+    }
+
     @objc
     private func toggleFlash() {
         captureSessionController.toggleFlash()

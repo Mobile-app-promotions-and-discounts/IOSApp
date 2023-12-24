@@ -79,7 +79,6 @@ final class ScanFlowViewModel: ScanFlowViewModelProtocol {
         code.sink { [weak self] barcodeInput in
             let barcode = barcodeInput.filter { $0.isWholeNumber }
             let correctLengthBarcode = String(barcode.prefix(13))
-            print(barcode)
             self?.isValidBarcode = correctLengthBarcode.isValidBarcode()
             self?.currentBarcode = correctLengthBarcode
         }.store(in: &subscriptions)
