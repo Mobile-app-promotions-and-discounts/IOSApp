@@ -64,7 +64,7 @@ final class ScanFlowViewModel: ScanFlowViewModelProtocol {
     }
 
     private func formattedBarcode(barcode: String) -> String {
-        var mask = "•••••••••••••"
+        let mask = "•••••••••••••"
         var result = "" + barcode
         if barcode.count != mask.count {
             for _ in 0..<(mask.count - barcode.count) {

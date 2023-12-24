@@ -17,8 +17,16 @@ final class ScanViewController: UIViewController {
     }()
     private let fillLayer = CAShapeLayer()
 
+    private lazy var barcodeInputBackground: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = CornerRadius.regular.cgFloat()
+        view.backgroundColor = .cherryForeground
+        return view
+    }()
+
     private lazy var barcodeReminderLabel: UILabel = {
         let label = UILabel()
+        label.setContentHuggingPriority(UILayoutPriority(1000), for: .vertical)
         label.textColor = .cherryWhite
         label.font = CherryFonts.headerMedium
         label.text = NSLocalizedString("barcodeReminder", tableName: "ScanFlow", comment: "")
@@ -29,7 +37,6 @@ final class ScanViewController: UIViewController {
     private lazy var textField = {
         let barcodeField = UITextField()
 //        barcodeField.delegate = self
-        barcodeField.backgroundColor = .systemBackground
         barcodeField.keyboardType = .numberPad
         let done: UIBarButtonItem = UIBarButtonItem(title: NSLocalizedString("barcodeDone",
                                                                              tableName: "ScanFlow",
@@ -129,7 +136,7 @@ final class ScanViewController: UIViewController {
 
     // MARK: - Setup UI
     private func setupUI() {
-        view.backgroundColor = .cherryBlack
+        view.backgroundColor = .cherryGray
 
         scanPreviewLayer.frame = view.layer.bounds
         scanPreviewLayer.videoGravity = .resizeAspectFill
@@ -138,13 +145,17 @@ final class ScanViewController: UIViewController {
 
         [scanFrame,
          modeControl,
-         textField,
-         barcodeReminderLabel,
+         barcodeInputBackground,
          flashButton,
          backButton]
             .forEach {
                 view.addSubview($0)
             }
+
+        [textField,
+         barcodeReminderLabel].forEach {
+            barcodeInputBackground.addSubview($0)
+        }
 
         flashButton.snp.makeConstraints { make in
             make.height.width.equalTo(44)
@@ -173,20 +184,25 @@ final class ScanViewController: UIViewController {
             make.bottom.equalTo(view.keyboardLayoutGuide.snp.top)
         }
 
-        textField.snp.makeConstraints { make in
+        barcodeInputBackground.snp.makeConstraints { make in
             make.bottom.equalTo(modeControl.snp.top).offset(-80)
-            make.height.equalTo(71)
+            make.height.equalTo(114)
             make.width.equalTo(modeControl)
             make.centerX.equalTo(modeControl)
         }
-        textField.isHidden = true
+
+        textField.snp.makeConstraints { make in
+            make.bottom.trailing.equalTo(barcodeInputBackground).inset(8)
+            make.leading.equalTo(barcodeInputBackground).offset(8)
+        }
 
         barcodeReminderLabel.snp.makeConstraints { make in
-            make.width.equalTo(textField)
-            make.centerX.equalTo(textField)
+            make.top.leading.equalTo(barcodeInputBackground).offset(8)
+            make.trailing.equalTo(barcodeInputBackground).inset(8)
             make.bottom.equalTo(textField.snp.top).offset(-8)
         }
-        barcodeReminderLabel.isHidden = true
+
+        barcodeInputBackground.isHidden = true
 
         let cutoutOrigin = CGPoint(x: 55 + 2, y: view.frame.height/2 - 85 + 2)
         let cutoutSize = CGSize(width: view.frame.width - 110 - 4, height: 170 - 4)
@@ -232,7 +248,8 @@ final class ScanViewController: UIViewController {
                 UIView.animate(withDuration: 0.5) {
                     self.scanFrame.isHidden = manualInputUI
                     self.fillLayer.fillRule = manualInputUI ? .nonZero : .evenOdd
-                    self.textField.isHidden = !manualInputUI
+                    self.barcodeInputBackground.isHidden = !manualInputUI
+                    self.fillLayer.isHidden = manualInputUI
                 }
             }
             .store(in: &subscriptions)
@@ -241,10 +258,12 @@ final class ScanViewController: UIViewController {
         viewModel.manualInputUpdate
             .receive(on: DispatchQueue.main)
             .sink { [weak self] manualInputUI in
+                guard let self else { return }
                 if manualInputUI {
-                    self?.flashButton.isSelected = false
+                    self.flashButton.isSelected = false
                 }
-                self?.flashButton.isEnabled = !manualInputUI
+                self.flashButton.isEnabled = !manualInputUI
+                self.flashButton.isHidden = manualInputUI
             }
             .store(in: &subscriptions)
 
@@ -253,6 +272,7 @@ final class ScanViewController: UIViewController {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] manualInputUI in
                 guard let self else { return }
+
                 if !manualInputUI {
                     textField.resignFirstResponder()
                     self.modeControl.snp.remakeConstraints { make in
@@ -279,9 +299,12 @@ final class ScanViewController: UIViewController {
         // подписка на штрих-код, введенный вручная
         viewModel.bindBarcode(code: textField.textPublisher)
             .receive(on: DispatchQueue.main)
-            .assign(to: \.isHidden, on: barcodeReminderLabel)
+            .sink { [weak self] isValid in
+                self?.barcodeReminderLabel.alpha = isValid ? 0.6 : 1
+            }
             .store(in: &subscriptions)
 
+        // обновление текстового поля по маске
         viewModel.barcodePlaceholderUpdate
             .receive(on: DispatchQueue.main)
             .sink { [weak self] placeholder in
