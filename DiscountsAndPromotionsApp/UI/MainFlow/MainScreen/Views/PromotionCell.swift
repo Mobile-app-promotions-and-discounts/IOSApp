@@ -41,8 +41,9 @@ final class PromotionCell: UICollectionViewCell {
         promotionImageView.image = model.promotionImage
 
         // Настройка градиента заднего фона
-        let gradientLayer = model.gradientLayer
-        gradientLayer.frame = contentView.bounds
+        let gradientAccent: UIColor = model.gradientAccentColor
+        let gradientLayer = CherryGradient.setupGradientLayer(accentColor: gradientAccent, for: contentView)
+
         gradientLayer.needsDisplayOnBoundsChange = true
 
         // Добавление градиента к contentView
