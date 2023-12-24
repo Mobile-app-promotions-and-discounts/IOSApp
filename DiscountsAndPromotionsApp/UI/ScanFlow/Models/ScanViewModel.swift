@@ -66,21 +66,22 @@ final class ScanFlowViewModel: ScanFlowViewModelProtocol {
     private func formattedBarcode(barcode: String) -> String {
         let mask = "•••••••••••••"
         var result = "" + barcode
-        if barcode.count != mask.count {
+        if barcode.count < mask.count {
             for _ in 0..<(mask.count - barcode.count) {
                 result += "•"
             }
         }
         result.insert(contentsOf: " ", at: result.index(result.startIndex, offsetBy: 8))
-        return result
+        return String(result.prefix(14))
     }
 
     func bindBarcode(code: AnyPublisher<String, Never>) -> AnyPublisher<Bool, Never> {
         code.sink { [weak self] barcodeInput in
             let barcode = barcodeInput.filter { $0.isWholeNumber }
+            let correctLengthBarcode = String(barcode.prefix(13))
             print(barcode)
-            self?.isValidBarcode = barcode.isValidBarcode()
-            self?.currentBarcode = barcode
+            self?.isValidBarcode = correctLengthBarcode.isValidBarcode()
+            self?.currentBarcode = correctLengthBarcode
         }.store(in: &subscriptions)
 
         return Publishers.CombineLatest($isValidBarcode, $isManualInputActive)

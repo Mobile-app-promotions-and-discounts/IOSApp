@@ -34,8 +34,8 @@ final class ScanViewController: UIViewController {
         return label
     }()
 
-    private lazy var textField = {
-        let barcodeField = UITextField()
+    private lazy var textField: UITextField = {
+        let barcodeField = BarcodeTextField()
         barcodeField.keyboardType = .numberPad
         let done: UIBarButtonItem = UIBarButtonItem(title: NSLocalizedString("barcodeDone",
                                                                              tableName: "ScanFlow",
@@ -56,7 +56,8 @@ final class ScanViewController: UIViewController {
                                      NSAttributedString.Key.kern: 7]
         let textAttributes = [NSAttributedString.Key.font: CherryFonts.textLarge,
                               NSAttributedString.Key.kern: 7]
-        barcodeField.attributedPlaceholder = NSAttributedString(string: placeholderText, attributes: placeholderAttributes as [NSAttributedString.Key: Any])
+        barcodeField.attributedPlaceholder = NSAttributedString(string: placeholderText,
+                                                                attributes: placeholderAttributes as [NSAttributedString.Key: Any])
         barcodeField.defaultTextAttributes = textAttributes as [NSAttributedString.Key: Any]
         barcodeField.textColor = UIColor.cherryBlack
         barcodeField.textAlignment = .center
@@ -83,8 +84,12 @@ final class ScanViewController: UIViewController {
     }()
 
     private lazy var modeControl: UISegmentedControl = {
-        let control = CustomSegmentedControl(items: [NSLocalizedString("barcodeScan", tableName: "ScanFlow", comment: ""),
-                                                 NSLocalizedString("barcodeEntry", tableName: "ScanFlow", comment: "")])
+        let control = CustomSegmentedControl(items: [NSLocalizedString("barcodeScan",
+                                                                       tableName: "ScanFlow",
+                                                                       comment: ""),
+                                                     NSLocalizedString("barcodeEntry",
+                                                                       tableName: "ScanFlow",
+                                                                       comment: "")])
         control.backgroundColor = .cherryWhite
         control.setDividerImage(UIImage(), forLeftSegmentState: .normal, rightSegmentState: .normal, barMetrics: .default)
         control.tintColor = .cherryMainAccent
@@ -202,6 +207,7 @@ final class ScanViewController: UIViewController {
         }
 
         barcodeInputBackground.isHidden = true
+        barcodeInputBackground.isUserInteractionEnabled = false
 
         let cutoutOrigin = CGPoint(x: 55 + 2, y: view.frame.height/2 - 85 + 2)
         let cutoutSize = CGSize(width: view.frame.width - 110 - 4, height: 170 - 4)
@@ -281,6 +287,7 @@ final class ScanViewController: UIViewController {
                         make.centerX.equalTo(self.view)
                         make.bottom.equalTo(self.view.keyboardLayoutGuide.snp.top).offset(0.0)
                     }
+                    captureSessionController.startSessionRoutine()
                 } else {
                     textField.becomeFirstResponder()
                     self.modeControl.snp.remakeConstraints { make in
@@ -290,7 +297,7 @@ final class ScanViewController: UIViewController {
                         make.centerX.equalTo(self.view)
                         make.bottom.equalTo(self.view.keyboardLayoutGuide.snp.top).offset(-24.0)
                     }
-                    captureSessionController.pauseSessionRoutine()
+                    captureSessionController.stopSessionRoutine()
                 }
             }
             .store(in: &subscriptions)
@@ -307,7 +314,12 @@ final class ScanViewController: UIViewController {
         viewModel.barcodePlaceholderUpdate
             .receive(on: DispatchQueue.main)
             .sink { [weak self] placeholder in
-                self?.textField.text = placeholder
+                guard let self else { return }
+                self.textField.text = placeholder
+                var caretIndex = placeholder.filter { $0.isWholeNumber }.count
+                if caretIndex > 8 { caretIndex += 1 }
+                let caretPosition = self.textField.position(from: self.textField.beginningOfDocument, offset: caretIndex) ?? self.textField.endOfDocument
+                self.textField.selectedTextRange = self.textField.textRange(from: caretPosition, to: caretPosition)
             }
             .store(in: &subscriptions)
     }
