@@ -11,6 +11,7 @@ final class PromotionCell: UICollectionViewCell {
 
     private lazy var promoTextLabel: UILabel = {
         let label = UILabel()
+        label.textColor = .cherryBlack
         label.numberOfLines = 0
         label.font = CherryFonts.headerSmall
         return label

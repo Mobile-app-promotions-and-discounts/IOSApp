@@ -41,12 +41,14 @@ final class ProductCell: UICollectionViewCell {
 
     private lazy var discountLabel: UILabel = {
         let label = UILabel()
+        label.textColor = .cherryBlack
         label.font = CherryFonts.textSmall
         return label
     }()
 
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
+        label.textColor = .cherryBlack
         label.numberOfLines = 2
         label.font = CherryFonts.headerSmall
         return label
@@ -54,6 +56,7 @@ final class ProductCell: UICollectionViewCell {
 
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
+        label.textColor = .cherryBlack
         label.font = CherryFonts.textSmall
         return label
     }()
@@ -68,6 +71,7 @@ final class ProductCell: UICollectionViewCell {
 
     private lazy var priceLabel: UILabel = {
         let label = UILabel()
+        label.textColor = .cherryBlack
         label.font = CherryFonts.headerMedium
         return label
     }()
