@@ -36,7 +36,6 @@ final class ScanViewController: UIViewController {
 
     private lazy var textField = {
         let barcodeField = UITextField()
-//        barcodeField.delegate = self
         barcodeField.keyboardType = .numberPad
         let done: UIBarButtonItem = UIBarButtonItem(title: NSLocalizedString("barcodeDone",
                                                                              tableName: "ScanFlow",
@@ -331,20 +330,3 @@ extension ScanViewController {
         viewModel.checkBarcode()
     }
 }
-//
-// extension ScanViewController: UITextFieldDelegate {
-//    private func formattedBarcode(barcode: String) -> String {
-//        let mask = "•••••••••••••"
-//        let cleanBarcode = barcode.filter { $0.isWholeNumber }
-//        print("clean \(cleanBarcode)")
-//        var result = "" + cleanBarcode
-//        if cleanBarcode.count <= mask.count {
-//            for _ in 0..<(mask.count - cleanBarcode.count) {
-//                result += "•"
-//            }
-//        }
-//        result.insert(contentsOf: " ", at: result.index(result.startIndex, offsetBy: 8))
-//        print(result)
-//        return result
-//    }
-// }
