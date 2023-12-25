@@ -11,6 +11,7 @@ final class PromotionCell: UICollectionViewCell {
 
     private lazy var promoTextLabel: UILabel = {
         let label = UILabel()
+        label.textColor = .cherryBlack
         label.numberOfLines = 0
         label.font = CherryFonts.headerSmall
         return label
@@ -40,8 +41,9 @@ final class PromotionCell: UICollectionViewCell {
         promotionImageView.image = model.promotionImage
 
         // Настройка градиента заднего фона
-        let gradientLayer = model.gradientLayer
-        gradientLayer.frame = contentView.bounds
+        let gradientAccent: UIColor = model.gradientAccentColor
+        let gradientLayer = CherryGradient.setupGradientLayer(accentColor: gradientAccent, for: contentView)
+
         gradientLayer.needsDisplayOnBoundsChange = true
 
         // Добавление градиента к contentView

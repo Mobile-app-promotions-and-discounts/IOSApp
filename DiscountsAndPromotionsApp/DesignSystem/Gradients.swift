@@ -8,8 +8,7 @@ enum CherryGradient {
          yellowOrange,
          yellowGreen
 
-    // метод необходимо вызвать ДО добавления subview, иначе градиент закроет их собой
-    func makeGradiet(for view: UIView) {
+    func makeGradiet(for view: UIView) -> CAGradientLayer {
         let baseColor: UIColor = .gradientBase
         var accentColor: UIColor = .cherryWhite
 
@@ -40,6 +39,27 @@ enum CherryGradient {
         gradientLayer.bounds = view.bounds.insetBy(dx: -0.5*view.bounds.size.width,
                                             dy: -0.5*view.bounds.size.height)
         gradientLayer.position = view.center
-        view.layer.addSublayer(gradientLayer)
+        return gradientLayer
+    }
+
+    static func setupGradientLayer(baseColor: UIColor = .gradientBase,
+                                   accentColor: UIColor,
+                                   for view: UIView) -> CAGradientLayer {
+        let baseColor: UIColor = baseColor
+        var accentColor: UIColor = accentColor
+
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.colors = [baseColor.cgColor,
+                         accentColor.cgColor]
+        gradientLayer.locations = [0, 1]
+        gradientLayer.startPoint = CGPoint(x: 0.25, y: 0.5)
+        gradientLayer.endPoint = CGPoint(x: 0.75, y: 0.5)
+        gradientLayer.transform = CATransform3DMakeAffineTransform(
+            CGAffineTransform(a: 0.81, b: 1.05, c: -1.05, d: 0.45, tx: 0.56, ty: -0.22)
+        )
+        gradientLayer.bounds = view.bounds.insetBy(dx: -0.5*view.bounds.size.width,
+                                            dy: -0.5*view.bounds.size.height)
+        gradientLayer.position = view.center
+        return gradientLayer
     }
 }
