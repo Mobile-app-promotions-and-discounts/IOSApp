@@ -2,6 +2,10 @@ import Combine
 import Foundation
 
 final class SearchResultsViewModel: CategoryViewModelProtocol {
+    var isEmpty: Bool {
+        return numberOfItems() == 0
+    }
+
     private let dataService: DataServiceProtocol
     private let profileService: ProfileServiceProtocol
 

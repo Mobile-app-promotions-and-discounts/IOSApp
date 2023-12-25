@@ -41,6 +41,16 @@ final class ScanFlowCoordinator: Coordinator {
         ErrorHandler.handle(error: .barcodeScanError)
     }
 
+    func navigateToMainScreen() {
+        navigationController.popToRootViewController(animated: true)
+    }
+
+    func navigateToEmptyResultScreen() {
+        let emptyVC = EmptyScanResultViewController()
+        emptyVC.coordinator = self
+        navigationController.pushViewController(emptyVC, animated: true)
+    }
+
     func showProduct(_ product: Product) {
         let productVC = ProductCardViewController(product: product)
         productVC.hidesBottomBarWhenPushed = true

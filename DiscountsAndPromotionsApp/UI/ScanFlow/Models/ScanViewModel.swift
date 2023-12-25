@@ -6,6 +6,7 @@ import UIKit
 protocol ScanFlowViewModelProtocol {
     var manualInputUpdate: PassthroughSubject<Bool, Never> { get }
     var validBarcodeUpdate: PassthroughSubject<Bool, Never> { get }
+    var barcodePlaceholderUpdate: PassthroughSubject<String, Never> { get }
 
     func bindBarcode(code: AnyPublisher<String, Never>) -> AnyPublisher<Bool, Never>
     func bindSegmentedControl(index: AnyPublisher<Int, Never>)
@@ -19,6 +20,7 @@ final class ScanFlowViewModel: ScanFlowViewModelProtocol {
 
     private (set) var manualInputUpdate = PassthroughSubject<Bool, Never>()
     private (set) var validBarcodeUpdate = PassthroughSubject<Bool, Never>()
+    private (set) var barcodePlaceholderUpdate = PassthroughSubject<String, Never>()
 
     @Published private var isManualInputActive: Bool = false {
         didSet {
@@ -30,7 +32,11 @@ final class ScanFlowViewModel: ScanFlowViewModelProtocol {
             validBarcodeUpdate.send(isValidBarcode)
         }
     }
-    private var currentBarcode: String = ""
+    private var currentBarcode: String = "" {
+        didSet {
+            barcodePlaceholderUpdate.send(formattedBarcode(barcode: currentBarcode))
+        }
+    }
 
     private var subscriptions: Set<AnyCancellable> = Set()
 
@@ -51,16 +57,30 @@ final class ScanFlowViewModel: ScanFlowViewModelProtocol {
                     let product = foundProduct.convertToProductModel()
                     coordinator.showProduct(product)
                 } else {
-                    self.coordinator.scanError()
+                    self.coordinator.navigateToEmptyResultScreen()
                 }
             }
             .store(in: &subscriptions)
     }
 
+    private func formattedBarcode(barcode: String) -> String {
+        let mask = "•••••••••••••"
+        var result = "" + barcode
+        if barcode.count < mask.count {
+            for _ in 0..<(mask.count - barcode.count) {
+                result += "•"
+            }
+        }
+        result.insert(contentsOf: " ", at: result.index(result.startIndex, offsetBy: 8))
+        return String(result.prefix(14))
+    }
+
     func bindBarcode(code: AnyPublisher<String, Never>) -> AnyPublisher<Bool, Never> {
-        code.sink { [weak self] barcode in
-            self?.isValidBarcode = barcode.isValidBarcode()
-            self?.currentBarcode = barcode
+        code.sink { [weak self] barcodeInput in
+            let barcode = barcodeInput.filter { $0.isWholeNumber }
+            let correctLengthBarcode = String(barcode.prefix(13))
+            self?.isValidBarcode = correctLengthBarcode.isValidBarcode()
+            self?.currentBarcode = correctLengthBarcode
         }.store(in: &subscriptions)
 
         return Publishers.CombineLatest($isValidBarcode, $isManualInputActive)

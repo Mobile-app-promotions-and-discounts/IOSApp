@@ -7,6 +7,7 @@ final class FavoritesViewController: ScannerEnabledViewController {
 
     private let viewModel: FavoritesViewModelProtocol
     private let layoutProvider: CollectionLayoutProvider
+    private let emptyResultView: EmptyOnScreenView
 
     private var cancellables = Set<AnyCancellable>()
 
@@ -31,7 +32,9 @@ final class FavoritesViewController: ScannerEnabledViewController {
         return collectionView
     }()
 
-    init(viewModel: FavoritesViewModelProtocol, layoutProvider: CollectionLayoutProvider = CollectionLayoutProvider()) {
+    init(viewModel: FavoritesViewModelProtocol,
+         layoutProvider: CollectionLayoutProvider = CollectionLayoutProvider()) {
+        self.emptyResultView = EmptyOnScreenView(state: .noFavorites)
         self.viewModel = viewModel
         self.layoutProvider = layoutProvider
         super.init(nibName: nil, bundle: nil)
@@ -45,6 +48,8 @@ final class FavoritesViewController: ScannerEnabledViewController {
         super.viewDidLoad()
         setupViews()
         setupBindings()
+        updateUIBasedOnViewModel()
+
     }
 
     private func setupViews() {
@@ -64,8 +69,24 @@ final class FavoritesViewController: ScannerEnabledViewController {
             .sink { [weak self] _ in
                 guard let self = self else { return }
                 self.favoritesCollectionView.reloadData()
+                self.updateUIBasedOnViewModel()
             }
             .store(in: &cancellables)
+    }
+
+    private func updateUIBasedOnViewModel() {
+        let isDataEmpty = viewModel.numberOfItems() == 0
+        favoritesCollectionView.isHidden = isDataEmpty
+        emptyResultView.isHidden = !isDataEmpty
+
+        if isDataEmpty {
+            view.addSubview(emptyResultView)
+            emptyResultView.snp.makeConstraints { make in
+                make.edges.equalToSuperview()
+            }
+        } else {
+            emptyResultView.removeFromSuperview()
+        }
     }
 }
 

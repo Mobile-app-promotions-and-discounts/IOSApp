@@ -7,6 +7,7 @@ class CategoryViewController: ScannerEnabledViewController {
 
     private let viewModel: CategoryViewModelProtocol
     private let layoutProvider: CollectionLayoutProvider
+    private let emptyResultView: EmptyOnScreenView
 
     private var cancellables = Set<AnyCancellable>()
 
@@ -33,6 +34,7 @@ class CategoryViewController: ScannerEnabledViewController {
 
     init(viewModel: CategoryViewModelProtocol,
          layoutProvider: CollectionLayoutProvider = CollectionLayoutProvider()) {
+        self.emptyResultView = EmptyOnScreenView(state: .noResult)
         self.viewModel = viewModel
         self.layoutProvider = layoutProvider
         super.init(nibName: nil, bundle: nil)
@@ -46,12 +48,20 @@ class CategoryViewController: ScannerEnabledViewController {
         super.viewDidLoad()
         setupViews()
         setupBindings()
+        updateUIBasedOnViewModel()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // Временное решение для обновления списка избранного на данном экране.
         categoryCollectionView.reloadData()
+        self.navigationController?.tabBarController?.tabBar.isHidden = true
+
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.tabBarController?.tabBar.isHidden = false
     }
 
     private func setupViews() {
@@ -70,8 +80,31 @@ class CategoryViewController: ScannerEnabledViewController {
             .sink { [weak self] _ in
                 guard let self = self else { return }
                 self.categoryCollectionView.reloadData()
+                self.updateUIBasedOnViewModel()
             }
             .store(in: &cancellables)
+
+        emptyResultView.mainButtonTappedPublisher
+            .sink { [weak self] _ in
+                guard let self = self else { return }
+                self.coordinator?.navigateToMainScreen()
+            }
+            .store(in: &cancellables)
+    }
+
+    private func updateUIBasedOnViewModel() {
+        let isDataEmpty = viewModel.numberOfItems() == 0
+        categoryCollectionView.isHidden = isDataEmpty
+        emptyResultView.isHidden = !isDataEmpty
+
+        if isDataEmpty {
+            view.addSubview(emptyResultView)
+            emptyResultView.snp.makeConstraints { make in
+                make.edges.equalToSuperview()
+            }
+        } else {
+            emptyResultView.removeFromSuperview()
+        }
     }
 }
 
