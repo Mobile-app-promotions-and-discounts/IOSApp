@@ -16,6 +16,10 @@ class SearchEnabledViewController: UIViewController {
         return backButton
     }()
 
+    private lazy var backAction: () -> Void = { [weak self] in
+        self?.navigationController?.popViewController(animated: true)
+    }
+
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
@@ -29,6 +33,10 @@ class SearchEnabledViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = false
+    }
+
+    func setBackAction(action: @escaping () -> Void) {
+        backAction = action
     }
 
     private func setupSearchBar() {
@@ -62,8 +70,7 @@ class SearchEnabledViewController: UIViewController {
 
     @objc
     private func defaultBackAction() {
-        // не уверен стоит ли в протокол отдельный координатор добавлять и везде прокидывать?
-        navigationController?.popViewController(animated: true)
+        backAction()
     }
 }
 

@@ -5,18 +5,17 @@ final class ScanFlowCoordinator: Coordinator {
     var navigationController: UINavigationController
     // вынес из функции чтобы вьюконтроллер не исчезал из памяти и кнопка работала
     private var scanVC: ScanViewController?
-
     private var productService: ProductNetworkServiceProtocol
 
     init(navigationController: UINavigationController,
          productService: ProductNetworkServiceProtocol) {
         self.navigationController = navigationController
         self.productService = productService
+
+//        self.navigationController.navigationBar.isHidden = true
     }
 
-    func start() {
-
-    }
+    func start() { }
 
     func showScanner() {
         let captureSessionController = ScanCaptureSessionController(coordinator: self)
