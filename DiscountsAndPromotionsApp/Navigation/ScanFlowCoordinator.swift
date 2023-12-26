@@ -6,12 +6,12 @@ final class ScanFlowCoordinator: Coordinator {
     // вынес из функции чтобы вьюконтроллер не исчезал из памяти и кнопка работала
     private var scanVC: ScanViewController?
 
-    private var dataService: DataServiceProtocol
+    private var productService: ProductNetworkServiceProtocol
 
     init(navigationController: UINavigationController,
-         dataService: DataServiceProtocol) {
+         productService: ProductNetworkServiceProtocol) {
         self.navigationController = navigationController
-        self.dataService = dataService
+        self.productService = productService
     }
 
     func start() {
@@ -20,7 +20,7 @@ final class ScanFlowCoordinator: Coordinator {
 
     func showScanner() {
         let captureSessionController = ScanCaptureSessionController(coordinator: self)
-        let viewModel = ScanFlowViewModel(dataService: dataService,
+        let viewModel = ScanFlowViewModel(productService: productService,
                                           coordinator: self)
         scanVC = ScanViewController(viewModel: viewModel,
                                         captureSessionController: captureSessionController,

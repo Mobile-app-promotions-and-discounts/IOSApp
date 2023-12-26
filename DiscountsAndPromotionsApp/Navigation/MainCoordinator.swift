@@ -7,9 +7,25 @@ final class MainCoordinator: Coordinator {
     private let dataService: DataServiceProtocol
     private let profileService: ProfileServiceProtocol
 
-    init(navigationController: UINavigationController) {
+    private let networkClient: NetworkClientProtocol
+    private let authService: AuthServiceProtocol
+    private let userNetworkService: UserNetworkServiceProtocol
+    private let categoryNetworkService: CategoryNetworkServiceProtocol
+    private let productNetworkService: ProductNetworkServiceProtocol
+    private let storesNetworkService: StoreNetworkServiceProtocol
+
+    init(navigationController: UINavigationController, networkClient: NetworkClientProtocol = NetworkClient()) {
         self.dataService = MockDataService()
         self.profileService = MockProfileService()
+
+//         Network Services
+        self.networkClient = networkClient
+        self.authService = AuthService(networkClient: networkClient)
+        self.userNetworkService = UserNetworkService(networkClient: networkClient)
+        self.categoryNetworkService = CategoryNetworkService(networkClient: networkClient)
+        self.productNetworkService = ProductNetworkService(networkClient: networkClient)
+        self.storesNetworkService = StoreNetworkService(networkClient: networkClient)
+
         self.navigationController = navigationController
         self.navigationController.navigationBar.isHidden = true
     }
@@ -18,6 +34,8 @@ final class MainCoordinator: Coordinator {
         let splashViewController = SplashViewController()
         splashViewController.coordinator = self
         navigationController.viewControllers = [splashViewController]
+
+//        authService.getToken(for: NetworkBaseConfiguration.testUser)
     }
 
     func navigateToMainScreen() {
@@ -37,7 +55,7 @@ final class MainCoordinator: Coordinator {
     private func configureChildCoordinators(with tabBarController: MainTabBarController) {
         // Создание и запуск дочерних координаторов
         let scanCoordinator = ScanFlowCoordinator(navigationController: navigationController,
-                                                  dataService: dataService)
+                                                  productService: productNetworkService)
 
         let mainScreenNavigationController = GenericNavigationController()
         mainScreenNavigationController.scanCoordinator = scanCoordinator

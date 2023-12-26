@@ -9,6 +9,7 @@ final class SortsHeaderView: UICollectionReusableView {
 
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
+        label.textColor = .cherryBlack
         label.font = CherryFonts.headerLarge
         return label
     }()

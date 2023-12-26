@@ -1,109 +1,46 @@
-import Combine
 import Foundation
 
 final class NetworkClient: NetworkClientProtocol {
-    static let shared = NetworkClient()
-
     private let decoder = JSONDecoder()
+    private let session = URLSession.shared
 
-    func request<T: Decodable>(endpoint: Endpoint,
-                               additionalPath: String?,
-                               headers: [String: String]?,
-                               parameters: [String: String]?) -> AnyPublisher<T, AppError> {
-        var extraPath = ""
-        if let additionalPath {
-            extraPath = additionalPath + "/"
-        }
-        guard let url = URL(string: endpoint.URL + extraPath) else {
-            return Fail(error: AppError.networkError).eraseToAnyPublisher()
-        }
-        var request = URLRequest(url: url)
-        request.httpMethod = endpoint.method.rawValue
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        if let parameters {
-            let bodyData = try? JSONSerialization.data(
-                withJSONObject: parameters,
-                options: []
-            )
-            request.httpBody = bodyData
-        }
-        if let headers {
-            for (key, value) in headers {
-                request.setValue(value, forHTTPHeaderField: key)
+    func request<T: Decodable>(for urlRequest: URLRequest) async throws -> T {
+        let (data, response) = try await session.data(for: urlRequest)
+
+        let statusCode = (response as? HTTPURLResponse)?.statusCode ?? 400
+        print(statusCode)
+        switch statusCode {
+        case 200..<300:
+            do {
+                return try decoder.decode(T.self, from: data)
+            } catch {
+                throw AppError.parsingError
+            }
+        default:
+            do {
+                let error = try decoder.decode(NetworkErrorDescriptionModel.self, from: data)
+                throw AppError.customError("\(error)")
+            } catch {
+                throw AppError.networkError
             }
         }
-
-        let publisher = URLSession.shared
-            .dataTaskPublisher(for: request)
-            .receive(on: DispatchQueue.main)
-            .tryMap { (data, response) -> Data in
-                if let httpResponse = response as? HTTPURLResponse,
-                   (200..<300).contains(httpResponse.statusCode) {
-                    return data
-                } else {
-                    throw AppError.customError("Request failed")
-                }
-            }
-            .decode(type: T.self, decoder: decoder)
-            .mapError { error -> AppError in
-                if error is DecodingError {
-                    return AppError.customError("Decoding error")
-                } else {
-                    return AppError.networkError
-                }
-            }
-            .eraseToAnyPublisher()
-
-        return publisher
     }
 
-    func requestWithEmptyResponse(endpoint: Endpoint,
-                                  additionalPath: String?,
-                                  headers: [String: String]?,
-                                  parameters: [String: String]?) -> AnyPublisher<Data, AppError> {
-        var extraPath = ""
-        if let additionalPath {
-            extraPath = additionalPath
-        }
-        guard let url = URL(string: endpoint.URL + extraPath + "/") else {
-            return Fail(error: AppError.networkError).eraseToAnyPublisher()
-        }
-        var request = URLRequest(url: url)
-        request.httpMethod = endpoint.method.rawValue
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        if let parameters {
-            let bodyData = try? JSONSerialization.data(
-                withJSONObject: parameters,
-                options: []
-            )
-            request.httpBody = bodyData
-        }
-        if let headers {
-            for (key, value) in headers {
-                request.setValue(value, forHTTPHeaderField: key)
-            }
-        }
+    func request(for urlRequest: URLRequest) async throws -> URLResponse {
+        let (data, response) = try await session.data(for: urlRequest)
 
-        let publisher = URLSession.shared
-            .dataTaskPublisher(for: request)
-            .receive(on: DispatchQueue.main)
-            .tryMap { (data, response) -> Data in
-                if let httpResponse = response as? HTTPURLResponse,
-                   (200..<300).contains(httpResponse.statusCode) {
-                    return data
-                } else {
-                    throw AppError.customError("Request failed")
-                }
+        let statusCode = (response as? HTTPURLResponse)?.statusCode ?? 400
+        print(statusCode)
+        switch statusCode {
+        case 200..<300:
+            return response
+        default:
+            do {
+                let error = try decoder.decode(NetworkErrorDescriptionModel.self, from: data)
+                throw AppError.customError("\(error)")
+            } catch {
+                throw AppError.networkError
             }
-            .mapError { error -> AppError in
-                if error is DecodingError {
-                    return AppError.customError("Decoding error")
-                } else {
-                    return AppError.networkError
-                }
-            }
-            .eraseToAnyPublisher()
-
-        return publisher
+        }
     }
 }

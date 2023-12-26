@@ -12,6 +12,8 @@ final class ProfileViewController: UIViewController {
 
     private var profileSubscriber: AnyCancellable?
 
+    private var subscriptions = Set<AnyCancellable>()
+
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()

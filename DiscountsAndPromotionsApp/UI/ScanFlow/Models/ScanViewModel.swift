@@ -6,6 +6,7 @@ import UIKit
 protocol ScanFlowViewModelProtocol {
     var manualInputUpdate: PassthroughSubject<Bool, Never> { get }
     var validBarcodeUpdate: PassthroughSubject<Bool, Never> { get }
+    var barcodePlaceholderUpdate: PassthroughSubject<String, Never> { get }
 
     func bindBarcode(code: AnyPublisher<String, Never>) -> AnyPublisher<Bool, Never>
     func bindSegmentedControl(index: AnyPublisher<Int, Never>)
@@ -14,11 +15,12 @@ protocol ScanFlowViewModelProtocol {
 }
 
 final class ScanFlowViewModel: ScanFlowViewModelProtocol {
-    private let dataService: DataServiceProtocol
+    private let productService: ProductNetworkServiceProtocol
     private let coordinator: ScanFlowCoordinator
 
     private (set) var manualInputUpdate = PassthroughSubject<Bool, Never>()
     private (set) var validBarcodeUpdate = PassthroughSubject<Bool, Never>()
+    private (set) var barcodePlaceholderUpdate = PassthroughSubject<String, Never>()
 
     @Published private var isManualInputActive: Bool = false {
         didSet {
@@ -30,20 +32,55 @@ final class ScanFlowViewModel: ScanFlowViewModelProtocol {
             validBarcodeUpdate.send(isValidBarcode)
         }
     }
-    private var currentBarcode: String = ""
+    private var currentBarcode: String = "" {
+        didSet {
+            barcodePlaceholderUpdate.send(formattedBarcode(barcode: currentBarcode))
+        }
+    }
 
     private var subscriptions: Set<AnyCancellable> = Set()
 
-    init(dataService: DataServiceProtocol,
+    init(productService: ProductNetworkServiceProtocol,
          coordinator: ScanFlowCoordinator) {
-        self.dataService = dataService
+        self.productService = productService
         self.coordinator = coordinator
+
+        bindBarcodeRequest()
+    }
+
+    private func bindBarcodeRequest() {
+        productService.productListUpdate
+            .sink { [weak self] products in
+                guard let self else { return }
+
+                if let foundProduct = products.first {
+                    let product = foundProduct.convertToProductModel()
+                    coordinator.showProduct(product)
+                } else {
+                    self.coordinator.scanError()
+                }
+            }
+            .store(in: &subscriptions)
+    }
+
+    private func formattedBarcode(barcode: String) -> String {
+        let mask = "•••••••••••••"
+        var result = "" + barcode
+        if barcode.count < mask.count {
+            for _ in 0..<(mask.count - barcode.count) {
+                result += "•"
+            }
+        }
+        result.insert(contentsOf: " ", at: result.index(result.startIndex, offsetBy: 8))
+        return String(result.prefix(14))
     }
 
     func bindBarcode(code: AnyPublisher<String, Never>) -> AnyPublisher<Bool, Never> {
-        code.sink { [weak self] barcode in
-            self?.isValidBarcode = barcode.isValidBarcode()
-            self?.currentBarcode = barcode
+        code.sink { [weak self] barcodeInput in
+            let barcode = barcodeInput.filter { $0.isWholeNumber }
+            let correctLengthBarcode = String(barcode.prefix(13))
+            self?.isValidBarcode = correctLengthBarcode.isValidBarcode()
+            self?.currentBarcode = correctLengthBarcode
         }.store(in: &subscriptions)
 
         return Publishers.CombineLatest($isValidBarcode, $isManualInputActive)
@@ -74,18 +111,8 @@ final class ScanFlowViewModel: ScanFlowViewModelProtocol {
     }
 
     private func makeBarcodeRequest(code: String) {
-        dataService.actualGoodsList
-            .sink { [weak self] goodsList in
-                guard let self = self else { return }
-                let sortedGoodsList = goodsList.filter { product in
-                    return product.barcode == code
-                }
-                if let product = sortedGoodsList.first {
-                    coordinator.showProduct(product)
-                } else {
-                    coordinator.scanError()
-                }
-            }
-            .store(in: &subscriptions)
+        productService.getProducts(categoryID: nil,
+                                   searchItem: code,
+                                   page: nil)
     }
 }

@@ -7,7 +7,7 @@ protocol FavoritesViewModelProtocol {
     func numberOfItems() -> Int
     func getProduct(for index: Int) -> ProductCellUIModel
     func getTitleForHeader() -> String
-    func getProductById(_ id: UUID) -> Product?
+    func getProductById(_ id: Int) -> Product?
 
-    func likeButtonTapped(for productID: UUID)
+    func likeButtonTapped(for productID: Int)
 }

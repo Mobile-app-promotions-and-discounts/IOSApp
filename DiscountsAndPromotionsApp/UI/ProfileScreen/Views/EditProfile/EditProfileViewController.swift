@@ -60,7 +60,7 @@ final class EditProfileViewController: UIViewController, UINavigationControllerD
     // MARK: - Private Methods
     @objc
     private func didTapCancelButton() {
-        self.coordinator?.exit()
+        self.coordinator?.exit(hideNavBar: true)
     }
 
     @objc
@@ -73,7 +73,7 @@ final class EditProfileViewController: UIViewController, UINavigationControllerD
             object: profile
         )
 
-        self.coordinator?.exit()
+        self.coordinator?.exit(hideNavBar: true)
     }
 
     private func validateProfile(profile: ProfileModel) {
@@ -88,9 +88,9 @@ final class EditProfileViewController: UIViewController, UINavigationControllerD
             NSAttributedString.Key.font: CherryFonts.textLarge as Any]
         navigationItem.leftBarButtonItem = cancelButton
         cancelButton.setTitleTextAttributes(navbarAttributes, for: .normal)
-        cancelButton.setTitleTextAttributes(navbarAttributes, for: .selected)
+        cancelButton.setTitleTextAttributes(navbarAttributes, for: .highlighted)
         navigationItem.rightBarButtonItem = doneButton
         doneButton.setTitleTextAttributes(navbarAttributes, for: .normal)
-        doneButton.setTitleTextAttributes(navbarAttributes, for: .selected)
+        doneButton.setTitleTextAttributes(navbarAttributes, for: .highlighted)
     }
 }
