@@ -1,21 +1,21 @@
 import Combine
 import Foundation
 
-protocol AuthServiceProtocol {
-    var isTokenValidUpdate: PassthroughSubject<Bool, Never> { get }
+// protocol AuthServiceProtocol {
+//    var isTokenValidUpdate: PassthroughSubject<Bool, Never> { get }
+//
+//    func getToken(for user: UserRequestModel)
+//    func verifyToken()
+//    func refreshToken()
+//    func logout()
+// }
 
-    func getToken(for user: UserRequestModel)
-    func verifyToken()
-    func refreshToken()
-    func logout()
-}
-
-final class AuthService: AuthServiceProtocol {
+actor AuthService {
     private let tokenStorage: AuthTokenStorage
-    private let networkClient: NetworkClientProtocol
-    private let requestConstructor: NetworkRequestConstructorProtocol
+    nonisolated private let networkClient: NetworkClientProtocol
+    nonisolated private let requestConstructor: NetworkRequestConstructorProtocol
 
-    private (set) var isTokenValidUpdate = PassthroughSubject<Bool, Never>()
+    nonisolated let isTokenValidUpdate = PassthroughSubject<Bool, Never>()
     private var isTokenValid: Bool = false {
         didSet {
             isTokenValidUpdate.send(isTokenValid)
@@ -47,16 +47,12 @@ final class AuthService: AuthServiceProtocol {
         Task {
             do {
                 let token: TokenResponseModel = try await networkClient.request(for: urlRequest)
-                await MainActor.run { [weak self] in
-                    print(token)
-                    print("Token obtained successfully")
+                print("Token obtained successfully")
 
-                    guard let self else { return }
-                    self.isTokenValid = true
-                    self.tokenStorage.accessToken = token.access
-                    if let refresh = token.refresh {
-                        self.tokenStorage.refreshToken = refresh
-                    }
+                isTokenValid = true
+                tokenStorage.accessToken = token.access
+                if let refresh = token.refresh {
+                    tokenStorage.refreshToken = refresh
                 }
             } catch let error {
                 print("Error getting token: \(error.localizedDescription)")
@@ -90,9 +86,8 @@ final class AuthService: AuthServiceProtocol {
             do {
                 let _: URLResponse = try await networkClient.request(for: urlRequest)
                 print("Token is valid")
-                await MainActor.run {[weak self] in
-                    self?.isTokenValid = true
-                }
+
+                isTokenValid = true
             } catch let error {
                 print("Token validation error: \(error.localizedDescription). Refreshing")
                 refreshToken()
@@ -118,18 +113,15 @@ final class AuthService: AuthServiceProtocol {
         Task {
             do {
                 let token: TokenResponseModel = try await networkClient.request(for: urlRequest)
-                await MainActor.run { [weak self] in
-                    print(token)
-                    print("Token is refreshed")
+                print("Token is refreshed")
 
-                    guard let self else { return }
-                    self.isTokenValid = true
-                    self.tokenStorage.accessToken = token.access
-                }
+                isTokenValid = true
+                tokenStorage.accessToken = token.access
+
             } catch let error {
                 print("Token refresh error: \(error.localizedDescription)")
 
-                self.isTokenValid = false
+                isTokenValid = false
                 if let error = error as? AppError {
                     ErrorHandler.handle(error: error)
                 } else {
