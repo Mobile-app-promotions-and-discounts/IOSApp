@@ -43,6 +43,7 @@ final class ScanFlowCoordinator: Coordinator {
 
     func navigateToMainScreen() {
         navigationController.popToRootViewController(animated: true)
+        navigationController.navigationBar.isHidden = true
     }
 
     func navigateToEmptyResultScreen() {
