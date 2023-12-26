@@ -33,12 +33,9 @@ class ProductCardViewController: UIViewController {
     private let galleryView = ImageGalleryView()
     private let titleAndRatingView = UIView()
     private let titleView = ProductTitleView()
-//    private var ratingViewModel: RatingViewViewModelProtocol
     private let ratingView = RatingView()
     private let offersTableView = UITableView()
-//    private var reviewViewViewModel: ProductReviewViewModelProtocol
     private let reviewView = ProductReviewView()
-//    private var priceInfoViewModel: PriceInfoViewViewModelProtocol?
     private let priceInfoView = PriceInfoView()
     private let backButton = UIButton()
     private let exportButton = UIButton()
@@ -81,13 +78,7 @@ class ProductCardViewController: UIViewController {
         navigationController?.navigationBar.isHidden = true
     }
 
-//    override func viewDidDisappear(_ animated: Bool) {
-//        super.viewDidDisappear(animated)
-//        navigationController?.navigationBar.isHidden = false
-//    }
-
     // MARK: - Private Func
-
     private func setupUI() {
         // Настройка UI-элементов
         setupProductLayout()
@@ -136,6 +127,7 @@ class ProductCardViewController: UIViewController {
             make.leading.trailing.equalToSuperview()
             make.bottom.equalToSuperview()
         }
+
         contentView.snp.makeConstraints { make in
             make.top.leading.bottom.trailing.equalTo(productScrollView)
             make.bottom.equalToSuperview()
@@ -160,6 +152,7 @@ class ProductCardViewController: UIViewController {
             make.height.equalTo(50)
             make.width.equalTo(contentView.frame.width)
         }
+
         ratingView.snp.makeConstraints { make in
             make.top.equalTo(titleView.snp.bottom).offset(16)
             make.leading.equalTo(contentView).offset(16)

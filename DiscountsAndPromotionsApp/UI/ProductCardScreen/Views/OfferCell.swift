@@ -41,7 +41,6 @@ class OfferTableViewCell: UITableViewCell {
          addressLabel,
          priceLabel,
          originalPriceLabel,
-//         discountLabel,
          discountView,
          goToStoreButton].forEach {
             backgroundViewBoard.addSubview($0)
@@ -60,7 +59,7 @@ class OfferTableViewCell: UITableViewCell {
         discountView.clipsToBounds = true
         discountView.layer.borderWidth = 1
         discountView.layer.borderColor = UIColor.cherryGray.cgColor
-        discountView.backgroundColor = .cherryYellow
+        discountView.backgroundColor = .cherryOrange
     }
 
     private func configureGoToStoreButton() {
@@ -169,7 +168,6 @@ class OfferTableViewCell: UITableViewCell {
         storeNameLabel.text = offer.store.name
         addressLabel.text = offer.store.location.street
         priceLabel.text = "\(Int(offer.price)) ₽"
-//        originalPriceLabel.text = ""
         discountLabel.text = "-\(String(describing: offer.discount?.discountRate ?? 30)) %"
     }
 
