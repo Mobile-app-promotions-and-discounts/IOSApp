@@ -81,10 +81,10 @@ class ProductCardViewController: UIViewController {
         navigationController?.navigationBar.isHidden = true
     }
 
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        navigationController?.navigationBar.isHidden = false
-    }
+//    override func viewDidDisappear(_ animated: Bool) {
+//        super.viewDidDisappear(animated)
+//        navigationController?.navigationBar.isHidden = false
+//    }
 
     // MARK: - Private Func
 
@@ -330,12 +330,12 @@ extension ProductCardViewController: UITableViewDelegate {
 }
 
 extension ProductCardViewController: UIScrollViewDelegate {
-//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        let yOffset = scrollView.contentOffset.y
-//        let galleryViewIsVisible = yOffset < (galleryView.frame.maxY - view.safeAreaInsets.top)
-//
-//        navigationController?.setNavigationBarHidden(galleryViewIsVisible, animated: true)
-//        backButton.isHidden = !galleryViewIsVisible
-//        exportButton.isHidden = !galleryViewIsVisible
-//    }
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let yOffset = scrollView.contentOffset.y
+        let galleryViewIsVisible = yOffset < (galleryView.frame.maxY / 2 - view.safeAreaInsets.top)
+
+        navigationController?.setNavigationBarHidden(galleryViewIsVisible, animated: true)
+        backButton.isHidden = !galleryViewIsVisible
+        exportButton.isHidden = !galleryViewIsVisible
+    }
 }
