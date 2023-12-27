@@ -20,15 +20,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // Этот метод вызывается, когда устройство успешно зарегистрировано в APNs и получен device token.
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        // Конвертируем device token в строку и отправляем его на сервер
-        let tokenParts = deviceToken.map { data in String(format: "%02.2hhx", data) }
-        let token = tokenParts.joined()
-        print("Device Token: \(token)")
-        // ToDo: - Здесь код для отправки token на сервер. Это обычно делается через HTTP-запрос к API сервера.
+        convertAndSebtToken(deviceToken: deviceToken)
     }
 
     // Этот метод вызывается, если произошла ошибка при попытке зарегистрировать устройство для push-уведомлений.
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         ErrorHandler.handle(error: .customError("Failed to register for remote notifications: \(error)"))
+    }
+
+    private func convertAndSebtToken(deviceToken: Data) {
+        // Конвертируем device token в строку и отправляем его на сервер
+        let tokenParts = deviceToken.map { data in String(format: "%02.2hhx", data) }
+        let token = tokenParts.joined()
+        print("Device Token: \(token)")
+        // ToDo: - Здесь код для отправки token на сервер. Это обычно делается через HTTP-запрос к API сервера.
     }
 }

@@ -48,7 +48,6 @@ class CategoryViewController: ScannerEnabledViewController {
         super.viewDidLoad()
         setupViews()
         setupBindings()
-        updateUIBasedOnViewModel()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -67,9 +66,15 @@ class CategoryViewController: ScannerEnabledViewController {
     private func setupViews() {
         view.backgroundColor = .cherryLightBlue
 
-        view.addSubview(categoryCollectionView)
+        [categoryCollectionView, emptyResultView].forEach { view.addSubview($0) }
+
+        emptyResultView.isHidden = true // Скрыть по умолчанию
 
         categoryCollectionView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+
+        emptyResultView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
     }
@@ -80,7 +85,6 @@ class CategoryViewController: ScannerEnabledViewController {
             .sink { [weak self] _ in
                 guard let self = self else { return }
                 self.categoryCollectionView.reloadData()
-                self.updateUIBasedOnViewModel()
             }
             .store(in: &cancellables)
 
@@ -90,20 +94,23 @@ class CategoryViewController: ScannerEnabledViewController {
                 self.coordinator?.navigateToMainScreen()
             }
             .store(in: &cancellables)
+
+        viewModel.viewState
+            .receive(on: RunLoop.main)
+            .sink { [weak self] state in
+                guard let self = self else { return }
+                self.updateUI(for: state)
+            }
+            .store(in: &cancellables)
     }
 
-    private func updateUIBasedOnViewModel() {
-        let isDataEmpty = viewModel.numberOfItems() == 0
-        categoryCollectionView.isHidden = isDataEmpty
-        emptyResultView.isHidden = !isDataEmpty
+    private func updateUI(for state: ViewState) {
+        let isDataPresent = state == .dataPresent
+        categoryCollectionView.isHidden = !isDataPresent
+        emptyResultView.isHidden = isDataPresent
 
-        if isDataEmpty {
-            view.addSubview(emptyResultView)
-            emptyResultView.snp.makeConstraints { make in
-                make.edges.equalToSuperview()
-            }
-        } else {
-            emptyResultView.removeFromSuperview()
+        if state == .loading {
+            // Показать индикатор загрузки, если необходимо
         }
     }
 }

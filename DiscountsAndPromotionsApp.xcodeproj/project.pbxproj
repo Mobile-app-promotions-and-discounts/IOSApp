@@ -143,6 +143,7 @@
 		BEBA944D2B14D93800ABE1AD /* ErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBA944C2B14D93800ABE1AD /* ErrorHandler.swift */; };
 		BEBA944F2B14E1DC00ABE1AD /* ErrorHandler.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = BEBA944E2B14E1DC00ABE1AD /* ErrorHandler.xcstrings */; };
 		BEBA94512B14E4B900ABE1AD /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBA94502B14E4B900ABE1AD /* UIViewController+Extension.swift */; };
+		BEBBDCA82B3C6EB700DB6F34 /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBBDCA72B3C6EB700DB6F34 /* ViewState.swift */; };
 		BED4B5C42B3B24F80032C4CE /* EmptyScanResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED4B5C32B3B24F80032C4CE /* EmptyScanResultViewController.swift */; };
 		BEF503B22B15262F00577D7F /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF503B12B15262F00577D7F /* Profile.swift */; };
 		BEF503B42B15287F00577D7F /* MockProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF503B32B15287F00577D7F /* MockProfileService.swift */; };
@@ -305,6 +306,7 @@
 		BEBA944C2B14D93800ABE1AD /* ErrorHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHandler.swift; sourceTree = "<group>"; };
 		BEBA944E2B14E1DC00ABE1AD /* ErrorHandler.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = ErrorHandler.xcstrings; sourceTree = "<group>"; };
 		BEBA94502B14E4B900ABE1AD /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
+		BEBBDCA72B3C6EB700DB6F34 /* ViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewState.swift; sourceTree = "<group>"; };
 		BEC7A8942B345104000BEB49 /* DiscountsAndPromotionsApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DiscountsAndPromotionsApp.entitlements; sourceTree = "<group>"; };
 		BED4B5C32B3B24F80032C4CE /* EmptyScanResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyScanResultViewController.swift; sourceTree = "<group>"; };
 		BEF503B12B15262F00577D7F /* Profile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
@@ -949,6 +951,7 @@
 				BE8E709C2B0D275300BEAA5A /* CollectionLayoutProvider.swift */,
 				BEBA944C2B14D93800ABE1AD /* ErrorHandler.swift */,
 				92787F672B1F14500045B678 /* AuthTokenKeychainStorage.swift */,
+				BEBBDCA72B3C6EB700DB6F34 /* ViewState.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1108,6 +1111,7 @@
 				BCAC6B792B223C4100AD5C96 /* NetworkErrorDescriptionModel.swift in Sources */,
 				92787F682B1F14500045B678 /* AuthTokenKeychainStorage.swift in Sources */,
 				BC6046202B1E4B7900536EB3 /* ProfileViewController.swift in Sources */,
+				BEBBDCA82B3C6EB700DB6F34 /* ViewState.swift in Sources */,
 				BCCF50042B1B4AF10067A552 /* MainViewController.swift in Sources */,
 				BC0723122B1A4E5300EF82B8 /* Gradients.swift in Sources */,
 				BCAC6B7C2B223C4100AD5C96 /* UserNetworkService.swift in Sources */,

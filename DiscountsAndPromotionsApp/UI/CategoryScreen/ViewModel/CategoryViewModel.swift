@@ -2,11 +2,13 @@ import Foundation
 import Combine
 
 final class CategoryViewModel: CategoryViewModelProtocol {
+    private (set) var viewState = CurrentValueSubject<ViewState, Never>(.loading)
     private (set) var productsUpdate = PassthroughSubject<[Product], Never>()
 
     private var products = [Product]() {
         didSet {
             productsUpdate.send(products)
+            viewState.value = products.isEmpty ? .empty : .dataPresent
         }
     }
 

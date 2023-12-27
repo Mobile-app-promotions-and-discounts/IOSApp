@@ -48,7 +48,6 @@ final class FavoritesViewController: ScannerEnabledViewController {
         super.viewDidLoad()
         setupViews()
         setupBindings()
-        updateUIBasedOnViewModel()
 
     }
 
@@ -69,23 +68,25 @@ final class FavoritesViewController: ScannerEnabledViewController {
             .sink { [weak self] _ in
                 guard let self = self else { return }
                 self.favoritesCollectionView.reloadData()
-                self.updateUIBasedOnViewModel()
+            }
+            .store(in: &cancellables)
+
+        viewModel.viewState
+            .receive(on: RunLoop.main)
+            .sink { [weak self] state in
+                guard let self = self else { return }
+                self.updateUI(for: state)
             }
             .store(in: &cancellables)
     }
 
-    private func updateUIBasedOnViewModel() {
-        let isDataEmpty = viewModel.numberOfItems() == 0
-        favoritesCollectionView.isHidden = isDataEmpty
-        emptyResultView.isHidden = !isDataEmpty
+    private func updateUI(for state: ViewState) {
+        let isDataPresent = state == .dataPresent
+        favoritesCollectionView.isHidden = !isDataPresent
+        emptyResultView.isHidden = isDataPresent
 
-        if isDataEmpty {
-            view.addSubview(emptyResultView)
-            emptyResultView.snp.makeConstraints { make in
-                make.edges.equalToSuperview()
-            }
-        } else {
-            emptyResultView.removeFromSuperview()
+        if state == .loading {
+            // Показать индикатор загрузки, если необходимо
         }
     }
 }

@@ -2,9 +2,7 @@ import Combine
 import Foundation
 
 final class SearchResultsViewModel: CategoryViewModelProtocol {
-    var isEmpty: Bool {
-        return numberOfItems() == 0
-    }
+    private (set) var viewState = CurrentValueSubject<ViewState, Never>(.loading)
 
     private let dataService: DataServiceProtocol
     private let profileService: ProfileServiceProtocol
@@ -15,6 +13,7 @@ final class SearchResultsViewModel: CategoryViewModelProtocol {
     private var products = [Product]() {
         didSet {
             productsUpdate.send(products)
+            viewState.value = products.isEmpty ? .empty : .dataPresent
         }
     }
 
