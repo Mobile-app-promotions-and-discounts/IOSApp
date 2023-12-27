@@ -11,23 +11,13 @@ final class EmptyScanResultViewController: ScannerEnabledViewController {
     init() {
         self.emptyResultView = EmptyOnScreenView(state: .noResult)
         super.init(nibName: nil, bundle: nil)
-        setupView()
+        self.hidesBottomBarWhenPushed = true
+        setupUI()
         setupBindings()
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController?.tabBarController?.tabBar.isHidden = true
-
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        self.navigationController?.tabBarController?.tabBar.isHidden = false
     }
 
     private func setupBindings() {
@@ -39,9 +29,12 @@ final class EmptyScanResultViewController: ScannerEnabledViewController {
             .store(in: &cancellables)
     }
 
-    private func setupView() {
-        view.addSubview(emptyResultView)
+    private func setupUI() {
+        setBackAction { [weak self] in
+            self?.coordinator?.navigateBack()
+        }
 
+        view.addSubview(emptyResultView)
         emptyResultView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
