@@ -43,14 +43,14 @@ final class MockDataService: DataServiceProtocol {
     }
 
     private func generateCategories() -> [Category] {
-        return [Category(name: "Продукты", image: "ProductsCategoryIcon"),
-                Category(name: "Одежда и обувь", image: "ClothesAndShoesCategoryIcon"),
-                Category(name: "Косметика и гигиена", image: "CosmeticsCategoryIcon"),
-                Category(name: "Для детей", image: "ForKindsCategoryIcon"),
-                Category(name: "Дом и сад", image: "HomeAndGardenCategoryIcon"),
-                Category(name: "Зоотовары", image: "PetSuppliesCategoryIcon"),
-                Category(name: "Праздник", image: "HolidayCategoryIcon"),
-                Category(name: "Авто", image: "AutoCategoryIcon")]
+        return [Category(id: 0, name: "Продукты", image: "ProductsCategoryIcon"),
+                Category(id: 1, name: "Одежда и обувь", image: "ClothesAndShoesCategoryIcon"),
+                Category(id: 2, name: "Косметика и гигиена", image: "CosmeticsCategoryIcon"),
+                Category(id: 3, name: "Для детей", image: "ForKindsCategoryIcon"),
+                Category(id: 4, name: "Дом и сад", image: "HomeAndGardenCategoryIcon"),
+                Category(id: 5, name: "Зоотовары", image: "PetSuppliesCategoryIcon"),
+                Category(id: 6, name: "Праздник", image: "HolidayCategoryIcon"),
+                Category(id: 7, name: "Авто", image: "AutoCategoryIcon")]
     }
 
     private func generateGoods() -> [Product] {

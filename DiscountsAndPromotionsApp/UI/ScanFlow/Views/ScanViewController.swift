@@ -17,8 +17,16 @@ final class ScanViewController: UIViewController {
     }()
     private let fillLayer = CAShapeLayer()
 
+    private lazy var barcodeInputBackground: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = CornerRadius.regular.cgFloat()
+        view.backgroundColor = .cherryForeground
+        return view
+    }()
+
     private lazy var barcodeReminderLabel: UILabel = {
         let label = UILabel()
+        label.setContentHuggingPriority(UILayoutPriority(1000), for: .vertical)
         label.textColor = .cherryWhite
         label.font = CherryFonts.headerMedium
         label.text = NSLocalizedString("barcodeReminder", tableName: "ScanFlow", comment: "")
@@ -26,9 +34,8 @@ final class ScanViewController: UIViewController {
         return label
     }()
 
-    private lazy var textField = {
-        let barcodeField = UITextField()
-        barcodeField.backgroundColor = .systemBackground
+    private lazy var textField: UITextField = {
+        let barcodeField = BarcodeTextField()
         barcodeField.keyboardType = .numberPad
         let done: UIBarButtonItem = UIBarButtonItem(title: NSLocalizedString("barcodeDone",
                                                                              tableName: "ScanFlow",
@@ -43,11 +50,14 @@ final class ScanViewController: UIViewController {
         barcodeField.layer.cornerRadius = CornerRadius.regular.cgFloat()
         barcodeField.layer.borderWidth = 1
         barcodeField.layer.borderColor = UIColor.cherryGrayBlue.cgColor
-        let placeholderText = NSLocalizedString("barcodePlaceholder", tableName: "ScanFlow", comment: "")
+        let placeholderText = "•••••••• •••••"
         let placeholderAttributes = [NSAttributedString.Key.font: CherryFonts.textLarge,
-                                     NSAttributedString.Key.foregroundColor: UIColor.cherryGrayBlue]
-        let textAttributes = [NSAttributedString.Key.font: CherryFonts.textLarge]
-        barcodeField.attributedPlaceholder = NSAttributedString(string: placeholderText, attributes: placeholderAttributes as [NSAttributedString.Key: Any])
+                                     NSAttributedString.Key.foregroundColor: UIColor.cherryGrayBlue,
+                                     NSAttributedString.Key.kern: 7]
+        let textAttributes = [NSAttributedString.Key.font: CherryFonts.textLarge,
+                              NSAttributedString.Key.kern: 7]
+        barcodeField.attributedPlaceholder = NSAttributedString(string: placeholderText,
+                                                                attributes: placeholderAttributes as [NSAttributedString.Key: Any])
         barcodeField.defaultTextAttributes = textAttributes as [NSAttributedString.Key: Any]
         barcodeField.textColor = UIColor.cherryBlack
         barcodeField.textAlignment = .center
@@ -74,8 +84,12 @@ final class ScanViewController: UIViewController {
     }()
 
     private lazy var modeControl: UISegmentedControl = {
-        let control = CustomSegmentedControl(items: [NSLocalizedString("barcodeScan", tableName: "ScanFlow", comment: ""),
-                                                 NSLocalizedString("barcodeEntry", tableName: "ScanFlow", comment: "")])
+        let control = CustomSegmentedControl(items: [NSLocalizedString("barcodeScan",
+                                                                       tableName: "ScanFlow",
+                                                                       comment: ""),
+                                                     NSLocalizedString("barcodeEntry",
+                                                                       tableName: "ScanFlow",
+                                                                       comment: "")])
         control.backgroundColor = .cherryWhite
         control.setDividerImage(UIImage(), forLeftSegmentState: .normal, rightSegmentState: .normal, barMetrics: .default)
         control.tintColor = .cherryMainAccent
@@ -126,7 +140,7 @@ final class ScanViewController: UIViewController {
 
     // MARK: - Setup UI
     private func setupUI() {
-        view.backgroundColor = .cherryBlack
+        view.backgroundColor = .cherryGray
 
         scanPreviewLayer.frame = view.layer.bounds
         scanPreviewLayer.videoGravity = .resizeAspectFill
@@ -135,13 +149,17 @@ final class ScanViewController: UIViewController {
 
         [scanFrame,
          modeControl,
-         textField,
-         barcodeReminderLabel,
+         barcodeInputBackground,
          flashButton,
          backButton]
             .forEach {
                 view.addSubview($0)
             }
+
+        [textField,
+         barcodeReminderLabel].forEach {
+            barcodeInputBackground.addSubview($0)
+        }
 
         flashButton.snp.makeConstraints { make in
             make.height.width.equalTo(44)
@@ -170,20 +188,26 @@ final class ScanViewController: UIViewController {
             make.bottom.equalTo(view.keyboardLayoutGuide.snp.top)
         }
 
-        textField.snp.makeConstraints { make in
+        barcodeInputBackground.snp.makeConstraints { make in
             make.bottom.equalTo(modeControl.snp.top).offset(-80)
-            make.height.equalTo(71)
+            make.height.equalTo(114)
             make.width.equalTo(modeControl)
             make.centerX.equalTo(modeControl)
         }
-        textField.isHidden = true
+
+        textField.snp.makeConstraints { make in
+            make.bottom.trailing.equalTo(barcodeInputBackground).inset(8)
+            make.leading.equalTo(barcodeInputBackground).offset(8)
+        }
 
         barcodeReminderLabel.snp.makeConstraints { make in
-            make.width.equalTo(textField)
-            make.centerX.equalTo(textField)
+            make.top.leading.equalTo(barcodeInputBackground).offset(8)
+            make.trailing.equalTo(barcodeInputBackground).inset(8)
             make.bottom.equalTo(textField.snp.top).offset(-8)
         }
-        barcodeReminderLabel.isHidden = true
+
+        barcodeInputBackground.isHidden = true
+        barcodeInputBackground.isUserInteractionEnabled = false
 
         let cutoutOrigin = CGPoint(x: 55 + 2, y: view.frame.height/2 - 85 + 2)
         let cutoutSize = CGSize(width: view.frame.width - 110 - 4, height: 170 - 4)
@@ -229,7 +253,8 @@ final class ScanViewController: UIViewController {
                 UIView.animate(withDuration: 0.5) {
                     self.scanFrame.isHidden = manualInputUI
                     self.fillLayer.fillRule = manualInputUI ? .nonZero : .evenOdd
-                    self.textField.isHidden = !manualInputUI
+                    self.barcodeInputBackground.isHidden = !manualInputUI
+                    self.fillLayer.isHidden = manualInputUI
                 }
             }
             .store(in: &subscriptions)
@@ -238,10 +263,12 @@ final class ScanViewController: UIViewController {
         viewModel.manualInputUpdate
             .receive(on: DispatchQueue.main)
             .sink { [weak self] manualInputUI in
+                guard let self else { return }
                 if manualInputUI {
-                    self?.flashButton.isSelected = false
+                    self.flashButton.isSelected = false
                 }
-                self?.flashButton.isEnabled = !manualInputUI
+                self.flashButton.isEnabled = !manualInputUI
+                self.flashButton.isHidden = manualInputUI
             }
             .store(in: &subscriptions)
 
@@ -250,6 +277,7 @@ final class ScanViewController: UIViewController {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] manualInputUI in
                 guard let self else { return }
+
                 if !manualInputUI {
                     textField.resignFirstResponder()
                     self.modeControl.snp.remakeConstraints { make in
@@ -259,6 +287,7 @@ final class ScanViewController: UIViewController {
                         make.centerX.equalTo(self.view)
                         make.bottom.equalTo(self.view.keyboardLayoutGuide.snp.top).offset(0.0)
                     }
+                    captureSessionController.startSessionRoutine()
                 } else {
                     textField.becomeFirstResponder()
                     self.modeControl.snp.remakeConstraints { make in
@@ -268,7 +297,7 @@ final class ScanViewController: UIViewController {
                         make.centerX.equalTo(self.view)
                         make.bottom.equalTo(self.view.keyboardLayoutGuide.snp.top).offset(-24.0)
                     }
-                    captureSessionController.pauseSessionRoutine()
+                    captureSessionController.stopSessionRoutine()
                 }
             }
             .store(in: &subscriptions)
@@ -276,13 +305,49 @@ final class ScanViewController: UIViewController {
         // подписка на штрих-код, введенный вручная
         viewModel.bindBarcode(code: textField.textPublisher)
             .receive(on: DispatchQueue.main)
-            .assign(to: \.isHidden, on: barcodeReminderLabel)
+            .sink { [weak self] isValid in
+                self?.barcodeReminderLabel.alpha = isValid ? 0.6 : 1
+            }
+            .store(in: &subscriptions)
+
+        // обновление текстового поля по маске
+        viewModel.barcodePlaceholderUpdate
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] placeholder in
+                guard let self else { return }
+                self.textField.attributedText = formatPlaceholder(placeholder)
+                var caretIndex = placeholder.filter { $0.isWholeNumber }.count
+                if caretIndex > 8 { caretIndex += 1 }
+                let caretPosition = self.textField.position(from: self.textField.beginningOfDocument, offset: caretIndex) ?? self.textField.endOfDocument
+                self.textField.selectedTextRange = self.textField.textRange(from: caretPosition, to: caretPosition)
+            }
             .store(in: &subscriptions)
     }
 }
 
 // MARK: - Button selectors
 extension ScanViewController {
+    private func formatPlaceholder(_ placeholder: String) -> NSAttributedString {
+        var dotIndex = placeholder.filter { $0.isWholeNumber }.count
+        if dotIndex > 8 { dotIndex += 1 }
+        let dotRemainder = placeholder.count - dotIndex
+
+        let numberAttributes: [NSAttributedString.Key: Any] = [NSAttributedString.Key.font: CherryFonts.textLarge,
+                                                               NSAttributedString.Key.foregroundColor: UIColor.cherryBlack,
+                                                               NSAttributedString.Key.kern: 7]
+        let dotAttributes: [NSAttributedString.Key: Any] = [NSAttributedString.Key.font: CherryFonts.textLarge,
+                                                            NSAttributedString.Key.foregroundColor: UIColor.cherryGrayBlue,
+                                                            NSAttributedString.Key.kern: 7]
+
+        let formattedPlaceholderNumbers = NSMutableAttributedString(string: String(placeholder.prefix(dotIndex)),
+                                                                    attributes: numberAttributes)
+        let formattedPlaceholderDots = NSAttributedString(string: String(placeholder.suffix(dotRemainder)),
+                                                          attributes: dotAttributes)
+        formattedPlaceholderNumbers.append(formattedPlaceholderDots)
+
+        return formattedPlaceholderNumbers
+    }
+
     @objc
     private func toggleFlash() {
         captureSessionController.toggleFlash()

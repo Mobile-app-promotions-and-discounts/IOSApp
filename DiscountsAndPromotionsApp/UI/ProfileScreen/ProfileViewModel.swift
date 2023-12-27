@@ -20,6 +20,7 @@ final class ProfileViewModel: ProfileViewModelProtocol {
 
     @Published private(set) var error: Error?
 
+    // TODO: - после обновления сетевого слоя отказываемся от синглтонов и передаем сервис через главный координатор
     let networkService = UserNetworkService.shared
 
     var profileUpdated = Set<AnyCancellable>()

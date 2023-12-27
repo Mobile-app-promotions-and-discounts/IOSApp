@@ -11,10 +11,9 @@ protocol UserNetworkServiceProtocol {
 }
 
 final class UserNetworkService: UserNetworkServiceProtocol {
-    static let shared = UserNetworkService()
-
+    static let shared = UserNetworkService(networkClient: NetworkClient())
     private var networkClient: NetworkClientProtocol
-    private var subscriptions = Set<AnyCancellable>()
+    private let requestConstructor: NetworkRequestConstructorProtocol
 
     private var user = UserResponseModel(phone: "",
                                          role: "",
@@ -29,31 +28,42 @@ final class UserNetworkService: UserNetworkServiceProtocol {
     }
     private (set) var userUpdate = PassthroughSubject<UserResponseModel, Never>()
 
-    init(networkClient: NetworkClientProtocol = NetworkClient.shared) {
+    init(networkClient: NetworkClientProtocol,
+         requestConstructor: NetworkRequestConstructorProtocol = NetworkRequestConstructor.shared) {
         self.networkClient = networkClient
+        self.requestConstructor = requestConstructor
     }
 
     // MARK: - Получить данные пользователя
     func fetchUser() {
-        let publisher: AnyPublisher<UserResponseModel, AppError> = networkClient.request(
-            endpoint: .getUser,
-            additionalPath: nil,
-            headers: NetworkBaseConfiguration.tokenHeader(),
-            parameters: nil
-        )
-
-        publisher
-            .sink { completion in
-            switch completion {
-            case .finished:
-                print("Request completed successfully")
-            case .failure(let error):
-                print("Request failed with error: \(error)")
-            }
-        } receiveValue: { [weak self] user in
-            self?.user = user
+        guard let urlRequest = requestConstructor.makeRequest(endpoint: .getUser,
+                                                              additionalPath: nil,
+                                                              headers: NetworkBaseConfiguration.accessTokenHeader(),
+                                                              parameters: nil) else {
+            ErrorHandler.handle(error: AppError.customError("invalid request"))
+            return
         }
-        .store(in: &subscriptions)
+
+        Task {
+            do {
+                let userResponse: UserResponseModel = try await networkClient.request(for: urlRequest)
+                await MainActor.run { [weak self] in
+                    print(userResponse)
+                    print("User info obtained successfully")
+
+                    guard let self else { return }
+                    self.user = userResponse
+                }
+            } catch let error {
+                print("Error getting user: \(error.localizedDescription)")
+
+                if let error = error as? AppError {
+                    ErrorHandler.handle(error: error)
+                } else {
+                    ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
+                }
+            }
+        }
     }
 
     // MARK: - Регистрация нового пользователя
@@ -62,25 +72,35 @@ final class UserNetworkService: UserNetworkServiceProtocol {
             "username": user.username,
             "password": user.password
         ]
-        let publisher: AnyPublisher<UserResponseModel, AppError> = networkClient.request(
-            endpoint: .newUser,
-            additionalPath: nil,
-            headers: nil,
-            parameters: userParameters
-        )
 
-        publisher
-            .sink { completion in
-            switch completion {
-            case .finished:
-                print("Request completed successfully")
-            case .failure(let error):
-                print("Request failed with error: \(error)")
-            }
-        } receiveValue: { [weak self] user in
-            self?.user = user
+        guard let urlRequest = requestConstructor.makeRequest(endpoint: .newUser,
+                                                              additionalPath: nil,
+                                                              headers: nil,
+                                                              parameters: userParameters) else {
+            ErrorHandler.handle(error: AppError.customError("invalid request"))
+            return
         }
-        .store(in: &subscriptions)
+
+        Task {
+            do {
+                let userResponse: UserResponseModel = try await networkClient.request(for: urlRequest)
+                await MainActor.run { [weak self] in
+                    print(userResponse)
+                    print("Registration successful")
+
+                    guard let self else { return }
+                    self.user = userResponse
+                }
+            } catch let error {
+                print("Registration error: \(error.localizedDescription)")
+
+                if let error = error as? AppError {
+                    ErrorHandler.handle(error: error)
+                } else {
+                    ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
+                }
+            }
+        }
     }
 
     // MARK: - Удалить пользователя
@@ -88,48 +108,63 @@ final class UserNetworkService: UserNetworkServiceProtocol {
         let parameters = [
             "current_password": password
         ]
-        let publisher: AnyPublisher<Data, AppError> = networkClient.requestWithEmptyResponse(
-            endpoint: .deleteUser,
-            additionalPath: "\(id)",
-            headers: NetworkBaseConfiguration.tokenHeader(),
-            parameters: parameters
-        )
 
-        publisher
-            .sink { completion in
-            switch completion {
-            case .finished:
-                print("Request completed successfully")
-                // TODO: отработать действия при удалении аккаунта
-            case .failure(let error):
-                print("Request failed with error: \(error)")
-            }
-        } receiveValue: {data in
-            print(data)
+        guard let urlRequest = requestConstructor.makeRequest(endpoint: .deleteUser,
+                                                              additionalPath: "\(id)/",
+                                                              headers: NetworkBaseConfiguration.accessTokenHeader(),
+                                                              parameters: parameters) else {
+            ErrorHandler.handle(error: AppError.customError("invalid request"))
+            return
         }
-        .store(in: &subscriptions)
+
+        Task {
+            do {
+                let _: URLResponse = try await networkClient.request(for: urlRequest)
+                print("Account successfuly deleted")
+                await MainActor.run {
+                    // TODO: - отработать действия при удалении аккаунта
+                }
+            } catch let error {
+                print("Account deletion error: \(error.localizedDescription)")
+
+                if let error = error as? AppError {
+                    ErrorHandler.handle(error: error)
+                } else {
+                    ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
+                }
+            }
+        }
     }
 
     // MARK: - Отредактировать пользователя (передать новые ключи + значения)
     func editUser(_ newUserParameters: [String: Any], id: Int) {
-        let publisher: AnyPublisher<UserResponseModel, AppError> = networkClient.request(
-            endpoint: .editUser,
-            additionalPath: "\(id)",
-            headers: NetworkBaseConfiguration.tokenHeader(),
-            parameters: newUserParameters
-        )
-
-        publisher
-            .sink { completion in
-            switch completion {
-            case .finished:
-                print("Request completed successfully")
-            case .failure(let error):
-                print("Request failed with error: \(error)")
-            }
-        } receiveValue: { [weak self] user in
-            self?.user = user
+        guard let urlRequest = requestConstructor.makeRequest(endpoint: .deleteUser,
+                                                              additionalPath: "\(id)/",
+                                                              headers: NetworkBaseConfiguration.accessTokenHeader(),
+                                                              parameters: newUserParameters) else {
+            ErrorHandler.handle(error: AppError.customError("invalid request"))
+            return
         }
-        .store(in: &subscriptions)
+
+        Task {
+            do {
+                let userResponse: UserResponseModel = try await networkClient.request(for: urlRequest)
+                await MainActor.run { [weak self] in
+                    print(userResponse)
+                    print("User info edited")
+
+                    guard let self else { return }
+                    self.user = userResponse
+                }
+            } catch let error {
+                print("User info editing error: \(error.localizedDescription)")
+
+                if let error = error as? AppError {
+                    ErrorHandler.handle(error: error)
+                } else {
+                    ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
+                }
+            }
+        }
     }
 }

@@ -1,7 +1,7 @@
 import Foundation
 
 struct Product: Codable {
-    let id: UUID
+    let id: Int
     let barcode: String
     let name: String
     let description: String
@@ -10,7 +10,7 @@ struct Product: Codable {
     let rating: Double?
     let offers: [Offer] // Предложения от разных магазинов
 
-    init(id: UUID = UUID(),
+    init(id: Int = 0,
          barcode: String,
          name: String,
          description: String,
@@ -30,17 +30,9 @@ struct Product: Codable {
 }
 
 struct Category: Codable {
-    let id: UUID
+    let id: Int
     let name: String
     let image: String
-
-    init(id: UUID = UUID(),
-         name: String,
-         image: String) {
-        self.id = id
-        self.name = name
-        self.image = image
-    }
 }
 
 struct Offer: Codable {
@@ -66,13 +58,13 @@ struct ProductImage: Codable {
 }
 
 struct Store: Codable {
-    let id: UUID
+    let id: Int
     let name: String
     let image: StoreImage?
     let location: StoreLocation
     let chainStore: ChainStore?
 
-    init(id: UUID = UUID(),
+    init(id: Int = 0,
          name: String,
          image: StoreImage?,
          location: StoreLocation,
@@ -99,7 +91,7 @@ struct StoreLocation: Codable {
 }
 
 struct ChainStore: Codable {
-    let id: UUID
+    let id: Int
     let name: String
 }
 

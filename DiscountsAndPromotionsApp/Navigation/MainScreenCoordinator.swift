@@ -26,7 +26,7 @@ final class MainScreenCoordinator: Coordinator {
         navigationController.pushViewController(mainViewController, animated: false)
     }
 
-    func navigateToCategoryScreen(with ID: UUID) {
+    func navigateToCategoryScreen(with ID: Int) {
         let categoryViewModel = CategoryViewModel(dataService: dataService,
                                                   profileService: profileService,
                                                   categoryID: ID)

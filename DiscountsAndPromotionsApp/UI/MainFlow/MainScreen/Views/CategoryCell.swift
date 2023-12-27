@@ -20,6 +20,7 @@ final class CategoryCell: UICollectionViewCell {
 
     private lazy var cellTitle: UILabel = {
         let title = UILabel()
+        title.textColor = .cherryBlack
         title.font = CherryFonts.headerSmall
         title.textAlignment = .center
         return title

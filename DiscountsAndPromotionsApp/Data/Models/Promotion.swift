@@ -26,12 +26,14 @@ extension Promotion {
         let storeLogo = UIImage(named: store.image?.logoImage ?? "") ?? UIImage()
         let promoText = self.text
         let promotionImage = visualAttributes.image
+        let accentColor: UIColor = visualAttributes.accentColor
         let gradientLayer = visualAttributes.gradient
 
         return PromotionUIModel(
             storeLogo: storeLogo,
             promoText: promoText,
             promotionImage: promotionImage,
+            gradientAccentColor: accentColor,
             gradientLayer: gradientLayer
         )
     }
