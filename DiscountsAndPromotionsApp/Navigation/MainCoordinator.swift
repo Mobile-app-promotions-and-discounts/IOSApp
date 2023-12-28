@@ -53,7 +53,7 @@ final class MainCoordinator: Coordinator {
     }
 
     private func configureChildCoordinators(with tabBarController: MainTabBarController) {
-        // Создание и запуск дочерних координаторов
+        // MARK: - Создание и запуск дочерних координаторов
         let scanCoordinator = ScanFlowCoordinator(navigationController: navigationController,
                                                   productService: productNetworkService)
 
@@ -61,6 +61,7 @@ final class MainCoordinator: Coordinator {
         mainScreenNavigationController.scanCoordinator = scanCoordinator
         let mainScreenCoordinator = MainScreenCoordinator(navigationController: mainScreenNavigationController,
                                                           dataService: dataService,
+                                                          productService: productNetworkService,
                                                           profileService: profileService)
 
         let favoritesScreenNavigationController = GenericNavigationController()

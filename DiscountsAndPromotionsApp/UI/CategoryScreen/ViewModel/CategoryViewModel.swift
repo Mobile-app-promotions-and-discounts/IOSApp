@@ -10,14 +10,14 @@ final class CategoryViewModel: CategoryViewModelProtocol {
         }
     }
 
-    private let dataService: DataServiceProtocol
+    private let dataService: ProductNetworkServiceProtocol
     private let profileService: ProfileServiceProtocol
     private let categoryID: Int
     private var categoryName: String?
 
     private var cancellables = Set<AnyCancellable>()
 
-    init(dataService: DataServiceProtocol, profileService: ProfileServiceProtocol, categoryID: Int) {
+    init(dataService: ProductNetworkServiceProtocol, profileService: ProfileServiceProtocol, categoryID: Int) {
         self.dataService = dataService
         self.profileService = profileService
         self.categoryID = categoryID
@@ -59,23 +59,16 @@ final class CategoryViewModel: CategoryViewModelProtocol {
     }
 
     private func setupBindings() {
-        // Доработать под каждую категорию, с новым методом в дата сервисе
-        dataService.actualGoodsList
-            .sink { [weak self] goodsList in
-                guard let self = self else { return }
+        dataService.productListUpdate
+        .sink { [weak self] products in
+            self?.products = products.map { $0.convertToProductModel() }
+        }
+        .store(in: &cancellables)
 
-                // Фильтрация продуктов по категории
-                let sortedGoodsList = goodsList.filter { product in
-                    product.category.id == self.categoryID
-                }
-                self.products = sortedGoodsList
-
-                // Если список не пуст, сохраняем имя категории
-                if let firstProduct = sortedGoodsList.first {
-                    self.categoryName = firstProduct.category.name
-                }
-            }
-            .store(in: &cancellables)
+        // TODO: - pagination
+        dataService.getProducts(categoryID: categoryID + 1,
+                                searchItem: nil,
+                                page: 1)
     }
 
     private func convertModels(for product: Product) -> ProductCellUIModel {

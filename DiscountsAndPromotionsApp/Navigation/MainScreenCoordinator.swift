@@ -5,15 +5,18 @@ final class MainScreenCoordinator: Coordinator {
     var navigationController: UINavigationController
 
     private let dataService: DataServiceProtocol
+    private let productService: ProductNetworkServiceProtocol
     private let profileService: ProfileServiceProtocol
     private let promotionVisualService: PromotionVisualsService
 
     init(navigationController: UINavigationController,
          dataService: DataServiceProtocol,
+         productService: ProductNetworkServiceProtocol,
          profileService: ProfileServiceProtocol,
          promotionVisualService: PromotionVisualsService = PromotionVisualsService()) {
         self.navigationController = navigationController
         self.dataService = dataService
+        self.productService = productService
         self.profileService = profileService
         self.promotionVisualService = promotionVisualService
     }
@@ -27,7 +30,7 @@ final class MainScreenCoordinator: Coordinator {
     }
 
     func navigateToCategoryScreen(with ID: Int) {
-        let categoryViewModel = CategoryViewModel(dataService: dataService,
+        let categoryViewModel = CategoryViewModel(dataService: productService,
                                                   profileService: profileService,
                                                   categoryID: ID)
         let categoryViewController = CategoryViewController(viewModel: categoryViewModel)
