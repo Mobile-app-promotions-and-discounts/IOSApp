@@ -7,6 +7,7 @@ class CategoryViewController: ScannerEnabledViewController {
 
     private let viewModel: CategoryViewModelProtocol
     private let layoutProvider: CollectionLayoutProvider
+    private let emptyResultView: EmptyOnScreenView
 
     private var cancellables = Set<AnyCancellable>()
 
@@ -33,6 +34,7 @@ class CategoryViewController: ScannerEnabledViewController {
 
     init(viewModel: CategoryViewModelProtocol,
          layoutProvider: CollectionLayoutProvider = CollectionLayoutProvider()) {
+        self.emptyResultView = EmptyOnScreenView(state: .noResult)
         self.viewModel = viewModel
         self.layoutProvider = layoutProvider
         super.init(nibName: nil, bundle: nil)
@@ -52,14 +54,21 @@ class CategoryViewController: ScannerEnabledViewController {
         super.viewWillAppear(animated)
         // Временное решение для обновления списка избранного на данном экране.
         categoryCollectionView.reloadData()
+
     }
 
     private func setupViews() {
         view.backgroundColor = .cherryLightBlue
 
-        view.addSubview(categoryCollectionView)
+        [categoryCollectionView, emptyResultView].forEach { view.addSubview($0) }
+
+        emptyResultView.isHidden = true // Скрыть по умолчанию
 
         categoryCollectionView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+
+        emptyResultView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
     }
@@ -72,6 +81,31 @@ class CategoryViewController: ScannerEnabledViewController {
                 self.categoryCollectionView.reloadData()
             }
             .store(in: &cancellables)
+
+        emptyResultView.mainButtonTappedPublisher
+            .sink { [weak self] _ in
+                guard let self = self else { return }
+                self.coordinator?.navigateToMainScreen()
+            }
+            .store(in: &cancellables)
+
+        viewModel.viewState
+            .receive(on: RunLoop.main)
+            .sink { [weak self] state in
+                guard let self = self else { return }
+                self.updateUI(for: state)
+            }
+            .store(in: &cancellables)
+    }
+
+    private func updateUI(for state: ViewState) {
+        let isDataPresent = state == .dataPresent
+        categoryCollectionView.isHidden = !isDataPresent
+        emptyResultView.isHidden = isDataPresent
+
+        if state == .loading {
+            // Показать индикатор загрузки, если необходимо
+        }
     }
 }
 

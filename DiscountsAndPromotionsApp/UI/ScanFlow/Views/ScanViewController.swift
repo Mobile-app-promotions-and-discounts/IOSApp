@@ -325,7 +325,6 @@ final class ScanViewController: UIViewController {
     }
 }
 
-// MARK: - Button selectors
 extension ScanViewController {
     private func formatPlaceholder(_ placeholder: String) -> NSAttributedString {
         var dotIndex = placeholder.filter { $0.isWholeNumber }.count
@@ -347,6 +346,8 @@ extension ScanViewController {
 
         return formattedPlaceholderNumbers
     }
+
+    // MARK: - Button selectors
 
     @objc
     private func toggleFlash() {

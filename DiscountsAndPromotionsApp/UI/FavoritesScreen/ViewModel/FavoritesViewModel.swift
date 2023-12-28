@@ -3,10 +3,12 @@ import Combine
 
 final class FavoritesViewModel: FavoritesViewModelProtocol {
     private (set) var favoriteProductsUpdate = PassthroughSubject<[Product], Never>()
+    private (set) var viewState = CurrentValueSubject<ViewState, Never>(.loading)
 
     private var favoriteProducts = [Product]() {
         didSet {
             favoriteProductsUpdate.send(favoriteProducts)
+            viewState.value = favoriteProducts.isEmpty ? .empty : .dataPresent
         }
     }
 
