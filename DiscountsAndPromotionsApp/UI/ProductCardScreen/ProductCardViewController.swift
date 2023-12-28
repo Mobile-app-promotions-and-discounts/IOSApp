@@ -268,12 +268,6 @@ class ProductCardViewController: UIViewController {
             }
         }
 
-        // Если основное и дополнительные изображения отсутствуют, используем заглушку
-        if images.isEmpty, let placeholderImage = UIImage(named: "placeholder") {
-            images.append(placeholderImage)
-            images.append(placeholderImage)
-        }
-
         galleryView.configure(with: images)
 
         if let titleLabelText = product?.name, let weightLabelText = product?.description {

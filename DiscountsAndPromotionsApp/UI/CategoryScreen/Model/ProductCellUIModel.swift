@@ -2,7 +2,7 @@ import UIKit
 
 struct ProductCellUIModel {
     let id: Int
-    let image: UIImage?
+    let image: String?
     let name: String
     let description: String
     let formattedPriceRange: String
@@ -12,13 +12,7 @@ struct ProductCellUIModel {
     // Инициализатор для преобразования Product в UI модель для отображения
     init(product: Product, isFavorite: Bool) {
         self.id = product.id
-
-        if let image = product.image?.mainImage {
-            self.image = UIImage(named: image)
-        } else {
-            self.image = nil
-        }
-
+        self.image = product.image?.mainImage
         self.name = product.name
         self.description = product.description
         self.isFavorite = isFavorite

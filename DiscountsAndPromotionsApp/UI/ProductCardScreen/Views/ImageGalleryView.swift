@@ -56,16 +56,17 @@ class ImageGalleryView: UIView {
         setupIndicatorImages()
     }
 
+    //TODO: - в этом методе баг, приложение падает при попытке отобразить экран
     private func setupIndicatorImages() {
-            pageControl.preferredIndicatorImage = UIImage(systemName: "circle.fill")?.resizedImage(Size: CGSize(
-                width: 6,
-                height: 6))
-            let currentIndicatorImage = UIImage(systemName: "circle.fill")?.resizedImage(Size: CGSize(
-                width: 12,
-                height: 12))
-            pageControl.setIndicatorImage(
-                currentIndicatorImage,
-                forPage: pageControl.currentPage)
+//            pageControl.preferredIndicatorImage = UIImage(systemName: "circle.fill")?.resizedImage(Size: CGSize(
+//                width: 6,
+//                height: 6))
+//            let currentIndicatorImage = UIImage(systemName: "circle.fill")?.resizedImage(Size: CGSize(
+//                width: 12,
+//                height: 12))
+//            pageControl.setIndicatorImage(
+//                currentIndicatorImage,
+//                forPage: pageControl.currentPage)
     }
 
     override func layoutSubviews() {

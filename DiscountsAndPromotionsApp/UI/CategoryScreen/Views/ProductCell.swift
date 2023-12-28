@@ -1,6 +1,7 @@
 import UIKit
 import SnapKit
 import Combine
+import Kingfisher
 
 final class ProductCell: UICollectionViewCell {
     static let reuseIdentifier = "ProductCell"
@@ -84,6 +85,7 @@ final class ProductCell: UICollectionViewCell {
 
     override func prepareForReuse() {
         super.prepareForReuse()
+        productImageView.image = nil
         cancellable?.cancel()
     }
 
@@ -92,7 +94,10 @@ final class ProductCell: UICollectionViewCell {
     func configure(with model: ProductCellUIModel) {
         self.productID = model.id
         self.nameLabel.text = model.name
-        self.productImageView.image = model.image
+        if let imagePath = model.image,
+           let imageURL = URL(string: imagePath) {
+            productImageView.kf.setImage(with: imageURL)
+        }
         self.descriptionLabel.text = model.description
         self.likeButton.setImage(model.isFavorite ? UIImage.icHeartFill : UIImage.icHeart, for: .normal)
         self.priceLabel.text = model.formattedPriceRange
