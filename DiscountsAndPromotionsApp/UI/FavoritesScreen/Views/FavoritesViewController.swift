@@ -52,10 +52,15 @@ final class FavoritesViewController: ScannerEnabledViewController {
     }
 
     private func setupViews() {
-        // ToDo: цвет фона временный, для отладки
         view.backgroundColor = .cherryLightBlue
 
-        view.addSubview(favoritesCollectionView)
+        [favoritesCollectionView, emptyResultView].forEach { view.addSubview($0) }
+
+        emptyResultView.isHidden = true // Скрыть по умолчанию
+
+        emptyResultView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
 
         favoritesCollectionView.snp.makeConstraints { make in
             make.edges.equalToSuperview()

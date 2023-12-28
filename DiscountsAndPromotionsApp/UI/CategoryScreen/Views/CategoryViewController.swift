@@ -54,13 +54,7 @@ class CategoryViewController: ScannerEnabledViewController {
         super.viewWillAppear(animated)
         // Временное решение для обновления списка избранного на данном экране.
         categoryCollectionView.reloadData()
-        self.navigationController?.tabBarController?.tabBar.isHidden = true
 
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        self.navigationController?.tabBarController?.tabBar.isHidden = false
     }
 
     private func setupViews() {
