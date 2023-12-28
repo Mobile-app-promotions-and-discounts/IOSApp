@@ -81,13 +81,13 @@ final class ProductNetworkService: ProductNetworkServiceProtocol {
 
         Task {
             do {
-                let productGroupResponse: ProductGroupResponseModel = try await networkClient.request(for: urlRequest)
+                let productGroupResponse: PaginatedProductResponseModel = try await networkClient.request(for: urlRequest)
                 await MainActor.run { [weak self] in
-                    print(productGroupResponse)
+//                    print(productGroupResponse)
                     print("Products fetched successfully")
 
                     guard let self else { return }
-                    self.productList = productGroupResponse.sorted { $0.name < $1.name }
+                    self.productList = productGroupResponse.results.sorted { $0.name < $1.name }
                 }
             } catch let error {
                 print("Error fetching products: \(error.localizedDescription)")

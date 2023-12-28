@@ -68,7 +68,7 @@ final class CategoryViewModel: CategoryViewModelProtocol {
         // TODO: - pagination
         dataService.getProducts(categoryID: categoryID + 1,
                                 searchItem: nil,
-                                page: 1)
+                                page: nil)
     }
 
     private func convertModels(for product: Product) -> ProductCellUIModel {

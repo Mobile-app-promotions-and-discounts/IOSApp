@@ -39,14 +39,14 @@ final class MainScreenCoordinator: Coordinator {
     }
 
     func navigateToSearchScreen() {
-        let viewModel = SearchViewModel(dataService: dataService)
+        let viewModel = SearchViewModel(dataService: dataService, productService: productService)
         let searchController = SearchViewController(viewModel: viewModel)
         searchController.coordinator = self
         navigationController.pushViewController(searchController, animated: true)
     }
 
     func navigateToSearchResultsScreen(for prompt: String) {
-        let viewModel = SearchResultsViewModel(dataService: dataService,
+        let viewModel = SearchResultsViewModel(productService: productService,
                                                profileService: profileService,
                                                searchText: prompt)
         let searchResultsController = SearchResultsViewController(viewModel: viewModel)

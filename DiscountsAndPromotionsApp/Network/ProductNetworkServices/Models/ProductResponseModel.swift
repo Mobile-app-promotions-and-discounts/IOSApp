@@ -1,5 +1,12 @@
 import Foundation
 
+struct PaginatedProductResponseModel: Codable {
+    let count: Int
+    let next: String?
+    let previous: String?
+    let results: ProductGroupResponseModel
+}
+
 struct ProductResponseModel: Codable {
     let id: Int
     let name: String
