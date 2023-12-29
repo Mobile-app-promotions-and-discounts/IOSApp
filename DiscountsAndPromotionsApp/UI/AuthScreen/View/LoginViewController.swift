@@ -37,7 +37,7 @@ final class LoginViewController: UIViewController {
         let stackView = UIStackView(arrangedSubviews: [inputEmailField, inputPasswordField])
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
-        stackView.spacing = 8
+        stackView.spacing = Constants.TextFieldsStack.spacing
         return stackView
     }()
 
@@ -50,27 +50,15 @@ final class LoginViewController: UIViewController {
     }()
 
     private lazy var loginButton: UIButton = {
-        let button = UIButton()
+        let button = PrimaryButton()
         button.setTitle(L10n.Authorization.loginTitle, for: .normal)
-        button.setTitleColor(.cherryWhite, for: .normal)
-        button.titleLabel?.textAlignment = .center
-        button.titleLabel?.font = CherryFonts.headerMedium
-        button.backgroundColor = .cherryMainAccent
-        button.layer.cornerRadius = 10
         button.addTarget(self, action: #selector(loginAction), for: .touchUpInside)
         return button
     }()
 
     private lazy var registerButton: UIButton = {
-        let button = UIButton()
+        let button = SecondaryButton()
         button.setTitle(L10n.Authorization.registerTitle, for: .normal)
-        button.setTitleColor(.cherryMainAccent, for: .normal)
-        button.titleLabel?.textAlignment = .center
-        button.titleLabel?.font = CherryFonts.headerMedium
-        button.backgroundColor = .cherryWhite
-        button.layer.cornerRadius = 10
-        button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.cherryMainAccent.cgColor
         return button
     }()
 
@@ -78,7 +66,7 @@ final class LoginViewController: UIViewController {
         let stackView = UIStackView(arrangedSubviews: [loginButton, registerButton])
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
-        stackView.spacing = 4
+        stackView.spacing = Constants.ButtonStack.spacing
         return stackView
     }()
 
@@ -114,7 +102,7 @@ final class LoginViewController: UIViewController {
 
     private func setupView() {
         view.backgroundColor = .cherryWhite
-        view.layer.cornerRadius = 12
+        view.layer.cornerRadius = Constants.View.cornerRadius
         view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
     }
 
@@ -129,25 +117,51 @@ final class LoginViewController: UIViewController {
 
         entryLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(32)
+            make.top.equalToSuperview().offset(Constants.EntryLabel.topOffset)
         }
 
         inputFieldsStack.snp.makeConstraints { make in
-            make.top.equalTo(entryLabel.snp.bottom).offset(20)
-            make.leading.trailing.equalToSuperview().inset(16)
-            make.height.equalTo(158)
+            make.top.equalTo(entryLabel.snp.bottom).offset(Constants.TextFieldsStack.topOffset)
+            make.leading.trailing.equalToSuperview().inset(Constants.TextFieldsStack.leadingInset)
+            make.height.equalTo(Constants.TextFieldsStack.height)
         }
 
         passwordRecoveryButton.snp.makeConstraints { make in
-            make.top.equalTo(inputFieldsStack.snp.bottom).offset(4)
-            make.leading.equalToSuperview().offset(16)
-            make.height.equalTo(19)
+            make.top.equalTo(inputFieldsStack.snp.bottom).offset(Constants.PasswordButtom.topOffset)
+            make.leading.equalToSuperview().offset(Constants.PasswordButtom.leadingOffset)
+            make.height.equalTo(Constants.PasswordButtom.height)
         }
 
         buttonsStackView.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(16)
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(11)
-            make.height.equalTo(106)
+            make.leading.trailing.equalToSuperview().inset(Constants.ButtonStack.leadingInset)
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(Constants.ButtonStack.bottomInset)
+            make.height.equalTo(Constants.ButtonStack.height)
+        }
+    }
+    
+    private enum Constants {
+        enum View {
+            static let cornerRadius: CGFloat = 12
+        }
+        enum TextFieldsStack {
+            static let spacing: CGFloat = 8
+            static let topOffset: CGFloat = 20
+            static let leadingInset: CGFloat = 16
+            static let height: CGFloat = 158
+        }
+        enum ButtonStack {
+            static let spacing: CGFloat = 4
+            static let leadingInset: CGFloat = 16
+            static let bottomInset: CGFloat = 11
+            static let height: CGFloat = 106
+        }
+        enum EntryLabel {
+            static let topOffset: CGFloat = 32
+        }
+        enum PasswordButtom {
+            static let topOffset: CGFloat = 4
+            static let leadingOffset: CGFloat = 16
+            static let height: CGFloat = 19
         }
     }
 }
