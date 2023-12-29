@@ -6,9 +6,10 @@ class ProductCardViewController: UIViewController {
 
     weak var coordinator: Coordinator?
 
+    private var originalNavBarAppearance: UINavigationBarAppearance?
+
     private var viewModel: ProductCardViewModel!
 
-//    private var product: Product?
     private var cancellables = Set<AnyCancellable>()
 
     private lazy var productScrollView: UIScrollView = {
@@ -55,6 +56,15 @@ class ProductCardViewController: UIViewController {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 
+    // MARK: - LifeCycle Methods
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        originalNavBarAppearance = navigationController?.navigationBar.standardAppearance.copy()
+        setupProductNavigationBar()
+        navigationController?.setNavigationBarHidden(true, animated: false)
+
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .cherryWhite
@@ -75,8 +85,20 @@ class ProductCardViewController: UIViewController {
                                                selector: #selector(keyboardWillHide(notification: )),
                                                name: UIResponder.keyboardWillHideNotification,
                                                object: nil)
-        navigationController?.navigationBar.isHidden = true
     }
+
+    override func viewWillDisappear(_ animated: Bool) {
+           super.viewWillDisappear(animated)
+           // первоначальный вид navbar
+           if let originalAppearance = originalNavBarAppearance {
+               navigationController?.navigationBar.standardAppearance = originalAppearance
+               navigationController?.navigationBar.scrollEdgeAppearance = originalAppearance
+               navigationController?.navigationBar.compactAppearance = originalAppearance
+               navigationController?.navigationBar.compactScrollEdgeAppearance = originalAppearance
+           }
+
+        navigationController?.setNavigationBarHidden(false, animated: false)
+       }
 
     // MARK: - Private Func
     private func setupUI() {
@@ -84,6 +106,7 @@ class ProductCardViewController: UIViewController {
         setupProductLayout()
         setupButtonsLayout()
         setupTableView()
+//        setupProductNavigationBar()
     }
 
     private func setupBindings() {
@@ -97,7 +120,7 @@ class ProductCardViewController: UIViewController {
 
     private func configureViews(with product: Product?) {
         // Обновление UI на основе данных из ViewModel
-        guard let product = viewModel.product else { return }
+        guard viewModel.product != nil else { return }
         viewModel.configureGalleryView(galleryView)
         viewModel.configureTitleView(titleView)
         viewModel.configureRatingView(ratingView)
@@ -227,6 +250,44 @@ class ProductCardViewController: UIViewController {
         offersTableView.backgroundColor = .cherryWhite
     }
 
+    private func setupProductNavigationBar() {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+
+        appearance.backgroundColor = UIColor.cherryWhite
+
+        let titleAttributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: UIColor.black,
+            .font: CherryFonts.headerMedium as Any
+        ]
+        appearance.titleTextAttributes = titleAttributes
+
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+
+        navigationController?.navigationBar.compactAppearance = appearance
+        navigationController?.navigationBar.compactScrollEdgeAppearance = appearance
+
+        let backButtonImage = UIImage(named: "backImage")
+        let exportButtonImage = UIImage(named: "ic_export")
+
+        let backButton = UIBarButtonItem(image: backButtonImage,
+                                         style: .plain,
+                                         target: self,
+                                         action: #selector(backButtonTapped))
+        backButton.tintColor = .cherryBlueGray
+        navigationItem.leftBarButtonItem = backButton
+
+        let refreshButton = UIBarButtonItem(image: exportButtonImage,
+                                            style: .plain,
+                                            target: self,
+                                            action: #selector(sendButtonTapped))
+        refreshButton.tintColor = .cherryBlueGray
+        navigationItem.rightBarButtonItem = refreshButton
+
+        navigationItem.title = viewModel.product?.name
+    }
+
     @objc func backButtonTapped() {
         coordinator?.navigateBack()
         print("Закрытие экрана")
@@ -323,12 +384,21 @@ extension ProductCardViewController: UITableViewDelegate {
 }
 
 extension ProductCardViewController: UIScrollViewDelegate {
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let yOffset = scrollView.contentOffset.y
-        let galleryViewIsVisible = yOffset < (galleryView.frame.maxY / 2 - view.safeAreaInsets.top)
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        // Показать navigation bar при начале прокрутки
+        navigationController?.setNavigationBarHidden(false, animated: false)
+        [backButton, exportButton].forEach {
+            $0.isHidden = true
+        }
+    }
 
-        navigationController?.setNavigationBarHidden(galleryViewIsVisible, animated: true)
-        backButton.isHidden = !galleryViewIsVisible
-        exportButton.isHidden = !galleryViewIsVisible
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollView.contentOffset.y <= 0 {
+            // Скрыть navigation bar, если scrollView вернулся в верхнее положение
+            navigationController?.setNavigationBarHidden(true, animated: false)
+            [backButton, exportButton].forEach {
+                $0.isHidden = false
+            }
+        }
     }
 }
