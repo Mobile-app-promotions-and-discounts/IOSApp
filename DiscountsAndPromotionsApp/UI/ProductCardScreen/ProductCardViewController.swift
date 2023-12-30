@@ -61,7 +61,7 @@ class ProductCardViewController: UIViewController {
         super.viewWillAppear(animated)
         originalNavBarAppearance = navigationController?.navigationBar.standardAppearance.copy()
         setupProductNavigationBar()
-        navigationController?.setNavigationBarHidden(true, animated: false)
+        navigationController?.setNavigationBarHidden(false, animated: false)
 
     }
 
@@ -104,7 +104,7 @@ class ProductCardViewController: UIViewController {
     private func setupUI() {
         // Настройка UI-элементов
         setupProductLayout()
-        setupButtonsLayout()
+//        setupButtonsLayout()
         setupTableView()
 //        setupProductNavigationBar()
     }
@@ -145,8 +145,12 @@ class ProductCardViewController: UIViewController {
         }
 
         // Ограничения SNAPkit
+        var statusBarHeight: CGFloat = 0
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+            statusBarHeight = windowScene.statusBarManager?.statusBarFrame.height ?? 0
+        }
         productScrollView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.top.equalToSuperview().offset(statusBarHeight)
             make.leading.trailing.equalToSuperview()
             make.bottom.equalToSuperview()
         }
@@ -210,37 +214,6 @@ class ProductCardViewController: UIViewController {
         }
     }
 
-    private func setupButtonsLayout() {
-        [backButton, exportButton].forEach {
-            view.addSubview($0)
-
-            $0.tintColor = .cherryWhite
-            $0.backgroundColor = .cherryGrayBlue.withAlphaComponent(0.8)
-            $0.layer.cornerRadius = 16
-            $0.layer.shadowColor = UIColor.cherryBlack.cgColor
-            $0.layer.shadowRadius = 5.0
-            $0.layer.shadowOpacity = 0.8
-            $0.layer.shadowOffset = CGSize(width: 0, height: 2)
-            $0.layer.masksToBounds = false
-        }
-
-        backButton.setImage(UIImage(named: "backImage"), for: .normal)
-        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
-        backButton.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(16)
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(12)
-            make.height.width.equalTo(32)
-        }
-
-        exportButton.setImage(UIImage(named: "ic_export"), for: .normal)
-        exportButton.addTarget(self, action: #selector(sendButtonTapped), for: .touchUpInside)
-        exportButton.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().offset(-16)
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(12)
-            make.height.width.equalTo(32)
-        }
-    }
-
     private func setupTableView() {
         offersTableView.register(OfferTableViewCell.self, forCellReuseIdentifier: "OfferTableViewCell")
         offersTableView.dataSource = self
@@ -250,40 +223,42 @@ class ProductCardViewController: UIViewController {
         offersTableView.backgroundColor = .cherryWhite
     }
 
+    // MARK: - Navigation bar appearence
     private func setupProductNavigationBar() {
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()
+        let scrollEdgeAppearance = UINavigationBarAppearance()
+        scrollEdgeAppearance.configureWithTransparentBackground()
+        scrollEdgeAppearance.titleTextAttributes = [ .foregroundColor: UIColor.clear ]
 
-        appearance.backgroundColor = UIColor.cherryWhite
+        let standardAppearance = UINavigationBarAppearance()
+        standardAppearance.configureWithOpaqueBackground()
+        standardAppearance.backgroundColor = UIColor.cherryWhite
 
         let titleAttributes: [NSAttributedString.Key: Any] = [
             .foregroundColor: UIColor.black,
             .font: CherryFonts.headerMedium as Any
         ]
-        appearance.titleTextAttributes = titleAttributes
+        standardAppearance.titleTextAttributes = titleAttributes
 
-        navigationController?.navigationBar.standardAppearance = appearance
-        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        navigationController?.navigationBar.standardAppearance = standardAppearance
+        navigationController?.navigationBar.scrollEdgeAppearance = scrollEdgeAppearance
+        navigationController?.navigationBar.compactAppearance = standardAppearance
+        navigationController?.navigationBar.compactScrollEdgeAppearance = scrollEdgeAppearance
 
-        navigationController?.navigationBar.compactAppearance = appearance
-        navigationController?.navigationBar.compactScrollEdgeAppearance = appearance
+        [backButton, exportButton].forEach {
+            $0.tintColor = .cherryGray
+            $0.backgroundColor = .cherryWhite.withAlphaComponent(0.8)
+            $0.snp.makeConstraints { make in
+                make.height.width.equalTo(32)
+            }
+            $0.layer.cornerRadius = 16
+        }
+        backButton.setImage(UIImage.back, for: .normal)
+        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
 
-        let backButtonImage = UIImage(named: "backImage")
-        let exportButtonImage = UIImage(named: "ic_export")
-
-        let backButton = UIBarButtonItem(image: backButtonImage,
-                                         style: .plain,
-                                         target: self,
-                                         action: #selector(backButtonTapped))
-        backButton.tintColor = .cherryBlueGray
-        navigationItem.leftBarButtonItem = backButton
-
-        let refreshButton = UIBarButtonItem(image: exportButtonImage,
-                                            style: .plain,
-                                            target: self,
-                                            action: #selector(sendButtonTapped))
-        refreshButton.tintColor = .cherryBlueGray
-        navigationItem.rightBarButtonItem = refreshButton
+        exportButton.setImage(UIImage.icExport, for: .normal)
+        exportButton.addTarget(self, action: #selector(sendButtonTapped), for: .touchUpInside)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: exportButton)
 
         navigationItem.title = viewModel.product?.name
     }
@@ -380,25 +355,5 @@ extension ProductCardViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //        coordinator.goToStoreDetails(for: product?.stores[indexPath.row])
-    }
-}
-
-extension ProductCardViewController: UIScrollViewDelegate {
-    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        // Показать navigation bar при начале прокрутки
-        navigationController?.setNavigationBarHidden(false, animated: false)
-        [backButton, exportButton].forEach {
-            $0.isHidden = true
-        }
-    }
-
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if scrollView.contentOffset.y <= 0 {
-            // Скрыть navigation bar, если scrollView вернулся в верхнее положение
-            navigationController?.setNavigationBarHidden(true, animated: false)
-            [backButton, exportButton].forEach {
-                $0.isHidden = false
-            }
-        }
     }
 }
