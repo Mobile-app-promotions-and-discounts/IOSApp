@@ -1,19 +1,20 @@
 import Combine
 import Foundation
 
-// protocol AuthServiceProtocol {
-//    var isTokenValidUpdate: PassthroughSubject<Bool, Never> { get }
-//
-//    func getToken(for user: UserRequestModel)
-//    func verifyToken()
-//    func refreshToken()
-//    func logout()
-// }
+protocol AuthServiceProtocol {
+    var isTokenValidUpdate: PassthroughSubject<Bool, Never> { get }
 
-actor AuthService {
-    private let tokenStorage: AuthTokenStorage
+    // в протоколе - обернутые в Task асинхронные методы актора
+    func getToken(for user: UserRequestModel)
+    func verifyToken()
+    func refreshToken()
+    func logout()
+ }
+
+actor AuthService: AuthServiceProtocol {
     nonisolated private let networkClient: NetworkClientProtocol
     nonisolated private let requestConstructor: NetworkRequestConstructorProtocol
+    private let tokenStorage: AuthTokenStorage
 
     nonisolated let isTokenValidUpdate = PassthroughSubject<Bool, Never>()
     private var isTokenValid: Bool = false {
@@ -31,7 +32,11 @@ actor AuthService {
     }
 
     // MARK: - Авторизоваться и получить токен
-    func getToken(for user: UserRequestModel) {
+    nonisolated func getToken(for user: UserRequestModel) {
+        Task { await requestToken(for: user)}
+    }
+
+    private func requestToken(for user: UserRequestModel) async {
         let userParams: [String: String] = [
             "username": user.username,
             "password": user.password
@@ -44,31 +49,33 @@ actor AuthService {
             return
         }
 
-        Task {
-            do {
-                let token: TokenResponseModel = try await networkClient.request(for: urlRequest)
-                print("Token obtained successfully")
+        do {
+            let token: TokenResponseModel = try await networkClient.request(for: urlRequest)
+            print("Token obtained successfully")
 
-                isTokenValid = true
-                tokenStorage.accessToken = token.access
-                if let refresh = token.refresh {
-                    tokenStorage.refreshToken = refresh
-                }
-            } catch let error {
-                print("Error getting token: \(error.localizedDescription)")
+            isTokenValid = true
+            tokenStorage.accessToken = token.access
+            if let refresh = token.refresh {
+                tokenStorage.refreshToken = refresh
+            }
+        } catch let error {
+            print("Error getting token: \(error.localizedDescription)")
 
-                isTokenValid = false
-                if let error = error as? AppError {
-                    ErrorHandler.handle(error: error)
-                } else {
-                    ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
-                }
+            isTokenValid = false
+            if let error = error as? AppError {
+                ErrorHandler.handle(error: error)
+            } else {
+                ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
             }
         }
     }
 
     // MARK: - Проверить, что токен действителен
-    func verifyToken() {
+    nonisolated func verifyToken() {
+        Task { await requestVerification() }
+    }
+
+    private func requestVerification() async {
         let access: String = tokenStorage.accessToken ?? ""
         let tokenParams: [String: String] = [
             "token": access
@@ -82,21 +89,23 @@ actor AuthService {
             return
         }
 
-        Task {
-            do {
-                let _: URLResponse = try await networkClient.request(for: urlRequest)
-                print("Token is valid")
+        do {
+            let _: URLResponse = try await networkClient.request(for: urlRequest)
+            print("Token is valid")
 
-                isTokenValid = true
-            } catch let error {
-                print("Token validation error: \(error.localizedDescription). Refreshing")
-                refreshToken()
-            }
+            isTokenValid = true
+        } catch let error {
+            print("Token validation error: \(error.localizedDescription). Refreshing")
+            refreshToken()
         }
     }
 
     // MARK: - Обновить токен, если он просрочен
-    func refreshToken() {
+    nonisolated func refreshToken() {
+        Task { await requestRefresh() }
+    }
+
+    func requestRefresh() async {
         let refresh: String = tokenStorage.refreshToken ?? ""
         let tokenParams: [String: String] = [
             "refresh": refresh
@@ -110,29 +119,31 @@ actor AuthService {
             return
         }
 
-        Task {
-            do {
-                let token: TokenResponseModel = try await networkClient.request(for: urlRequest)
-                print("Token is refreshed")
+        do {
+            let token: TokenResponseModel = try await networkClient.request(for: urlRequest)
+            print("Token is refreshed")
 
-                isTokenValid = true
-                tokenStorage.accessToken = token.access
+            isTokenValid = true
+            tokenStorage.accessToken = token.access
 
-            } catch let error {
-                print("Token refresh error: \(error.localizedDescription)")
+        } catch let error {
+            print("Token refresh error: \(error.localizedDescription)")
 
-                isTokenValid = false
-                if let error = error as? AppError {
-                    ErrorHandler.handle(error: error)
-                } else {
-                    ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
-                }
+            isTokenValid = false
+            if let error = error as? AppError {
+                ErrorHandler.handle(error: error)
+            } else {
+                ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
             }
         }
     }
 
     // MARK: - Удалить из связки ключей сохраненный токен
-    func logout() {
+    nonisolated func logout() {
+        Task { await clearStoredTokens() }
+    }
+
+    private func clearStoredTokens() {
         tokenStorage.clearTokenStorage()
     }
 }
