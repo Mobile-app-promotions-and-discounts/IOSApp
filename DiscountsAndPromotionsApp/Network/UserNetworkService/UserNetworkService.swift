@@ -10,11 +10,12 @@ protocol UserNetworkServiceProtocol {
     func fetchUser()
 }
 
-final class UserNetworkService: UserNetworkServiceProtocol {
-    static let shared = UserNetworkService(networkClient: NetworkClient())
-    private var networkClient: NetworkClientProtocol
-    private let requestConstructor: NetworkRequestConstructorProtocol
+actor UserNetworkService: UserNetworkServiceProtocol {
+    nonisolated static let shared = UserNetworkService(networkClient: NetworkClient())
+    nonisolated private let networkClient: NetworkClientProtocol
+    nonisolated private let requestConstructor: NetworkRequestConstructorProtocol
 
+    nonisolated let userUpdate = PassthroughSubject<UserResponseModel, Never>()
     private var user = UserResponseModel(phone: "",
                                          role: "",
                                          foto: "",
@@ -26,7 +27,6 @@ final class UserNetworkService: UserNetworkServiceProtocol {
             userUpdate.send(user)
         }
     }
-    private (set) var userUpdate = PassthroughSubject<UserResponseModel, Never>()
 
     init(networkClient: NetworkClientProtocol,
          requestConstructor: NetworkRequestConstructorProtocol = NetworkRequestConstructor.shared) {
@@ -35,7 +35,11 @@ final class UserNetworkService: UserNetworkServiceProtocol {
     }
 
     // MARK: - Получить данные пользователя
-    func fetchUser() {
+    nonisolated func fetchUser() {
+        Task { await getUser() }
+    }
+
+    private func getUser() async {
         guard let urlRequest = requestConstructor.makeRequest(endpoint: .getUser,
                                                               additionalPath: nil,
                                                               headers: NetworkBaseConfiguration.accessTokenHeader(),
@@ -44,30 +48,28 @@ final class UserNetworkService: UserNetworkServiceProtocol {
             return
         }
 
-        Task {
-            do {
-                let userResponse: UserResponseModel = try await networkClient.request(for: urlRequest)
-                await MainActor.run { [weak self] in
-                    print(userResponse)
-                    print("User info obtained successfully")
+        do {
+            let userResponse: UserResponseModel = try await networkClient.request(for: urlRequest)
+                print(userResponse)
+                print("User info obtained successfully")
+                user = userResponse
+        } catch let error {
+            print("Error getting user: \(error.localizedDescription)")
 
-                    guard let self else { return }
-                    self.user = userResponse
-                }
-            } catch let error {
-                print("Error getting user: \(error.localizedDescription)")
-
-                if let error = error as? AppError {
-                    ErrorHandler.handle(error: error)
-                } else {
-                    ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
-                }
+            if let error = error as? AppError {
+                ErrorHandler.handle(error: error)
+            } else {
+                ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
             }
         }
     }
 
     // MARK: - Регистрация нового пользователя
-    func registerUser(_ user: UserRequestModel) {
+    nonisolated func registerUser(_ user: UserRequestModel) {
+        Task { await newUser(user) }
+    }
+
+    func newUser(_ user: UserRequestModel) async {
         let userParameters: [String: String] = [
             "username": user.username,
             "password": user.password
@@ -84,13 +86,10 @@ final class UserNetworkService: UserNetworkServiceProtocol {
         Task {
             do {
                 let userResponse: UserResponseModel = try await networkClient.request(for: urlRequest)
-                await MainActor.run { [weak self] in
                     print(userResponse)
                     print("Registration successful")
 
-                    guard let self else { return }
-                    self.user = userResponse
-                }
+                self.user = userResponse
             } catch let error {
                 print("Registration error: \(error.localizedDescription)")
 
@@ -104,7 +103,11 @@ final class UserNetworkService: UserNetworkServiceProtocol {
     }
 
     // MARK: - Удалить пользователя
-    func deleteUser(id: Int, password: String) {
+    nonisolated func deleteUser(id: Int, password: String) {
+        Task { await requestDeleteUser(id: id, password: password) }
+    }
+
+    func requestDeleteUser(id: Int, password: String) async {
         let parameters = [
             "current_password": password
         ]
@@ -117,27 +120,27 @@ final class UserNetworkService: UserNetworkServiceProtocol {
             return
         }
 
-        Task {
-            do {
-                let _: URLResponse = try await networkClient.request(for: urlRequest)
-                print("Account successfuly deleted")
-                await MainActor.run {
-                    // TODO: - отработать действия при удалении аккаунта
-                }
-            } catch let error {
-                print("Account deletion error: \(error.localizedDescription)")
+        do {
+            let _: URLResponse = try await networkClient.request(for: urlRequest)
+            print("Account successfuly deleted")
+            // TODO: - отработать действия при удалении аккаунта
+        } catch let error {
+            print("Account deletion error: \(error.localizedDescription)")
 
-                if let error = error as? AppError {
-                    ErrorHandler.handle(error: error)
-                } else {
-                    ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
-                }
+            if let error = error as? AppError {
+                ErrorHandler.handle(error: error)
+            } else {
+                ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
             }
         }
     }
 
     // MARK: - Отредактировать пользователя (передать новые ключи + значения)
-    func editUser(_ newUserParameters: [String: Any], id: Int) {
+    nonisolated func editUser(_ newUserParameters: [String: Any], id: Int) {
+        Task { await requestUserEdits(newUserParameters, id: id) }
+    }
+
+    private func requestUserEdits(_ newUserParameters: [String: Any], id: Int) async {
         guard let urlRequest = requestConstructor.makeRequest(endpoint: .deleteUser,
                                                               additionalPath: "\(id)/",
                                                               headers: NetworkBaseConfiguration.accessTokenHeader(),
@@ -146,24 +149,19 @@ final class UserNetworkService: UserNetworkServiceProtocol {
             return
         }
 
-        Task {
-            do {
-                let userResponse: UserResponseModel = try await networkClient.request(for: urlRequest)
-                await MainActor.run { [weak self] in
-                    print(userResponse)
-                    print("User info edited")
+        do {
+            let userResponse: UserResponseModel = try await networkClient.request(for: urlRequest)
+            print(userResponse)
+            print("User info edited")
 
-                    guard let self else { return }
-                    self.user = userResponse
-                }
-            } catch let error {
-                print("User info editing error: \(error.localizedDescription)")
+            self.user = userResponse
+        } catch let error {
+            print("User info editing error: \(error.localizedDescription)")
 
-                if let error = error as? AppError {
-                    ErrorHandler.handle(error: error)
-                } else {
-                    ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
-                }
+            if let error = error as? AppError {
+                ErrorHandler.handle(error: error)
+            } else {
+                ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
             }
         }
     }
