@@ -34,8 +34,6 @@ final class MainCoordinator: Coordinator {
         let splashViewController = SplashViewController()
         splashViewController.coordinator = self
         navigationController.viewControllers = [splashViewController]
-
-        categoryNetworkService.fetchCategories()
     }
 
     func navigateToMainScreen() {
