@@ -83,21 +83,19 @@ actor UserNetworkService: UserNetworkServiceProtocol {
             return
         }
 
-        Task {
-            do {
-                let userResponse: UserResponseModel = try await networkClient.request(for: urlRequest)
-                    print(userResponse)
-                    print("Registration successful")
+        do {
+            let userResponse: UserResponseModel = try await networkClient.request(for: urlRequest)
+            print(userResponse)
+            print("Registration successful")
 
-                self.user = userResponse
-            } catch let error {
-                print("Registration error: \(error.localizedDescription)")
+            self.user = userResponse
+        } catch let error {
+            print("Registration error: \(error.localizedDescription)")
 
-                if let error = error as? AppError {
-                    ErrorHandler.handle(error: error)
-                } else {
-                    ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
-                }
+            if let error = error as? AppError {
+                ErrorHandler.handle(error: error)
+            } else {
+                ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
             }
         }
     }
