@@ -67,7 +67,9 @@ final class ProfileViewController: UIViewController {
 
     // MARK: - Private methods
     private func bind() {
-        profileSubscriber = viewModel.profilePublisher.sink(
+        profileSubscriber = viewModel.profilePublisher
+            .receive(on: DispatchQueue.main)
+            .sink(
             receiveValue: { profile in
                 guard let profile = profile else { return }
                 self.profileView?.updateViews(

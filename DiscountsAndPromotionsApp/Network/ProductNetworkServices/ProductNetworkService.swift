@@ -6,24 +6,21 @@ protocol ProductNetworkServiceProtocol {
     var productUpdate: PassthroughSubject<ProductResponseModel, Never> { get }
     var isFavoriteUpdate: PassthroughSubject<Bool, Never> { get }
 
-    func getFavorites(searchItem: String?,
-                      page: Int?)
+    func getFavorites(searchItem: String?, page: Int?)
     func addToFavorites(productID: Int)
     func removeFromFavorites(productID: Int)
 
-    func getProducts(categoryID: Int?,
-                     searchItem: String?,
-                     page: Int?)
+    func getProducts(categoryID: Int?, searchItem: String?, page: Int?)
     func getProduct(productID: Int)
 }
 
-final class ProductNetworkService: ProductNetworkServiceProtocol {
-    private var networkClient: NetworkClientProtocol
-    private let requestConstructor: NetworkRequestConstructorProtocol
+actor ProductNetworkService: ProductNetworkServiceProtocol {
+    nonisolated private let networkClient: NetworkClientProtocol
+    nonisolated private let requestConstructor: NetworkRequestConstructorProtocol
 
-    private (set) var productListUpdate = PassthroughSubject<ProductGroupResponseModel, Never>()
-    private (set) var productUpdate = PassthroughSubject<ProductResponseModel, Never>()
-    private (set) var isFavoriteUpdate = PassthroughSubject<Bool, Never>()
+    nonisolated let productListUpdate = PassthroughSubject<ProductGroupResponseModel, Never>()
+    nonisolated let productUpdate = PassthroughSubject<ProductResponseModel, Never>()
+    nonisolated let isFavoriteUpdate = PassthroughSubject<Bool, Never>()
 
     private var product = ProductResponseModel(id: 0,
                                                name: "",
@@ -57,9 +54,13 @@ final class ProductNetworkService: ProductNetworkServiceProtocol {
     }
 
     // MARK: - Получение продуктов
-    func getProducts(categoryID: Int? = nil,
-                     searchItem: String? = nil,
-                     page: Int? = nil) {
+    nonisolated func getProducts(categoryID: Int? = nil, searchItem: String? = nil, page: Int? = nil) {
+        Task { await fetchProducts(categoryID: categoryID,
+                                   searchItem: searchItem,
+                                   page: page) }
+    }
+
+    private func fetchProducts(categoryID: Int? = nil, searchItem: String? = nil, page: Int? = nil) async {
         var parameters: [String: Any] = [:]
         if let categoryID {
             parameters.updateValue(categoryID, forKey: "category")
@@ -79,29 +80,28 @@ final class ProductNetworkService: ProductNetworkServiceProtocol {
             return
         }
 
-        Task {
-            do {
-                let productGroupResponse: PaginatedProductResponseModel = try await networkClient.request(for: urlRequest)
-                await MainActor.run { [weak self] in
-//                    print(productGroupResponse)
-                    print("Products fetched successfully")
+        do {
+            let productGroupResponse: PaginatedProductResponseModel = try await networkClient.request(for: urlRequest)
+            print(productGroupResponse)
+            print("Products fetched successfully")
 
-                    guard let self else { return }
-                    self.productList = productGroupResponse.results.sorted { $0.name < $1.name }
-                }
-            } catch let error {
-                print("Error fetching products: \(error.localizedDescription)")
+            self.productList = productGroupResponse.results.sorted { $0.name < $1.name }
+        } catch let error {
+            print("Error fetching products: \(error.localizedDescription)")
 
-                if let error = error as? AppError {
-                    ErrorHandler.handle(error: error)
-                } else {
-                    ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
-                }
+            if let error = error as? AppError {
+                ErrorHandler.handle(error: error)
+            } else {
+                ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
             }
         }
     }
 
-    func getProduct(productID: Int) {
+    nonisolated func getProduct(productID: Int) {
+        Task { await fetchProduct(productID: productID) }
+    }
+
+    private func fetchProduct(productID: Int) async {
         guard let urlRequest = requestConstructor.makeRequest(endpoint: .getProduct,
                                                               additionalPath: "\(productID)",
                                                               headers: nil,
@@ -110,30 +110,29 @@ final class ProductNetworkService: ProductNetworkServiceProtocol {
             return
         }
 
-        Task {
-            do {
-                let productResponse: ProductResponseModel = try await networkClient.request(for: urlRequest)
-                await MainActor.run { [weak self] in
-                    print(productResponse)
-                    print("Product fetched successfully")
+        do {
+            let productResponse: ProductResponseModel = try await networkClient.request(for: urlRequest)
+            print(productResponse)
+            print("Product fetched successfully")
 
-                    guard let self else { return }
-                    self.product = productResponse
-                }
-            } catch let error {
-                print("Error fetching product: \(error.localizedDescription)")
+            self.product = productResponse
+        } catch let error {
+            print("Error fetching product: \(error.localizedDescription)")
 
-                if let error = error as? AppError {
-                    ErrorHandler.handle(error: error)
-                } else {
-                    ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
-                }
+            if let error = error as? AppError {
+                ErrorHandler.handle(error: error)
+            } else {
+                ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
             }
         }
     }
 
     // MARK: - Работа с избранным
-    func getFavorites(searchItem: String?, page: Int?) {
+    nonisolated func getFavorites(searchItem: String?, page: Int?) {
+        Task { await fetchFavorites(searchItem: searchItem, page: page) }
+    }
+
+    private func fetchFavorites(searchItem: String?, page: Int?) async {
         var parameters: [String: Any] = [:]
         if let searchItem {
             parameters.updateValue(searchItem, forKey: "search")
@@ -150,29 +149,28 @@ final class ProductNetworkService: ProductNetworkServiceProtocol {
             return
         }
 
-        Task {
-            do {
-                let favoritesResponse: ProductGroupResponseModel = try await networkClient.request(for: urlRequest)
-                await MainActor.run { [weak self] in
-                    print(favoritesResponse)
-                    print("Favorites fetched successfully")
+        do {
+            let favoritesResponse: ProductGroupResponseModel = try await networkClient.request(for: urlRequest)
+            print(favoritesResponse)
+            print("Favorites fetched successfully")
 
-                    guard let self else { return }
-                    self.productList = favoritesResponse.sorted { $0.name < $1.name }
-                }
-            } catch let error {
-                print("Error fetching favorites: \(error.localizedDescription)")
+            self.productList = favoritesResponse.sorted { $0.name < $1.name }
+        } catch let error {
+            print("Error fetching favorites: \(error.localizedDescription)")
 
-                if let error = error as? AppError {
-                    ErrorHandler.handle(error: error)
-                } else {
-                    ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
-                }
+            if let error = error as? AppError {
+                ErrorHandler.handle(error: error)
+            } else {
+                ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
             }
         }
     }
 
-    func addToFavorites(productID: Int) {
+    nonisolated func addToFavorites(productID: Int) {
+        Task { await putNewFavoriteProduct(productID: productID) }
+    }
+
+    private func putNewFavoriteProduct(productID: Int) async {
         guard let urlRequest = requestConstructor.makeRequest(endpoint: .addToFavorites,
                                                               additionalPath: "\(productID)" + "/favorite/",
                                                               headers: NetworkBaseConfiguration.accessTokenHeader(),
@@ -181,28 +179,28 @@ final class ProductNetworkService: ProductNetworkServiceProtocol {
             return
         }
 
-        Task {
-            do {
-                let favoriteProductResponse: URLResponse = try await networkClient.request(for: urlRequest)
-                await MainActor.run { [weak self] in
-                    print(favoriteProductResponse)
-                    print("New favorite product added successfully")
-                    guard let self else { return }
-                        self.isFavorite = true
-                }
-            } catch let error {
-                print("Error adding to favorites: \(error.localizedDescription)")
+        do {
+            let favoriteProductResponse: URLResponse = try await networkClient.request(for: urlRequest)
+            print(favoriteProductResponse)
+            print("New favorite product added successfully")
 
-                if let error = error as? AppError {
-                    ErrorHandler.handle(error: error)
-                } else {
-                    ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
-                }
+            self.isFavorite = true
+        } catch let error {
+            print("Error adding to favorites: \(error.localizedDescription)")
+
+            if let error = error as? AppError {
+                ErrorHandler.handle(error: error)
+            } else {
+                ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
             }
         }
     }
 
-    func removeFromFavorites(productID: Int) {
+    nonisolated func removeFromFavorites(productID: Int) {
+        Task { await deleteFavorite(productID: productID) }
+    }
+
+    private func deleteFavorite(productID: Int) async {
         guard let urlRequest = requestConstructor.makeRequest(endpoint: .removeFromFavorites,
                                                               additionalPath: "\(productID)" + "/favorite/",
                                                               headers: NetworkBaseConfiguration.accessTokenHeader(),
@@ -211,23 +209,19 @@ final class ProductNetworkService: ProductNetworkServiceProtocol {
             return
         }
 
-        Task {
-            do {
-                let favoriteProductResponse: URLResponse = try await networkClient.request(for: urlRequest)
-                await MainActor.run { [weak self] in
-                    print(favoriteProductResponse)
-                    print("Un-favorited product fetched successfully")
+        do {
+            let favoriteProductResponse: URLResponse = try await networkClient.request(for: urlRequest)
+            print(favoriteProductResponse)
+            print("Un-favorited product fetched successfully")
 
-                    self?.isFavorite = false
-                }
-            } catch let error {
-                print("Error removing from favorites: \(error.localizedDescription)")
+            self.isFavorite = false
+        } catch let error {
+            print("Error removing from favorites: \(error.localizedDescription)")
 
-                if let error = error as? AppError {
-                    ErrorHandler.handle(error: error)
-                } else {
-                    ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
-                }
+            if let error = error as? AppError {
+                ErrorHandler.handle(error: error)
+            } else {
+                ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
             }
         }
     }

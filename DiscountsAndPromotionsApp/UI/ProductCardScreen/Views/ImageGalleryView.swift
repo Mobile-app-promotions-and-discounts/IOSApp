@@ -56,7 +56,7 @@ class ImageGalleryView: UIView {
         setupIndicatorImages()
     }
 
-    //TODO: - в этом методе баг, приложение падает при попытке отобразить экран
+    // TODO: - в этом методе баг, приложение падает при попытке отобразить экран
     private func setupIndicatorImages() {
 //            pageControl.preferredIndicatorImage = UIImage(systemName: "circle.fill")?.resizedImage(Size: CGSize(
 //                width: 6,

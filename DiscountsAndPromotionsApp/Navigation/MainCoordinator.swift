@@ -8,7 +8,7 @@ final class MainCoordinator: Coordinator {
     private let profileService: ProfileServiceProtocol
 
     private let networkClient: NetworkClientProtocol
-    private let authService: AuthServiceProtocol
+    private let authService: AuthService
     private let userNetworkService: UserNetworkServiceProtocol
     private let categoryNetworkService: CategoryNetworkServiceProtocol
     private let productNetworkService: ProductNetworkServiceProtocol
@@ -34,8 +34,6 @@ final class MainCoordinator: Coordinator {
         let splashViewController = SplashViewController()
         splashViewController.coordinator = self
         navigationController.viewControllers = [splashViewController]
-
-//        authService.getToken(for: NetworkBaseConfiguration.testUser)
     }
 
     func navigateToMainScreen() {
