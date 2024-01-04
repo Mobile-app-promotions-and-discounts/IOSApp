@@ -10,6 +10,12 @@ class CategoryViewController: ScannerEnabledViewController {
 
     private var cancellables = Set<AnyCancellable>()
 
+    private lazy var progressView: UIActivityIndicatorView = {
+        let progressView = UIActivityIndicatorView(style: .large)
+        progressView.hidesWhenStopped = true
+        return progressView
+    }()
+
     private lazy var categoryCollectionView: UICollectionView = {
         let layout = layoutProvider.createGoodsScreensLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -57,11 +63,15 @@ class CategoryViewController: ScannerEnabledViewController {
     private func setupViews() {
         view.backgroundColor = .cherryLightBlue
 
-        view.addSubview(categoryCollectionView)
+        [categoryCollectionView, progressView].forEach { view.addSubview($0) }
 
         categoryCollectionView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+        progressView.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
+        progressView.startAnimating()
     }
 
     private func setupBindings() {
@@ -70,6 +80,7 @@ class CategoryViewController: ScannerEnabledViewController {
             .sink { [weak self] _ in
                 guard let self = self else { return }
                 self.categoryCollectionView.reloadData()
+                self.progressView.stopAnimating()
             }
             .store(in: &cancellables)
     }
