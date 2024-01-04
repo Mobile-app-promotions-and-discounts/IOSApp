@@ -2,11 +2,12 @@ import Foundation
 import Combine
 
 final class CategoryViewModel: CategoryViewModelProtocol {
-    private (set) var productsUpdate = PassthroughSubject<[Product], Never>()
-
-    private var products = [Product]() {
+    private (set) var productsUpdate = PassthroughSubject<Int, Never>()
+    private (set) var products: [Product] = [] {
         didSet {
-            productsUpdate.send(products)
+            print("NEW COUNT: \(products.count)")
+            productsUpdate.send(products.count)
+
         }
     }
 
@@ -15,6 +16,10 @@ final class CategoryViewModel: CategoryViewModelProtocol {
     private let categoryID: Int
     private var categoryName: String?
 
+    private var currentPage = 0
+    private var isOnLastPage = false
+    private var isFetchingData = false
+
     private var cancellables = Set<AnyCancellable>()
 
     init(dataService: ProductNetworkServiceProtocol, profileService: ProfileServiceProtocol, categoryID: Int) {
@@ -22,10 +27,6 @@ final class CategoryViewModel: CategoryViewModelProtocol {
         self.profileService = profileService
         self.categoryID = categoryID
         setupBindings()
-    }
-
-    func numberOfItems() -> Int {
-        return products.count
     }
 
     func getProduct(for index: Int) -> ProductCellUIModel {
@@ -58,17 +59,33 @@ final class CategoryViewModel: CategoryViewModelProtocol {
         }
     }
 
+    func loadNextPage() {
+        if !isOnLastPage && !isFetchingData {
+            isFetchingData = true
+
+            dataService.getProducts(categoryID: categoryID + 1,
+                                    searchItem: nil,
+                                    page: currentPage + 1)
+        }
+    }
+
     private func setupBindings() {
         dataService.productListUpdate
         .sink { [weak self] products in
-            self?.products = products.map { $0.convertToProductModel() }
+            let newProducts = products.map { $0.convertToProductModel() }
+            self?.products.append(contentsOf: newProducts)
         }
         .store(in: &cancellables)
 
-        // TODO: - pagination
-        dataService.getProducts(categoryID: categoryID + 1,
-                                searchItem: nil,
-                                page: nil)
+        dataService.paginationPublisher
+            .sink { [weak self] paginationState in
+                self?.isOnLastPage = paginationState.isLastPage
+                self?.currentPage = paginationState.currentPage
+                self?.isFetchingData = false
+            }
+            .store(in: &cancellables)
+
+        loadNextPage()
     }
 
     private func convertModels(for product: Product) -> ProductCellUIModel {

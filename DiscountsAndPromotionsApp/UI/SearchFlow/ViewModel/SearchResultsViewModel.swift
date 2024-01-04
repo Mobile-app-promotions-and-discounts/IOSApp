@@ -5,12 +5,12 @@ final class SearchResultsViewModel: CategoryViewModelProtocol {
     private let productService: ProductNetworkServiceProtocol
     private let profileService: ProfileServiceProtocol
 
-    var productsUpdate = PassthroughSubject<[Product], Never>()
+    var productsUpdate = PassthroughSubject<Int, Never>()
     private var subscriptions = Set<AnyCancellable>()
 
-    private var products = [Product]() {
+    private (set) var products = [Product]() {
         didSet {
-            productsUpdate.send(products)
+            productsUpdate.send(products.count)
         }
     }
 
@@ -52,6 +52,10 @@ final class SearchResultsViewModel: CategoryViewModelProtocol {
         } else {
             profileService.addFavorite(product)
         }
+    }
+
+    func loadNextPage() {
+
     }
 
     private func setupBindings(for prompt: String) {

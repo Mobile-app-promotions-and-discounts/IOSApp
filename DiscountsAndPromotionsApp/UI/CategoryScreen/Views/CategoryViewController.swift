@@ -77,12 +77,26 @@ class CategoryViewController: ScannerEnabledViewController {
     private func setupBindings() {
         viewModel.productsUpdate
             .receive(on: RunLoop.main)
-            .sink { [weak self] _ in
+            .sink { [weak self] itemCount in
                 guard let self = self else { return }
-                self.categoryCollectionView.reloadData()
+                addItems(newCount: itemCount)
                 self.progressView.stopAnimating()
             }
             .store(in: &cancellables)
+
+        viewModel.loadNextPage()
+    }
+
+    private func addItems(newCount: Int, to section: Int = 0) {
+        let currentItemCount = categoryCollectionView.numberOfItems(inSection: section)
+//        print("newCount \(newCount) + currentItemCount \(currentItemCount)")
+        let newCellPaths = (currentItemCount..<newCount).map {
+            IndexPath(row: $0, section: section)
+        }
+//        print("total cells \(viewModel.products.count) + new paths \(newCellPaths)")
+        self.categoryCollectionView.performBatchUpdates {
+        self.categoryCollectionView.insertItems(at: newCellPaths)
+        }
     }
 }
 
@@ -90,7 +104,7 @@ class CategoryViewController: ScannerEnabledViewController {
 
 extension CategoryViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.numberOfItems()
+        return viewModel.products.count
     }
 
     func collectionView(_ collectionView: UICollectionView,
@@ -136,7 +150,6 @@ extension CategoryViewController: UICollectionViewDataSource {
 
         let product = viewModel.getProduct(for: indexPath.row)
         cell.configure(with: product)
-
         return cell
     }
 }
@@ -151,6 +164,11 @@ extension CategoryViewController: UICollectionViewDelegate {
         }
     }
 
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.row == collectionView.numberOfItems(inSection: indexPath.section) - 4 {
+            viewModel.loadNextPage()
+        }
+    }
 }
 
 // MARK: - Search field delegate

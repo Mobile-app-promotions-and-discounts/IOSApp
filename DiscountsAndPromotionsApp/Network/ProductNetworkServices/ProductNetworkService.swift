@@ -6,6 +6,8 @@ protocol ProductNetworkServiceProtocol {
     var productUpdate: PassthroughSubject<ProductResponseModel, Never> { get }
     var isFavoriteUpdate: PassthroughSubject<Bool, Never> { get }
 
+    var paginationPublisher: PassthroughSubject<(currentPage: Int, isLastPage: Bool), Never> { get }
+
     func getFavorites(searchItem: String?, page: Int?)
     func addToFavorites(productID: Int)
     func removeFromFavorites(productID: Int)
@@ -21,6 +23,8 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
     nonisolated let productListUpdate = PassthroughSubject<ProductGroupResponseModel, Never>()
     nonisolated let productUpdate = PassthroughSubject<ProductResponseModel, Never>()
     nonisolated let isFavoriteUpdate = PassthroughSubject<Bool, Never>()
+
+    nonisolated let paginationPublisher = PassthroughSubject<(currentPage: Int, isLastPage: Bool), Never>()
 
     private var product = ProductResponseModel(id: 0,
                                                name: "",
@@ -44,6 +48,11 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
     private var isFavorite = false {
         didSet {
             isFavoriteUpdate.send(isFavorite)
+        }
+    }
+    private var paginationState: (currentPage: Int, isLastPage: Bool) = (currentPage: 1, isLastPage: false) {
+        didSet {
+            paginationPublisher.send(paginationState)
         }
     }
 
@@ -82,13 +91,12 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
 
         do {
             let productGroupResponse: PaginatedProductResponseModel = try await networkClient.request(for: urlRequest)
-            print(productGroupResponse)
             print("Products fetched successfully")
-
+            self.paginationState = (currentPage: page ?? 1,
+                                    isLastPage: productGroupResponse.next == nil)
             self.productList = productGroupResponse.results.sorted { $0.name < $1.name }
         } catch let error {
             print("Error fetching products: \(error.localizedDescription)")
-
             if let error = error as? AppError {
                 ErrorHandler.handle(error: error)
             } else {
