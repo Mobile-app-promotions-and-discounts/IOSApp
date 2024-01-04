@@ -33,6 +33,21 @@ struct ProductResponseModel: Codable {
         let image = ProductImage(mainImage: self.mainImage,
                                  additionalPhoto: additionalImges)
 
+        var offers: [Offer] = []
+
+        if let originalOffers: [StoreElementResponseModel] = self.stores {
+            for offer in originalOffers {
+
+                if let price = Double(offer.promoPrice),
+                   let store = offer.store {
+                    offers.append(Offer(id: offer.id,
+                                        price: price / 100,
+                                        discount: nil,
+                                        store: store.convert()))
+                }
+            }
+        }
+
         return Product(id: self.id,
                        barcode: self.barcode,
                        name: self.name,
@@ -40,7 +55,7 @@ struct ProductResponseModel: Codable {
                        category: category,
                        image: image,
                        rating: nil,
-                       offers: [])
+                       offers: offers)
     }
 }
 

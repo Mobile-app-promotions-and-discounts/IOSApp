@@ -20,7 +20,11 @@ struct ProductCellUIModel {
         // Форматирование диапазона цен
         if let lowerPrice = product.findMinMaxOffers().minOffer?.price,
            let higherPrice = product.findMinMaxOffers().maxOffer?.price {
-            self.formattedPriceRange = "\(lowerPrice.customFormatted())–\(higherPrice.customFormatted()) ₽"
+            if lowerPrice == higherPrice {
+                self.formattedPriceRange = "\(lowerPrice.customFormatted()) ₽"
+            } else {
+                self.formattedPriceRange = "\(lowerPrice.customFormatted())–\(higherPrice.customFormatted()) ₽"
+            }
         } else {
             self.formattedPriceRange = "Цена не указана"
         }

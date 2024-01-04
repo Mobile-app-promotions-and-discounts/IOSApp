@@ -36,12 +36,12 @@ struct Category: Codable {
 }
 
 struct Offer: Codable {
-    let id: UUID
+    let id: Int
     let price: Double
     let discount: Discount?
     let store: Store
 
-    init(id: UUID = UUID(),
+    init(id: Int = 0,
          price: Double,
          discount: Discount?,
          store: Store) {
@@ -86,7 +86,7 @@ struct StoreLocation: Codable {
     let region: String
     let city: String
     let street: String
-    let building: Int
+    let building: String
     let postalIndex: Int
 }
 
@@ -107,6 +107,7 @@ struct Discount: Codable {
 extension Product {
     // Находим максимальное и минимальное предложение по цене
     func findMinMaxOffers() -> (minOffer: Offer?, maxOffer: Offer?) {
+        print("OFFERS: \(offers)")
         guard !offers.isEmpty else { return (nil, nil) }
 
         let minOffer = offers.min(by: { $0.price < $1.price })

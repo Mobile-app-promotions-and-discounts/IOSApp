@@ -26,7 +26,7 @@ final class ProductCell: UICollectionViewCell {
 
     private lazy var productImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = .cherryGrayBlue
+        imageView.backgroundColor = .cherryWhite
         imageView.layer.cornerRadius = CornerRadius.small.cgFloat()
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill

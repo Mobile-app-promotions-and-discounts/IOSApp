@@ -145,6 +145,7 @@ class ProductReviewView: UIView {
             .store(in: &cancellables)
 
         reviewTextView.beginEditingPublisher
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 guard let self = self else { return }
                 if self.reviewTextView.text == "Ваш отзыв" {
@@ -156,6 +157,7 @@ class ProductReviewView: UIView {
             .store(in: &cancellables)
 
         reviewTextView.endEditingPublisher
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 guard let self = self else { return }
                 if self.reviewTextView.text.isEmpty {
