@@ -39,9 +39,11 @@ struct ProductResponseModel: Codable {
             for offer in originalOffers {
 
                 if let price = Double(offer.promoPrice),
+                   let initialPrice = Double(offer.initialPrice),
                    let store = offer.store {
                     offers.append(Offer(id: offer.id,
                                         price: price / 100,
+                                        initialPrice: initialPrice / 100,
                                         discount: nil,
                                         store: store.convert()))
                 }

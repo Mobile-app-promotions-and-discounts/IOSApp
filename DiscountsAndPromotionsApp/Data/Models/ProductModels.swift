@@ -38,15 +38,18 @@ struct Category: Codable {
 struct Offer: Codable {
     let id: Int
     let price: Double
+    let initialPrice: Double
     let discount: Discount?
     let store: Store
 
     init(id: Int = 0,
          price: Double,
+         initialPrice: Double,
          discount: Discount?,
          store: Store) {
         self.id = id
         self.price = price
+        self.initialPrice = initialPrice
         self.discount = discount
         self.store = store
     }
@@ -107,11 +110,19 @@ struct Discount: Codable {
 extension Product {
     // Находим максимальное и минимальное предложение по цене
     func findMinMaxOffers() -> (minOffer: Offer?, maxOffer: Offer?) {
-        print("OFFERS: \(offers)")
         guard !offers.isEmpty else { return (nil, nil) }
 
         let minOffer = offers.min(by: { $0.price < $1.price })
         let maxOffer = offers.max(by: { $0.price < $1.price })
+
+        return (minOffer, maxOffer)
+    }
+
+    func findMinMaxInitialOffers() -> (minOffer: Offer?, maxOffer: Offer?) {
+        guard !offers.isEmpty else { return (nil, nil) }
+
+        let minOffer = offers.min(by: { $0.initialPrice < $1.initialPrice })
+        let maxOffer = offers.max(by: { $0.initialPrice < $1.initialPrice })
 
         return (minOffer, maxOffer)
     }

@@ -13,4 +13,13 @@ struct DiscountResponseModel: Codable {
         case discountEnd = "discount_end"
         case discountCard = "discount_card"
     }
+
+//    func convert() -> Discount {
+//        return Discount(discountRate: <#T##Int#>,
+//                        discountUnit: <#T##Int#>,
+//                        discountRating: <#T##Int#>,
+//                        discountStart: <#T##Date#>,
+//                        discountEnd: <#T##Date#>,
+//                        discountCard: <#T##Bool#>)
+//    }
 }
