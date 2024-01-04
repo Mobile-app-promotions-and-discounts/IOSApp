@@ -48,6 +48,14 @@ final class MainTabBarController: UITabBarController {
                 let font = [NSAttributedString.Key.font: CherryFonts.headerSmall]
                 item.setTitleTextAttributes(font as [NSAttributedString.Key: Any], for: .normal)
                 item.setBadgeTextAttributes(font as [NSAttributedString.Key: Any], for: .selected)
+                let offsetSize: CGFloat = 8
+                var textOffset = UIOffset()
+                textOffset.vertical = offsetSize
+                item.titlePositionAdjustment = textOffset
+                var inset = UIEdgeInsets()
+                inset.top = offsetSize
+                inset.bottom = -offsetSize
+                item.imageInsets = inset
             }
         }
 
