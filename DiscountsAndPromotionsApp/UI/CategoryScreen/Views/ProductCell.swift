@@ -102,6 +102,8 @@ final class ProductCell: UICollectionViewCell {
         self.likeButton.setImage(model.isFavorite ? UIImage.icHeartFill : UIImage.icHeart, for: .normal)
         self.priceLabel.text = model.formattedPriceRange
         self.discountLabel.text = model.formattedDiscount
+        self.discountLabel.isHidden = model.formattedDiscount.isEmpty
+        self.discountBGView.isHidden = model.formattedDiscount.isEmpty
     }
 
     // MARK: - Private methods

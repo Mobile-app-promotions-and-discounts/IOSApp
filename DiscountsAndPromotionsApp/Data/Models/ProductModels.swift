@@ -100,11 +100,38 @@ struct ChainStore: Codable {
 
 struct Discount: Codable {
     let discountRate: Int
-    let discountUnit: Int
+    let discountUnit: String
     let discountRating: Int
     let discountStart: Date
     let discountEnd: Date
     let discountCard: Bool
+
+    enum DiscountUnit: String {
+        case percent = "%"
+        case ruble = "RUB"
+
+        func formattedString() -> String {
+            switch self {
+            case .ruble:
+                return "₽"
+            case .percent:
+                return "%"
+            }
+        }
+    }
+
+    func formattedDiscountString() -> String {
+        var formattedDiscountString = ""
+        if let unit = DiscountUnit(rawValue: self.discountUnit) {
+            switch unit {
+            case .percent:
+                formattedDiscountString = "%"
+            case .ruble:
+                formattedDiscountString = "₽"
+            }
+        }
+        return "-\(self.discountRate)" + formattedDiscountString
+    }
 }
 
 extension Product {

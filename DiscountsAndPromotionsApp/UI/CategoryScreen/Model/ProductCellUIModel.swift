@@ -30,7 +30,14 @@ struct ProductCellUIModel {
         }
 
         // Форматирование скидки
+        let discoutUnitString: String = product.findMaxCurrentDiscount()?.discountUnit ?? ""
+        let discoutUnit: Discount.DiscountUnit? = Discount.DiscountUnit(rawValue: discoutUnitString)
+        var discoutUnitFormattedString = ""
+        if let discoutUnit {
+            discoutUnitFormattedString = discoutUnit.formattedString()
+        }
+
         let discountValue = product.findMaxCurrentDiscount()?.discountRate ?? 0
-        self.formattedDiscount = discountValue > 0 ? "До -\(discountValue)%" : "До - 30%"
+        self.formattedDiscount = discountValue > 0 ? "До -\(discountValue)\(discoutUnitFormattedString)" : ""
     }
 }

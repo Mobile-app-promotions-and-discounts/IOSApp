@@ -704,7 +704,7 @@ final class MockDataService: DataServiceProtocol {
 
         // Создаём скидки для каждой категории
         let discount = Discount(discountRate: 30,
-                                discountUnit: 1,
+                                discountUnit: "%",
                                 discountRating: 5,
                                 discountStart: Date(),
                                 discountEnd: Date(),

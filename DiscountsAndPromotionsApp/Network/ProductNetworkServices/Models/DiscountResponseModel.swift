@@ -14,12 +14,25 @@ struct DiscountResponseModel: Codable {
         case discountCard = "discount_card"
     }
 
-//    func convert() -> Discount {
-//        return Discount(discountRate: <#T##Int#>,
-//                        discountUnit: <#T##Int#>,
-//                        discountRating: <#T##Int#>,
-//                        discountStart: <#T##Date#>,
-//                        discountEnd: <#T##Date#>,
-//                        discountCard: <#T##Bool#>)
-//    }
+    func convert() -> Discount {
+        var startDate = Date()
+        var endDate = Date()
+
+        if let discountStart,
+           let discountStartDate = Date.convertFromString(discountStart) {
+            startDate = discountStartDate
+        }
+
+        if let discountEnd,
+           let discountEndDate = Date.convertFromString(discountEnd) {
+            endDate = discountEndDate
+        }
+
+        return Discount(discountRate: self.discountRate,
+                        discountUnit: self.discountUnit,
+                        discountRating: 0,
+                        discountStart: startDate,
+                        discountEnd: endDate,
+                        discountCard: self.discountCard)
+    }
 }
