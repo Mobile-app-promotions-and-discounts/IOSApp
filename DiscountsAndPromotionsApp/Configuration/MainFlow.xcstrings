@@ -31,8 +31,17 @@
         }
       }
     },
-    "nothingFound" : {
-      "extractionState" : "stale",
+    "No favorites" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нет избранного"
+          }
+        }
+      }
+    },
+    "Nothing found" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -43,7 +52,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ничего не нашлось"
+            "value" : "Ничего не найдено"
           }
         }
       }
@@ -64,6 +73,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Акции на этой неделе"
+          }
+        }
+      }
+    },
+    "Return to Main" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Return to Main"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вернуться на главную"
           }
         }
       }

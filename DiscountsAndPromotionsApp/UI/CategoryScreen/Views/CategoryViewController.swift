@@ -7,6 +7,7 @@ class CategoryViewController: ScannerEnabledViewController {
 
     private let viewModel: CategoryViewModelProtocol
     private let layoutProvider: CollectionLayoutProvider
+    private let emptyResultView: EmptyOnScreenView
 
     private var cancellables = Set<AnyCancellable>()
 
@@ -39,6 +40,7 @@ class CategoryViewController: ScannerEnabledViewController {
 
     init(viewModel: CategoryViewModelProtocol,
          layoutProvider: CollectionLayoutProvider = CollectionLayoutProvider()) {
+        self.emptyResultView = EmptyOnScreenView(state: .noResult)
         self.viewModel = viewModel
         self.layoutProvider = layoutProvider
         super.init(nibName: nil, bundle: nil)
@@ -58,20 +60,24 @@ class CategoryViewController: ScannerEnabledViewController {
         super.viewWillAppear(animated)
         // Временное решение для обновления списка избранного на данном экране.
         categoryCollectionView.reloadData()
+
     }
 
     private func setupViews() {
         view.backgroundColor = .cherryLightBlue
 
-        [categoryCollectionView, progressView].forEach { view.addSubview($0) }
+        [categoryCollectionView, emptyResultView, progressView].forEach { view.addSubview($0) }
+        emptyResultView.isHidden = true // Скрыть по умолчанию
 
         categoryCollectionView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        emptyResultView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
         progressView.snp.makeConstraints { make in
             make.center.equalToSuperview()
         }
-        progressView.startAnimating()
     }
 
     private func setupBindings() {
@@ -84,16 +90,41 @@ class CategoryViewController: ScannerEnabledViewController {
             }
             .store(in: &cancellables)
 
+        emptyResultView.mainButtonTappedPublisher
+            .sink { [weak self] _ in
+                guard let self = self else { return }
+                self.coordinator?.navigateToMainScreen()
+            }
+            .store(in: &cancellables)
+
+        viewModel.viewState
+            .receive(on: RunLoop.main)
+            .sink { [weak self] state in
+                guard let self = self else { return }
+                self.updateUI(for: state)
+            }
+            .store(in: &cancellables)
+
         viewModel.loadNextPage()
+    }
+
+    private func updateUI(for state: ViewState) {
+        let isDataPresent = state == .dataPresent
+        categoryCollectionView.isHidden = !isDataPresent
+        emptyResultView.isHidden = isDataPresent
+
+        if state == .loading {
+            categoryCollectionView.isHidden = false
+            emptyResultView.isHidden = true
+            progressView.startAnimating()
+        }
     }
 
     private func addItems(newCount: Int, to section: Int = 0) {
         let currentItemCount = categoryCollectionView.numberOfItems(inSection: section)
-//        print("newCount \(newCount) + currentItemCount \(currentItemCount)")
         let newCellPaths = (currentItemCount..<newCount).map {
             IndexPath(row: $0, section: section)
         }
-//        print("total cells \(viewModel.products.count) + new paths \(newCellPaths)")
         self.categoryCollectionView.performBatchUpdates {
         self.categoryCollectionView.insertItems(at: newCellPaths)
         }

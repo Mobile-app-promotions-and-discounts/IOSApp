@@ -35,6 +35,7 @@ final class MainScreenCoordinator: Coordinator {
                                                   categoryID: ID)
         let categoryViewController = CategoryViewController(viewModel: categoryViewModel)
         categoryViewController.coordinator = self
+        categoryViewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(categoryViewController, animated: true)
     }
 

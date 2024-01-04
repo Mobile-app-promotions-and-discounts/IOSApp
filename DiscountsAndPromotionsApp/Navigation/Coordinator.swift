@@ -11,5 +11,6 @@ protocol Coordinator: AnyObject {
 extension Coordinator {
     func navigateBack() {
         navigationController.popViewController(animated: true)
+        navigationController.navigationBar.isHidden = true
     }
 }

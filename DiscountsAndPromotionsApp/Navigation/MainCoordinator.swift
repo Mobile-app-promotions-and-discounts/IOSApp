@@ -8,7 +8,7 @@ final class MainCoordinator: Coordinator {
     private let profileService: ProfileServiceProtocol
 
     private let networkClient: NetworkClientProtocol
-    private let authService: AuthService
+    private let authService: AuthServiceProtocol
     private let userNetworkService: UserNetworkServiceProtocol
     private let categoryNetworkService: CategoryNetworkServiceProtocol
     private let productNetworkService: ProductNetworkServiceProtocol

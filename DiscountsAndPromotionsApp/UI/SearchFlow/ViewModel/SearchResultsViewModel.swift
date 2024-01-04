@@ -3,6 +3,7 @@ import Foundation
 
 final class SearchResultsViewModel: CategoryViewModelProtocol {
     private let productService: ProductNetworkServiceProtocol
+    private (set) var viewState = CurrentValueSubject<ViewState, Never>(.loading)
     private let profileService: ProfileServiceProtocol
 
     var productsUpdate = PassthroughSubject<Int, Never>()
@@ -11,6 +12,7 @@ final class SearchResultsViewModel: CategoryViewModelProtocol {
     private (set) var products = [Product]() {
         didSet {
             productsUpdate.send(products.count)
+            viewState.value = products.isEmpty ? .empty : .dataPresent
         }
     }
 

@@ -57,7 +57,7 @@ final class ScanFlowViewModel: ScanFlowViewModelProtocol {
                     let product = foundProduct.convertToProductModel()
                     coordinator.showProduct(product)
                 } else {
-                    self.coordinator.scanError()
+                    self.coordinator.navigateToEmptyResultScreen()
                 }
             }
             .store(in: &subscriptions)
