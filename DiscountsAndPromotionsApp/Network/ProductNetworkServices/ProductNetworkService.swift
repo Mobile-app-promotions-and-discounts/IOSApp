@@ -5,12 +5,19 @@ protocol ProductNetworkServiceProtocol {
     var productListUpdate: PassthroughSubject<ProductGroupResponseModel, Never> { get }
     var productUpdate: PassthroughSubject<ProductResponseModel, Never> { get }
     var isFavoriteUpdate: PassthroughSubject<Bool, Never> { get }
+    
+    var reviewListUpdate: PassthroughSubject<ProductReviews, Never> { get }
 
     var paginationPublisher: PassthroughSubject<(currentPage: Int, isLastPage: Bool), Never> { get }
 
+    //избранное
     func getFavorites(searchItem: String?, page: Int?)
     func addToFavorites(productID: Int)
     func removeFromFavorites(productID: Int)
+    
+    //отзывы
+    func getReviewsForProduct(id productID: Int)
+    func addNewReviewForProduct(id productID: Int, revirew: ProductReviewModel)
 
     func getProducts(categoryID: Int?, searchItem: String?, page: Int?)
     func getProduct(productID: Int)
@@ -23,9 +30,11 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
     nonisolated let productListUpdate = PassthroughSubject<ProductGroupResponseModel, Never>()
     nonisolated let productUpdate = PassthroughSubject<ProductResponseModel, Never>()
     nonisolated let isFavoriteUpdate = PassthroughSubject<Bool, Never>()
-
+    
+    nonisolated let reviewListUpdate = PassthroughSubject<ProductReviews, Never>()
+    
     nonisolated let paginationPublisher = PassthroughSubject<(currentPage: Int, isLastPage: Bool), Never>()
-
+    
     private var product = ProductResponseModel(id: 0,
                                                name: "",
                                                rating: nil,
@@ -53,6 +62,12 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
     private var paginationState: (currentPage: Int, isLastPage: Bool) = (currentPage: 1, isLastPage: false) {
         didSet {
             paginationPublisher.send(paginationState)
+        }
+    }
+    
+    private var productReviews: ProductReviews = [] {
+        didSet {
+            reviewListUpdate.send(productReviews)
         }
     }
 
@@ -135,7 +150,7 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
         }
     }
 
-    // MARK: - Работа с избранным
+    // MARK: - работа с избранным
     nonisolated func getFavorites(searchItem: String?, page: Int?) {
         Task { await fetchFavorites(searchItem: searchItem, page: page) }
     }
@@ -232,5 +247,20 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
                 ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
             }
         }
+    }
+    
+    //MARK: - работа с отзывами
+    nonisolated func getReviewsForProduct(id productID: Int) {
+        Task { await fetchReviews(productID: productID) }
+    }
+    private func fetchReviews(productID: Int) async {
+        
+    }
+    
+    nonisolated func addNewReviewForProduct(id productID: Int, revirew: ProductReviewModel) {
+        Task { await postReview(productID: productID, revirew: revirew) }
+    }
+    private func postReview(productID: Int, revirew: ProductReviewModel) async {
+        
     }
 }
