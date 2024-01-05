@@ -6,3 +6,10 @@ struct ProductReviewModel: Codable {
 }
 
 typealias ProductReviews = [ProductReviewModel]
+
+struct ReviewResponse: Codable {
+    let count: Int
+    let next: String?
+    let previous: String?
+    let results: ProductReviews
+}

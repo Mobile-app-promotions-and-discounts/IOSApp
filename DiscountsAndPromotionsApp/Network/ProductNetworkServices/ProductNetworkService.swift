@@ -5,19 +5,21 @@ protocol ProductNetworkServiceProtocol {
     var productListUpdate: PassthroughSubject<ProductGroupResponseModel, Never> { get }
     var productUpdate: PassthroughSubject<ProductResponseModel, Never> { get }
     var isFavoriteUpdate: PassthroughSubject<Bool, Never> { get }
-    
+
     var reviewListUpdate: PassthroughSubject<ProductReviews, Never> { get }
+    var didPostNewReviewUpdate: PassthroughSubject<Bool, Never> { get }
 
     var paginationPublisher: PassthroughSubject<(currentPage: Int, isLastPage: Bool), Never> { get }
+    var reviewPaginationPublisher: PassthroughSubject<(currentPage: Int, isLastPage: Bool), Never> { get }
 
-    //избранное
+    // избранное
     func getFavorites(searchItem: String?, page: Int?)
     func addToFavorites(productID: Int)
     func removeFromFavorites(productID: Int)
-    
-    //отзывы
-    func getReviewsForProduct(id productID: Int)
-    func addNewReviewForProduct(id productID: Int, revirew: ProductReviewModel)
+
+    // отзывы
+    func getReviewsForProduct(id productID: Int, page: Int)
+    func addNewReviewForProduct(id productID: Int, review: ProductReviewModel)
 
     func getProducts(categoryID: Int?, searchItem: String?, page: Int?)
     func getProduct(productID: Int)
@@ -30,11 +32,13 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
     nonisolated let productListUpdate = PassthroughSubject<ProductGroupResponseModel, Never>()
     nonisolated let productUpdate = PassthroughSubject<ProductResponseModel, Never>()
     nonisolated let isFavoriteUpdate = PassthroughSubject<Bool, Never>()
-    
+
     nonisolated let reviewListUpdate = PassthroughSubject<ProductReviews, Never>()
-    
+    nonisolated let didPostNewReviewUpdate = PassthroughSubject<Bool, Never>()
+
     nonisolated let paginationPublisher = PassthroughSubject<(currentPage: Int, isLastPage: Bool), Never>()
-    
+    nonisolated let reviewPaginationPublisher = PassthroughSubject<(currentPage: Int, isLastPage: Bool), Never>()
+
     private var product = ProductResponseModel(id: 0,
                                                name: "",
                                                rating: nil,
@@ -64,10 +68,21 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
             paginationPublisher.send(paginationState)
         }
     }
-    
+    private var reviewPaginationState: (currentPage: Int, isLastPage: Bool) = (currentPage: 1, isLastPage: false) {
+        didSet {
+            reviewPaginationPublisher.send(paginationState)
+        }
+    }
+
     private var productReviews: ProductReviews = [] {
         didSet {
             reviewListUpdate.send(productReviews)
+        }
+    }
+
+    private var didPostNewReview = false {
+        didSet {
+            didPostNewReviewUpdate.send(didPostNewReview)
         }
     }
 
@@ -248,19 +263,68 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
             }
         }
     }
-    
-    //MARK: - работа с отзывами
-    nonisolated func getReviewsForProduct(id productID: Int) {
-        Task { await fetchReviews(productID: productID) }
+
+    // MARK: - работа с отзывами
+    nonisolated func getReviewsForProduct(id productID: Int, page: Int) {
+        Task { await fetchReviews(productID: productID, page: page) }
     }
-    private func fetchReviews(productID: Int) async {
-        
+    private func fetchReviews(productID: Int, page: Int) async {
+        var parameters: [String: Any] = [:]
+        parameters.updateValue(page, forKey: "page")
+
+        guard let urlRequest = requestConstructor.makeRequest(endpoint: .getProductReviews,
+                                                              additionalPath: "\(productID)" + "/reviews/?" + parameters.queryString,
+                                                              headers: nil,
+                                                              parameters: nil) else {
+            ErrorHandler.handle(error: AppError.customError("invalid request"))
+            return
+        }
+
+        do {
+            let reviewsResponse: ReviewResponse = try await networkClient.request(for: urlRequest)
+            print("Reviews fetched successfully")
+            print(reviewsResponse)
+            self.reviewPaginationState = (currentPage: page,
+                                    isLastPage: reviewsResponse.next == nil)
+            self.productReviews = reviewsResponse.results
+        } catch let error {
+            print("Error fetching reviews: \(error.localizedDescription)")
+            if let error = error as? AppError {
+                ErrorHandler.handle(error: error)
+            } else {
+                ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
+            }
+        }
     }
-    
-    nonisolated func addNewReviewForProduct(id productID: Int, revirew: ProductReviewModel) {
-        Task { await postReview(productID: productID, revirew: revirew) }
+
+    nonisolated func addNewReviewForProduct(id productID: Int, review: ProductReviewModel) {
+        Task { await postReview(productID: productID, review: review) }
     }
-    private func postReview(productID: Int, revirew: ProductReviewModel) async {
-        
+    private func postReview(productID: Int, review: ProductReviewModel) async {
+        var newReviewParameters: [String: Any] = [:]
+        newReviewParameters.updateValue(review.text, forKey: "text")
+        newReviewParameters.updateValue(review.score, forKey: "score")
+
+        guard let urlRequest = requestConstructor.makeRequest(endpoint: .postNewReview,
+                                                              additionalPath: "\(productID)" + "/reviews/",
+                                                              headers: NetworkBaseConfiguration.accessTokenHeader(),
+                                                              parameters: newReviewParameters) else {
+            ErrorHandler.handle(error: AppError.customError("invalid request"))
+            return
+        }
+
+        do {
+            let _: URLResponse = try await networkClient.request(for: urlRequest)
+            print("New review posted!")
+            self.didPostNewReview = true
+        } catch let error {
+            print("Error posting new Review: \(error.localizedDescription)")
+            self.didPostNewReview = false
+            if let error = error as? AppError {
+                ErrorHandler.handle(error: error)
+            } else {
+                ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
+            }
+        }
     }
 }
