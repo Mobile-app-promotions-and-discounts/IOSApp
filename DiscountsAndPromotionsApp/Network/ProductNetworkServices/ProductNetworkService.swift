@@ -8,6 +8,7 @@ protocol ProductNetworkServiceProtocol {
 
     var reviewListUpdate: PassthroughSubject<ProductReviews, Never> { get }
     var didPostNewReviewUpdate: PassthroughSubject<Bool, Never> { get }
+    var reviewCountUpdate: PassthroughSubject<Int, Never> { get }
 
     var paginationPublisher: PassthroughSubject<(currentPage: Int, isLastPage: Bool), Never> { get }
     var reviewPaginationPublisher: PassthroughSubject<(currentPage: Int, isLastPage: Bool), Never> { get }
@@ -35,6 +36,7 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
 
     nonisolated let reviewListUpdate = PassthroughSubject<ProductReviews, Never>()
     nonisolated let didPostNewReviewUpdate = PassthroughSubject<Bool, Never>()
+    nonisolated let reviewCountUpdate = PassthroughSubject<Int, Never>()
 
     nonisolated let paginationPublisher = PassthroughSubject<(currentPage: Int, isLastPage: Bool), Never>()
     nonisolated let reviewPaginationPublisher = PassthroughSubject<(currentPage: Int, isLastPage: Bool), Never>()
@@ -77,6 +79,12 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
     private var productReviews: ProductReviews = [] {
         didSet {
             reviewListUpdate.send(productReviews)
+        }
+    }
+
+    private var reviewCount: Int = 0 {
+        didSet {
+            reviewCountUpdate.send(reviewCount)
         }
     }
 
@@ -287,6 +295,7 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
             self.reviewPaginationState = (currentPage: page,
                                     isLastPage: reviewsResponse.next == nil)
             self.productReviews = reviewsResponse.results
+            self.reviewCount = reviewsResponse.count
         } catch let error {
             print("Error fetching reviews: \(error.localizedDescription)")
             if let error = error as? AppError {
