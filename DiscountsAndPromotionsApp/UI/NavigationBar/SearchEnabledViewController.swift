@@ -8,6 +8,7 @@ class SearchEnabledViewController: UIViewController {
             return UIButton()
         }
         let backButton = UIButton(type: .system)
+        backButton.tintColor = .cherryWhite
         backButton.setImage(.icBack, for: .normal)
         backButton.addTarget(self,
                              action: #selector(defaultBackAction),

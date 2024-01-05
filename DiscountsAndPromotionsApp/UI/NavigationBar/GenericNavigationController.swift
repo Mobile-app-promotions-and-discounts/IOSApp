@@ -21,7 +21,7 @@ final class GenericNavigationController: UINavigationController {
 
         navigationBar.standardAppearance = standardAppearance
         navigationBar.scrollEdgeAppearance = standardAppearance
-        navigationBar.tintColor = .cherryWhite
+        navigationBar.tintColor = .clear
     }
 
     private func makeNavBackground(size: CGSize, color: UIColor, cornerRadius: CGFloat) -> UIImage? {

@@ -153,7 +153,6 @@ final class ProfileView: UIView {
         lastName: String?,
         phone: String?
     ) {
-
         if let avatar = avatar {
             avatarImage.image = UIImage(data: avatar)
         }
