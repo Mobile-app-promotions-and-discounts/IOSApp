@@ -52,7 +52,8 @@ final class ScanFlowCoordinator: Coordinator {
     }
 
     func showProduct(_ product: Product) {
-        let productVC = ProductCardViewController(product: product)
+        let productViewModel = ProductCardViewModel(product: product)
+        let productVC = ProductCardViewController(viewModel: productViewModel)
         productVC.hidesBottomBarWhenPushed = true
         productVC.coordinator = self
         navigationController.show(productVC, sender: nil)

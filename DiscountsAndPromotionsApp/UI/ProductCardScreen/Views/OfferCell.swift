@@ -11,17 +11,17 @@ class OfferTableViewCell: UITableViewCell {
     private let originalPriceLabel = UILabel()
     private let discountView = UIView()
     private let discountLabel = UILabel()
-    private let goToStoreButton = UIButton()
+    private let goToStoreButton = UIButton(configuration: .plain(), primaryAction: nil)
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupBackgroundView()
         addSubviews()
         configureLogoImageView()
-        configureDiscountView()
         configureGoToStoreButton()
         configureLabels()
         setupConstraints()
+        configureDiscountView()
     }
 
     required init?(coder: NSCoder) {
@@ -55,33 +55,52 @@ class OfferTableViewCell: UITableViewCell {
     }
 
     private func configureDiscountView() {
-        discountView.layer.cornerRadius = 6
-        discountView.backgroundColor = .cherryYellow
+        discountView.layer.cornerRadius = 9
+        discountView.clipsToBounds = true
+        discountView.layer.borderWidth = 1
+        discountView.layer.borderColor = UIColor.cherryGray.cgColor
+        discountView.backgroundColor = .cherryOrange
     }
 
     private func configureGoToStoreButton() {
-        goToStoreButton.setTitle("В магазин", for: .normal)
-        goToStoreButton.titleLabel?.font = CherryFonts.headerSmall
-        goToStoreButton.setTitleColor(.cherryMainAccent, for: .normal)
+        var config = UIButton.Configuration.plain()
+        config.image = UIImage(named: "ic_storeArrow")
+        config.imagePlacement = .trailing
+        config.imagePadding = 4
+        config.baseForegroundColor = UIColor.cherryBlack
+        config.baseBackgroundColor = .cherryWhite
+        goToStoreButton.setTitleColor(.cherryBlack, for: .normal)
+
+        var attributedTitle = AttributedString("На сайт магазина")
+        attributedTitle.font = CherryFonts.headerSmall
+        config.attributedTitle = attributedTitle
+
+        goToStoreButton.contentHorizontalAlignment = .center
+
+        goToStoreButton.configuration = config
         goToStoreButton.layer.borderWidth = 1
-        goToStoreButton.layer.borderColor = UIColor.cherryPrimaryPressed.cgColor
+        goToStoreButton.layer.borderColor = UIColor.cherryGrayBlue.cgColor
         goToStoreButton.layer.cornerRadius = CornerRadius.regular.cgFloat()
         goToStoreButton.backgroundColor = .cherryWhite
-        goToStoreButton.addTarget(self, action: #selector(goToStoreCard), for: .touchUpInside)
+
+        goToStoreButton.addAction(UIAction { [weak self] _ in
+                self?.goToStoreCard()
+            }, for: .touchUpInside)
+
     }
 
     private func configureLabels() {
         storeNameLabel.font = CherryFonts.headerMedium
         addressLabel.font = CherryFonts.headerSmall
-        priceLabel.font = CherryFonts.headerMedium
-        originalPriceLabel.font = CherryFonts.headerSmall
+        priceLabel.font = CherryFonts.textMedium
+        originalPriceLabel.font = CherryFonts.textMedium
         originalPriceLabel.textColor = .gray
         originalPriceLabel.attributedText = NSAttributedString(
             string: "",
             attributes: [NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.single.rawValue]
         )
 
-        discountLabel.font = CherryFonts.headerSmall
+        discountLabel.font = CherryFonts.textMedium
         discountLabel.textColor = .black
     }
 
@@ -93,7 +112,7 @@ class OfferTableViewCell: UITableViewCell {
             make.top.equalTo(contentView.snp.top).offset(2)
             make.leading.equalTo(contentView.snp.leading).offset(16)
             make.trailing.equalTo(contentView.snp.trailing).offset(-16)
-            make.height.equalTo(81)
+            make.height.equalTo(56)
         }
 
         logoImageView.snp.makeConstraints { make in
@@ -106,42 +125,42 @@ class OfferTableViewCell: UITableViewCell {
             make.top.equalTo(backgroundViewBoard.snp.top).offset(paddingV)
             make.leading.equalTo(logoImageView.snp.trailing).offset(16)
             make.trailing.lessThanOrEqualTo(goToStoreButton.snp.leading)
+            make.height.equalTo(19)
         }
 
         addressLabel.snp.makeConstraints { make in
-            make.top.equalTo(storeNameLabel.snp.bottom)
-            make.leading.equalTo(storeNameLabel)
-            make.trailing.equalTo(storeNameLabel)
+            make.bottom.equalTo(storeNameLabel)
+            make.leading.equalTo(storeNameLabel.snp.trailing).offset(8)
+            make.height.equalTo(16)
         }
 
         priceLabel.snp.makeConstraints { make in
-            make.top.equalTo(addressLabel.snp.bottom)
+            make.top.equalTo(storeNameLabel.snp.bottom).offset(2)
             make.leading.equalTo(storeNameLabel)
-            make.bottom.equalTo(backgroundViewBoard).offset(-paddingV)
-        }
-
-        originalPriceLabel.snp.makeConstraints { make in
-            make.leading.equalTo(priceLabel.snp.trailing).offset(4)
-            make.centerY.equalTo(priceLabel)
         }
 
         discountView.snp.makeConstraints { make in
-            make.leading.equalTo(originalPriceLabel.snp.trailing).offset(4)
+            make.leading.equalTo(priceLabel.snp.trailing).offset(3)
             make.centerY.equalTo(priceLabel)
-            make.height.equalTo(16)
-            make.width.equalTo(36)
+            make.height.equalTo(22)
+            make.width.equalTo(46)
         }
 
         discountLabel.snp.makeConstraints { make in
+            make.centerY.equalTo(priceLabel)
             make.centerX.equalTo(discountView)
+        }
+
+        originalPriceLabel.snp.makeConstraints { make in
+            make.leading.equalTo(discountLabel.snp.trailing).offset(8)
             make.centerY.equalTo(priceLabel)
         }
 
         goToStoreButton.snp.makeConstraints { make in
             make.trailing.equalTo(backgroundViewBoard.snp.trailing).offset(-paddingH)
             make.centerY.equalTo(backgroundViewBoard.snp.centerY)
-            make.width.equalTo(84)
-            make.height.equalTo(32)
+            make.width.equalTo(109)
+            make.height.equalTo(48)
         }
     }
 
@@ -149,7 +168,6 @@ class OfferTableViewCell: UITableViewCell {
         storeNameLabel.text = offer.store.name
         addressLabel.text = offer.store.location.street
         priceLabel.text = "\(Int(offer.price)) ₽"
-
         if offer.price < offer.initialPrice {
             originalPriceLabel.isHidden = false
             discountLabel.isHidden = offer.discount == nil

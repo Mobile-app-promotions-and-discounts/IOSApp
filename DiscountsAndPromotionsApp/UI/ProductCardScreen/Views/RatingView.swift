@@ -44,14 +44,16 @@ class RatingView: UIView {
         starsStackView.distribution = .fillEqually
         ratingLabel.font = CherryFonts.textMedium
         numberOfReviewsLabel.font = CherryFonts.textMedium
-        numberOfReviewsLabel.textColor = .cherryGrayBlue
+        numberOfReviewsLabel.textColor = .cherryBlack
+        reviewsButton.tintColor = .cherryGray
         addSubview(starsStackView)
         addSubview(ratingLabel)
         addSubview(numberOfReviewsLabel)
         addSubview(reviewsButton)
 
         starsStackView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(8)
+            make.top.equalToSuperview().offset(12)
+            make.bottom.equalToSuperview().offset(-12)
             make.leading.equalToSuperview().offset(12)
             make.height.equalTo(16)
         }
@@ -62,9 +64,10 @@ class RatingView: UIView {
         }
 
         numberOfReviewsLabel.snp.makeConstraints { make in
-            make.top.equalTo(starsStackView.snp.bottom).offset(5)
-            make.leading.equalToSuperview().offset(12)
-            make.bottom.equalToSuperview().offset(-8)
+            make.top.equalToSuperview().offset(12)
+            make.bottom.equalToSuperview().offset(-12)
+            make.trailing.equalTo(reviewsButton.snp.leading).offset(-8)
+            make.height.equalTo(19)
         }
 
         reviewsButton.snp.makeConstraints { make in

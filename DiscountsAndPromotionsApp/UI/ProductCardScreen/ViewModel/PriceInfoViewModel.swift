@@ -6,6 +6,8 @@ protocol PriceInfoViewViewModelProtocol {
     var discountPricePublisher: AnyPublisher<Int, Never> { get }
     var addToFavorites: PassthroughSubject<Void, Never> { get }
     var isFavorite: Bool { get }
+    var price: Int { get }
+    var discountPrice: Int { get }
 
     func updatePrice(_ price: Int)
     func updateDiscountPrice(_ discountPrice: Int)
