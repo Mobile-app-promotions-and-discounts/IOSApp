@@ -158,7 +158,6 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
 
         do {
             let productResponse: ProductResponseModel = try await networkClient.request(for: urlRequest)
-            print(productResponse)
             print("Product fetched successfully")
 
             self.product = productResponse

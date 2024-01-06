@@ -8,7 +8,7 @@ class ProductCardViewController: UIViewController {
 
     private var originalNavBarAppearance: UINavigationBarAppearance?
 
-    private var viewModel: ProductCardViewModel!
+    private var viewModel: ProductCardViewModel
 
     private var cancellables = Set<AnyCancellable>()
 
@@ -76,7 +76,6 @@ class ProductCardViewController: UIViewController {
         originalNavBarAppearance = navigationController?.navigationBar.standardAppearance.copy()
         setupProductNavigationBar()
         navigationController?.setNavigationBarHidden(false, animated: false)
-
     }
 
     override func viewDidLoad() {
@@ -86,10 +85,8 @@ class ProductCardViewController: UIViewController {
         productScrollView.delegate = self
         productScrollView.contentInsetAdjustmentBehavior = .never
         setupUI()
+        setupViewConfiguration()
         setupBindings()
-//        configureViews(with: viewModel.product)
-
-        print("Product in ProductCardViewController: \(String(describing: viewModel.product))")
 
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow(notification: )),
@@ -128,6 +125,10 @@ class ProductCardViewController: UIViewController {
                 self?.configureViews(with: product)
             }
             .store(in: &cancellables)
+    }
+
+    private func setupViewConfiguration() {
+        viewModel.setupPriceInfoView(priceInfoView)
     }
 
     private func configureViews(with product: Product?) {
@@ -278,7 +279,6 @@ class ProductCardViewController: UIViewController {
 
     @objc func backButtonTapped() {
         coordinator?.navigateBack()
-        print("Закрытие экрана")
     }
 
     @objc func sendButtonTapped() {

@@ -53,7 +53,8 @@ class PriceInfoViewViewModel: PriceInfoViewViewModelProtocol {
     }
 
     func toggleFavorite() {
-        if isFavorite {
+        print("ADD TO FAVORITES FROM CARD")
+        if profileService.isFavorite(product) {
             profileService.removeFavorite(product)
         } else {
             profileService.addFavorite(product)

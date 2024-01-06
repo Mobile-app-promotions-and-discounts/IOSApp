@@ -10,24 +10,25 @@ private struct TableViewConstants {
 }
 
 class ProductCardViewModel {
-
     @Published var product: Product?
     let addToFavoritesPublisher = PassthroughSubject<Void, Never>()
     let submitReviewPublisher = PassthroughSubject<(rating: Double, reviewText: String), Never>()
     let reviewsButtonTappedPublisher = PassthroughSubject<Void, Never>()
 
     private let ratingViewModel: RatingViewViewModelProtocol
-    private var reviewViewViewModel: ProductReviewViewModelProtocol
-    private var priceInfoViewModel: PriceInfoViewViewModelProtocol?
+    private let reviewViewViewModel: ProductReviewViewModelProtocol
+    private let priceInfoViewModel: PriceInfoViewViewModelProtocol
+    private let profileService: ProfileServiceProtocol
 
     private var cancellables = Set<AnyCancellable>()
 
-    init(product: Product) {
+    init(product: Product, mockProfileService: ProfileServiceProtocol) {
         self.product = product
 
+        self.profileService = mockProfileService
         self.ratingViewModel = RatingViewViewModel(rating: product.rating ?? 1.0, numberOfReviews: 0)
         self.reviewViewViewModel = ProductReviewViewModel(productName: product.name)
-        self.priceInfoViewModel = PriceInfoViewViewModel(profileService: MockProfileService(), product: product)
+        self.priceInfoViewModel = PriceInfoViewViewModel(profileService: profileService, product: product)
 
         setupBindings()
     }
@@ -41,8 +42,6 @@ class ProductCardViewModel {
         guard let product = product else {
             print("Product is nil in setupPriceInfoView")
             return }
-
-        let priceInfoViewModel = PriceInfoViewViewModel(profileService: MockProfileService(), product: product)
 
         priceInfoView.viewModel = priceInfoViewModel
         print("ViewModel is set in PriceInfoView")

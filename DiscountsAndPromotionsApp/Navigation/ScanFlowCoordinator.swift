@@ -6,13 +6,14 @@ final class ScanFlowCoordinator: Coordinator {
     // вынес из функции чтобы вьюконтроллер не исчезал из памяти и кнопка работала
     private var scanVC: ScanViewController?
     private var productService: ProductNetworkServiceProtocol
+    private var profileService: ProfileServiceProtocol
 
     init(navigationController: UINavigationController,
-         productService: ProductNetworkServiceProtocol) {
+         productService: ProductNetworkServiceProtocol,
+         profileService: ProfileServiceProtocol) {
         self.navigationController = navigationController
         self.productService = productService
-
-//        self.navigationController.navigationBar.isHidden = true
+        self.profileService = profileService
     }
 
     func start() { }
@@ -52,7 +53,7 @@ final class ScanFlowCoordinator: Coordinator {
     }
 
     func showProduct(_ product: Product) {
-        let productViewModel = ProductCardViewModel(product: product)
+        let productViewModel = ProductCardViewModel(product: product, mockProfileService: profileService)
         let productVC = ProductCardViewController(viewModel: productViewModel)
         productVC.hidesBottomBarWhenPushed = true
         productVC.coordinator = self

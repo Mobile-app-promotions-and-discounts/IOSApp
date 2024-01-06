@@ -32,7 +32,7 @@ class PriceInfoView: UIView {
         viewModel?.updateDiscountPrice(discountPrice)
     }
 
-    private func bindViewModel() {
+    func bindViewModel() {
         print("Binding ViewModel")
         viewModel?.pricePublisher
             .map { "\($0) ₽" }
@@ -64,10 +64,10 @@ class PriceInfoView: UIView {
 
     private func updateFavoritesButtonState() {
         if let isFavorite = viewModel?.isFavorite {
-            toFavoritesButton.isUserInteractionEnabled = !isFavorite
+//            toFavoritesButton.isUserInteractionEnabled = !isFavorite
             toFavoritesButton.backgroundColor = isFavorite ? .cherryPrimaryDisabled : .cherryMainAccent
         } else {
-            toFavoritesButton.isUserInteractionEnabled = true
+//            toFavoritesButton.isUserInteractionEnabled = true
             toFavoritesButton.backgroundColor = .cherryMainAccent
         }
     }
@@ -102,6 +102,7 @@ class PriceInfoView: UIView {
         toFavoritesButton.layer.cornerRadius = CornerRadius.regular.cgFloat()
         toFavoritesButton.titleLabel?.font = CherryFonts.headerMedium
         toFavoritesButton.tintColor = .cherryBlack
+//        toFavoritesButton.addTarget(self, action: #selector(favoritesButtonTapped), for: .touchUpInside)
         addSubview(toFavoritesButton)
     }
 
@@ -128,4 +129,10 @@ class PriceInfoView: UIView {
             make.height.equalTo(51)
         }
     }
+
+//    @objc func favoritesButtonTapped() {
+//        viewModel?.addToFavorites.send()
+//        viewModel?.toggleFavorite()
+//        updateFavoritesButtonState()
+//    }
 }

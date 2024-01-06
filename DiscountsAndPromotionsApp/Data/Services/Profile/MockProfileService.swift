@@ -24,14 +24,14 @@ final class MockProfileService: ProfileServiceProtocol {
     }
 
     func getFavorites() -> [Product]? {
-        profile.favoritesProducts
+        Array(profile.favoritesProducts)
     }
 
     func addFavorite(_ product: Product) {
-        if profile.favoritesProducts.contains(where: { $0.id == product.id }) { return }
-
         var newFavorites = profile.favoritesProducts
-        newFavorites.append(product)
+        newFavorites.insert(product)
+
+        print(newFavorites.map { $0.id })
 
         profile = Profile(id: profile.id, avatar: profile.avatar, firstName: profile.firstName,
                                lastName: profile.lastName, phone: profile.phone, email: profile.email,

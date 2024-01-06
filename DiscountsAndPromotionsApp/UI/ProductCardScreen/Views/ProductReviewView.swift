@@ -69,7 +69,6 @@ class ProductReviewView: UIView {
                 .store(in: &cancellables)
         }
         addSubview(starsStackView)
-
     }
 
     private func setupReviewTextView() {
