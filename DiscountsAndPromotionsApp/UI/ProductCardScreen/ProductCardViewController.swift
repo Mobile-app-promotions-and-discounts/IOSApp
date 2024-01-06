@@ -31,15 +31,18 @@ class ProductCardViewController: UIViewController {
     }
 
     // Все кастомные вьюхи
-    private let galleryView = ImageGalleryView()
-    private let titleAndRatingView = UIView()
-    private let titleView = ProductTitleView()
-    private let ratingView = RatingView()
-    private let offersTableView = UITableView()
-    private let reviewView = ProductReviewView()
-    private let priceInfoView = PriceInfoView()
-    private let backButton = UIButton()
-    private let exportButton = UIButton()
+    private lazy var gallery = ImageGalleryController(transitionStyle: .scroll,
+                                                      navigationOrientation: .horizontal,
+                                                      options: nil)
+    private lazy var galleryView: UIView = gallery.view ?? UIView()
+    private lazy var titleAndRatingView = UIView()
+    private lazy var titleView = ProductTitleView()
+    private lazy var ratingView = RatingView()
+    private lazy var offersTableView = UITableView()
+    private lazy var reviewView = ProductReviewView()
+    private lazy var priceInfoView = PriceInfoView()
+    private lazy var backButton = UIButton()
+    private lazy var exportButton = UIButton()
 
     init(viewModel: ProductCardViewModel
     ) {
@@ -71,10 +74,10 @@ class ProductCardViewController: UIViewController {
 
         productScrollView.delegate = self
         productScrollView.contentInsetAdjustmentBehavior = .never
-
-        setupBindings()
-        configureViews(with: viewModel.product)
         setupUI()
+        setupBindings()
+//        configureViews(with: viewModel.product)
+
         print("Product in ProductCardViewController: \(String(describing: viewModel.product))")
 
         NotificationCenter.default.addObserver(self,
@@ -104,9 +107,7 @@ class ProductCardViewController: UIViewController {
     private func setupUI() {
         // Настройка UI-элементов
         setupProductLayout()
-//        setupButtonsLayout()
         setupTableView()
-//        setupProductNavigationBar()
     }
 
     private func setupBindings() {
@@ -121,7 +122,7 @@ class ProductCardViewController: UIViewController {
     private func configureViews(with product: Product?) {
         // Обновление UI на основе данных из ViewModel
         guard viewModel.product != nil else { return }
-        viewModel.configureGalleryView(galleryView)
+        viewModel.configureGalleryView(gallery)
         viewModel.configureTitleView(titleView)
         viewModel.configureRatingView(ratingView)
         viewModel.configureReviewView(reviewView)
@@ -135,7 +136,7 @@ class ProductCardViewController: UIViewController {
 
         contentView.backgroundColor = .cherryLightBlue
         [galleryView, titleAndRatingView, offersTableView, reviewView, priceInfoView].forEach {
-            contentView.addSubview($0)
+                contentView.addSubview($0)
         }
 
         titleAndRatingView.backgroundColor = .cherryWhite

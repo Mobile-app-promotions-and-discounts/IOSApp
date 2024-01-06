@@ -1,10 +1,3 @@
-//
-//  ProductCardViewModel.swift
-//  DiscountsAndPromotionsApp
-//
-//  Created by Денис on 15.12.2023.
-//
-
 import UIKit
 import Combine
 
@@ -67,7 +60,7 @@ class ProductCardViewModel {
 
         reviewViewViewModel.submitReview
             .sink { [weak self] rating, reviewText in
-                        // Обработка отправки отзыва
+                // Обработка отправки отзыва
                 print("Отзыв с рейтингом \(rating): \(reviewText)")
             }
             .store(in: &cancellables)
@@ -91,87 +84,76 @@ class ProductCardViewModel {
 
     // MARK: Конфиг UI Элементов
 
-    func configureGalleryView(_ galleryView: ImageGalleryView) {
-        var images: [UIImage] = []
-        // Добавление основного изображения
-        if let mainImageName = product?.image?.mainImage, let mainImage = UIImage(named: mainImageName) {
+    func configureGalleryView(_ galleryView: ImageGalleryController) {
+        var images = [String]()
+        if let mainImage = product?.image?.mainImage {
             images.append(mainImage)
         }
-        // Добавление доп изображений
-        if let additionalPhotos = product?.image?.additionalPhoto {
-            for photoName in additionalPhotos {
-                if let image = UIImage(named: photoName) {
-                    images.append(image)
-                }
+        if let additionalImages = product?.image?.additionalPhoto {
+            for image in additionalImages {
+                images.append(image)
+            }
+        }
+        galleryView.addURLs(urls: images)
+    }
+
+        func configureTitleView(_ titleView: ProductTitleView) {
+            if let titleLabelText = product?.name, let weightLabelText = product?.description {
+                titleView.configure(with: titleLabelText, weight: weightLabelText)
+            } else {
+                titleView.configure(with: "Title", weight: "Weight")
             }
         }
 
-        // Если основное и дополнительные изображения отсутствуют, используем заглушку
-        if images.isEmpty, let placeholderImage = UIImage(named: "placeholder") {
-            images.append(placeholderImage)
-            images.append(placeholderImage)
+        func configureRatingView(_ ratingView: RatingView) {
+            if let rating = product?.rating {
+                ratingView.configure(with: rating, numberOfReviews: 0)
+            } else {
+                ratingView.configure(with: 1.0, numberOfReviews: 1)
+            }
         }
 
-        galleryView.configure(with: images)
-    }
+        func configureReviewView(_ reviewView: ProductReviewView) {
+            if let productName = product?.name {
+                reviewView.configure(with: productName)
+            }
+        }
 
-    func configureTitleView(_ titleView: ProductTitleView) {
-        if let titleLabelText = product?.name, let weightLabelText = product?.description {
-            titleView.configure(with: titleLabelText, weight: weightLabelText)
-        } else {
-            titleView.configure(with: "Title", weight: "Weight")
+        func configurePriceInfoView(_ priceInfoView: PriceInfoView) {
+            if let product = product {
+                let minPrice = product.findMinMaxOffers().minOffer?.price ?? 0
+                print("Configuring PriceInfoView with price: \(minPrice)")
+                priceInfoView.configure(with: 180, discountPrice: Int(minPrice))
+            }
+        }
+
+        // Методы для UITableViewDataSource
+        func numberOfRowsInSection(_ section: Int) -> Int {
+            return product?.offers.count ?? 0
+        }
+
+        func cellForRowAt(_ tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "OfferTableViewCell", for: indexPath) as? OfferTableViewCell,
+                  let offer = product?.offers[indexPath.row] else {
+                return UITableViewCell()
+            }
+            cell.selectionStyle = .none
+            cell.configure(with: offer)
+            return cell
+        }
+
+        func heightForRow(at indexPath: IndexPath) -> CGFloat {
+            return 60
+        }
+
+        // Другие методы
+
+        func calculateTableViewHeight() -> CGFloat {
+            let numberOfCells = CGFloat(product?.offers.count ?? 0)
+            return TableViewConstants.headerHeight +
+            TableViewConstants.topPadding +
+            TableViewConstants.footerHeight +
+            (TableViewConstants.cellHeight + TableViewConstants.cellSpacing) * numberOfCells -
+            TableViewConstants.cellSpacing
         }
     }
-
-    func configureRatingView(_ ratingView: RatingView) {
-        if let rating = product?.rating {
-            ratingView.configure(with: rating, numberOfReviews: 0)
-        } else {
-            ratingView.configure(with: 1.0, numberOfReviews: 1)
-        }
-    }
-
-    func configureReviewView(_ reviewView: ProductReviewView) {
-        if let productName = product?.name {
-            reviewView.configure(with: productName)
-        }
-    }
-
-    func configurePriceInfoView(_ priceInfoView: PriceInfoView) {
-        if let product = product {
-            let minPrice = product.findMinMaxOffers().minOffer?.price ?? 0
-            print("Configuring PriceInfoView with price: \(minPrice)")
-            priceInfoView.configure(with: 180, discountPrice: Int(minPrice))
-        }
-    }
-
-    // Методы для UITableViewDataSource
-    func numberOfRowsInSection(_ section: Int) -> Int {
-        return product?.offers.count ?? 0
-    }
-
-    func cellForRowAt(_ tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "OfferTableViewCell", for: indexPath) as? OfferTableViewCell,
-              let offer = product?.offers[indexPath.row] else {
-            return UITableViewCell()
-        }
-        cell.selectionStyle = .none
-        cell.configure(with: offer)
-        return cell
-    }
-
-    func heightForRow(at indexPath: IndexPath) -> CGFloat {
-        return 60
-    }
-
-    // Другие методы
-
-    func calculateTableViewHeight() -> CGFloat {
-        let numberOfCells = CGFloat(product?.offers.count ?? 0)
-               return TableViewConstants.headerHeight +
-                      TableViewConstants.topPadding +
-                      TableViewConstants.footerHeight +
-                      (TableViewConstants.cellHeight + TableViewConstants.cellSpacing) * numberOfCells -
-                      TableViewConstants.cellSpacing
-    }
-}
