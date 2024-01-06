@@ -34,7 +34,18 @@ class ProductCardViewController: UIViewController {
     private lazy var gallery = ImageGalleryController(transitionStyle: .scroll,
                                                       navigationOrientation: .horizontal,
                                                       options: nil)
-    private lazy var galleryView: UIView = gallery.view ?? UIView()
+    private lazy var galleryView: UIView = {
+        let gallery = gallery.view ?? UIView()
+
+        let galleryBackground = UIView()
+        galleryBackground.backgroundColor = .cherryWhite
+        galleryBackground.addSubview(gallery)
+
+        gallery.snp.makeConstraints { make in
+            make.top.bottom.trailing.leading.equalToSuperview()
+        }
+        return galleryBackground
+    }()
     private lazy var titleAndRatingView = UIView()
     private lazy var titleView = ProductTitleView()
     private lazy var ratingView = RatingView()
@@ -141,6 +152,7 @@ class ProductCardViewController: UIViewController {
 
         titleAndRatingView.backgroundColor = .cherryWhite
         titleAndRatingView.layer.cornerRadius = CornerRadius.regular.cgFloat()
+        titleAndRatingView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMinXMaxYCorner]
         [titleView, ratingView].forEach {
             titleAndRatingView.addSubview($0)
         }

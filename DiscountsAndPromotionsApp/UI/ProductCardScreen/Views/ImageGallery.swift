@@ -53,6 +53,7 @@ final class ImageGalleryController: UIPageViewController {
         if !pageControllers.isEmpty {
             pageControl.numberOfPages = pageControllers.count
             pageControl.isHidden = pageControllers.count < 2
+            view.isUserInteractionEnabled = pageControllers.count > 1
             setupIndicatorsForPage(0)
             setViewControllers([pageControllers[0]], direction: .forward, animated: true, completion: nil)
         }
