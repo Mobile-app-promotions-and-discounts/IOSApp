@@ -47,7 +47,8 @@ class ProductReviewView: UIView {
         titleLabel.text = "Как Вам этот товар?"
         titleLabel.numberOfLines = 0
         titleLabel.textAlignment = .center
-        titleLabel.font = CherryFonts.headerLarge
+        titleLabel.textColor = .cherryBlack
+        titleLabel.font = CherryFonts.headerMedium
         addSubview(titleLabel)
     }
 

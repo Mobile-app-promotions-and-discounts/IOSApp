@@ -13,7 +13,15 @@ class PriceInfoView: UIView {
 
     private var cancellables = Set<AnyCancellable>()
 
-    private let toFavoritesButton = PrimaryButton()
+    private lazy var toFavoritesButton: UIButton = {
+        let button = PrimaryButton(type: .custom)
+        button.setTitle("В избранное", for: .normal)
+        button.setTitle("Убрать из избранного", for: .selected)
+        button.titleLabel?.textAlignment = .center
+        button.titleLabel?.numberOfLines = 0
+        button.titleLabel?.adjustsFontSizeToFitWidth = true
+        return button
+    }()
     private let worstOriginPrice = UILabel()
     private let bestDiscountPrice = UILabel()
 
@@ -64,11 +72,7 @@ class PriceInfoView: UIView {
 
     private func updateFavoritesButtonState() {
         if let isFavorite = viewModel?.isFavorite {
-//            toFavoritesButton.isUserInteractionEnabled = !isFavorite
-            toFavoritesButton.backgroundColor = isFavorite ? .cherryPrimaryDisabled : .cherryMainAccent
-        } else {
-//            toFavoritesButton.isUserInteractionEnabled = true
-            toFavoritesButton.backgroundColor = .cherryMainAccent
+            toFavoritesButton.isSelected = isFavorite
         }
     }
 
@@ -97,7 +101,6 @@ class PriceInfoView: UIView {
     }
 
     private func setupToFavoritesButton() {
-        toFavoritesButton.setTitle("В избранное", for: .normal)
         toFavoritesButton.backgroundColor = .lightGray
         toFavoritesButton.layer.cornerRadius = CornerRadius.regular.cgFloat()
         toFavoritesButton.titleLabel?.font = CherryFonts.headerMedium
@@ -128,10 +131,4 @@ class PriceInfoView: UIView {
             make.height.equalTo(51)
         }
     }
-
-//    @objc func favoritesButtonTapped() {
-//        viewModel?.addToFavorites.send()
-//        viewModel?.toggleFavorite()
-//        updateFavoritesButtonState()
-//    }
 }
