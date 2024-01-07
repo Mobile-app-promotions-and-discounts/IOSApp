@@ -41,9 +41,21 @@ class ProductCardViewController: UIViewController {
         }
         return galleryBackground
     }()
-    private lazy var titleAndRatingView = UIView()
-    private lazy var titleView = ProductTitleView()
+    private lazy var titleAndRatingView = {
+        let view = UIView()
+        view.backgroundColor = .cherryWhite
+        view.layer.cornerRadius = CornerRadius.regular.cgFloat()
+        view.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        return view
+    }()
     private lazy var ratingView = RatingView()
+    private lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        label.font = CherryFonts.headerLarge
+        label.textColor = .cherryBlack
+        label.numberOfLines = 0
+        return label
+    }()
     private lazy var offersTableView = UITableView()
     private lazy var reviewView = ProductReviewView()
     private lazy var priceInfoView = PriceInfoView()
@@ -130,7 +142,7 @@ class ProductCardViewController: UIViewController {
         // Обновление UI на основе данных из ViewModel
         guard viewModel.product != nil else { return }
         viewModel.configureGalleryView(gallery)
-        viewModel.configureTitleView(titleView)
+        viewModel.configureTitle(titleLabel)
         viewModel.configureRatingView(ratingView)
         viewModel.configureReviewView(reviewView)
         viewModel.configurePriceInfoView(priceInfoView)
@@ -149,8 +161,8 @@ class ProductCardViewController: UIViewController {
 
         titleAndRatingView.backgroundColor = .cherryWhite
         titleAndRatingView.layer.cornerRadius = CornerRadius.regular.cgFloat()
-        titleAndRatingView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMinXMaxYCorner]
-        [titleView, ratingView].forEach {
+        titleAndRatingView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        [titleLabel, ratingView].forEach {
             titleAndRatingView.addSubview($0)
         }
 
@@ -194,25 +206,22 @@ class ProductCardViewController: UIViewController {
 
         titleAndRatingView.snp.makeConstraints { make in
             make.top.equalTo(galleryView.snp.bottom)
-            make.height.equalTo(148)
         }
 
-        titleView.snp.makeConstraints { make in
+        titleLabel.snp.makeConstraints { make in
             make.top.equalTo(titleAndRatingView).offset(16)
-            make.height.equalTo(50)
+            make.leading.trailing.equalToSuperview().inset(16)
         }
 
         ratingView.snp.makeConstraints { make in
-            make.top.equalTo(titleView.snp.bottom).offset(16)
-//            make.leading.equalTo(scrollContentContainer).offset(16)
-//            make.trailing.equalTo(scrollContentContainer).offset(-16)
+            make.top.equalTo(titleLabel.snp.bottom).offset(16)
+            make.leading.trailing.bottom.equalToSuperview().inset(16)
             make.height.equalTo(58)
-//            make.width.equalTo(contentView.frame.width)
         }
 
         offersTableView.layer.cornerRadius = CornerRadius.regular.cgFloat()
         offersTableView.snp.makeConstraints { make in
-            make.top.equalTo(titleView.snp.bottom).offset(22)
+            make.top.equalTo(titleAndRatingView.snp.bottom).offset(16)
             make.height.equalTo(viewModel.calculateTableViewHeight())
         }
 

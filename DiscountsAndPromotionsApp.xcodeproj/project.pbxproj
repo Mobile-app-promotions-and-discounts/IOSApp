@@ -107,7 +107,6 @@
 		BCCF501F2B1B4AF10067A552 /* PriceInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCF4FF72B1B4AF10067A552 /* PriceInfoView.swift */; };
 		BCCF50202B1B4AF10067A552 /* OfferCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCF4FF82B1B4AF10067A552 /* OfferCell.swift */; };
 		BCCF50212B1B4AF10067A552 /* RatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCF4FF92B1B4AF10067A552 /* RatingView.swift */; };
-		BCCF50222B1B4AF10067A552 /* ProductTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCF4FFA2B1B4AF10067A552 /* ProductTitleView.swift */; };
 		BCCF50232B1B4AF10067A552 /* ImageGallery.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCF4FFB2B1B4AF10067A552 /* ImageGallery.swift */; };
 		BCCF50252B1B4D390067A552 /* ProductCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCF50242B1B4D390067A552 /* ProductCardViewController.swift */; };
 		BCCF50272B1B4E090067A552 /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCF50262B1B4E090067A552 /* UIButton+Extension.swift */; };
@@ -273,7 +272,6 @@
 		BCCF4FF72B1B4AF10067A552 /* PriceInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PriceInfoView.swift; sourceTree = "<group>"; };
 		BCCF4FF82B1B4AF10067A552 /* OfferCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfferCell.swift; sourceTree = "<group>"; };
 		BCCF4FF92B1B4AF10067A552 /* RatingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingView.swift; sourceTree = "<group>"; };
-		BCCF4FFA2B1B4AF10067A552 /* ProductTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductTitleView.swift; sourceTree = "<group>"; };
 		BCCF4FFB2B1B4AF10067A552 /* ImageGallery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageGallery.swift; sourceTree = "<group>"; };
 		BCCF50242B1B4D390067A552 /* ProductCardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductCardViewController.swift; sourceTree = "<group>"; };
 		BCCF50262B1B4E090067A552 /* UIButton+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
@@ -753,7 +751,6 @@
 			children = (
 				BCCF4FFB2B1B4AF10067A552 /* ImageGallery.swift */,
 				BC411C692B49A1260045CE23 /* GalleryPage.swift */,
-				BCCF4FFA2B1B4AF10067A552 /* ProductTitleView.swift */,
 				BCCF4FF92B1B4AF10067A552 /* RatingView.swift */,
 				BCCF4FF82B1B4AF10067A552 /* OfferCell.swift */,
 				BCCF4FF62B1B4AF10067A552 /* ProductReviewView.swift */,
@@ -1229,7 +1226,6 @@
 				BCCF50052B1B4AF10067A552 /* StoresCell.swift in Sources */,
 				BCAC6B7D2B223C4100AD5C96 /* TokenResponseModel.swift in Sources */,
 				BE70C22B2B1E5E43004FD1E9 /* CategoryUIModel.swift in Sources */,
-				BCCF50222B1B4AF10067A552 /* ProductTitleView.swift in Sources */,
 				92787F722B1F5F5F0045B678 /* Localization.swift in Sources */,
 				BC6046052B1E3C9E00536EB3 /* CategoryCell.swift in Sources */,
 				BC93BB6B2B0BCBF1008BE2AD /* StringBarcodeExtension.swift in Sources */,
