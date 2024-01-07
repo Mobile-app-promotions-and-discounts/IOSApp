@@ -13,14 +13,14 @@ final class MockProfileService: ProfileServiceProtocol {
 
     init() {
         self.profile = Profile(id: nil,
-                                    avatar: "",
-                                    firstName: nil,
-                                    lastName: nil,
-                                    phone: nil,
-                                    email: "",
-                                    birthdate: nil,
-                                    gender: nil,
-                                    favoritesProducts: [])
+                               avatar: "",
+                               firstName: nil,
+                               lastName: nil,
+                               phone: nil,
+                               email: "",
+                               birthdate: nil,
+                               gender: nil,
+                               favoritesProducts: [])
     }
 
     func getFavorites() -> [Product]? {
@@ -34,18 +34,18 @@ final class MockProfileService: ProfileServiceProtocol {
         print(newFavorites.map { $0.id })
 
         profile = Profile(id: profile.id, avatar: profile.avatar, firstName: profile.firstName,
-                               lastName: profile.lastName, phone: profile.phone, email: profile.email,
-                               birthdate: profile.birthdate, gender: profile.gender,
-                               favoritesProducts: newFavorites)
+                          lastName: profile.lastName, phone: profile.phone, email: profile.email,
+                          birthdate: profile.birthdate, gender: profile.gender,
+                          favoritesProducts: newFavorites)
     }
 
     func removeFavorite(_ product: Product) {
         let newFavorites = profile.favoritesProducts.filter { $0.id != product.id }
 
         profile = Profile(id: profile.id, avatar: profile.avatar, firstName: profile.firstName,
-                               lastName: profile.lastName, phone: profile.phone, email: profile.email,
-                               birthdate: profile.birthdate, gender: profile.gender,
-                               favoritesProducts: newFavorites)
+                          lastName: profile.lastName, phone: profile.phone, email: profile.email,
+                          birthdate: profile.birthdate, gender: profile.gender,
+                          favoritesProducts: newFavorites)
     }
 
     func isFavorite(_ product: Product) -> Bool {

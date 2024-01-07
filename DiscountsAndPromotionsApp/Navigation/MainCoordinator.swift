@@ -34,6 +34,12 @@ final class MainCoordinator: Coordinator {
         let splashViewController = SplashViewController()
         splashViewController.coordinator = self
         navigationController.viewControllers = [splashViewController]
+
+        if AuthTokenStorage.shared.refreshToken == nil {
+            authService.getToken(for: NetworkBaseConfiguration.testUser)
+        } else {
+            authService.verifyToken()
+        }
     }
 
     func navigateToMainScreen() {

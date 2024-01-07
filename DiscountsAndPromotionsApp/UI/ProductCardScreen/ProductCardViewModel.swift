@@ -93,7 +93,7 @@ class ProductCardViewModel {
                 images.append(image)
             }
         }
-        galleryView.addURLs(urls: images)
+        galleryView.setURLs(urls: images)
     }
 
         func configureTitleView(_ titleView: ProductTitleView) {

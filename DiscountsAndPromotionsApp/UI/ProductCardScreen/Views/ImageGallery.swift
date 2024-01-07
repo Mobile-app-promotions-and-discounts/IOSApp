@@ -24,7 +24,8 @@ final class ImageGalleryController: UIPageViewController {
     }
 
     // передать сюда адреса картинок для галереи
-    func addURLs(urls: [String]) {
+    func setURLs(urls: [String]) {
+        imageURLs = []
         urls.forEach {
             if let url = URL(string: $0) {
                 imageURLs.append(url)
