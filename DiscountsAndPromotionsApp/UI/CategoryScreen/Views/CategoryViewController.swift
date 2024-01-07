@@ -145,7 +145,8 @@ extension CategoryViewController: UICollectionViewDataSource {
             // Обработка заголовка
             guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
                                                                                withReuseIdentifier: SortsHeaderView.reuseIdentifier,
-                                                                               for: indexPath) as? SortsHeaderView else {
+                                                                               for: indexPath) as? SortsHeaderView
+            else {
                 return UICollectionReusableView()
             }
 
@@ -156,7 +157,8 @@ extension CategoryViewController: UICollectionViewDataSource {
             // Обработка подвала
             guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
                                                                                withReuseIdentifier: FooterView.reuseIdentifier,
-                                                                               for: indexPath) as? FooterView else {
+                                                                               for: indexPath) as? FooterView
+            else {
                 return UICollectionReusableView()
             }
 
@@ -169,7 +171,8 @@ extension CategoryViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductCell.reuseIdentifier,
-                                                            for: indexPath) as? ProductCell else {
+                                                            for: indexPath) as? ProductCell
+        else {
             return UICollectionViewCell()
         }
 

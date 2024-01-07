@@ -35,6 +35,9 @@ struct ProductResponseModel: Codable {
 
         var offers: [Offer] = []
 
+        var modelRating: Double?
+        if let responseRating = self.rating { modelRating = Double(responseRating) }
+
         if let originalOffers: [StoreElementResponseModel] = self.stores {
             for offer in originalOffers {
                 if let price = Double(offer.promoPrice),
@@ -55,7 +58,7 @@ struct ProductResponseModel: Codable {
                        description: self.description ?? "",
                        category: category,
                        image: image,
-                       rating: nil,
+                       rating: modelRating,
                        offers: offers)
     }
 }

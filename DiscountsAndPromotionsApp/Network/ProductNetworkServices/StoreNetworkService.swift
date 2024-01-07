@@ -48,7 +48,6 @@ actor StoreNetworkService: StoreNetworkServiceProtocol {
 
         do {
             let chainsResponse: StoreChainsResponseModel = try await networkClient.request(for: urlRequest)
-            print(chainsResponse)
             print("Store chains fetched successfully")
 
             self.chainList = chainsResponse.sorted { $0.id < $1.id }
@@ -82,7 +81,6 @@ actor StoreNetworkService: StoreNetworkServiceProtocol {
 
         do {
             let storesResponse: StoresResponseModel = try await networkClient.request(for: urlRequest)
-            print(storesResponse)
             print("Stores fetched successfully")
 
             self.storeList = storesResponse.sorted { $0.id < $1.id }

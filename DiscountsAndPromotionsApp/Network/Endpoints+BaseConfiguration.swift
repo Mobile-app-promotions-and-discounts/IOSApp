@@ -93,7 +93,7 @@ enum HttpMethod: String {
 
 // MARK: - Базовый URL и, тестовый пользователь, общие вспомогательные методы для формирования запросов
 struct NetworkBaseConfiguration {
-    static let testUser = UserRequestModel(username: "ivanov@example.com",
+    static let testUser = UserRequestModel(username: "petrov@example.com",
                                            password: "cherryapp")
     static let baseURL = "http://193.107.239.130"
     static func accessTokenHeader() -> [String: String] {

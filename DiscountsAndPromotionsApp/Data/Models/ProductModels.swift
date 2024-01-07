@@ -1,6 +1,6 @@
 import Foundation
 
-struct Product: Codable {
+struct Product: Codable, Hashable {
     let id: Int
     let barcode: String
     let name: String
@@ -27,15 +27,19 @@ struct Product: Codable {
         self.rating = rating
         self.offers = offers
     }
+
+    static func == (lhs: Product, rhs: Product) -> Bool {
+        return lhs.id == rhs.id
+    }
 }
 
-struct Category: Codable {
+struct Category: Codable, Hashable {
     let id: Int
     let name: String
     let image: String
 }
 
-struct Offer: Codable {
+struct Offer: Codable, Hashable {
     let id: Int
     let price: Double
     let initialPrice: Double
@@ -53,14 +57,18 @@ struct Offer: Codable {
         self.discount = discount
         self.store = store
     }
+
+    static func == (lhs: Offer, rhs: Offer) -> Bool {
+        return lhs.id == rhs.id
+    }
 }
 
-struct ProductImage: Codable {
+struct ProductImage: Codable, Hashable {
     let mainImage: String?
     let additionalPhoto: [String]?
 }
 
-struct Store: Codable {
+struct Store: Codable, Hashable {
     let id: Int
     let name: String
     let image: StoreImage?
@@ -78,14 +86,18 @@ struct Store: Codable {
         self.location = location
         self.chainStore = chainStore
     }
+
+    static func == (lhs: Store, rhs: Store) -> Bool {
+        return lhs.id == rhs.id
+    }
 }
 
-struct StoreImage: Codable {
+struct StoreImage: Codable, Hashable {
     let mainImage: String?
     let logoImage: String?
 }
 
-struct StoreLocation: Codable {
+struct StoreLocation: Codable, Hashable {
     let region: String
     let city: String
     let street: String
@@ -93,12 +105,12 @@ struct StoreLocation: Codable {
     let postalIndex: Int
 }
 
-struct ChainStore: Codable {
+struct ChainStore: Codable, Hashable {
     let id: Int
     let name: String
 }
 
-struct Discount: Codable {
+struct Discount: Codable, Hashable {
     let discountRate: Int
     let discountUnit: String
     let discountRating: Int

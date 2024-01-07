@@ -13,7 +13,15 @@ class PriceInfoView: UIView {
 
     private var cancellables = Set<AnyCancellable>()
 
-    private let toFavoritesButton = PrimaryButton()
+    private lazy var toFavoritesButton: UIButton = {
+        let button = PrimaryButton(type: .custom)
+        button.setTitle("В избранное", for: .normal)
+        button.setTitle("Убрать из избранного", for: .selected)
+        button.titleLabel?.textAlignment = .center
+        button.titleLabel?.numberOfLines = 0
+        button.titleLabel?.adjustsFontSizeToFitWidth = true
+        return button
+    }()
     private let worstOriginPrice = UILabel()
     private let bestDiscountPrice = UILabel()
 
@@ -32,7 +40,7 @@ class PriceInfoView: UIView {
         viewModel?.updateDiscountPrice(discountPrice)
     }
 
-    private func bindViewModel() {
+    func bindViewModel() {
         print("Binding ViewModel")
         viewModel?.pricePublisher
             .map { "\($0) ₽" }
@@ -64,11 +72,7 @@ class PriceInfoView: UIView {
 
     private func updateFavoritesButtonState() {
         if let isFavorite = viewModel?.isFavorite {
-            toFavoritesButton.isUserInteractionEnabled = !isFavorite
-            toFavoritesButton.backgroundColor = isFavorite ? .cherryPrimaryDisabled : .cherryMainAccent
-        } else {
-            toFavoritesButton.isUserInteractionEnabled = true
-            toFavoritesButton.backgroundColor = .cherryMainAccent
+            toFavoritesButton.isSelected = isFavorite
         }
     }
 
@@ -83,7 +87,7 @@ class PriceInfoView: UIView {
         worstOriginPrice.textColor = .gray
         worstOriginPrice.font = CherryFonts.textMedium
         worstOriginPrice.attributedText = NSAttributedString(
-            string: "300р",
+            string: "...",
             attributes: [NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.single.rawValue]
         )
         addSubview(worstOriginPrice)
@@ -92,12 +96,11 @@ class PriceInfoView: UIView {
     private func setupBestDiscountPriceLabel() {
         bestDiscountPrice.textColor = .black
         bestDiscountPrice.font = CherryFonts.headerExtraLarge
-        bestDiscountPrice.text = "от 150р"
+        bestDiscountPrice.text = "от ..."
         addSubview(bestDiscountPrice)
     }
 
     private func setupToFavoritesButton() {
-        toFavoritesButton.setTitle("В Избранное", for: .normal)
         toFavoritesButton.backgroundColor = .lightGray
         toFavoritesButton.layer.cornerRadius = CornerRadius.regular.cgFloat()
         toFavoritesButton.titleLabel?.font = CherryFonts.headerMedium

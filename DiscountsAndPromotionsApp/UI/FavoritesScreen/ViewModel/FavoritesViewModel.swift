@@ -58,7 +58,7 @@ final class FavoritesViewModel: FavoritesViewModelProtocol {
         profileService.updatedProfile
             .sink { [weak self] updatedProfile in
                 guard let self = self else { return }
-                self.favoriteProducts = updatedProfile.favoritesProducts
+                self.favoriteProducts = Array(updatedProfile.favoritesProducts)
             }
             .store(in: &cancellables)
     }
