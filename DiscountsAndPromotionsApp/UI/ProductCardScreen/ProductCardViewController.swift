@@ -15,19 +15,15 @@ class ProductCardViewController: UIViewController {
         let scrollView = UIScrollView()
         scrollView.alwaysBounceVertical = true
         scrollView.showsVerticalScrollIndicator = true
-        scrollView.contentSize = contentSize
         return scrollView
     }()
 
-    private lazy var contentView: UIView = {
-        let view = UIView()
-        view.frame.size = contentSize
-        return view
+    private lazy var scrollContentContainer = {
+        let container = UIStackView()
+        container.axis = .vertical
+        container.spacing = 12
+        return container
     }()
-
-    private var contentSize: CGSize {
-        CGSize(width: view.frame.width, height: view.frame.height + 900)
-    }
 
     // Все кастомные вьюхи
     private lazy var gallery = ImageGalleryController(transitionStyle: .scroll,
@@ -145,11 +141,10 @@ class ProductCardViewController: UIViewController {
         [productScrollView, priceInfoView].forEach {
             view.addSubview($0)
         }
-        productScrollView.addSubview(contentView)
+        productScrollView.addSubview(scrollContentContainer)
 
-        contentView.backgroundColor = .cherryLightBlue
         [galleryView, titleAndRatingView, offersTableView, reviewView].forEach {
-                contentView.addSubview($0)
+            scrollContentContainer.addArrangedSubview($0)
         }
 
         titleAndRatingView.backgroundColor = .cherryWhite
@@ -169,7 +164,7 @@ class ProductCardViewController: UIViewController {
         gradientLayer.startPoint = CGPoint(x: 0.5, y: 1.0)
         gradientLayer.endPoint = CGPoint(x: 0.5, y: 0.5)
         gradientLayer.locations = [0.0, 1.0]
-        gradientLayer.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: 400)
+        gradientLayer.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: statusBarHeight * 2)
         view.layer.insertSublayer(gradientLayer, at: 0)
         view.backgroundColor = .cherryLightBlue
 
@@ -183,58 +178,51 @@ class ProductCardViewController: UIViewController {
         productScrollView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(statusBarHeight)
             make.leading.bottom.trailing.equalToSuperview()
-//            make.bottom.equalTo(priceInfoView.snp.top)
         }
-        productScrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: priceInfoView.frame.height, right: 0)
+        productScrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 96, right: 0)
         productScrollView.backgroundColor = .clear
 
-        contentView.snp.makeConstraints { make in
-            make.top.bottom.leading.trailing.equalTo(productScrollView)
-//            make.bottom.equalTo(priceInfoView.snp.top)
+        scrollContentContainer.snp.makeConstraints { make in
+            make.top.bottom.leading.trailing.equalTo(productScrollView.contentLayoutGuide)
         }
 
         galleryView.snp.makeConstraints { make in
-            make.top.leading.trailing.equalToSuperview()
+            make.top.equalToSuperview()
             make.height.equalTo(316)
-            make.width.equalToSuperview()
+            make.width.equalTo(view)
         }
 
         titleAndRatingView.snp.makeConstraints { make in
             make.top.equalTo(galleryView.snp.bottom)
-            make.leading.equalTo(contentView)
             make.height.equalTo(148)
-            make.width.equalTo(contentView.frame.width)
         }
 
         titleView.snp.makeConstraints { make in
             make.top.equalTo(titleAndRatingView).offset(16)
-            make.leading.equalTo(contentView)
             make.height.equalTo(50)
-            make.width.equalTo(contentView.frame.width)
         }
 
         ratingView.snp.makeConstraints { make in
             make.top.equalTo(titleView.snp.bottom).offset(16)
-            make.leading.equalTo(contentView).offset(16)
-            make.trailing.equalTo(contentView).offset(-16)
+//            make.leading.equalTo(scrollContentContainer).offset(16)
+//            make.trailing.equalTo(scrollContentContainer).offset(-16)
             make.height.equalTo(58)
-            make.width.equalTo(contentView.frame.width)
+//            make.width.equalTo(contentView.frame.width)
         }
 
         offersTableView.layer.cornerRadius = CornerRadius.regular.cgFloat()
         offersTableView.snp.makeConstraints { make in
-            make.top.equalTo(ratingView.snp.bottom).offset(22)
-            make.leading.trailing.equalTo(contentView)
+            make.top.equalTo(titleView.snp.bottom).offset(22)
             make.height.equalTo(viewModel.calculateTableViewHeight())
-            make.width.equalTo(contentView.frame.width)
         }
 
         reviewView.backgroundColor = .cherryWhite
         reviewView.layer.cornerRadius = CornerRadius.regular.cgFloat()
         reviewView.snp.makeConstraints { make in
             make.top.equalTo(offersTableView.snp.bottom).offset(16)
-            make.leading.equalToSuperview()
+//            make.leading.trailing.equalToSuperview()
             make.trailing.equalToSuperview()
+            make.bottom.equalToSuperview().offset(-164)
         }
     }
 
@@ -313,7 +301,7 @@ extension ProductCardViewController {
 
         // Проверяем, активен ли UITextView внутри ProductReviewView
         if reviewView.isFirstResponder {
-            let rectInScrollView = productScrollView.convert(reviewView.frame, from: contentView)
+            let rectInScrollView = productScrollView.convert(reviewView.frame, from: scrollContentContainer)
             let offset = rectInScrollView.maxY - (view.bounds.height - keyboardHeight)
             let adjustedOffset = offset + 30
             if offset > 0 {
