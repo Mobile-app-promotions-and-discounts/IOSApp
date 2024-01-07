@@ -118,6 +118,13 @@ class ProductCardViewController: UIViewController {
         navigationController?.setNavigationBarHidden(false, animated: false)
        }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        UIView.animate(withDuration: 0.15) { [weak self] in
+            self?.navigationController?.navigationBar.alpha = 1.0
+        }
+    }
+
     // MARK: - Private Func
     private func setupUI() {
         // Настройка UI-элементов
@@ -229,7 +236,6 @@ class ProductCardViewController: UIViewController {
         reviewView.layer.cornerRadius = CornerRadius.regular.cgFloat()
         reviewView.snp.makeConstraints { make in
             make.top.equalTo(offersTableView.snp.bottom).offset(16)
-//            make.leading.trailing.equalToSuperview()
             make.trailing.equalToSuperview()
             make.bottom.equalToSuperview().offset(-164)
         }

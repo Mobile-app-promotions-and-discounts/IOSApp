@@ -47,17 +47,23 @@ final class ScanFlowCoordinator: Coordinator {
     }
 
     func navigateToEmptyResultScreen() {
-        let emptyVC = EmptyScanResultViewController()
-        emptyVC.coordinator = self
-        navigationController.pushViewController(emptyVC, animated: true)
+        DispatchQueue.main.async { [weak self] in
+            let emptyVC = EmptyScanResultViewController()
+            emptyVC.coordinator = self
+            self?.navigationController.pushViewController(emptyVC, animated: true)
+        }
     }
 
     func showProduct(_ product: Product) {
-        let productViewModel = ProductCardViewModel(product: product, mockProfileService: profileService)
-        let productVC = ProductCardViewController(viewModel: productViewModel)
-        productVC.hidesBottomBarWhenPushed = true
-        productVC.coordinator = self
-        navigationController.show(productVC, sender: nil)
-        navigationController.navigationBar.isHidden = true
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            let productViewModel = ProductCardViewModel(product: product, mockProfileService: profileService)
+            let productVC = ProductCardViewController(viewModel: productViewModel)
+            productVC.hidesBottomBarWhenPushed = true
+            productVC.coordinator = self
+            navigationController.navigationBar.isHidden = false
+            navigationController.navigationBar.alpha = 0.0
+            navigationController.pushViewController(productVC, animated: true)
+        }
     }
 }

@@ -135,6 +135,7 @@ actor AuthService: AuthServiceProtocol {
             print("Token refresh error: \(error.localizedDescription)")
 
             isTokenValid = false
+            logout()
             if let error = error as? AppError {
                 ErrorHandler.handle(error: error)
             } else {
