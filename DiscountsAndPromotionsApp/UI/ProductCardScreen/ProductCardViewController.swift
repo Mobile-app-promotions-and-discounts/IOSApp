@@ -3,7 +3,6 @@ import SnapKit
 import Combine
 
 class ProductCardViewController: UIViewController {
-
     weak var coordinator: Coordinator?
 
     private var originalNavBarAppearance: UINavigationBarAppearance?
@@ -143,11 +142,13 @@ class ProductCardViewController: UIViewController {
 
     // MARK: Mетоды для настройки UI
     private func setupProductLayout() {
-        view.addSubview(productScrollView)
+        [productScrollView, priceInfoView].forEach {
+            view.addSubview($0)
+        }
         productScrollView.addSubview(contentView)
 
         contentView.backgroundColor = .cherryLightBlue
-        [galleryView, titleAndRatingView, offersTableView, reviewView, priceInfoView].forEach {
+        [galleryView, titleAndRatingView, offersTableView, reviewView].forEach {
                 contentView.addSubview($0)
         }
 
@@ -163,15 +164,33 @@ class ProductCardViewController: UIViewController {
         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
             statusBarHeight = windowScene.statusBarManager?.statusBarFrame.height ?? 0
         }
-        productScrollView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(statusBarHeight)
-            make.leading.trailing.equalToSuperview()
-            make.bottom.equalToSuperview()
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.colors = [UIColor.cherryLightBlue.cgColor, UIColor.cherryWhite.cgColor]
+        gradientLayer.startPoint = CGPoint(x: 0.5, y: 1.0)
+        gradientLayer.endPoint = CGPoint(x: 0.5, y: 0.5)
+        gradientLayer.locations = [0.0, 1.0]
+        gradientLayer.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: 400)
+        view.layer.insertSublayer(gradientLayer, at: 0)
+        view.backgroundColor = .cherryLightBlue
+
+        priceInfoView.backgroundColor = .cherryWhite
+        priceInfoView.layer.cornerRadius = CornerRadius.regular.cgFloat()
+        priceInfoView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        priceInfoView.snp.makeConstraints { make in
+            make.bottom.leading.trailing.equalToSuperview()
         }
 
+        productScrollView.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(statusBarHeight)
+            make.leading.bottom.trailing.equalToSuperview()
+//            make.bottom.equalTo(priceInfoView.snp.top)
+        }
+        productScrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: priceInfoView.frame.height, right: 0)
+        productScrollView.backgroundColor = .clear
+
         contentView.snp.makeConstraints { make in
-            make.top.leading.bottom.trailing.equalTo(productScrollView)
-            make.bottom.equalToSuperview()
+            make.top.bottom.leading.trailing.equalTo(productScrollView)
+//            make.bottom.equalTo(priceInfoView.snp.top)
         }
 
         galleryView.snp.makeConstraints { make in
@@ -216,15 +235,6 @@ class ProductCardViewController: UIViewController {
             make.top.equalTo(offersTableView.snp.bottom).offset(16)
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
-        }
-
-        priceInfoView.backgroundColor = .cherryWhite
-        priceInfoView.layer.cornerRadius = CornerRadius.regular.cgFloat()
-        priceInfoView.snp.makeConstraints { make in
-            make.top.equalTo(reviewView.snp.bottom).offset(16)
-            make.leading.equalTo(contentView)
-            make.bottom.equalToSuperview()
-            make.width.equalTo(contentView.frame.width)
         }
     }
 

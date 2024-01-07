@@ -121,8 +121,9 @@ class ProductCardViewModel {
         func configurePriceInfoView(_ priceInfoView: PriceInfoView) {
             if let product = product {
                 let minPrice = product.findMinMaxOffers().minOffer?.price ?? 0
+                let maxOriginalPrice = product.findMinMaxInitialOffers().maxOffer?.initialPrice ?? 0
                 print("Configuring PriceInfoView with price: \(minPrice)")
-                priceInfoView.configure(with: 180, discountPrice: Int(minPrice))
+                priceInfoView.configure(with: Int(maxOriginalPrice), discountPrice: Int(minPrice))
             }
         }
 
