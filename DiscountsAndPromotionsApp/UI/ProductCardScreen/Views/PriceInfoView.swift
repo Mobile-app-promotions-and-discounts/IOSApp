@@ -83,7 +83,7 @@ class PriceInfoView: UIView {
         worstOriginPrice.textColor = .gray
         worstOriginPrice.font = CherryFonts.textMedium
         worstOriginPrice.attributedText = NSAttributedString(
-            string: "300р",
+            string: "...",
             attributes: [NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.single.rawValue]
         )
         addSubview(worstOriginPrice)
@@ -92,7 +92,7 @@ class PriceInfoView: UIView {
     private func setupBestDiscountPriceLabel() {
         bestDiscountPrice.textColor = .black
         bestDiscountPrice.font = CherryFonts.headerExtraLarge
-        bestDiscountPrice.text = "от 150р"
+        bestDiscountPrice.text = "от ..."
         addSubview(bestDiscountPrice)
     }
 
@@ -102,7 +102,6 @@ class PriceInfoView: UIView {
         toFavoritesButton.layer.cornerRadius = CornerRadius.regular.cgFloat()
         toFavoritesButton.titleLabel?.font = CherryFonts.headerMedium
         toFavoritesButton.tintColor = .cherryBlack
-//        toFavoritesButton.addTarget(self, action: #selector(favoritesButtonTapped), for: .touchUpInside)
         addSubview(toFavoritesButton)
     }
 

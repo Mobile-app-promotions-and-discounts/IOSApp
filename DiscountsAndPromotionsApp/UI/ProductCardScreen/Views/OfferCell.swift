@@ -15,8 +15,8 @@ class OfferTableViewCell: UITableViewCell {
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setupBackgroundView()
         addSubviews()
+        setupBackgroundView()
         configureLogoImageView()
         configureGoToStoreButton()
         configureLabels()
@@ -29,10 +29,11 @@ class OfferTableViewCell: UITableViewCell {
     }
 
     private func setupBackgroundView() {
+        contentView.addSubview(backgroundViewBoard)
+        contentView.backgroundColor = .cherryWhite
         backgroundViewBoard.backgroundColor = .cherryLightBlue
         backgroundViewBoard.layer.cornerRadius = CornerRadius.regular.cgFloat()
         backgroundViewBoard.clipsToBounds = true
-        contentView.addSubview(backgroundViewBoard)
     }
 
     private func addSubviews() {
@@ -91,12 +92,17 @@ class OfferTableViewCell: UITableViewCell {
 
     private func configureLabels() {
         storeNameLabel.font = CherryFonts.headerMedium
+        storeNameLabel.textColor = .cherryBlack
         addressLabel.font = CherryFonts.headerSmall
+        addressLabel.textColor = .cherryBlack
+        addressLabel.textAlignment = .left
+        addressLabel.setContentHuggingPriority(UILayoutPriority(0), for: .horizontal)
         priceLabel.font = CherryFonts.textMedium
+        priceLabel.textColor = .cherryBlack
         originalPriceLabel.font = CherryFonts.textMedium
-        originalPriceLabel.textColor = .gray
+        originalPriceLabel.textColor = .cherryGray
         originalPriceLabel.attributedText = NSAttributedString(
-            string: "",
+            string: "...",
             attributes: [NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.single.rawValue]
         )
 
@@ -131,6 +137,7 @@ class OfferTableViewCell: UITableViewCell {
         addressLabel.snp.makeConstraints { make in
             make.bottom.equalTo(storeNameLabel)
             make.leading.equalTo(storeNameLabel.snp.trailing).offset(8)
+            make.trailing.equalTo(goToStoreButton.snp.leading).offset(-4)
             make.height.equalTo(16)
         }
 

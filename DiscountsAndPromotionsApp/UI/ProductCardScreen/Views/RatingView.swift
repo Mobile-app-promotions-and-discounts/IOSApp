@@ -43,6 +43,7 @@ class RatingView: UIView {
         starsStackView.axis = .horizontal
         starsStackView.distribution = .fillEqually
         ratingLabel.font = CherryFonts.textMedium
+        ratingLabel.textColor = .cherryBlack
         numberOfReviewsLabel.font = CherryFonts.textMedium
         numberOfReviewsLabel.textColor = .cherryBlack
         reviewsButton.tintColor = .cherryGray
