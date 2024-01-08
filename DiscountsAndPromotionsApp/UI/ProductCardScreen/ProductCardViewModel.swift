@@ -104,7 +104,7 @@ class ProductCardViewModel {
         if let rating = product?.rating {
             ratingView.configure(with: rating, numberOfReviews: 0)
         } else {
-            ratingView.configure(with: 1.0, numberOfReviews: 1)
+            ratingView.configure(with: 0.0, numberOfReviews: 0)
         }
     }
 
