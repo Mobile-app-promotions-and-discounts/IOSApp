@@ -14,7 +14,8 @@ class ProductCardViewController: UIViewController {
     private lazy var productScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.alwaysBounceVertical = true
-        scrollView.showsVerticalScrollIndicator = true
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.contentInset = insets
         return scrollView
     }()
 
@@ -24,6 +25,11 @@ class ProductCardViewController: UIViewController {
         container.spacing = 12
         return container
     }()
+
+    let insets = UIEdgeInsets(top: 0,
+                              left: 0,
+                              bottom: 96,
+                              right: 0)
 
     // Все кастомные вьюхи
     private lazy var gallery = ImageGalleryController(transitionStyle: .scroll,
@@ -35,6 +41,8 @@ class ProductCardViewController: UIViewController {
         let galleryBackground = UIView()
         galleryBackground.backgroundColor = .cherryWhite
         galleryBackground.addSubview(gallery)
+        galleryBackground.layer.cornerRadius = CornerRadius.regular.cgFloat()
+        galleryBackground.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
 
         gallery.snp.makeConstraints { make in
             make.top.bottom.trailing.leading.equalToSuperview()
@@ -175,8 +183,12 @@ class ProductCardViewController: UIViewController {
 
         // Ограничения SNAPkit
         var statusBarHeight: CGFloat = 0
+        var screenHeight: CGFloat = 0
+        var contentHeight: CGFloat = 0
         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
             statusBarHeight = windowScene.statusBarManager?.statusBarFrame.height ?? 0
+            screenHeight = windowScene.windows.first?.frame.height ?? 0
+            contentHeight = screenHeight - statusBarHeight
         }
         let gradientLayer = CAGradientLayer()
         gradientLayer.colors = [UIColor.cherryLightBlue.cgColor, UIColor.cherryWhite.cgColor]
@@ -196,9 +208,9 @@ class ProductCardViewController: UIViewController {
 
         productScrollView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(statusBarHeight)
-            make.leading.bottom.trailing.equalToSuperview()
+            make.height.equalTo(contentHeight)
+            make.leading.trailing.equalToSuperview()
         }
-        productScrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 96, right: 0)
         productScrollView.backgroundColor = .clear
 
         scrollContentContainer.snp.makeConstraints { make in
@@ -237,7 +249,7 @@ class ProductCardViewController: UIViewController {
         reviewView.snp.makeConstraints { make in
             make.top.equalTo(offersTableView.snp.bottom).offset(16)
             make.trailing.equalToSuperview()
-            make.bottom.equalToSuperview().offset(-164)
+            make.bottom.equalToSuperview()
         }
     }
 
@@ -326,8 +338,8 @@ extension ProductCardViewController {
     }
 
     @objc func keyboardWillHide(notification: NSNotification) {
-        productScrollView.contentInset = UIEdgeInsets.zero
-        productScrollView.scrollIndicatorInsets = UIEdgeInsets.zero
+        productScrollView.contentInset = insets
+        productScrollView.scrollIndicatorInsets = insets
     }
 
 }
