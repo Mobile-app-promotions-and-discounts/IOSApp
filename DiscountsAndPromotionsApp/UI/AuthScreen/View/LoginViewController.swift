@@ -9,7 +9,20 @@ final class LoginViewController: UIViewController {
     private let viewModel: LoginViewModelProtocol
 
     private var cancellables: Set<AnyCancellable>
-
+    private var buttonSubscriber: AnyCancellable?
+    
+    @Published private var userName = ""
+    @Published private var password = ""
+    
+    private var validToSubmit: AnyPublisher<Bool, Never> {
+        return Publishers.CombineLatest($userName, $password)
+            .receive(on: RunLoop.main)
+            .map {
+                userName, password in
+                return !userName.isEmpty && !password.isEmpty
+            } .eraseToAnyPublisher()
+    }
+    
     private lazy var entryLabel: UILabel = {
         let label = UILabel()
         label.text = L10n.Authorization.entryTitle
@@ -98,6 +111,10 @@ final class LoginViewController: UIViewController {
                     ErrorHandler.handle(error: .authorizationError)
                 }
             }.store(in: &cancellables)
+        
+        buttonSubscriber = validToSubmit
+            .receive(on: RunLoop.main)
+            .assign(to: \.isEnabled, on: loginButton)
     }
 
     private func setupView() {
@@ -169,8 +186,27 @@ final class LoginViewController: UIViewController {
 // MARK: - UITextFieldDelegate
 
 extension LoginViewController: UITextFieldDelegate {
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if let text = textField.text,
+           let textRange = Range(range, in: text) {
+           let updatedText = text.replacingCharacters(in: textRange, with: string)
+            if textField == inputEmailField.textField {
+                userName = updatedText
+            }
+            if textField == inputPasswordField.textField {
+                password = updatedText
+            }
+        }
+        return true
+    }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
     }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
+    
 }

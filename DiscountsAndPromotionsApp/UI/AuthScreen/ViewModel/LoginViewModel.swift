@@ -4,6 +4,7 @@ import Combine
 final class LoginViewModel: LoginViewModelProtocol {
 
     private(set) var isUserAuthorizedUpdate: PassthroughSubject<Bool, Never>
+    private let authService: AuthServiceProtocol
 
     private var isUserAuthorized: Bool {
         didSet {
@@ -13,6 +14,7 @@ final class LoginViewModel: LoginViewModelProtocol {
 
     init() {
         self.isUserAuthorizedUpdate = PassthroughSubject<Bool, Never>()
+        self.authService = AuthService(networkClient: NetworkClient())
         self.isUserAuthorized = false
     }
 
