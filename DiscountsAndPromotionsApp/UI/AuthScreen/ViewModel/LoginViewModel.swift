@@ -23,6 +23,14 @@ final class LoginViewModel: LoginViewModelProtocol {
     }
 
     private func checkUserAuthData(userEmail: String?, userPassword: String?) {
+        guard let userEmail = userEmail,
+              let userPassword = userPassword else {
+            isUserAuthorized = false
+            return
+        }
+        let userModel = UserRequestModel(username: userEmail, password: userPassword)
+        authService.getToken(for: userModel)
+        
         let isEmailCorrect = userEmail == "ivanov@example.com"
         let isPasswordCorrect = userPassword == "cherryapp"
         isUserAuthorized = isEmailCorrect && isPasswordCorrect

@@ -114,7 +114,7 @@ final class LoginViewController: UIViewController {
         
         buttonSubscriber = validToSubmit
             .receive(on: RunLoop.main)
-            .assign(to: \.isEnabled, on: loginButton)
+            .assign(to: \.isUserInteractionEnabled, on: loginButton)
     }
 
     private func setupView() {
