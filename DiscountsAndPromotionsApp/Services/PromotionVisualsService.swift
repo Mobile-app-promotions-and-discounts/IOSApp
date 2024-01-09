@@ -5,7 +5,6 @@ import Combine
 struct CategoryVisualAttributes {
     var accentColor: UIColor
     var gradient: CAGradientLayer
-    var image: UIImage
 }
 
 // Сервис для управления визуальными атрибутами категорий
@@ -36,44 +35,37 @@ final class PromotionVisualsService {
             case "Продукты":
                 visualAttributes = CategoryVisualAttributes(
                     accentColor: .gradientOrange,
-                    gradient: createGradient(colors: [.gradientBase, .gradientOrange]),
-                    image: .coffe
+                    gradient: createGradient(colors: [.gradientBase, .gradientOrange])
                 )
             case "Дом и сад":
                 visualAttributes = CategoryVisualAttributes(
                     accentColor: .gradientBlue,
-                    gradient: createGradient(colors: [.gradientBase, .gradientBlue]),
-                    image: .himiya
+                    gradient: createGradient(colors: [.gradientBase, .gradientBlue])
                 )
             case "Косметика и гигиена":
                 visualAttributes = CategoryVisualAttributes(
                     accentColor: .gradientPurple,
-                    gradient: createGradient(colors: [.gradientBase, .gradientPurple]),
-                    image: .cosmetica
+                    gradient: createGradient(colors: [.gradientBase, .gradientPurple])
                 )
             case "Зоотовары":
                 visualAttributes = CategoryVisualAttributes(
                     accentColor: .gradientGreen,
-                    gradient: createGradient(colors: [.gradientBase, .gradientGreen]),
-                    image: .animalFood
+                    gradient: createGradient(colors: [.gradientBase, .gradientGreen])
                 )
             case "Праздник":
                 visualAttributes = CategoryVisualAttributes(
                     accentColor: .gradientRed,
-                    gradient: createGradient(colors: [.gradientBase, .gradientRed]),
-                    image: .gift
+                    gradient: createGradient(colors: [.gradientBase, .gradientRed])
                 )
             case "Авто":
                 visualAttributes = CategoryVisualAttributes(
                     accentColor: .gradientYellow,
-                    gradient: createGradient(colors: [.gradientBase, .gradientYellow]),
-                    image: .auto
+                    gradient: createGradient(colors: [.gradientBase, .gradientYellow])
                 )
             default:
                 visualAttributes = CategoryVisualAttributes(
                     accentColor: .gradientBlue,
-                    gradient: createGradient(colors: [.gradientBase, .gradientBlue]),
-                    image: .gift
+                    gradient: createGradient(colors: [.gradientBase, .gradientBlue])
                 )
             }
             // Сохраняем визуальные атрибуты в словарь
