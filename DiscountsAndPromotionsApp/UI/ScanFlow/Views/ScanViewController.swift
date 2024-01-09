@@ -11,6 +11,8 @@ final class ScanViewController: UIViewController {
 
     private var scanPreviewLayer: AVCaptureVideoPreviewLayer
 
+    private var barcodeCancellable: AnyCancellable?
+
     // MARK: - UI elements
     private let scanFrame: UIView = {
         return ScanFrameView()
@@ -129,12 +131,13 @@ final class ScanViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
+        viewModel.bindBarcodeRequest(to: &barcodeCancellable)
         captureSessionController.startSessionRoutine()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-
+        barcodeCancellable = nil
         captureSessionController.stopSessionRoutine()
     }
 
