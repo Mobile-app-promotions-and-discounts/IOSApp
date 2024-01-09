@@ -2,25 +2,24 @@ import Combine
 import Foundation
 
 final class SearchResultsViewModel: CategoryViewModelProtocol {
+    private let productService: ProductNetworkServiceProtocol
     private (set) var viewState = CurrentValueSubject<ViewState, Never>(.loading)
-
-    private let dataService: DataServiceProtocol
     private let profileService: ProfileServiceProtocol
 
-    var productsUpdate = PassthroughSubject<[Product], Never>()
+    var productsUpdate = PassthroughSubject<Int, Never>()
     private var subscriptions = Set<AnyCancellable>()
 
-    private var products = [Product]() {
+    private (set) var products = [Product]() {
         didSet {
-            productsUpdate.send(products)
+            productsUpdate.send(products.count)
             viewState.value = products.isEmpty ? .empty : .dataPresent
         }
     }
 
-    init(dataService: DataServiceProtocol,
+    init(productService: ProductNetworkServiceProtocol,
          profileService: ProfileServiceProtocol,
          searchText: String) {
-        self.dataService = dataService
+        self.productService = productService
         self.profileService = profileService
 
         setupBindings(for: searchText)
@@ -57,16 +56,22 @@ final class SearchResultsViewModel: CategoryViewModelProtocol {
         }
     }
 
+    func loadNextPage() {
+
+    }
+
     private func setupBindings(for prompt: String) {
-            dataService.actualGoodsList
-                .sink { [weak self] goodsList in
-                    guard let self = self else { return }
-                    let sortedGoodsList = goodsList.filter { product in
-                        return product.name.lowercased().contains(prompt.lowercased())
-                    }
-                    self.products = sortedGoodsList
-                }
-                .store(in: &subscriptions)
+        productService.productListUpdate
+            .sink { [weak self] searchResponse in
+                guard let self = self else { return }
+
+                self.products = searchResponse.map { $0.convertToProductModel() }
+            }
+            .store(in: &subscriptions)
+
+        productService.getProducts(categoryID: nil,
+                                   searchItem: prompt,
+                                   page: nil)
     }
 
     private func convertModels(for product: Product) -> ProductCellUIModel {

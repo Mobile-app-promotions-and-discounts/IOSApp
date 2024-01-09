@@ -11,6 +11,12 @@ class CategoryViewController: ScannerEnabledViewController {
 
     private var cancellables = Set<AnyCancellable>()
 
+    private lazy var progressView: UIActivityIndicatorView = {
+        let progressView = UIActivityIndicatorView(style: .large)
+        progressView.hidesWhenStopped = true
+        return progressView
+    }()
+
     private lazy var categoryCollectionView: UICollectionView = {
         let layout = layoutProvider.createGoodsScreensLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -60,25 +66,27 @@ class CategoryViewController: ScannerEnabledViewController {
     private func setupViews() {
         view.backgroundColor = .cherryLightBlue
 
-        [categoryCollectionView, emptyResultView].forEach { view.addSubview($0) }
-
+        [categoryCollectionView, emptyResultView, progressView].forEach { view.addSubview($0) }
         emptyResultView.isHidden = true // Скрыть по умолчанию
 
         categoryCollectionView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-
         emptyResultView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
+        }
+        progressView.snp.makeConstraints { make in
+            make.center.equalToSuperview()
         }
     }
 
     private func setupBindings() {
         viewModel.productsUpdate
             .receive(on: RunLoop.main)
-            .sink { [weak self] _ in
+            .sink { [weak self] itemCount in
                 guard let self = self else { return }
-                self.categoryCollectionView.reloadData()
+                addItems(newCount: itemCount)
+                self.progressView.stopAnimating()
             }
             .store(in: &cancellables)
 
@@ -96,6 +104,8 @@ class CategoryViewController: ScannerEnabledViewController {
                 self.updateUI(for: state)
             }
             .store(in: &cancellables)
+
+        viewModel.loadNextPage()
     }
 
     private func updateUI(for state: ViewState) {
@@ -104,7 +114,19 @@ class CategoryViewController: ScannerEnabledViewController {
         emptyResultView.isHidden = isDataPresent
 
         if state == .loading {
-            // Показать индикатор загрузки, если необходимо
+            categoryCollectionView.isHidden = false
+            emptyResultView.isHidden = true
+            progressView.startAnimating()
+        }
+    }
+
+    private func addItems(newCount: Int, to section: Int = 0) {
+        let currentItemCount = categoryCollectionView.numberOfItems(inSection: section)
+        let newCellPaths = (currentItemCount..<newCount).map {
+            IndexPath(row: $0, section: section)
+        }
+        self.categoryCollectionView.performBatchUpdates {
+        self.categoryCollectionView.insertItems(at: newCellPaths)
         }
     }
 }
@@ -113,7 +135,7 @@ class CategoryViewController: ScannerEnabledViewController {
 
 extension CategoryViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.numberOfItems()
+        return viewModel.products.count
     }
 
     func collectionView(_ collectionView: UICollectionView,
@@ -159,7 +181,6 @@ extension CategoryViewController: UICollectionViewDataSource {
 
         let product = viewModel.getProduct(for: indexPath.row)
         cell.configure(with: product)
-
         return cell
     }
 }
@@ -174,6 +195,11 @@ extension CategoryViewController: UICollectionViewDelegate {
         }
     }
 
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.row == collectionView.numberOfItems(inSection: indexPath.section) - 4 {
+            viewModel.loadNextPage()
+        }
+    }
 }
 
 // MARK: - Search field delegate

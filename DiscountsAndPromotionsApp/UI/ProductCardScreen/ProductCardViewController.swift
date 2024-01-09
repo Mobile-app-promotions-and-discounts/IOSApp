@@ -268,12 +268,6 @@ class ProductCardViewController: UIViewController {
             }
         }
 
-        // Если основное и дополнительные изображения отсутствуют, используем заглушку
-        if images.isEmpty, let placeholderImage = UIImage(named: "placeholder") {
-            images.append(placeholderImage)
-            images.append(placeholderImage)
-        }
-
         galleryView.configure(with: images)
 
         if let titleLabelText = product?.name, let weightLabelText = product?.description {
@@ -290,8 +284,9 @@ class ProductCardViewController: UIViewController {
 
         if let product = product {
             let minPrice = product.findMinMaxOffers().minOffer?.price ?? 0
+            let maxOriginalPrice = product.findMinMaxInitialOffers().maxOffer?.initialPrice ?? 0
             print("Configuring PriceInfoView with price: \(minPrice)")
-            priceInfoView.configure(with: 180, discountPrice: Int(minPrice))
+            priceInfoView.configure(with: Int(maxOriginalPrice), discountPrice: Int(minPrice))
         }
     }
 

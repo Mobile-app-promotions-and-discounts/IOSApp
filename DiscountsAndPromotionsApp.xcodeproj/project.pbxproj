@@ -51,6 +51,7 @@
 		BC93BB6B2B0BCBF1008BE2AD /* StringBarcodeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC93BB6A2B0BCBF1008BE2AD /* StringBarcodeExtension.swift */; };
 		BC93BB722B0C814F008BE2AD /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC93BB712B0C814F008BE2AD /* PrimaryButton.swift */; };
 		BC93BB742B0C8166008BE2AD /* ScannerNavButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC93BB732B0C8166008BE2AD /* ScannerNavButton.swift */; };
+		BC97CDEA2B3DF2BE00310AD8 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = BC97CDE92B3DF2BE00310AD8 /* Kingfisher */; };
 		BCAACF3B2B38D85C0082A7CB /* BarcodeTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAACF3A2B38D85C0082A7CB /* BarcodeTextField.swift */; };
 		BCAC6B772B223C4100AD5C96 /* NetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAC6B682B223C4100AD5C96 /* NetworkClient.swift */; };
 		BCAC6B782B223C4100AD5C96 /* NetworkClientProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAC6B692B223C4100AD5C96 /* NetworkClientProtocol.swift */; };
@@ -115,6 +116,7 @@
 		BCD4B4772B2F5DDE00539CD1 /* StoreChainResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD4B4762B2F5DDE00539CD1 /* StoreChainResponseModel.swift */; };
 		BCD4B47E2B2F733D00539CD1 /* NetworkRequestConstructor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD4B47D2B2F733D00539CD1 /* NetworkRequestConstructor.swift */; };
 		BCD4B4802B31759100539CD1 /* StoreNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD4B47F2B31759100539CD1 /* StoreNetworkService.swift */; };
+		BCDFDFA12B486BCC00FB9C61 /* ProductReviewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDFDFA02B486BCC00FB9C61 /* ProductReviewModels.swift */; };
 		BE007AF72B399D9600BCFDCF /* EmptyOnScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE007AF62B399D9600BCFDCF /* EmptyOnScreenView.swift */; };
 		BE2774BC2B0FD0890000C8C2 /* MainFlow.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = BE2774BB2B0FD0890000C8C2 /* MainFlow.xcstrings */; };
 		BE35244E2B02ABA200746581 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE35244D2B02ABA200746581 /* AppDelegate.swift */; };
@@ -278,6 +280,7 @@
 		BCD4B4762B2F5DDE00539CD1 /* StoreChainResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreChainResponseModel.swift; sourceTree = "<group>"; };
 		BCD4B47D2B2F733D00539CD1 /* NetworkRequestConstructor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequestConstructor.swift; sourceTree = "<group>"; };
 		BCD4B47F2B31759100539CD1 /* StoreNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreNetworkService.swift; sourceTree = "<group>"; };
+		BCDFDFA02B486BCC00FB9C61 /* ProductReviewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductReviewModels.swift; sourceTree = "<group>"; };
 		BE007AF62B399D9600BCFDCF /* EmptyOnScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyOnScreenView.swift; sourceTree = "<group>"; };
 		BE2774BB2B0FD0890000C8C2 /* MainFlow.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = MainFlow.xcstrings; sourceTree = "<group>"; };
 		BE35244A2B02ABA200746581 /* DiscountsAndPromotionsApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DiscountsAndPromotionsApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -325,6 +328,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC97CDEA2B3DF2BE00310AD8 /* Kingfisher in Frameworks */,
 				92787F6B2B1F159A0045B678 /* SwiftKeychainWrapper in Frameworks */,
 				BE3524832B02B92A00746581 /* SnapKit in Frameworks */,
 			);
@@ -542,6 +546,7 @@
 				BCD4B4702B2F58E400539CD1 /* DiscountResponseModel.swift */,
 				BCD4B4742B2F5DA600539CD1 /* LocationResponseModel.swift */,
 				BCD4B4762B2F5DDE00539CD1 /* StoreChainResponseModel.swift */,
+				BCDFDFA02B486BCC00FB9C61 /* ProductReviewModels.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1004,6 +1009,7 @@
 			packageProductDependencies = (
 				BE3524822B02B92A00746581 /* SnapKit */,
 				92787F6A2B1F159A0045B678 /* SwiftKeychainWrapper */,
+				BC97CDE92B3DF2BE00310AD8 /* Kingfisher */,
 			);
 			productName = DiscountsAndPromotionsApp;
 			productReference = BE35244A2B02ABA200746581 /* DiscountsAndPromotionsApp.app */;
@@ -1037,6 +1043,7 @@
 			packageReferences = (
 				BE3524812B02B92A00746581 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				92787F692B1F159A0045B678 /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */,
+				BC97CDE82B3DF2BE00310AD8 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = BE35244B2B02ABA200746581 /* Products */;
 			projectDirPath = "";
@@ -1114,6 +1121,7 @@
 				BEBBDCA82B3C6EB700DB6F34 /* ViewState.swift in Sources */,
 				BCCF50042B1B4AF10067A552 /* MainViewController.swift in Sources */,
 				BC0723122B1A4E5300EF82B8 /* Gradients.swift in Sources */,
+				BCDFDFA12B486BCC00FB9C61 /* ProductReviewModels.swift in Sources */,
 				BCAC6B7C2B223C4100AD5C96 /* UserNetworkService.swift in Sources */,
 				BE70C2232B1E586E004FD1E9 /* AllStoresViewController.swift in Sources */,
 				BC60461C2B1E4B7900536EB3 /* EditProfileView.swift in Sources */,
@@ -1469,6 +1477,14 @@
 				minimumVersion = 4.0.1;
 			};
 		};
+		BC97CDE82B3DF2BE00310AD8 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.10.1;
+			};
+		};
 		BE3524812B02B92A00746581 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit";
@@ -1484,6 +1500,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 92787F692B1F159A0045B678 /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */;
 			productName = SwiftKeychainWrapper;
+		};
+		BC97CDE92B3DF2BE00310AD8 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BC97CDE82B3DF2BE00310AD8 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 		BE3524822B02B92A00746581 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;

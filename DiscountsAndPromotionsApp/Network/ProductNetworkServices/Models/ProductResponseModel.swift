@@ -1,5 +1,12 @@
 import Foundation
 
+struct PaginatedProductResponseModel: Codable {
+    let count: Int
+    let next: String?
+    let previous: String?
+    let results: ProductGroupResponseModel
+}
+
 struct ProductResponseModel: Codable {
     let id: Int
     let name: String
@@ -26,6 +33,22 @@ struct ProductResponseModel: Codable {
         let image = ProductImage(mainImage: self.mainImage,
                                  additionalPhoto: additionalImges)
 
+        var offers: [Offer] = []
+
+        if let originalOffers: [StoreElementResponseModel] = self.stores {
+            for offer in originalOffers {
+                if let price = Double(offer.promoPrice),
+                   let initialPrice = Double(offer.initialPrice),
+                   let store = offer.store {
+                    offers.append(Offer(id: offer.id,
+                                        price: price / 100,
+                                        initialPrice: initialPrice / 100,
+                                        discount: offer.discount?.convert(),
+                                        store: store.convert()))
+                }
+            }
+        }
+
         return Product(id: self.id,
                        barcode: self.barcode,
                        name: self.name,
@@ -33,7 +56,7 @@ struct ProductResponseModel: Codable {
                        category: category,
                        image: image,
                        rating: nil,
-                       offers: [])
+                       offers: offers)
     }
 }
 

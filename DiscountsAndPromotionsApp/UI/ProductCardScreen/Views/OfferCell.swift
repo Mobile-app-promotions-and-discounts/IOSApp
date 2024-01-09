@@ -77,7 +77,7 @@ class OfferTableViewCell: UITableViewCell {
         originalPriceLabel.font = CherryFonts.headerSmall
         originalPriceLabel.textColor = .gray
         originalPriceLabel.attributedText = NSAttributedString(
-            string: "180 ₽",
+            string: "",
             attributes: [NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.single.rawValue]
         )
 
@@ -149,8 +149,22 @@ class OfferTableViewCell: UITableViewCell {
         storeNameLabel.text = offer.store.name
         addressLabel.text = offer.store.location.street
         priceLabel.text = "\(Int(offer.price)) ₽"
-//        originalPriceLabel.text = ""
-        discountLabel.text = "-\(String(describing: offer.discount?.discountRate ?? 30)) %"
+
+        if offer.price < offer.initialPrice {
+            originalPriceLabel.isHidden = false
+            discountLabel.isHidden = offer.discount == nil
+            discountView.isHidden = offer.discount == nil
+
+            originalPriceLabel.text = "\(Int(offer.initialPrice)) ₽"
+            discountLabel.text = offer.discount?.formattedDiscountString() ?? ""
+        } else {
+            originalPriceLabel.isHidden = true
+            discountLabel.isHidden = true
+            discountView.isHidden = true
+
+            originalPriceLabel.text = ""
+            discountLabel.text = ""
+        }
     }
 
     @objc func goToStoreCard() {
