@@ -9,5 +9,5 @@ struct Profile: Codable {
     let email: String
     let birthdate: String?
     let gender: Bool?
-    let favoritesProducts: [Product]
+    let favoritesProducts: Set<Product>
 }
