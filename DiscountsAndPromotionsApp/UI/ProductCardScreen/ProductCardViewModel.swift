@@ -9,7 +9,7 @@ private struct TableViewConstants {
     static let cellSpacing: CGFloat = 8
 }
 
-class ProductCardViewModel {
+final class ProductCardViewModel {
     @Published var product: Product?
     let addToFavoritesPublisher = PassthroughSubject<Void, Never>()
     let submitReviewPublisher = PassthroughSubject<(rating: Double, reviewText: String), Never>()
@@ -19,27 +19,35 @@ class ProductCardViewModel {
     private let reviewViewViewModel: ProductReviewViewModelProtocol
     private let priceInfoViewModel: PriceInfoViewViewModelProtocol
     private let profileService: ProfileServiceProtocol
+    private let productService: ProductNetworkServiceProtocol
 
     private var cancellables = Set<AnyCancellable>()
 
-    init(product: Product, mockProfileService: ProfileServiceProtocol) {
+    init(product: Product,
+         productService: ProductNetworkServiceProtocol,
+         mockProfileService: ProfileServiceProtocol) {
         self.product = product
 
+        self.productService = productService
         self.profileService = mockProfileService
-        self.ratingViewModel = RatingViewViewModel(rating: product.rating ?? 1.0, numberOfReviews: 0)
+        self.ratingViewModel = RatingViewViewModel(rating: product.rating ?? 0.0)
         self.reviewViewViewModel = ProductReviewViewModel(productName: product.name)
         self.priceInfoViewModel = PriceInfoViewViewModel(profileService: profileService, product: product)
 
         setupBindings()
+        productService.getReviewsForProduct(id: product.id, page: 1)
     }
 
     private func setupBindings() {
-        // Установка связей между данными и логикой обработки.
-        // Например, обработка изменений в product или взаимодействие с сервисами
+        productService.reviewCountUpdate
+            .sink { [weak self] reviewCount in
+                self?.ratingViewModel.setReviewCount(reviewCount)
+            }
+            .store(in: &cancellables)
     }
 
     func setupPriceInfoView(_ priceInfoView: PriceInfoView) {
-        guard let product = product else {
+        guard let product else {
             print("Product is nil in setupPriceInfoView")
             return }
 

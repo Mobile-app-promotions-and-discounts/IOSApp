@@ -67,7 +67,8 @@ final class MainCoordinator: Coordinator {
         favoritesScreenNavigationController.scanCoordinator = scanCoordinator
         let favoritesScreenCoordinator = FavoritesScreenCoordinator(navigationController: favoritesScreenNavigationController,
                                                                     dataService: dataService,
-                                                                    profileService: profileService)
+                                                                    profileService: profileService,
+                                                                    productService: productNetworkService)
         let profileScreenCoordinator = ProfileScreenCoordinator(navigationController: UINavigationController())
 
         mainScreenCoordinator.start()

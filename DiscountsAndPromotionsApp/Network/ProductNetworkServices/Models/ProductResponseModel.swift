@@ -10,7 +10,7 @@ struct PaginatedProductResponseModel: Codable {
 struct ProductResponseModel: Codable {
     let id: Int
     let name: String
-    let rating: Int?
+    let rating: Float?
     let category: CategoryResponseModel
     let description: String?
     let mainImage: String?

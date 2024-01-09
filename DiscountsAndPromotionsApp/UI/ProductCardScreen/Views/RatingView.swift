@@ -2,8 +2,12 @@ import UIKit
 import Combine
 import SnapKit
 
-class RatingView: UIView {
-    var viewModel: RatingViewViewModelProtocol?
+final class RatingView: UIView {
+    var viewModel: RatingViewViewModelProtocol? {
+        didSet {
+            bindViewModel()
+        }
+    }
     private var cancellables = Set<AnyCancellable>()
     private let starsStackView =  UIStackView()
     private let ratingLabel = UILabel()
@@ -34,7 +38,7 @@ class RatingView: UIView {
             star.isHidden = index >= Int(rating)
         }
         ratingLabel.text = "\(rating)"
-        numberOfReviewsLabel.text = "\(numberOfReviews) отзывов"
+        numberOfReviewsLabel.text = ""
     }
 
     private func setupLayout() {
@@ -92,6 +96,18 @@ class RatingView: UIView {
         reviewsButton.publisher(for: .touchUpInside)
             .sink { [weak self] _ in
                 self?.viewModel?.reviewsButtonTapped.send()
+            }
+            .store(in: &cancellables)
+    }
+
+    private func bindViewModel() {
+        viewModel?.reviewCountPublisher
+            .receive(on: RunLoop.main)
+            .sink { [weak self] reviewCount in
+                self?.numberOfReviewsLabel.text = "Всего отзывов: \(reviewCount)"
+                if reviewCount == 0 {
+                    self?.ratingLabel.text = ""
+                }
             }
             .store(in: &cancellables)
     }

@@ -14,10 +14,10 @@ class ProductReviewView: UIView {
     private let titleLabel = UILabel()
     private let starsStackView = UIStackView()
     private let reviewTextView = UITextView()
-    private let attachButton = UIButton()
-    private let submitButton = UIButton()
+    private let attachButton = UIButton(type: .system)
+    private let submitButton = UIButton(type: .system)
 
-    private var rating: Int = 1
+    private var rating: Int = 0
     private var previousText: String = ""
 
     override init(frame: CGRect) {
@@ -31,7 +31,6 @@ class ProductReviewView: UIView {
         setupSubmitButton()
         setupAttachButton()
         setupConstraints()
-
     }
 
     required init?(coder: NSCoder) {
@@ -80,6 +79,7 @@ class ProductReviewView: UIView {
         reviewTextView.layer.cornerRadius = 5
         reviewTextView.textContainerInset = UIEdgeInsets(top: 8, left: 5, bottom: 8, right: 5)
         reviewTextView.isScrollEnabled = false
+        reviewTextView.contentInset.right = 44
         addSubview(reviewTextView)
     }
 
@@ -110,21 +110,20 @@ class ProductReviewView: UIView {
 
     private func setupAttachButton() {
         attachButton.setImage(UIImage(named: "ic_attach"), for: .normal)
-        addSubview(attachButton)
+//        убрал пока не реализовано на бэке
+//        addSubview(attachButton)
     }
 
     private func setupSubmitButton() {
-        submitButton.setImage(UIImage(named: "ic_send"), for: .normal)
+        submitButton.setImage(UIImage(named: "ic_send")?.withRenderingMode(.alwaysOriginal), for: .normal)
         addSubview(submitButton)
     }
 
     private func setupConstraints() {
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(self.snp.top).offset(12)
-//            make.centerX.equalTo(self.snp.centerX)
             make.leading.equalTo(self).offset(16)
             make.trailing.equalTo(self).offset(-16)
-//            make.height.equalTo(27)
         }
 
         starsStackView.snp.makeConstraints { make in
@@ -142,16 +141,17 @@ class ProductReviewView: UIView {
         }
 
         submitButton.snp.makeConstraints { make in
-            make.trailing.equalTo(reviewTextView).offset(-8)
-            make.bottom.equalTo(self.snp.bottom).offset(-20)
-            make.height.width.equalTo(24)
+            make.trailing.equalTo(reviewTextView)
+            make.bottom.equalTo(self.snp.bottom).offset(-10)
+            make.height.width.equalTo(44)
         }
 
-        attachButton.snp.makeConstraints { make in
-            make.trailing.equalTo(reviewTextView).offset(-8)
-            make.bottom.equalTo(submitButton.snp.top).offset(-16)
-            make.height.width.equalTo(24)
-        }
+//        убрал пока не реализовано на бэке
+//        attachButton.snp.makeConstraints { make in
+//            make.trailing.equalTo(reviewTextView).offset(-8)
+//            make.bottom.equalTo(submitButton.snp.top).offset(-16)
+//            make.height.width.equalTo(24)
+//        }
     }
 
     private func setupBindings() {

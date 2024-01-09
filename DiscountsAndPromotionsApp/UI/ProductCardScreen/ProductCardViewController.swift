@@ -151,6 +151,7 @@ class ProductCardViewController: UIViewController {
 
     private func setupViewConfiguration() {
         viewModel.setupPriceInfoView(priceInfoView)
+        viewModel.setupRatingView(ratingView)
     }
 
     private func configureViews(with product: Product?) {

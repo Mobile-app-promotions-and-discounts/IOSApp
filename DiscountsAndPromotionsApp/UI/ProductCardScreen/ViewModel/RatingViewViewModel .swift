@@ -4,16 +4,27 @@ import UIKit
 protocol RatingViewViewModelProtocol {
     var reviewsButtonTapped: PassthroughSubject<Void, Never> { get }
     var rating: Double { get }
-    var numberOfReviews: Int { get }
+    var reviewCountPublisher: PassthroughSubject<Int, Never> { get }
+
+    func setReviewCount(_ count: Int)
 }
 
-class RatingViewViewModel: RatingViewViewModelProtocol {
+final class RatingViewViewModel: RatingViewViewModelProtocol {
     let reviewsButtonTapped = PassthroughSubject<Void, Never>()
-    var rating: Double
-    var numberOfReviews: Int
+    let reviewCountPublisher = PassthroughSubject<Int, Never>()
 
-    init(rating: Double, numberOfReviews: Int) {
+    var rating: Double
+    private var numberOfReviews: Int = 0 {
+        didSet {
+            reviewCountPublisher.send(numberOfReviews)
+        }
+    }
+
+    init(rating: Double) {
         self.rating = rating
-        self.numberOfReviews = numberOfReviews
+    }
+
+    func setReviewCount(_ count: Int) {
+        numberOfReviews = count
     }
 }
