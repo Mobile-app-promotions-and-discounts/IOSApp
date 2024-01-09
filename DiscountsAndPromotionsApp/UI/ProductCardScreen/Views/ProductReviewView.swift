@@ -116,6 +116,7 @@ class ProductReviewView: UIView {
 
     private func setupSubmitButton() {
         submitButton.setImage(UIImage(named: "ic_send")?.withRenderingMode(.alwaysOriginal), for: .normal)
+        submitButton.addTarget(self, action: #selector(sendButtonTapped), for: .touchUpInside)
         addSubview(submitButton)
     }
 
@@ -155,13 +156,16 @@ class ProductReviewView: UIView {
     }
 
     private func setupBindings() {
-        submitButton.publisher(for: .touchUpInside)
-            .map { [weak self] _ in (self?.viewModel?.rating.value ?? 1, self?.reviewTextView.text ?? "")
-            }
-            .sink {[weak self] rating, reviewText in
-                self?.viewModel?.submitReview.send((rating, reviewText))
-            }
-            .store(in: &cancellables)
+        // TODO: - найти ошибку в паблишере (отправляет дважды)
+//        submitButton.publisher(for: .touchUpInside)
+//            .map { [weak self] _ in (self?.viewModel?.rating.value ?? 0, self?.reviewTextView.text ?? "")
+//            }
+//            .sink {[weak self] rating, reviewText in
+//                if !reviewText.isEmpty && rating != 0 {
+//                    self?.viewModel?.submitReview.send((rating, reviewText))
+//                }
+//            }
+//            .store(in: &cancellables)
 
         reviewTextView.beginEditingPublisher
             .receive(on: DispatchQueue.main)
@@ -210,4 +214,12 @@ class ProductReviewView: UIView {
         // Действие для кнопки "Готово"
         reviewTextView.resignFirstResponder()
     }
+
+    @objc private func sendButtonTapped() {
+        if let reviewRating = viewModel?.rating.value,
+           reviewRating != 0,
+           !reviewTextView.text.isEmpty {
+            viewModel?.submitReview.send((reviewRating, reviewTextView.text))
+            }
+        }
 }

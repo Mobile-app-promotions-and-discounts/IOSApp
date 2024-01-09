@@ -9,7 +9,7 @@ protocol ProductReviewViewModelProtocol {
     func setupBindings()
 }
 
-class ProductReviewViewModel: ProductReviewViewModelProtocol {
+final class ProductReviewViewModel: ProductReviewViewModelProtocol {
     let rating = CurrentValueSubject<Int, Never>(1)
     let reviewText = CurrentValueSubject<String, Never>("")
     let submitReview = PassthroughSubject<(Int, String), Never>()
@@ -29,5 +29,4 @@ class ProductReviewViewModel: ProductReviewViewModelProtocol {
             }
             .store(in: &cancellables)
     }
-     // Остальные методы и логика
  }
