@@ -76,7 +76,12 @@ actor AuthService: AuthServiceProtocol {
     }
 
     private func requestVerification() async {
-        let access: String = tokenStorage.accessToken ?? ""
+        // на время чтобы не мешала страница авторизации
+        guard let token = tokenStorage.accessToken else {
+            getToken(for: NetworkBaseConfiguration.testUser)
+            return
+        }
+        let access: String = token
         let tokenParams: [String: String] = [
             "token": access
         ]
@@ -130,6 +135,7 @@ actor AuthService: AuthServiceProtocol {
             print("Token refresh error: \(error.localizedDescription)")
 
             isTokenValid = false
+            logout()
             if let error = error as? AppError {
                 ErrorHandler.handle(error: error)
             } else {

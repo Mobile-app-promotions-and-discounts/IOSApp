@@ -3,6 +3,12 @@ import UIKit
 final class PrimaryButton: UIButton {
     private var isSetUp = false
 
+    override var isSelected: Bool {
+        didSet {
+            layoutSubviews()
+        }
+    }
+
     override var isUserInteractionEnabled: Bool {
         didSet {
             layoutSubviews()
@@ -28,6 +34,8 @@ final class PrimaryButton: UIButton {
 
     private func setBackgroundColor() {
         if !isUserInteractionEnabled {
+            backgroundColor = .cherryPrimaryDisabled
+        } else if isSelected {
             backgroundColor = .cherryPrimaryDisabled
         } else {
             backgroundColor = isHighlighted ? .cherryPrimaryPressed : .cherryMainAccent

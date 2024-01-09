@@ -6,6 +6,8 @@ protocol PriceInfoViewViewModelProtocol {
     var discountPricePublisher: AnyPublisher<Int, Never> { get }
     var addToFavorites: PassthroughSubject<Void, Never> { get }
     var isFavorite: Bool { get }
+    var price: Int { get }
+    var discountPrice: Int { get }
 
     func updatePrice(_ price: Int)
     func updateDiscountPrice(_ discountPrice: Int)
@@ -51,7 +53,8 @@ class PriceInfoViewViewModel: PriceInfoViewViewModelProtocol {
     }
 
     func toggleFavorite() {
-        if isFavorite {
+        print("ADD TO FAVORITES FROM CARD")
+        if profileService.isFavorite(product) {
             profileService.removeFavorite(product)
         } else {
             profileService.addFavorite(product)

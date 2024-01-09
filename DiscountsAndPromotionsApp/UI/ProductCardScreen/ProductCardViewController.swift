@@ -2,59 +2,77 @@ import UIKit
 import SnapKit
 import Combine
 
-private struct TableViewConstants {
-    static let headerHeight: CGFloat = 19
-    static let footerHeight: CGFloat = 12
-    static let topPadding: CGFloat = 12
-    static let cellHeight: CGFloat = 85
-    static let cellSpacing: CGFloat = 8
-}
-
 class ProductCardViewController: UIViewController {
-
     weak var coordinator: Coordinator?
 
-    private var product: Product?
+    private var originalNavBarAppearance: UINavigationBarAppearance?
+
+    private var viewModel: ProductCardViewModel
+
     private var cancellables = Set<AnyCancellable>()
 
     private lazy var productScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.alwaysBounceVertical = true
-        scrollView.showsVerticalScrollIndicator = true
-        scrollView.contentSize = contentSize
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.contentInset = insets
         return scrollView
     }()
 
-    private lazy var contentView: UIView = {
-        let view = UIView()
-        view.frame.size = contentSize
-        return view
+    private lazy var scrollContentContainer = {
+        let container = UIStackView()
+        container.axis = .vertical
+        container.spacing = 12
+        return container
     }()
 
-    private var contentSize: CGSize {
-        CGSize(width: view.frame.width, height: view.frame.height + 900)
-    }
+    let insets = UIEdgeInsets(top: 0,
+                              left: 0,
+                              bottom: 96,
+                              right: 0)
 
     // Все кастомные вьюхи
-    private let galleryView = ImageGalleryView()
-    private let titleAndRatingView = UIView()
-    private let titleView = ProductTitleView()
-    private var ratingViewModel: RatingViewViewModelProtocol
-    private let ratingView = RatingView()
-    private let offersTableView = UITableView()
-    private var reviewViewViewModel: ProductReviewViewModelProtocol
-    private let reviewView = ProductReviewView()
-    private var priceInfoViewModel: PriceInfoViewViewModelProtocol?
-    private let priceInfoView = PriceInfoView()
-    private let backButton = UIButton()
-    private let exportButton = UIButton()
+    private lazy var gallery = ImageGalleryController(transitionStyle: .scroll,
+                                                      navigationOrientation: .horizontal,
+                                                      options: nil)
+    private lazy var galleryView: UIView = {
+        let gallery = gallery.view ?? UIView()
 
-    init(product: Product,
-         ratingViewModel: RatingViewViewModelProtocol = RatingViewViewModel(),
-         reviewViewViewModel: ProductReviewViewModelProtocol = ProductReviewViewModel()) {
-        self.ratingViewModel = ratingViewModel
-        self.reviewViewViewModel = reviewViewViewModel
-        self.product = product
+        let galleryBackground = UIView()
+        galleryBackground.backgroundColor = .cherryWhite
+        galleryBackground.addSubview(gallery)
+        galleryBackground.layer.cornerRadius = CornerRadius.regular.cgFloat()
+        galleryBackground.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+
+        gallery.snp.makeConstraints { make in
+            make.top.bottom.trailing.leading.equalToSuperview()
+        }
+        return galleryBackground
+    }()
+    private lazy var titleAndRatingView = {
+        let view = UIView()
+        view.backgroundColor = .cherryWhite
+        view.layer.cornerRadius = CornerRadius.regular.cgFloat()
+        view.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        return view
+    }()
+    private lazy var ratingView = RatingView()
+    private lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        label.font = CherryFonts.headerLarge
+        label.textColor = .cherryBlack
+        label.numberOfLines = 0
+        return label
+    }()
+    private lazy var offersTableView = UITableView()
+    private lazy var reviewView = ProductReviewView()
+    private lazy var priceInfoView = PriceInfoView()
+    private lazy var backButton = UIButton()
+    private lazy var exportButton = UIButton()
+
+    init(viewModel: ProductCardViewModel
+    ) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -67,18 +85,23 @@ class ProductCardViewController: UIViewController {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 
+    // MARK: - LifeCycle Methods
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        originalNavBarAppearance = navigationController?.navigationBar.standardAppearance.copy()
+        setupProductNavigationBar()
+        navigationController?.setNavigationBarHidden(false, animated: false)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .cherryWhite
 
+        productScrollView.delegate = self
         productScrollView.contentInsetAdjustmentBehavior = .never
-        setupProductLayout()
-        setupPriceInfoView()
-        setupProductReviewView()
-        setupRatingView()
-        configureViews()
-        buttonsLayout()
-        print("Product in ProductCardViewController: \(String(describing: product))")
+        setupUI()
+        setupViewConfiguration()
+        setupBindings()
 
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow(notification: )),
@@ -88,211 +111,199 @@ class ProductCardViewController: UIViewController {
                                                selector: #selector(keyboardWillHide(notification: )),
                                                name: UIResponder.keyboardWillHideNotification,
                                                object: nil)
-        navigationController?.navigationBar.isHidden = true
     }
 
-    private func buttonsLayout() {
-        [backButton, exportButton].forEach {
-            view.addSubview($0)
+    override func viewWillDisappear(_ animated: Bool) {
+           super.viewWillDisappear(animated)
+           // первоначальный вид navbar
+           if let originalAppearance = originalNavBarAppearance {
+               navigationController?.navigationBar.standardAppearance = originalAppearance
+               navigationController?.navigationBar.scrollEdgeAppearance = originalAppearance
+               navigationController?.navigationBar.compactAppearance = originalAppearance
+               navigationController?.navigationBar.compactScrollEdgeAppearance = originalAppearance
+           }
 
-            $0.tintColor = .cherryWhite
-            $0.layer.shadowColor = UIColor.cherryBlack.cgColor
-            $0.layer.shadowRadius = 10.0
-            $0.layer.shadowOpacity = 1.0
-            $0.layer.shadowOffset = CGSize(width: 0, height: 0)
-            $0.layer.masksToBounds = false
-        }
+        navigationController?.setNavigationBarHidden(false, animated: false)
+       }
 
-        backButton.setImage(UIImage(named: "backImage"), for: .normal)
-        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
-        backButton.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(16)
-            make.top.equalTo(view.safeAreaLayoutGuide)
-            make.height.width.equalTo(24)
-        }
-
-        exportButton.setImage(UIImage(named: "ic_export"), for: .normal)
-        exportButton.addTarget(self, action: #selector(sendButtonTapped), for: .touchUpInside)
-        exportButton.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().offset(-16)
-            make.top.equalTo(view.safeAreaLayoutGuide)
-            make.height.width.equalTo(24)
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        UIView.animate(withDuration: 0.15) { [weak self] in
+            self?.navigationController?.navigationBar.alpha = 1.0
         }
     }
 
+    // MARK: - Private Func
+    private func setupUI() {
+        // Настройка UI-элементов
+        setupProductLayout()
+        setupTableView()
+    }
+
+    private func setupBindings() {
+        viewModel.$product
+            .receive(on: RunLoop.main)
+            .sink { [weak self] product in
+                self?.configureViews(with: product)
+            }
+            .store(in: &cancellables)
+    }
+
+    private func setupViewConfiguration() {
+        viewModel.setupPriceInfoView(priceInfoView)
+    }
+
+    private func configureViews(with product: Product?) {
+        // Обновление UI на основе данных из ViewModel
+        guard viewModel.product != nil else { return }
+        viewModel.configureGalleryView(gallery)
+        viewModel.configureTitle(titleLabel)
+        viewModel.configureRatingView(ratingView)
+        viewModel.configureReviewView(reviewView)
+        viewModel.configurePriceInfoView(priceInfoView)
+    }
+
+    // MARK: Mетоды для настройки UI
     private func setupProductLayout() {
-        view.addSubview(productScrollView)
-        productScrollView.addSubview(contentView)
+        [productScrollView, priceInfoView].forEach {
+            view.addSubview($0)
+        }
+        productScrollView.addSubview(scrollContentContainer)
 
-        contentView.backgroundColor = .cherryLightBlue
-        [galleryView, titleAndRatingView, offersTableView, reviewView, priceInfoView].forEach {
-            contentView.addSubview($0)
+        [galleryView, titleAndRatingView, offersTableView, reviewView].forEach {
+            scrollContentContainer.addArrangedSubview($0)
         }
 
         titleAndRatingView.backgroundColor = .cherryWhite
         titleAndRatingView.layer.cornerRadius = CornerRadius.regular.cgFloat()
-        [titleView, ratingView].forEach {
+        titleAndRatingView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        [titleLabel, ratingView].forEach {
             titleAndRatingView.addSubview($0)
         }
 
-        offersTableView.register(OfferTableViewCell.self, forCellReuseIdentifier: "OfferTableViewCell")
-        offersTableView.dataSource = self
-        offersTableView.delegate = self
-        offersTableView.isScrollEnabled = false
-        offersTableView.separatorStyle = .none
-        offersTableView.backgroundColor = .cherryWhite
         // Ограничения SNAPkit
-        productScrollView.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.leading.trailing.equalToSuperview()
-            make.bottom.equalToSuperview()
+        var statusBarHeight: CGFloat = 0
+        var screenHeight: CGFloat = 0
+        var contentHeight: CGFloat = 0
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+            statusBarHeight = windowScene.statusBarManager?.statusBarFrame.height ?? 0
+            screenHeight = windowScene.windows.first?.frame.height ?? 0
+            contentHeight = screenHeight - statusBarHeight
         }
-        contentView.snp.makeConstraints { make in
-            make.top.leading.bottom.trailing.equalTo(productScrollView)
-            make.bottom.equalToSuperview()
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.colors = [UIColor.cherryLightBlue.cgColor, UIColor.cherryWhite.cgColor]
+        gradientLayer.startPoint = CGPoint(x: 0.5, y: 1.0)
+        gradientLayer.endPoint = CGPoint(x: 0.5, y: 0.5)
+        gradientLayer.locations = [0.0, 1.0]
+        gradientLayer.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: statusBarHeight * 2)
+        view.layer.insertSublayer(gradientLayer, at: 0)
+        view.backgroundColor = .cherryLightBlue
+
+        priceInfoView.backgroundColor = .cherryWhite
+        priceInfoView.layer.cornerRadius = CornerRadius.regular.cgFloat()
+        priceInfoView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        priceInfoView.snp.makeConstraints { make in
+            make.bottom.leading.trailing.equalToSuperview()
+        }
+
+        productScrollView.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(statusBarHeight)
+            make.height.equalTo(contentHeight)
+            make.leading.trailing.equalToSuperview()
+        }
+        productScrollView.backgroundColor = .clear
+
+        scrollContentContainer.snp.makeConstraints { make in
+            make.top.bottom.leading.trailing.equalTo(productScrollView.contentLayoutGuide)
         }
 
         galleryView.snp.makeConstraints { make in
-            make.top.leading.trailing.equalToSuperview()
+            make.top.equalToSuperview()
             make.height.equalTo(316)
-            make.width.equalToSuperview()
+            make.width.equalTo(view)
         }
 
         titleAndRatingView.snp.makeConstraints { make in
             make.top.equalTo(galleryView.snp.bottom)
-            make.leading.equalTo(contentView)
-            make.height.equalTo(148)
-            make.width.equalTo(contentView.frame.width)
         }
 
-        titleView.snp.makeConstraints { make in
+        titleLabel.snp.makeConstraints { make in
             make.top.equalTo(titleAndRatingView).offset(16)
-            make.leading.equalTo(contentView)
-            make.height.equalTo(50)
-            make.width.equalTo(contentView.frame.width)
+            make.leading.trailing.equalToSuperview().inset(16)
         }
+
         ratingView.snp.makeConstraints { make in
-            make.top.equalTo(titleView.snp.bottom).offset(16)
-            make.leading.equalTo(contentView).offset(16)
-            make.trailing.equalTo(contentView).offset(-16)
+            make.top.equalTo(titleLabel.snp.bottom).offset(16)
+            make.leading.trailing.bottom.equalToSuperview().inset(16)
             make.height.equalTo(58)
-            make.width.equalTo(contentView.frame.width)
         }
 
         offersTableView.layer.cornerRadius = CornerRadius.regular.cgFloat()
         offersTableView.snp.makeConstraints { make in
-            make.top.equalTo(ratingView.snp.bottom).offset(32)
-            make.leading.trailing.equalTo(contentView)
-            make.height.equalTo(calculateTableViewHeight())
-            make.width.equalTo(contentView.frame.width)
+            make.top.equalTo(titleAndRatingView.snp.bottom).offset(16)
+            make.height.equalTo(viewModel.calculateTableViewHeight())
         }
 
         reviewView.backgroundColor = .cherryWhite
         reviewView.layer.cornerRadius = CornerRadius.regular.cgFloat()
         reviewView.snp.makeConstraints { make in
             make.top.equalTo(offersTableView.snp.bottom).offset(16)
-            make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
-        }
-
-        priceInfoView.snp.makeConstraints { make in
-            make.top.equalTo(reviewView.snp.bottom).offset(16)
-            make.leading.equalTo(contentView)
             make.bottom.equalToSuperview()
-            make.width.equalTo(contentView.frame.width)
         }
     }
 
-    private func calculateTableViewHeight() -> CGFloat {
-        let numberOfCells = CGFloat(product?.offers.count ?? 0)
-        return TableViewConstants.headerHeight +
-               TableViewConstants.topPadding +
-               TableViewConstants.footerHeight +
-               (TableViewConstants.cellHeight + TableViewConstants.cellSpacing) * numberOfCells -
-               TableViewConstants.cellSpacing
+    private func setupTableView() {
+        offersTableView.register(OfferTableViewCell.self, forCellReuseIdentifier: "OfferTableViewCell")
+        offersTableView.dataSource = self
+        offersTableView.delegate = self
+        offersTableView.isScrollEnabled = false
+        offersTableView.separatorStyle = .none
+        offersTableView.backgroundColor = .cherryWhite
     }
 
-    private func setupPriceInfoView() {
-        guard let product = product else {
-            print("Product is nil in setupPriceInfoView")
-            return }
-        priceInfoViewModel = PriceInfoViewViewModel(profileService: MockProfileService(), product: product)
-        priceInfoView.backgroundColor = .cherryWhite
-        priceInfoView.layer.cornerRadius = CornerRadius.regular.cgFloat()
-        priceInfoView.viewModel = priceInfoViewModel
-        print("ViewModel is set in PriceInfoView")
-        priceInfoViewModel?.addToFavorites
-            .sink { [weak self] in
-                self?.addToFavorites()
+    // MARK: - Navigation bar appearence
+    private func setupProductNavigationBar() {
+        let scrollEdgeAppearance = UINavigationBarAppearance()
+        scrollEdgeAppearance.configureWithTransparentBackground()
+        scrollEdgeAppearance.titleTextAttributes = [ .foregroundColor: UIColor.clear ]
+
+        let standardAppearance = UINavigationBarAppearance()
+        standardAppearance.configureWithOpaqueBackground()
+        standardAppearance.backgroundColor = UIColor.cherryWhite
+
+        let titleAttributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: UIColor.black,
+            .font: CherryFonts.headerMedium as Any
+        ]
+        standardAppearance.titleTextAttributes = titleAttributes
+
+        navigationController?.navigationBar.standardAppearance = standardAppearance
+        navigationController?.navigationBar.scrollEdgeAppearance = scrollEdgeAppearance
+        navigationController?.navigationBar.compactAppearance = standardAppearance
+        navigationController?.navigationBar.compactScrollEdgeAppearance = scrollEdgeAppearance
+
+        [backButton, exportButton].forEach {
+            $0.tintColor = .cherryGray
+            $0.backgroundColor = .cherryWhite.withAlphaComponent(0.8)
+            $0.snp.makeConstraints { make in
+                make.height.width.equalTo(32)
             }
-            .store(in: &cancellables)
-    }
-
-    private func setupProductReviewView() {
-        reviewView.viewModel = reviewViewViewModel
-        reviewViewViewModel.submitReview
-            .sink { [weak self] rating, reviewText in
-                        // Обработка отправки отзыва
-                print("Отзыв с рейтингом \(rating): \(reviewText)")
-            }
-            .store(in: &cancellables)
-    }
-
-    private func setupRatingView() {
-        ratingView.viewModel = ratingViewModel
-        ratingViewModel.reviewsButtonTapped
-            .sink { [weak self] in
-                // Обработка нажатия на кнопку отзывов
-                print("Отзывы показаны")
-            }
-            .store(in: &cancellables)
-    }
-
-    private func addToFavorites() {
-        navigationController?.popViewController(animated: true)
-        print("Нажатие кнопки В избранное")
-    }
-
-    private func configureViews() {
-        var images: [UIImage] = []
-        // Добавление основного изображения
-        if let mainImageName = product?.image?.mainImage, let mainImage = UIImage(named: mainImageName) {
-            images.append(mainImage)
+            $0.layer.cornerRadius = 16
         }
-        // Добавление дополнительных изображений
-        if let additionalPhotos = product?.image?.additionalPhoto {
-            for photoName in additionalPhotos {
-                if let image = UIImage(named: photoName) {
-                    images.append(image)
-                }
-            }
-        }
+        backButton.setImage(UIImage.back, for: .normal)
+        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
 
-        galleryView.configure(with: images)
+        exportButton.setImage(UIImage.icExport, for: .normal)
+        exportButton.addTarget(self, action: #selector(sendButtonTapped), for: .touchUpInside)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: exportButton)
 
-        if let titleLabelText = product?.name, let weightLabelText = product?.description {
-            titleView.configure(with: titleLabelText, weight: weightLabelText)
-        } else {
-            titleView.configure(with: "Title", weight: "Weight")
-        }
-
-        if let rating = product?.rating {
-            ratingView.configure(with: rating, numberOfReviews: 0)
-        } else {
-            ratingView.configure(with: 1.0, numberOfReviews: 1)
-        }
-
-        if let product = product {
-            let minPrice = product.findMinMaxOffers().minOffer?.price ?? 0
-            let maxOriginalPrice = product.findMinMaxInitialOffers().maxOffer?.initialPrice ?? 0
-            print("Configuring PriceInfoView with price: \(minPrice)")
-            priceInfoView.configure(with: Int(maxOriginalPrice), discountPrice: Int(minPrice))
-        }
+        navigationItem.title = viewModel.product?.name
     }
 
     @objc func backButtonTapped() {
         coordinator?.navigateBack()
-        print("Закрытие экрана")
     }
 
     @objc func sendButtonTapped() {
@@ -317,7 +328,7 @@ extension ProductCardViewController {
 
         // Проверяем, активен ли UITextView внутри ProductReviewView
         if reviewView.isFirstResponder {
-            let rectInScrollView = productScrollView.convert(reviewView.frame, from: contentView)
+            let rectInScrollView = productScrollView.convert(reviewView.frame, from: scrollContentContainer)
             let offset = rectInScrollView.maxY - (view.bounds.height - keyboardHeight)
             let adjustedOffset = offset + 30
             if offset > 0 {
@@ -327,35 +338,26 @@ extension ProductCardViewController {
     }
 
     @objc func keyboardWillHide(notification: NSNotification) {
-        productScrollView.contentInset = UIEdgeInsets.zero
-        productScrollView.scrollIndicatorInsets = UIEdgeInsets.zero
+        productScrollView.contentInset = insets
+        productScrollView.scrollIndicatorInsets = insets
     }
 
 }
 
 extension ProductCardViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return product?.offers.count ?? 3 // TODO: Нужно сделать только чтобы максимум три магазина
+        viewModel.numberOfRowsInSection(section)
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: "OfferTableViewCell",
-            for: indexPath) as? OfferTableViewCell,
-              let store = product?.offers[indexPath.row] else {
-            return UITableViewCell()
-        }
+        viewModel.cellForRowAt(tableView, indexPath: indexPath)
         // Здесь конфигурируем ячейку с данными о магазине
-        cell.selectionStyle = .none
-        cell.configure(with: store)
-        return cell
     }
-
 }
 
 extension ProductCardViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 85 // высота каждой ячейки
+        return viewModel.heightForRow(at: indexPath)
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
