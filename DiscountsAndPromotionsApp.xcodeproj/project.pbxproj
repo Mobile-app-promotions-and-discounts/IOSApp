@@ -56,6 +56,10 @@
 		BC97CDEA2B3DF2BE00310AD8 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = BC97CDE92B3DF2BE00310AD8 /* Kingfisher */; };
 		BCAA6CF52B4E7120007C6FB4 /* ReviewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAA6CF42B4E7120007C6FB4 /* ReviewsViewController.swift */; };
 		BCAA6CF92B4E7177007C6FB4 /* ReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAA6CF82B4E7177007C6FB4 /* ReviewCell.swift */; };
+		BCAA6CFE2B4EFE42007C6FB4 /* CherryCustomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAA6CFD2B4EFE42007C6FB4 /* CherryCustomViewController.swift */; };
+		BCAA6D002B4F0B1D007C6FB4 /* ReviewRatingHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAA6CFF2B4F0B1D007C6FB4 /* ReviewRatingHeader.swift */; };
+		BCAA6D022B4F138D007C6FB4 /* StarsRatingRegularView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAA6D012B4F138D007C6FB4 /* StarsRatingRegularView.swift */; };
+		BCAA6D042B4F13C6007C6FB4 /* StarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAA6D032B4F13C6007C6FB4 /* StarView.swift */; };
 		BCAACF3B2B38D85C0082A7CB /* BarcodeTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAACF3A2B38D85C0082A7CB /* BarcodeTextField.swift */; };
 		BCAC6B772B223C4100AD5C96 /* NetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAC6B682B223C4100AD5C96 /* NetworkClient.swift */; };
 		BCAC6B782B223C4100AD5C96 /* NetworkClientProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAC6B692B223C4100AD5C96 /* NetworkClientProtocol.swift */; };
@@ -223,6 +227,10 @@
 		BC93BB732B0C8166008BE2AD /* ScannerNavButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerNavButton.swift; sourceTree = "<group>"; };
 		BCAA6CF42B4E7120007C6FB4 /* ReviewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewsViewController.swift; sourceTree = "<group>"; };
 		BCAA6CF82B4E7177007C6FB4 /* ReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCell.swift; sourceTree = "<group>"; };
+		BCAA6CFD2B4EFE42007C6FB4 /* CherryCustomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CherryCustomViewController.swift; sourceTree = "<group>"; };
+		BCAA6CFF2B4F0B1D007C6FB4 /* ReviewRatingHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewRatingHeader.swift; sourceTree = "<group>"; };
+		BCAA6D012B4F138D007C6FB4 /* StarsRatingRegularView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarsRatingRegularView.swift; sourceTree = "<group>"; };
+		BCAA6D032B4F13C6007C6FB4 /* StarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarView.swift; sourceTree = "<group>"; };
 		BCAACF3A2B38D85C0082A7CB /* BarcodeTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeTextField.swift; sourceTree = "<group>"; };
 		BCAC6B682B223C4100AD5C96 /* NetworkClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkClient.swift; sourceTree = "<group>"; };
 		BCAC6B692B223C4100AD5C96 /* NetworkClientProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkClientProtocol.swift; sourceTree = "<group>"; };
@@ -468,6 +476,7 @@
 			isa = PBXGroup;
 			children = (
 				BCAA6CF42B4E7120007C6FB4 /* ReviewsViewController.swift */,
+				BCAA6CFF2B4F0B1D007C6FB4 /* ReviewRatingHeader.swift */,
 				BCAA6CF82B4E7177007C6FB4 /* ReviewCell.swift */,
 			);
 			path = ReviewsScreen;
@@ -482,6 +491,15 @@
 				BCCF4FF02B1B4AF10067A552 /* ViewModel */,
 			);
 			path = ProductCardScreen;
+			sourceTree = "<group>";
+		};
+		BCAA6D052B4F13CB007C6FB4 /* StarsRatingView */ = {
+			isa = PBXGroup;
+			children = (
+				BCAA6D012B4F138D007C6FB4 /* StarsRatingRegularView.swift */,
+				BCAA6D032B4F13C6007C6FB4 /* StarView.swift */,
+			);
+			path = StarsRatingView;
 			sourceTree = "<group>";
 		};
 		BCAC6B662B223C4100AD5C96 /* Network */ = {
@@ -719,6 +737,7 @@
 				BCCF4FE52B1B4AF10067A552 /* ScannerEnabledViewController.swift */,
 				BCCF4FE62B1B4AF10067A552 /* GenericNavigationController.swift */,
 				BCCF4FE72B1B4AF10067A552 /* SearchEnabledViewController.swift */,
+				BCAA6CFD2B4EFE42007C6FB4 /* CherryCustomViewController.swift */,
 			);
 			path = NavigationBar;
 			sourceTree = "<group>";
@@ -870,6 +889,7 @@
 				BC6046222B1E4BC600536EB3 /* TextField.swift */,
 				BC0723112B1A4E5300EF82B8 /* Gradients.swift */,
 				BE007AF62B399D9600BCFDCF /* EmptyOnScreenView.swift */,
+				BCAA6D052B4F13CB007C6FB4 /* StarsRatingView */,
 			);
 			path = DesignSystem;
 			sourceTree = "<group>";
@@ -1195,7 +1215,9 @@
 				BCAC6B892B22630400AD5C96 /* ProductsInStoreResponseModel.swift in Sources */,
 				BE70C22D2B20965F004FD1E9 /* SortsHeaderView.swift in Sources */,
 				BCCF500D2B1B4AF10067A552 /* ScanViewController.swift in Sources */,
+				BCAA6D022B4F138D007C6FB4 /* StarsRatingRegularView.swift in Sources */,
 				BCD4B4802B31759100539CD1 /* StoreNetworkService.swift in Sources */,
+				BCAA6D002B4F0B1D007C6FB4 /* ReviewRatingHeader.swift in Sources */,
 				BCCF501B2B1B4AF10067A552 /* ProductReviewViewModel.swift in Sources */,
 				BCCF50192B1B4AF10067A552 /* FavoritesViewController.swift in Sources */,
 				BCCF50022B1B4AF10067A552 /* MainScreenSections.swift in Sources */,
@@ -1219,6 +1241,7 @@
 				BC60461F2B1E4B7900536EB3 /* ProfileAssetButton.swift in Sources */,
 				BC6046232B1E4BC600536EB3 /* TextField.swift in Sources */,
 				BE8E70B42B0E74F600BEAA5A /* ProfileScreenCoordinator.swift in Sources */,
+				BCAA6CFE2B4EFE42007C6FB4 /* CherryCustomViewController.swift in Sources */,
 				92787FA82B21EEE00045B678 /* LoginViewModelProtocol.swift in Sources */,
 				BCCF50212B1B4AF10067A552 /* RatingView.swift in Sources */,
 				D02E38722B25DB4500B3D27E /* ChooseRegionViewController.swift in Sources */,
@@ -1264,6 +1287,7 @@
 				BCCF4FFF2B1B4AF10067A552 /* MainViewModel.swift in Sources */,
 				BCAC6B852B2262DC00AD5C96 /* CategoryResponseModel.swift in Sources */,
 				BCCF50032B1B4AF10067A552 /* PromotionUIModel.swift in Sources */,
+				BCAA6D042B4F13C6007C6FB4 /* StarView.swift in Sources */,
 				BCAC6B7E2B223C4100AD5C96 /* AuthService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

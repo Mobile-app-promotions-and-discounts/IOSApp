@@ -1,6 +1,12 @@
 import Foundation
 
+struct MyProductReview: Codable {
+    let text: String
+    let score: Int
+}
+
 struct ProductReviewModel: Codable {
+    let customer: String?
     let text: String
     let score: Int
 }

@@ -2,7 +2,7 @@ import UIKit
 import SnapKit
 import Combine
 
-class ProductCardViewController: UIViewController {
+final class ProductCardViewController: UIViewController {
     weak var coordinator: Coordinator?
 
     private var originalNavBarAppearance: UINavigationBarAppearance?
@@ -150,8 +150,8 @@ class ProductCardViewController: UIViewController {
 
         viewModel.reviewsButtonTappedPublisher
             .sink { [weak self] in
-                // TODO осмыслить логику координаторов
-                self?.coordinator?.navigationController.show(ReviewsViewController(product: nil, reviewCount: 99), sender: nil)
+                guard let self else { return }
+                self.coordinator?.navigateToReviewsScreen(viewModel: self.viewModel)
             }
             .store(in: &cancellables)
     }

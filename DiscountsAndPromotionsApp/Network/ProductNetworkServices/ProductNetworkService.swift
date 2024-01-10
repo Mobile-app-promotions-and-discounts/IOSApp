@@ -20,7 +20,7 @@ protocol ProductNetworkServiceProtocol {
 
     // отзывы
     func getReviewsForProduct(id productID: Int, page: Int)
-    func addNewReviewForProduct(id productID: Int, review: ProductReviewModel)
+    func addNewReviewForProduct(id productID: Int, review: MyProductReview)
 
     func getProducts(categoryID: Int?, searchItem: String?, page: Int?)
     func getProduct(productID: Int)
@@ -305,10 +305,10 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
         }
     }
 
-    nonisolated func addNewReviewForProduct(id productID: Int, review: ProductReviewModel) {
+    nonisolated func addNewReviewForProduct(id productID: Int, review: MyProductReview) {
         Task { await postReview(productID: productID, review: review) }
     }
-    private func postReview(productID: Int, review: ProductReviewModel) async {
+    private func postReview(productID: Int, review: MyProductReview) async {
         var newReviewParameters: [String: Any] = [:]
         newReviewParameters.updateValue(review.text, forKey: "text")
         newReviewParameters.updateValue(review.score, forKey: "score")

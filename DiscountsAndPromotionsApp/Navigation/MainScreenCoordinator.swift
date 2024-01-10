@@ -65,11 +65,6 @@ final class MainScreenCoordinator: Coordinator {
         navigationController.pushViewController(productVC, animated: true)
     }
 
-    func navigateToReviewsScreen() {
-        let reviewsVC = ReviewsViewController(product: nil, reviewCount: 99)
-        navigationController.pushViewController(reviewsVC, animated: true)
-    }
-
     func navigateToMainScreen() {
         navigationController.popToRootViewController(animated: true)
     }
