@@ -8,7 +8,7 @@ final class MockDataService: DataServiceProtocol {
     private (set) var actualGoodsList = CurrentValueSubject<[Product], Never>([])
     private (set) var actualCategoryList = CurrentValueSubject<[Category], Never>([])
     private (set) var actualStoreList = CurrentValueSubject<[Store], Never>([])
-    private (set) var promotionList = CurrentValueSubject<[Promotion], Never>([])
+    private (set) var promotionList = CurrentValueSubject<[Product], Never>([])
 
     private var goods: [Product] = [] {
         didSet {
@@ -28,7 +28,7 @@ final class MockDataService: DataServiceProtocol {
         }
     }
 
-    private var promotion: [Promotion] = [] {
+    private var promotion: [Product] = [] {
         didSet {
             promotionList.send(promotion)
         }
@@ -681,59 +681,8 @@ final class MockDataService: DataServiceProtocol {
         ]
     }
 
-    private func generatePromotions() -> [Promotion] {
-        // Убедимся, что у нас есть хотя бы один магазин для каждой промоакции
-        guard let store1 = stores.first(where: { $0.name == "Ашан" }),
-              let store2 = stores.first(where: { $0.name == "М.видео" }),
-              let store3 = stores.first(where: { $0.name == "О'КЕЙ" }),
-              let store4 = stores.first(where: { $0.name == "Перекресток" }),
-              let store5 = stores.first(where: { $0.name == "Дикси" }),
-              let store6 = stores.first(where: { $0.name == "Торговая сеть Апекс" }) else {
-            return []
-        }
-
-        // Убедимся, что у нас есть категории для промоакций
-        guard let categoryProducts = categories.first(where: { $0.name == "Продукты" }),
-              let categoryHome = categories.first(where: { $0.name == "Дом и сад" }),
-              let categoryCosmetics = categories.first(where: { $0.name == "Косметика и гигиена" }),
-              let categoryPets = categories.first(where: { $0.name == "Зоотовары" }),
-              let categoryAuto = categories.first(where: { $0.name == "Авто" }),
-              let categoryHoliday = categories.first(where: { $0.name == "Праздник" }) else {
-            return []
-        }
-
-        // Создаём скидки для каждой категории
-        let discount = Discount(discountRate: 30,
-                                discountUnit: "%",
-                                discountRating: 5,
-                                discountStart: Date(),
-                                discountEnd: Date(),
-                                discountCard: true)
-
-        return [Promotion(text: "До – 30% на продукты",
-                          store: store1,
-                          category: categoryProducts,
-                          discount: discount),
-                Promotion(text: "Бытовая химия: 1 = 2",
-                          store: store2,
-                          category: categoryHome,
-                          discount: discount),
-                Promotion(text: "Косметика со скидкой до 20%",
-                          store: store3,
-                          category: categoryCosmetics,
-                          discount: discount),
-                Promotion(text: "Уход за питомцами со скидкой",
-                          store: store4,
-                          category: categoryPets,
-                          discount: discount),
-                Promotion(text: "Аксессуары для авто со скидками",
-                          store: store5,
-                          category: categoryAuto,
-                          discount: discount),
-                Promotion(text: "Праздничные товары со скидкой",
-                          store: store6,
-                          category: categoryHoliday,
-                          discount: discount)]
+    private func generatePromotions() -> [Product] {
+        return Array(goods.prefix(6))
     }
 }
 // swiftlint:enable type_body_length
