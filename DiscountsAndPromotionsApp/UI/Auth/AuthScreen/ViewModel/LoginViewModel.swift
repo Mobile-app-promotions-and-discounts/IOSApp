@@ -36,7 +36,7 @@ final class LoginViewModel: LoginViewModelProtocol {
         checkUserAuthData()
     }
     
-    func changeUserName(_ newEmail: String) {
+    func changeUserEmail(_ newEmail: String) {
         userEmail.send(newEmail)
     }
     

@@ -146,7 +146,7 @@ final class LoginViewController: UIViewController {
     
     @objc
     private func changeEmail(_ textField: UITextField) {
-        viewModel.changeUserName(textField.text ?? "")
+        viewModel.changeUserEmail(textField.text ?? "")
     }
     
     @objc

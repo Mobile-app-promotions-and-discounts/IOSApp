@@ -43,11 +43,14 @@ final class MainCoordinator: Coordinator {
     }
 
     func navigateToAuthScreen(from splashViewController: UIViewController) {
-        let loginViewController = LoginViewController()
+        //let loginViewController = LoginViewController()
+        let loginViewController = RegistrationViewController() // TODO:  - временно
         loginViewController.coordinator = self
         loginViewController.modalPresentationStyle = .custom
         loginViewController.transitioningDelegate = splashViewController as? any UIViewControllerTransitioningDelegate
         splashViewController.present(loginViewController, animated: true)
+        
+        
     }
 
     private func configureChildCoordinators(with tabBarController: MainTabBarController) {

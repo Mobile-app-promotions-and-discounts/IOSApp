@@ -1,23 +1,6 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "authorizationError" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Invalid email or password"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Неверный email или пароль"
-          }
-        }
-      }
-    },
     "email" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -41,47 +24,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Login"
+            "value" : "Registration"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Вход"
-          }
-        }
-      }
-    },
-    "forgotPassword" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Forgot your password?"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Забыли пароль?"
-          }
-        }
-      }
-    },
-    "login" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Login"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Войти"
+            "value" : "Регистрация"
           }
         }
       }
@@ -103,7 +52,41 @@
         }
       }
     },
-    "register" : {
+    "privacyPolicy" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terms and Privacy Policy."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Условиями и Политикой конфиденциальности."
+          }
+        }
+      }
+    },
+    "privacyPolicyTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "By clicking the “Register” button you confirm your agreement with our"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нажимая кнопку «Зарегистрироваться»  вы подтверждаете своё согласие с нашими"
+          }
+        }
+      }
+    },
+    "registration" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -116,6 +99,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Зарегистрироваться"
+          }
+        }
+      }
+    },
+    "RegistrationError" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Failed to register"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ошибка регистрации"
           }
         }
       }

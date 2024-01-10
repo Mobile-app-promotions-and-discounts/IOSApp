@@ -10,6 +10,7 @@
 		7F2137D12B4E9256006B680C /* RegistrationViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F2137D02B4E9256006B680C /* RegistrationViewModelProtocol.swift */; };
 		7F2137D32B4E9283006B680C /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F2137D22B4E9283006B680C /* RegistrationViewModel.swift */; };
 		7F2137D52B4E92CA006B680C /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F2137D42B4E92CA006B680C /* RegistrationViewController.swift */; };
+		7F2137D72B4EDDCF006B680C /* RegistrationFlow.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7F2137D62B4EDDCF006B680C /* RegistrationFlow.xcstrings */; };
 		92787F662B1F133C0045B678 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92787F652B1F133C0045B678 /* SplashViewController.swift */; };
 		92787F682B1F14500045B678 /* AuthTokenKeychainStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92787F672B1F14500045B678 /* AuthTokenKeychainStorage.swift */; };
 		92787F6B2B1F159A0045B678 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 92787F6A2B1F159A0045B678 /* SwiftKeychainWrapper */; };
@@ -179,6 +180,7 @@
 		7F2137D02B4E9256006B680C /* RegistrationViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModelProtocol.swift; sourceTree = "<group>"; };
 		7F2137D22B4E9283006B680C /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
 		7F2137D42B4E92CA006B680C /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
+		7F2137D62B4EDDCF006B680C /* RegistrationFlow.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = RegistrationFlow.xcstrings; sourceTree = "<group>"; };
 		92787F652B1F133C0045B678 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		92787F672B1F14500045B678 /* AuthTokenKeychainStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTokenKeychainStorage.swift; sourceTree = "<group>"; };
 		92787F6F2B1F5E9F0045B678 /* LaunchScreen.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = LaunchScreen.xcstrings; sourceTree = "<group>"; };
@@ -847,6 +849,7 @@
 				927EC3052B21E7C8005C100B /* ProductFlow.xcstrings */,
 				92787F6F2B1F5E9F0045B678 /* LaunchScreen.xcstrings */,
 				92787F7A2B20B60C0045B678 /* AuthFlow.xcstrings */,
+				7F2137D62B4EDDCF006B680C /* RegistrationFlow.xcstrings */,
 				92787F712B1F5F5F0045B678 /* Localization.swift */,
 			);
 			path = Configuration;
@@ -1103,6 +1106,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7F2137D72B4EDDCF006B680C /* RegistrationFlow.xcstrings in Resources */,
 				92787F702B1F5E9F0045B678 /* LaunchScreen.xcstrings in Resources */,
 				BC0723182B1A589800EF82B8 /* Manrope-Regular.ttf in Resources */,
 				D059EB8F2B1FC1CB004C8A1A /* ProfileFlow.xcstrings in Resources */,
