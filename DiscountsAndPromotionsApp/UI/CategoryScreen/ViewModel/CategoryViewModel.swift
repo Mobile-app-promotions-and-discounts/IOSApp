@@ -37,6 +37,7 @@ final class CategoryViewModel: CategoryViewModelProtocol {
     func getTitle() -> String {
         if let name = categoryName {
             return NSLocalizedString(name, tableName: "MainFlow", comment: "")
+
         }
         return ""
     }
