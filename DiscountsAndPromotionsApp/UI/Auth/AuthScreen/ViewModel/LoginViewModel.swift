@@ -42,7 +42,6 @@ final class LoginViewModel: LoginViewModelProtocol {
     
     func changePassword(_ newPassword: String) {
         userPassword.send(newPassword)
-        print(newPassword)
     }
 
     private func checkUserAuthData() {

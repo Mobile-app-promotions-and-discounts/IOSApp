@@ -22,6 +22,7 @@ final class LoginViewController: UIViewController {
         let field = InputUserDataField(textFieldDelegate: self)
         field.titleLabelText = L10n.Authorization.emailTitle
         field.placeholder = "ivanov@example.com"
+        field.textField.addTarget(self, action: #selector(changeEmail(_:)), for: .editingChanged)
         return field
     }()
 
@@ -29,6 +30,7 @@ final class LoginViewController: UIViewController {
         let field = InputUserDataField(textFieldDelegate: self)
         field.titleLabelText = L10n.Authorization.passwordTitle
         field.placeholder = "cherryapp"
+        field.textField.addTarget(self, action: #selector(changePassword(_:)), for: .editingChanged)
         field.isShowHidePasswordButtonVisible = true
         return field
     }()
@@ -142,6 +144,16 @@ final class LoginViewController: UIViewController {
         }
     }
     
+    @objc
+    private func changeEmail(_ textField: UITextField) {
+        viewModel.changeUserName(textField.text ?? "")
+    }
+    
+    @objc
+    private func changePassword(_ textField: UITextField) {
+        viewModel.changePassword(textField.text ?? "")
+    }
+    
     private enum Constants {
         enum View {
             static let cornerRadius: CGFloat = 12
@@ -172,18 +184,6 @@ final class LoginViewController: UIViewController {
 // MARK: - UITextFieldDelegate
 
 extension LoginViewController: UITextFieldDelegate {
-    
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let currentText = textField.text ?? ""
-        let newText = (currentText as NSString).replacingCharacters(in: range, with: string)
-        if textField == inputEmailField.textField {
-            viewModel.changeUserName(newText)
-        }
-        if textField == inputPasswordField.textField {
-            viewModel.changePassword(newText)
-        }
-        return true
-    }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
