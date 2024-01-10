@@ -10,6 +10,7 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>Manrope-Bold.ttf</string>
+		<string>Caveat-Regular.ttf</string>
 		<string>Manrope-SemiBold.ttf</string>
 		<string>Manrope-Regular.ttf</string>
 	</array>
