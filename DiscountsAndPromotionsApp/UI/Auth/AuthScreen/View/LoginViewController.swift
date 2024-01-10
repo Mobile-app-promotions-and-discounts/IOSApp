@@ -9,19 +9,6 @@ final class LoginViewController: UIViewController {
     private let viewModel: LoginViewModelProtocol
 
     private var cancellables: Set<AnyCancellable>
-    private var buttonSubscriber: AnyCancellable?
-    
-    @Published private var userName = ""
-    @Published private var password = ""
-    
-    private var validToSubmit: AnyPublisher<Bool, Never> {
-        return Publishers.CombineLatest($userName, $password)
-            .receive(on: RunLoop.main)
-            .map {
-                userName, password in
-                return !userName.isEmpty && !password.isEmpty
-            } .eraseToAnyPublisher()
-    }
     
     private lazy var entryLabel: UILabel = {
         let label = UILabel()
@@ -112,9 +99,10 @@ final class LoginViewController: UIViewController {
                 }
             }.store(in: &cancellables)
         
-        buttonSubscriber = validToSubmit
+        viewModel.validToSubmit
             .receive(on: RunLoop.main)
             .assign(to: \.isUserInteractionEnabled, on: loginButton)
+            .store(in: &cancellables)
     }
 
     private func setupView() {
@@ -124,9 +112,7 @@ final class LoginViewController: UIViewController {
     }
 
     @objc private func loginAction() {
-        let userEmail = inputEmailField.text
-        let userPassword = inputPasswordField.text
-        viewModel.didTapLoginButton(userEmail: userEmail, userPassword: userPassword)
+        viewModel.didTapLoginButton()
     }
 
     private func setupConstraints() {
@@ -188,15 +174,13 @@ final class LoginViewController: UIViewController {
 extension LoginViewController: UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if let text = textField.text,
-           let textRange = Range(range, in: text) {
-           let updatedText = text.replacingCharacters(in: textRange, with: string)
-            if textField == inputEmailField.textField {
-                userName = updatedText
-            }
-            if textField == inputPasswordField.textField {
-                password = updatedText
-            }
+        let currentText = textField.text ?? ""
+        let newText = (currentText as NSString).replacingCharacters(in: range, with: string)
+        if textField == inputEmailField.textField {
+            viewModel.changeUserName(newText)
+        }
+        if textField == inputPasswordField.textField {
+            viewModel.changePassword(newText)
         }
         return true
     }
