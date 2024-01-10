@@ -48,7 +48,7 @@ class RegistrationViewController: UIViewController {
         let stackView = UIStackView(arrangedSubviews: [inputEmailField, inputPasswordField])
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
-        stackView.spacing = Constants.TextFieldsStack.spacing
+        stackView.spacing = Const.TextFieldsStack.spacing
         return stackView
     }()
     
@@ -106,56 +106,61 @@ class RegistrationViewController: UIViewController {
 
     private func setupView() {
         view.backgroundColor = .cherryWhite
-        view.layer.cornerRadius = Constants.View.cornerRadius
+        view.layer.cornerRadius = Const.View.cornerRadius
         view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
     }
 
     private func setupConstraints() {
-        [registrationLabel,backButton, inputFieldsStack, privatePolicyLabel, privatePolicyLabelTap, registrationButton].forEach { view.addSubview($0) }
+        [registrationLabel,
+         backButton,
+         inputFieldsStack,
+         privatePolicyLabel,
+         privatePolicyLabelTap,
+         registrationButton].forEach { view.addSubview($0) }
 
-        registrationLabel.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalToSuperview()
-                .offset(Constants.EntryLabel.topOffset)
+        registrationLabel.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalToSuperview()
+                .offset(Const.EntryLabel.topOffset)
         }
         
-        backButton.snp.makeConstraints { make in
-            make.centerY.equalTo(registrationLabel.snp.centerY)
-            make.leading.equalToSuperview()
-                .offset(Constants.BackButton.leadingOffset)
-            make.height.equalTo(Constants.BackButton.heightWight)
-            make.width.equalTo(Constants.BackButton.heightWight)
+        backButton.snp.makeConstraints {
+            $0.centerY.equalTo(registrationLabel.snp.centerY)
+            $0.leading.equalToSuperview()
+                .offset(Const.BackButton.leadingOffset)
+            $0.height.equalTo(Const.BackButton.heightWight)
+            $0.width.equalTo(Const.BackButton.heightWight)
         }
 
-        inputFieldsStack.snp.makeConstraints { make in
-            make.top.equalTo(registrationLabel.snp.bottom)
-                .offset(Constants.TextFieldsStack.topOffset)
-            make.leading.trailing.equalToSuperview()
-                .inset(Constants.TextFieldsStack.leadingInset)
-            make.height.equalTo(Constants.TextFieldsStack.height)
+        inputFieldsStack.snp.makeConstraints {
+            $0.top.equalTo(registrationLabel.snp.bottom)
+                .offset(Const.TextFieldsStack.topOffset)
+            $0.leading.trailing.equalToSuperview()
+                .inset(Const.TextFieldsStack.leadingInset)
+            $0.height.equalTo(Const.TextFieldsStack.height)
         }
 
-        registrationButton.snp.makeConstraints { make in
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
-                .offset(Constants.RegisterButton.bottomOffset)
-            make.height.equalTo(Constants.RegisterButton.height)
-            make.leading.equalToSuperview()
-                .offset(Constants.RegisterButton.leadingOffset)
-            make.trailing.equalToSuperview()
-                .offset(Constants.RegisterButton.trailingOffset)
+        registrationButton.snp.makeConstraints {
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+                .offset(Const.RegisterButton.bottomOffset)
+            $0.height.equalTo(Const.RegisterButton.height)
+            $0.leading.equalToSuperview()
+                .offset(Const.RegisterButton.leadingOffset)
+            $0.trailing.equalToSuperview()
+                .offset(Const.RegisterButton.trailingOffset)
         }
         
-        privatePolicyLabelTap.snp.makeConstraints { make in
-            make.width.equalTo(registrationButton.snp.width)
-            make.centerX.equalToSuperview()
-            make.bottom.equalTo(registrationButton.snp.top)
-                .offset(Constants.PrivatePolicyLabelTap.bottomoffset)
+        privatePolicyLabelTap.snp.makeConstraints {
+            $0.width.equalTo(registrationButton.snp.width)
+            $0.centerX.equalToSuperview()
+            $0.bottom.equalTo(registrationButton.snp.top)
+                .offset(Const.PrivatePolicyLabelTap.bottomoffset)
         }
         
-        privatePolicyLabel.snp.makeConstraints { make in
-            make.width.equalTo(registrationButton.snp.width)
-            make.centerX.equalToSuperview()
-            make.bottom.equalTo(privatePolicyLabelTap.snp.top)
+        privatePolicyLabel.snp.makeConstraints {
+            $0.width.equalTo(registrationButton.snp.width)
+            $0.centerX.equalToSuperview()
+            $0.bottom.equalTo(privatePolicyLabelTap.snp.top)
         }
     }
     @objc
@@ -183,7 +188,7 @@ class RegistrationViewController: UIViewController {
         viewModel.didTapLoginButton()
     }
     
-    private enum Constants {
+    private enum Const {
         enum View {
             static let cornerRadius: CGFloat = 12
         }

@@ -39,7 +39,7 @@ final class LoginViewController: UIViewController {
         let stackView = UIStackView(arrangedSubviews: [inputEmailField, inputPasswordField])
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
-        stackView.spacing = Constants.TextFieldsStack.spacing
+        stackView.spacing = Const.TextFieldsStack.spacing
         return stackView
     }()
 
@@ -68,7 +68,7 @@ final class LoginViewController: UIViewController {
         let stackView = UIStackView(arrangedSubviews: [loginButton, registerButton])
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
-        stackView.spacing = Constants.ButtonStack.spacing
+        stackView.spacing = Const.ButtonStack.spacing
         return stackView
     }()
 
@@ -109,7 +109,7 @@ final class LoginViewController: UIViewController {
 
     private func setupView() {
         view.backgroundColor = .cherryWhite
-        view.layer.cornerRadius = Constants.View.cornerRadius
+        view.layer.cornerRadius = Const.View.cornerRadius
         view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
     }
 
@@ -118,29 +118,39 @@ final class LoginViewController: UIViewController {
     }
 
     private func setupConstraints() {
-        [entryLabel, inputFieldsStack, passwordRecoveryButton, buttonsStackView].forEach { view.addSubview($0) }
+        [entryLabel,
+         inputFieldsStack,
+         passwordRecoveryButton,
+         buttonsStackView].forEach { view.addSubview($0) }
 
-        entryLabel.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(Constants.EntryLabel.topOffset)
+        entryLabel.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalToSuperview()
+                .offset(Const.EntryLabel.topOffset)
         }
 
-        inputFieldsStack.snp.makeConstraints { make in
-            make.top.equalTo(entryLabel.snp.bottom).offset(Constants.TextFieldsStack.topOffset)
-            make.leading.trailing.equalToSuperview().inset(Constants.TextFieldsStack.leadingInset)
-            make.height.equalTo(Constants.TextFieldsStack.height)
+        inputFieldsStack.snp.makeConstraints {
+            $0.top.equalTo(entryLabel.snp.bottom)
+                .offset(Const.TextFieldsStack.topOffset)
+            $0.leading.trailing.equalToSuperview()
+                .inset(Const.TextFieldsStack.leadingInset)
+            $0.height.equalTo(Const.TextFieldsStack.height)
         }
 
-        passwordRecoveryButton.snp.makeConstraints { make in
-            make.top.equalTo(inputFieldsStack.snp.bottom).offset(Constants.PasswordButtom.topOffset)
-            make.leading.equalToSuperview().offset(Constants.PasswordButtom.leadingOffset)
-            make.height.equalTo(Constants.PasswordButtom.height)
+        passwordRecoveryButton.snp.makeConstraints {
+            $0.top.equalTo(inputFieldsStack.snp.bottom)
+                .offset(Const.PasswordButtom.topOffset)
+            $0.leading.equalToSuperview()
+                .offset(Const.PasswordButtom.leadingOffset)
+            $0.height.equalTo(Const.PasswordButtom.height)
         }
 
-        buttonsStackView.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(Constants.ButtonStack.leadingInset)
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(Constants.ButtonStack.bottomInset)
-            make.height.equalTo(Constants.ButtonStack.height)
+        buttonsStackView.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview()
+                .inset(Const.ButtonStack.leadingInset)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+                .inset(Const.ButtonStack.bottomInset)
+            $0.height.equalTo(Const.ButtonStack.height)
         }
     }
     
@@ -154,7 +164,7 @@ final class LoginViewController: UIViewController {
         viewModel.changePassword(textField.text ?? "")
     }
     
-    private enum Constants {
+    private enum Const {
         enum View {
             static let cornerRadius: CGFloat = 12
         }
