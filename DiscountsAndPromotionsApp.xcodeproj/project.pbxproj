@@ -1408,6 +1408,7 @@
 				DEVELOPMENT_TEAM = 3YZWNV863X;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DiscountsAndPromotionsApp/Configuration/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Cherry;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Доступ к камере нужен для сканирования штрихкодов";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
@@ -1442,6 +1443,7 @@
 				DEVELOPMENT_TEAM = 3YZWNV863X;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DiscountsAndPromotionsApp/Configuration/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Cherry;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Доступ к камере нужен для сканирования штрихкодов";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
