@@ -79,6 +79,9 @@ final class ProductCardViewModel {
         ratingViewModel.reviewsButtonTapped
             .sink { [weak self] in
                 // Обработка нажатия на кнопку отзывов
+                if self?.ratingViewModel.reviewCountPublisher.value != 0 {
+                    self?.reviewsButtonTappedPublisher.send()
+                }
                 print("Отзывы показаны")
             }
             .store(in: &cancellables)

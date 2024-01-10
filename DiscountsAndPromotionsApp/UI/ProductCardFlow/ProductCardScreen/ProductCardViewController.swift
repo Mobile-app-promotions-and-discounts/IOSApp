@@ -147,6 +147,13 @@ class ProductCardViewController: UIViewController {
                 self?.configureViews(with: product)
             }
             .store(in: &cancellables)
+
+        viewModel.reviewsButtonTappedPublisher
+            .sink { [weak self] in
+                // TODO осмыслить логику координаторов
+                self?.coordinator?.navigationController.show(ReviewsViewController(product: nil, reviewCount: 99), sender: nil)
+            }
+            .store(in: &cancellables)
     }
 
     private func setupViewConfiguration() {
