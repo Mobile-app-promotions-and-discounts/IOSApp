@@ -23,4 +23,10 @@ enum L10n {
         static let registrationTitle = NSLocalizedString("registration", tableName: "RegistrationFlow", comment: "")
         static let RegistrationErrorTitle = NSLocalizedString("RegistrationError", tableName: "RegistrationFlow", comment: "")
     }
+    enum Location {
+        static let welcome = NSLocalizedString("welcome", tableName: "LocationFlow", comment: "")
+        static let enterCity = NSLocalizedString("enterCity", tableName: "LocationFlow", comment: "")
+        static let automatical = NSLocalizedString("automatical", tableName: "LocationFlow", comment: "")
+        static let manual = NSLocalizedString("manual", tableName: "LocationFlow", comment: "")
+    }
 }

@@ -1,0 +1,74 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "automatical" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Detect automatically"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Определить автоматически"
+          }
+        }
+      }
+    },
+    "enterCity" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter your city to see current offers and promotions in stores nearby."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Укажите ваш город, чтобы видеть актуальные предложения и акции в магазинах рядом."
+          }
+        }
+      }
+    },
+    "manual" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter the city manually"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ввести город вручную"
+          }
+        }
+      }
+    },
+    "welcome" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Welcome!"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добро пожаловать!"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}
