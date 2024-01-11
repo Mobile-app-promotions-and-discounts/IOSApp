@@ -29,7 +29,7 @@ final class ProductCell: UICollectionViewCell {
         imageView.backgroundColor = .cherryWhite
         imageView.layer.cornerRadius = CornerRadius.small.cgFloat()
         imageView.clipsToBounds = true
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
 

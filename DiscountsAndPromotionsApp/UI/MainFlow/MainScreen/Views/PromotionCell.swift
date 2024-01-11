@@ -16,8 +16,10 @@ final class PromotionCell: UICollectionViewCell {
 
     private lazy var discountBGView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.cherryOrange
+        view.backgroundColor = UIColor.cherryPromotion
         view.layer.cornerRadius = CornerRadius.small.cgFloat()
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.cherryForeground.withAlphaComponent(0.15).cgColor
         return view
     }()
 
