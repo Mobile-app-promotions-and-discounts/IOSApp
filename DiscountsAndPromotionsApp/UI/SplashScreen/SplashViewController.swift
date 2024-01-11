@@ -56,11 +56,12 @@ final class SplashViewController: UIViewController {
     }
 
     private func checkUserAuthorization() {
-        authService.verifyToken()
+//        authService.verifyToken()
     }
 
     private func selectUserFlow() {
         // временно чтобы убрать экран авторизации
+        authService.getToken(for: NetworkBaseConfiguration.testUser)
         coordinator?.navigateToMainScreen()
 //        isUserAuthorized ? coordinator?.navigateToMainScreen() : coordinator?.navigateToAuthScreen(from: self)
     }
