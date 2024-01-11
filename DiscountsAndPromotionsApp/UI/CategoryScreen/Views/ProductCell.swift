@@ -35,15 +35,17 @@ final class ProductCell: UICollectionViewCell {
 
     private lazy var discountBGView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.cherryYellow
+        view.backgroundColor = UIColor.cherryWhite.withAlphaComponent(0.8)
         view.layer.cornerRadius = CornerRadius.regular.cgFloat()
+        view.layer.borderColor = UIColor.cherryBlack.withAlphaComponent(0.15).cgColor
+        view.layer.borderWidth = 1
         return view
     }()
 
     private lazy var discountLabel: UILabel = {
         let label = UILabel()
         label.textColor = .cherryBlack
-        label.font = CherryFonts.textSmall
+        label.font = CherryFonts.headerSmall
         return label
     }()
 
