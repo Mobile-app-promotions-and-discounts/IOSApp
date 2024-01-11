@@ -30,10 +30,10 @@ final class SearchViewModel: SearchViewModelProtocol {
         return SearchCategory(rawValue: category.name) ?? SearchCategory.groceries
     }
 
-    func getCategoryID(for index: Int) -> Int? {
+    func getCategory(for index: Int) -> Category? {
         if index < categories.count {
             let category = categories[index]
-            return category.id
+            return category
         } else {
             return nil
         }

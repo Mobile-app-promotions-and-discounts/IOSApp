@@ -13,8 +13,7 @@ final class CategoryViewModel: CategoryViewModelProtocol {
 
     private let dataService: ProductNetworkServiceProtocol
     private let profileService: ProfileServiceProtocol
-    private let categoryID: Int
-    private var categoryName: String?
+    private let category: Category
 
     private var currentPage = 0
     private var isOnLastPage = false
@@ -22,10 +21,10 @@ final class CategoryViewModel: CategoryViewModelProtocol {
 
     private var cancellables = Set<AnyCancellable>()
 
-    init(dataService: ProductNetworkServiceProtocol, profileService: ProfileServiceProtocol, categoryID: Int) {
+    init(dataService: ProductNetworkServiceProtocol, profileService: ProfileServiceProtocol, category: Category) {
         self.dataService = dataService
         self.profileService = profileService
-        self.categoryID = categoryID
+        self.category = category
         setupBindings()
     }
 
@@ -35,11 +34,7 @@ final class CategoryViewModel: CategoryViewModelProtocol {
     }
 
     func getTitle() -> String {
-        if let name = categoryName {
-            return NSLocalizedString(name, tableName: "MainFlow", comment: "")
-
-        }
-        return ""
+        return NSLocalizedString(category.name, tableName: "MainFlow", comment: "")
     }
 
     func getProductById(_ id: Int) -> Product? {
@@ -64,7 +59,7 @@ final class CategoryViewModel: CategoryViewModelProtocol {
         if !isOnLastPage && !isFetchingData {
             isFetchingData = true
 
-            dataService.getProducts(categoryID: categoryID + 1,
+            dataService.getProducts(categoryID: category.id + 1,
                                     searchItem: nil,
                                     page: currentPage + 1)
         }

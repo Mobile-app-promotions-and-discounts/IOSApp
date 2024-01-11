@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "ic_filter.png",
+      "filename" : "State=Default.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "ic_filter@2x.png",
+      "filename" : "State=Default@2x 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "ic_filter@3x.png",
+      "filename" : "State=Default@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

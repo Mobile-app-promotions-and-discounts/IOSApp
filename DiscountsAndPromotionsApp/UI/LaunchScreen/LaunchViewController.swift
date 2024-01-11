@@ -12,7 +12,7 @@ final class LaunchViewController: UIViewController {
         let label = UILabel()
         label.text = NSLocalizedString("Черри", tableName: "LaunchFlow", comment: "")
         label.font = CherryFonts.logoText
-        label.textColor = .cherryLogo
+        label.textColor = .cherryRedGreetings
         label.textAlignment = .left
         return label
     }()
@@ -22,7 +22,7 @@ final class LaunchViewController: UIViewController {
         label.text = NSLocalizedString("Акции и скидки каждый день", tableName: "LaunchFlow", comment: "")
         label.font = CherryFonts.textLarge
         label.numberOfLines = 2
-        label.textColor = .cherryLogo
+        label.textColor = .cherryRedGreetings
         label.textAlignment = .center
         return label
     }()

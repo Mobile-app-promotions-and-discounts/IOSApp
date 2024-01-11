@@ -152,7 +152,7 @@ extension MainViewController: UICollectionViewDataSource {
                                                                 for: indexPath) as? CategoryCell else {
                 return UICollectionViewCell()
             }
-            guard let category = viewModel.getCategory(for: indexPath.row) else {
+            guard let category = viewModel.getCategoryUIModel(for: indexPath.row) else {
                 ErrorHandler.handle(error: .customError("Ошибка получения категории во вью модели"))
                 return cell
             }
@@ -187,8 +187,8 @@ extension MainViewController: UICollectionViewDataSource {
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == 0 {
-            let categoryID = viewModel.getCategoryID(for: indexPath.row)
-            self.coordinator?.navigateToCategoryScreen(with: categoryID)
+            let category = viewModel.getCategory(for: indexPath.row)
+            self.coordinator?.navigateToCategoryScreen(with: category)
         } else {
             print("Для других ячеек обработка нажатия будет реализована позже")
         }
