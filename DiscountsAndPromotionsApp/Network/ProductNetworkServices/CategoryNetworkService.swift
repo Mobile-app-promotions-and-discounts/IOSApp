@@ -31,7 +31,7 @@ actor CategoryNetworkService: CategoryNetworkServiceProtocol {
     func requestCategories() async {
         guard let urlRequest = requestConstructor.makeRequest(endpoint: .getCategories,
                                                               additionalPath: nil,
-                                                              headers: nil,
+                                                              headers: NetworkBaseConfiguration.accessTokenHeader(),
                                                               parameters: nil) else {
             ErrorHandler.handle(error: AppError.customError("invalid request"))
             return

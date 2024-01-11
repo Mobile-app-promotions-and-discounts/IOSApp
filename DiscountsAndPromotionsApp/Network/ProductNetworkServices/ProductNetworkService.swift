@@ -44,7 +44,7 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
     private var product = ProductResponseModel(id: 0,
                                                name: "",
                                                rating: nil,
-                                               category: CategoryResponseModel(id: 0, name: ""),
+                                               category: CategoryResponseModel(id: 0, name: "", image: nil),
                                                description: nil,
                                                mainImage: "",
                                                barcode: "",
@@ -121,7 +121,7 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
 
         guard let urlRequest = requestConstructor.makeRequest(endpoint: .getProducts,
                                                               additionalPath: "?" + parameters.queryString,
-                                                              headers: nil,
+                                                              headers: NetworkBaseConfiguration.accessTokenHeader(),
                                                               parameters: nil) else {
             ErrorHandler.handle(error: AppError.customError("invalid request"))
             return
@@ -150,7 +150,7 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
     private func fetchProduct(productID: Int) async {
         guard let urlRequest = requestConstructor.makeRequest(endpoint: .getProduct,
                                                               additionalPath: "\(productID)",
-                                                              headers: nil,
+                                                              headers: NetworkBaseConfiguration.accessTokenHeader(),
                                                               parameters: nil) else {
             ErrorHandler.handle(error: AppError.customError("invalid request"))
             return
@@ -281,7 +281,7 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
 
         guard let urlRequest = requestConstructor.makeRequest(endpoint: .getProductReviews,
                                                               additionalPath: "\(productID)" + "/reviews/?" + parameters.queryString,
-                                                              headers: nil,
+                                                              headers: NetworkBaseConfiguration.accessTokenHeader(),
                                                               parameters: nil) else {
             ErrorHandler.handle(error: AppError.customError("invalid request"))
             return
