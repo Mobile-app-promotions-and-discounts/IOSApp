@@ -31,7 +31,7 @@ class CategoryViewController: ScannerEnabledViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.backgroundColor = .clear
-        collectionView.contentInset = UIEdgeInsets(top: 12,
+        collectionView.contentInset = UIEdgeInsets(top: 20,
                                                    left: 0,
                                                    bottom: 0,
                                                    right: 0)

@@ -57,21 +57,6 @@ final class ProductCell: UICollectionViewCell {
         return label
     }()
 
-    private lazy var descriptionLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .cherryBlack
-        label.font = CherryFonts.textSmall
-        return label
-    }()
-
-    private lazy var nameAndDescriptionStackView: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [nameLabel, descriptionLabel])
-        stack.axis = .vertical
-        stack.distribution = .fill
-        stack.spacing = 4
-        return stack
-    }()
-
     private lazy var priceLabel: UILabel = {
         let label = UILabel()
         label.textColor = .cherryBlack
@@ -100,7 +85,6 @@ final class ProductCell: UICollectionViewCell {
            let imageURL = URL(string: imagePath) {
             productImageView.kf.setImage(with: imageURL)
         }
-        self.descriptionLabel.text = model.description
         self.likeButton.setImage(model.isFavorite ? UIImage.icHeartFill : UIImage.icHeart, for: .normal)
         self.priceLabel.text = model.formattedPriceRange
         self.discountLabel.text = model.formattedDiscount
@@ -128,7 +112,7 @@ final class ProductCell: UICollectionViewCell {
         [productImageView,
          discountBGView,
          discountLabel,
-         nameAndDescriptionStackView,
+         nameLabel,
          priceLabel,
          likeButton].forEach { contentView.addSubview($0) }
 
@@ -147,7 +131,7 @@ final class ProductCell: UICollectionViewCell {
             make.centerX.centerY.equalTo(discountBGView)
         }
 
-        nameAndDescriptionStackView.snp.makeConstraints { make in
+        nameLabel.snp.makeConstraints { make in
             make.top.equalTo(productImageView.snp.bottom).inset(-8)
             make.leading.trailing.equalTo(productImageView)
         }
