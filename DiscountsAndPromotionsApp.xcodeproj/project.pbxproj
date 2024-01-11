@@ -39,7 +39,6 @@
 		BC6045FB2B1D9CA700536EB3 /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6045FA2B1D9CA700536EB3 /* SearchResultsViewController.swift */; };
 		BC6045FD2B1E3B2E00536EB3 /* PromotionVisualsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6045FC2B1E3B2E00536EB3 /* PromotionVisualsService.swift */; };
 		BC6045FF2B1E3B3900536EB3 /* SectionBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6045FE2B1E3B3900536EB3 /* SectionBackgroundView.swift */; };
-		BC6046012B1E3B7400536EB3 /* Promotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6046002B1E3B7400536EB3 /* Promotion.swift */; };
 		BC6046052B1E3C9E00536EB3 /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6046042B1E3C9E00536EB3 /* CategoryCell.swift */; };
 		BC6046072B1E3CA500536EB3 /* FooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6046062B1E3CA500536EB3 /* FooterView.swift */; };
 		BC6046092B1E3CAB00536EB3 /* MainHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6046082B1E3CAB00536EB3 /* MainHeaderView.swift */; };
@@ -208,7 +207,6 @@
 		BC6045FA2B1D9CA700536EB3 /* SearchResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
 		BC6045FC2B1E3B2E00536EB3 /* PromotionVisualsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromotionVisualsService.swift; sourceTree = "<group>"; };
 		BC6045FE2B1E3B3900536EB3 /* SectionBackgroundView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SectionBackgroundView.swift; sourceTree = "<group>"; };
-		BC6046002B1E3B7400536EB3 /* Promotion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Promotion.swift; sourceTree = "<group>"; };
 		BC6046042B1E3C9E00536EB3 /* CategoryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
 		BC6046062B1E3CA500536EB3 /* FooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FooterView.swift; sourceTree = "<group>"; };
 		BC6046082B1E3CAB00536EB3 /* MainHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainHeaderView.swift; sourceTree = "<group>"; };
@@ -989,7 +987,6 @@
 			isa = PBXGroup;
 			children = (
 				BEBA916D2B0A9F9500C2DE96 /* ProductModels.swift */,
-				BC6046002B1E3B7400536EB3 /* Promotion.swift */,
 				BEF503B12B15262F00577D7F /* Profile.swift */,
 			);
 			path = Models;
@@ -1284,7 +1281,6 @@
 				BCCF50012B1B4AF10067A552 /* StoreUIModel.swift in Sources */,
 				BE3524502B02ABA200746581 /* SceneDelegate.swift in Sources */,
 				BC05456C2B1D0A33008D65A3 /* UISegmentedControl+Extensions.swift in Sources */,
-				BC6046012B1E3B7400536EB3 /* Promotion.swift in Sources */,
 				BCCF4FFF2B1B4AF10067A552 /* MainViewModel.swift in Sources */,
 				BCAC6B852B2262DC00AD5C96 /* CategoryResponseModel.swift in Sources */,
 				BCCF50032B1B4AF10067A552 /* PromotionUIModel.swift in Sources */,

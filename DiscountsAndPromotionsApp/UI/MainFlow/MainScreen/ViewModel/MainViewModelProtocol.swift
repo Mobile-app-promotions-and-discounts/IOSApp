@@ -5,7 +5,7 @@ protocol MainViewModelProtocol {
     var categoriesUpdate: PassthroughSubject<[Category], Never> { get }
     var productsUpdate: PassthroughSubject<[Product], Never> { get }
     var storesUpdate: PassthroughSubject<[Store], Never> { get }
-    var promotionsUpdate: PassthroughSubject<[Promotion], Never> { get }
+    var promotionsUpdate: PassthroughSubject<[Product], Never> { get }
 
     var numberOfSections: Int { get }
 
