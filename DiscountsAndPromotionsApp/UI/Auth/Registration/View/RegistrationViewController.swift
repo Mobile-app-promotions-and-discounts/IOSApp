@@ -165,7 +165,7 @@ class RegistrationViewController: UIViewController {
     }
     @objc
     private func backAction() {
-        // TODO: - дописать метод перехода обратно
+        dismiss(animated: true)
     }
     
     @objc

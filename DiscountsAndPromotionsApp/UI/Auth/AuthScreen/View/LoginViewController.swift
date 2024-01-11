@@ -61,6 +61,7 @@ final class LoginViewController: UIViewController {
     private lazy var registerButton: UIButton = {
         let button = SecondaryButton()
         button.setTitle(L10n.Authorization.registerTitle, for: .normal)
+        button.addTarget(self, action: #selector(registerAction), for: .touchUpInside)
         return button
     }()
 
@@ -115,6 +116,10 @@ final class LoginViewController: UIViewController {
 
     @objc private func loginAction() {
         viewModel.didTapLoginButton()
+    }
+    
+    @objc private func registerAction() {
+        coordinator?.navigateToRegistrationScreen(from: self)
     }
 
     private func setupConstraints() {
@@ -203,4 +208,15 @@ extension LoginViewController: UITextFieldDelegate {
         view.endEditing(true)
     }
     
+}
+
+// MARK: - UIViewControllerTransitioningDelegate
+
+extension LoginViewController: UIViewControllerTransitioningDelegate {
+
+    func presentationController(forPresented presented: UIViewController,
+                                presenting: UIViewController?,
+                                source: UIViewController) -> UIPresentationController? {
+        return PartialSizePresentationController(presentedViewController: presented, presenting: presenting)
+    }
 }
