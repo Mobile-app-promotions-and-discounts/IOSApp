@@ -24,6 +24,7 @@ final class ReviewCell: UITableViewCell {
         let reviewLabel = UILabel()
         reviewLabel.text = "..."
         reviewLabel.font = CherryFonts.textSmall
+        reviewLabel.adjustsFontForContentSizeCategory = false
         reviewLabel.textColor = .cherryBlack
         reviewLabel.numberOfLines = 0
         return reviewLabel
@@ -60,14 +61,15 @@ final class ReviewCell: UITableViewCell {
         }
 
         customerLabel.snp.makeConstraints { make in
-            make.top.equalTo(starsView.snp.bottom)
+            make.top.equalToSuperview().offset(28)
             make.leading.equalTo(starsView)
             make.trailing.equalToSuperview().offset(-8)
+            make.height.equalTo(19)
         }
 
         reviewText.snp.makeConstraints { make in
-            make.top.equalTo(customerLabel.snp.bottom)
-            make.bottom.equalToSuperview().offset(-8)
+            make.top.equalTo(customerLabel.snp.bottom).offset(4)
+            make.bottom.lessThanOrEqualToSuperview().offset(-8)
             make.leading.trailing.equalTo(customerLabel)
         }
     }

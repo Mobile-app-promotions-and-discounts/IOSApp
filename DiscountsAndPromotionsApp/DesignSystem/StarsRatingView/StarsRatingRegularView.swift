@@ -49,7 +49,7 @@ final class StarsRatingRegularView: UIView {
 
         starStack.arrangedSubviews.forEach { star in
             if let star = star as? StarView {
-                star.isActive = (star.id < rating)
+                star.isActive = (rating >= star.id)
             }
         }
     }

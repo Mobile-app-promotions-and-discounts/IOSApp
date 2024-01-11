@@ -156,16 +156,14 @@ class ProductReviewView: UIView {
     }
 
     private func setupBindings() {
-        // TODO: - найти ошибку в паблишере (отправляет дважды)
-//        submitButton.publisher(for: .touchUpInside)
-//            .map { [weak self] _ in (self?.viewModel?.rating.value ?? 0, self?.reviewTextView.text ?? "")
-//            }
-//            .sink {[weak self] rating, reviewText in
-//                if !reviewText.isEmpty && rating != 0 {
-//                    self?.viewModel?.submitReview.send((rating, reviewText))
-//                }
-//            }
-//            .store(in: &cancellables)
+        viewModel?.didPublishReview
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] didPublishReview in
+                if didPublishReview {
+                    self?.reviewSent()
+                }
+            }
+            .store(in: &cancellables)
 
         reviewTextView.beginEditingPublisher
             .receive(on: DispatchQueue.main)
@@ -174,7 +172,9 @@ class ProductReviewView: UIView {
                 if self.reviewTextView.text == "Ваш отзыв" {
                     self.previousText = self.reviewTextView.text
                     self.reviewTextView.text = nil
-                    self.reviewTextView.textColor = UIColor.black
+                    self.reviewTextView.textColor = UIColor.cherryBlack
+                } else {
+                    self.reviewTextView.textColor = UIColor.cherryBlack
                 }
             }
             .store(in: &cancellables)
@@ -185,10 +185,16 @@ class ProductReviewView: UIView {
                 guard let self = self else { return }
                 if self.reviewTextView.text.isEmpty {
                     self.reviewTextView.text = "Ваш отзыв"
-                    self.reviewTextView.textColor = UIColor.lightGray
+                    self.reviewTextView.textColor = UIColor.cherryGrayBlue
                 }
             }
             .store(in: &cancellables)
+    }
+
+    private func reviewSent() {
+        reviewTextView.text = "Ваш отзыв"
+        reviewTextView.textColor = UIColor.cherryGrayBlue.withAlphaComponent(1)
+        reviewTextView.isUserInteractionEnabled = true
     }
 
     private func updateStarRating(_ rating: Int) {
@@ -220,6 +226,8 @@ class ProductReviewView: UIView {
            reviewRating != 0,
            !reviewTextView.text.isEmpty {
             viewModel?.submitReview.send((reviewRating, reviewTextView.text))
+            reviewTextView.textColor = .cherryGrayBlue.withAlphaComponent(0.5)
+            reviewTextView.isUserInteractionEnabled = false
             }
         }
 }

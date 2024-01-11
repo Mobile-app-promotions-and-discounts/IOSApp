@@ -6,7 +6,6 @@ class PriceInfoView: UIView {
 
     var viewModel: PriceInfoViewViewModelProtocol? {
         didSet {
-            print("ViewModel is set")
             bindViewModel()
         }
     }
@@ -35,18 +34,15 @@ class PriceInfoView: UIView {
     }
 
     func configure(with price: Int, discountPrice: Int) {
-        print("Configuring with price: \(price), discountPrice: \(discountPrice)")
         viewModel?.updatePrice(price)
         viewModel?.updateDiscountPrice(discountPrice)
     }
 
     func bindViewModel() {
-        print("Binding ViewModel")
         viewModel?.pricePublisher
             .map { "\($0) ₽" }
             .receive(on: DispatchQueue.main)
             .sink { [weak self] price in
-                print("Setting worstOriginPrice text to: \(price)")
                 self?.worstOriginPrice.text = price}
             .store(in: &cancellables)
 
@@ -54,7 +50,6 @@ class PriceInfoView: UIView {
             .map { "от \($0) ₽"}
             .receive(on: DispatchQueue.main)
             .sink { [weak self] discountPrice in
-                    print("Setting bestDiscountPrice text to: \(discountPrice)")
                     self?.bestDiscountPrice.text = discountPrice
                 }
             .store(in: &cancellables)
