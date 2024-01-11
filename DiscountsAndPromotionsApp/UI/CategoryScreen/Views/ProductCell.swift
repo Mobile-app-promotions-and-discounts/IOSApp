@@ -136,12 +136,15 @@ final class ProductCell: UICollectionViewCell {
             make.leading.trailing.equalTo(productImageView)
         }
 
-        priceLabel.snp.makeConstraints { make in
-            make.leading.bottom.equalToSuperview().inset(8)
-        }
-
         likeButton.snp.makeConstraints { make in
             make.trailing.bottom.equalToSuperview().inset(8)
+            make.width.height.equalTo(24)
+            make.top.equalTo(nameLabel.snp.bottom).inset(-4)
+        }
+
+        priceLabel.snp.makeConstraints { make in
+            make.leading.bottom.equalToSuperview().inset(8)
+            make.trailing.equalTo(likeButton.snp.leading).inset(-16)
         }
     }
 }
