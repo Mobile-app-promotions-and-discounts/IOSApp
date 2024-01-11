@@ -6,7 +6,7 @@ struct MyProductReview: Codable {
 }
 
 struct ProductReviewModel: Codable {
-    let customer: String?
+    let user: String?
     let text: String
     let score: Int
 }

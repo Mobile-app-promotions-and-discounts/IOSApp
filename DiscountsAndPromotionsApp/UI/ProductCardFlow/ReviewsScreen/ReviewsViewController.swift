@@ -58,7 +58,7 @@ extension ReviewsViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ReviewCell.reuseIdentifier, for: indexPath) as? ReviewCell else { return UITableViewCell() }
-        cell.configure(for: ProductReviewModel(customer: "BoSS", text: "YO", score: 5))
+        cell.configure(for: ProductReviewModel(user: "BoSS", text: "YO", score: 5))
         return cell
     }
 

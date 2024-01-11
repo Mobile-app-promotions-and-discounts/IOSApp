@@ -37,7 +37,7 @@ final class ReviewCell: UITableViewCell {
         if !isSetUp { setupUI() }
         starsView.rating = review.score
         reviewText.text = review.text
-        customerLabel.text = review.customer ?? "Аноним"
+        customerLabel.text = review.user ?? "Аноним"
     }
 
     private func setupUI() {
