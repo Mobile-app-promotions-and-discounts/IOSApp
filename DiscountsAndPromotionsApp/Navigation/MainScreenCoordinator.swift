@@ -29,10 +29,10 @@ final class MainScreenCoordinator: Coordinator {
         navigationController.pushViewController(mainViewController, animated: false)
     }
 
-    func navigateToCategoryScreen(with ID: Int) {
+    func navigateToCategoryScreen(with category: Category) {
         let categoryViewModel = CategoryViewModel(dataService: productService,
                                                   profileService: profileService,
-                                                  categoryID: ID)
+                                                  category: category)
         let categoryViewController = CategoryViewController(viewModel: categoryViewModel)
         categoryViewController.coordinator = self
         categoryViewController.hidesBottomBarWhenPushed = true

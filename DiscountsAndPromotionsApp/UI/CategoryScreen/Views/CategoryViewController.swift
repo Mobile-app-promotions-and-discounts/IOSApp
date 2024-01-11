@@ -114,7 +114,7 @@ class CategoryViewController: ScannerEnabledViewController {
         emptyResultView.isHidden = isDataPresent
 
         if state == .loading {
-            categoryCollectionView.isHidden = false
+            categoryCollectionView.isHidden = true
             emptyResultView.isHidden = true
             progressView.startAnimating()
         }
