@@ -28,7 +28,7 @@ struct ProductResponseModel: Codable {
     func convertToProductModel() -> Product {
         let category = Category(id: self.category.id,
                                 name: self.category.name,
-                                image: "")
+                                image: self.category.image ?? "")
         let additionalImges: [String] = self.images.map { $0.image }
         let image = ProductImage(mainImage: self.mainImage,
                                  additionalPhoto: additionalImges)

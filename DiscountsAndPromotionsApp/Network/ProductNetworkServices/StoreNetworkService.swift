@@ -40,7 +40,7 @@ actor StoreNetworkService: StoreNetworkServiceProtocol {
     private func getChains() async {
         guard let urlRequest = requestConstructor.makeRequest(endpoint: .getStoreChains,
                                                               additionalPath: nil,
-                                                              headers: nil,
+                                                              headers: NetworkBaseConfiguration.accessTokenHeader(),
                                                               parameters: nil) else {
             ErrorHandler.handle(error: AppError.customError("invalid request"))
             return
@@ -73,7 +73,7 @@ actor StoreNetworkService: StoreNetworkServiceProtocol {
 
         guard let urlRequest = requestConstructor.makeRequest(endpoint: .getStores,
                                                               additionalPath: "?" + parameters.queryString,
-                                                              headers: nil,
+                                                              headers: NetworkBaseConfiguration.accessTokenHeader(),
                                                               parameters: nil) else {
             ErrorHandler.handle(error: AppError.customError("invalid request"))
             return

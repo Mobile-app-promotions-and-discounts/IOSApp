@@ -1,25 +1,38 @@
 import UIKit
 import SnapKit
+import Kingfisher
 
 final class PromotionCell: UICollectionViewCell {
     static let reuseIdentifier = "PromotionCell"
 
-    private lazy var storeLogoImageView: UIImageView = {
+    private lazy var productImageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.backgroundColor = .cherryWhite
+        imageView.layer.cornerRadius = CornerRadius.small.cgFloat()
+        imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
 
-    private lazy var promoTextLabel: UILabel = {
+    private lazy var discountBGView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.cherryOrange
+        view.layer.cornerRadius = CornerRadius.small.cgFloat()
+        return view
+    }()
+
+    private lazy var discountLabel: UILabel = {
         let label = UILabel()
         label.textColor = .cherryBlack
-        label.numberOfLines = 0
-        label.font = CherryFonts.headerSmall
+        label.font = CherryFonts.textSmall
         return label
     }()
 
-    private lazy var promotionImageView: UIImageView = {
-        let imageView = UIImageView()
-        return imageView
+    private lazy var priceLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .cherryBlack
+        label.font = CherryFonts.headerSmall
+        return label
     }()
 
     override init(frame: CGRect) {
@@ -35,10 +48,13 @@ final class PromotionCell: UICollectionViewCell {
         // Удаляем предыдущие градиентные слои, если они есть
         contentView.layer.sublayers?.removeAll(where: { $0 is CAGradientLayer })
 
-        // Установка логотипа магазина и текста акции
-        storeLogoImageView.image = model.storeLogo
-        promoTextLabel.text = model.promoText
-        promotionImageView.image = model.promotionImage
+        // Заполняем содержимое акции
+        if let imagePath = model.productImage {
+            productImageView.image = UIImage(named: imagePath)
+        }
+
+        discountLabel.text = "До -40%"
+        priceLabel.text = model.price
 
         // Настройка градиента заднего фона
         let gradientAccent: UIColor = model.gradientAccentColor
@@ -54,21 +70,29 @@ final class PromotionCell: UICollectionViewCell {
         contentView.layer.cornerRadius = CornerRadius.large.cgFloat()
         contentView.clipsToBounds = true
 
-        [storeLogoImageView, promoTextLabel, promotionImageView].forEach { contentView.addSubview($0) }
+        [priceLabel, productImageView, discountBGView, discountLabel].forEach { contentView.addSubview($0) }
 
-        storeLogoImageView.snp.makeConstraints { make in
-            make.height.width.equalTo(24)
-            make.leading.top.equalToSuperview().inset(8)
+        priceLabel.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview().inset(4)
+            make.bottom.equalToSuperview().inset(8)
         }
 
-        promotionImageView.snp.makeConstraints { make in
-            make.bottom.trailing.equalToSuperview()
-            make.size.equalTo(CGSize(width: 51, height: 39))
+        productImageView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview().inset(4)
+            make.top.equalToSuperview().inset(8)
+            make.bottom.equalTo(priceLabel.snp.top).inset(-4)
         }
 
-        promoTextLabel.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(8)
-            make.top.equalTo(storeLogoImageView.snp.bottom).offset(4)
+        discountBGView.snp.makeConstraints { make in
+            make.top.equalTo(productImageView.snp.top).inset(4)
+            make.leading.equalTo(productImageView).inset(6)
+            make.height.equalTo(18)
+            make.width.equalTo(60)
+        }
+
+        discountLabel.snp.makeConstraints { make in
+            make.centerX.equalTo(discountBGView.snp.centerX)
+            make.centerY.equalTo(discountBGView.snp.centerY)
         }
     }
 }
