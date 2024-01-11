@@ -10,7 +10,7 @@ struct PromotionUIModel {
     // Инициализатор для преобразования Product в UI модель для акции
     init(product: Product, visualsService: PromotionVisualsService) {
         self.productImage = product.image?.mainImage
-        
+
         /// КОД ниже дублируется с ProductCellUIModel - если команда решит что акции будут именно такими - нужен рефакторинг
 
         // Форматирование диапазона цен
