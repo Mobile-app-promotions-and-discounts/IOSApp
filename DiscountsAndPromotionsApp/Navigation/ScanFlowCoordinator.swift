@@ -57,7 +57,9 @@ final class ScanFlowCoordinator: Coordinator {
     func showProduct(_ product: Product) {
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }
-            let productViewModel = ProductCardViewModel(product: product, mockProfileService: profileService)
+            let productViewModel = ProductCardViewModel(product: product,
+                                                        productService: productService,
+                                                        mockProfileService: profileService)
             let productVC = ProductCardViewController(viewModel: productViewModel)
             productVC.hidesBottomBarWhenPushed = true
             productVC.coordinator = self

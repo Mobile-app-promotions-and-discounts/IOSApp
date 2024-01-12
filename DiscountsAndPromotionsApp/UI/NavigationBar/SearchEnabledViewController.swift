@@ -1,25 +1,7 @@
 import UIKit
 
-class SearchEnabledViewController: UIViewController {
+class SearchEnabledViewController: CherryCustomViewController {
     private(set) var searchBar = UISearchBar()
-
-    lazy var backButton = { [weak self] in
-        guard let self else {
-            return UIButton()
-        }
-        let backButton = UIButton(type: .system)
-        backButton.tintColor = .cherryWhite
-        backButton.setImage(.icBack, for: .normal)
-        backButton.addTarget(self,
-                             action: #selector(defaultBackAction),
-                             for: .touchUpInside)
-        backButton.contentMode = .right
-        return backButton
-    }()
-
-    private lazy var backAction: () -> Void = { [weak self] in
-        self?.navigationController?.popViewController(animated: true)
-    }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -27,17 +9,12 @@ class SearchEnabledViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupUI()
         setupSearchBar()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = false
-    }
-
-    func setBackAction(action: @escaping () -> Void) {
-        backAction = action
     }
 
     private func setupSearchBar() {
@@ -59,19 +36,6 @@ class SearchEnabledViewController: UIViewController {
         searchBar.layer.masksToBounds = true
         navigationItem.titleView = searchBar
         searchBar.delegate = self
-    }
-
-    private func setupUI() {
-        view.backgroundColor = .cherryLightBlue
-        navigationItem.hidesBackButton = true
-        if self != navigationController?.viewControllers[0] {
-            navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
-        }
-    }
-
-    @objc
-    private func defaultBackAction() {
-        backAction()
     }
 }
 

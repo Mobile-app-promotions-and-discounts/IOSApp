@@ -9,8 +9,10 @@ private struct TableViewConstants {
     static let cellSpacing: CGFloat = 8
 }
 
-class ProductCardViewModel {
+final class ProductCardViewModel {
     @Published var product: Product?
+    @Published var reviews: ProductReviews = []
+
     let addToFavoritesPublisher = PassthroughSubject<Void, Never>()
     let submitReviewPublisher = PassthroughSubject<(rating: Double, reviewText: String), Never>()
     let reviewsButtonTappedPublisher = PassthroughSubject<Void, Never>()
@@ -19,33 +21,53 @@ class ProductCardViewModel {
     private let reviewViewViewModel: ProductReviewViewModelProtocol
     private let priceInfoViewModel: PriceInfoViewViewModelProtocol
     private let profileService: ProfileServiceProtocol
+    private let productService: ProductNetworkServiceProtocol
 
     private var cancellables = Set<AnyCancellable>()
 
-    init(product: Product, mockProfileService: ProfileServiceProtocol) {
+    init(product: Product,
+         productService: ProductNetworkServiceProtocol,
+         mockProfileService: ProfileServiceProtocol) {
         self.product = product
 
+        self.productService = productService
         self.profileService = mockProfileService
-        self.ratingViewModel = RatingViewViewModel(rating: product.rating ?? 1.0, numberOfReviews: 0)
+        self.ratingViewModel = RatingViewViewModel(rating: product.rating ?? 0.0)
         self.reviewViewViewModel = ProductReviewViewModel(productName: product.name)
         self.priceInfoViewModel = PriceInfoViewViewModel(profileService: profileService, product: product)
 
         setupBindings()
+        productService.getReviewsForProduct(id: product.id, page: 1)
     }
 
     private func setupBindings() {
-        // Установка связей между данными и логикой обработки.
-        // Например, обработка изменений в product или взаимодействие с сервисами
+        productService.reviewListUpdate
+            .sink { [weak self] reviewList in
+                self?.reviews = reviewList
+            }
+            .store(in: &cancellables)
+
+        productService.reviewCountUpdate
+            .sink { [weak self] reviewCount in
+                self?.ratingViewModel.setReviewCount(reviewCount)
+            }
+            .store(in: &cancellables)
+
+        productService.didPostNewReviewUpdate
+            .sink { [weak self] isReviewPosted in
+                if let product = self?.product,
+                   isReviewPosted {
+                    self?.productService.getReviewsForProduct(id: product.id, page: 1)
+                    self?.reviewViewViewModel.didPublishReview.send(isReviewPosted)
+                }
+            }
+            .store(in: &cancellables)
     }
 
     func setupPriceInfoView(_ priceInfoView: PriceInfoView) {
-        guard let product = product else {
-            print("Product is nil in setupPriceInfoView")
-            return }
+        guard let product else { return }
 
         priceInfoView.viewModel = priceInfoViewModel
-        print("ViewModel is set in PriceInfoView")
-
         priceInfoViewModel.addToFavorites
             .sink { [weak self] in
                 self?.addToFavoritesPublisher.send()
@@ -59,8 +81,14 @@ class ProductCardViewModel {
 
         reviewViewViewModel.submitReview
             .sink { [weak self] rating, reviewText in
+
+                guard let self,
+                      let product = product else { return }
+
                 // Обработка отправки отзыва
-                print("Отзыв с рейтингом \(rating): \(reviewText)")
+                let myReview = MyProductReview(text: reviewText, score: rating)
+                self.productService.addNewReviewForProduct(id: product.id,
+                                                            review: myReview)
             }
             .store(in: &cancellables)
     }
@@ -71,14 +99,15 @@ class ProductCardViewModel {
         ratingViewModel.reviewsButtonTapped
             .sink { [weak self] in
                 // Обработка нажатия на кнопку отзывов
-                print("Отзывы показаны")
+                if self?.ratingViewModel.reviewCountPublisher.value != 0 {
+                    self?.reviewsButtonTappedPublisher.send()
+                }
             }
             .store(in: &cancellables)
     }
 
     private func addToFavorites() {
         addToFavoritesPublisher.send()
-        print("Нажатие кнопки В избранное")
     }
 
     // MARK: Конфиг UI Элементов
@@ -118,7 +147,6 @@ class ProductCardViewModel {
         if let product = product {
             let minPrice = product.findMinMaxOffers().minOffer?.price ?? 0
             let maxOriginalPrice = product.findMinMaxInitialOffers().maxOffer?.initialPrice ?? 0
-            print("Configuring PriceInfoView with price: \(minPrice)")
             priceInfoView.configure(with: Int(maxOriginalPrice), discountPrice: Int(minPrice))
         }
     }

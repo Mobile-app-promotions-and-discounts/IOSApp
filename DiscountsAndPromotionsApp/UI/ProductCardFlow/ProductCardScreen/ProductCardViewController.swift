@@ -2,7 +2,7 @@ import UIKit
 import SnapKit
 import Combine
 
-class ProductCardViewController: UIViewController {
+final class ProductCardViewController: UIViewController {
     weak var coordinator: Coordinator?
 
     private var originalNavBarAppearance: UINavigationBarAppearance?
@@ -147,10 +147,19 @@ class ProductCardViewController: UIViewController {
                 self?.configureViews(with: product)
             }
             .store(in: &cancellables)
+
+        viewModel.reviewsButtonTappedPublisher
+            .sink { [weak self] in
+                guard let self else { return }
+                self.coordinator?.navigateToReviewsScreen(viewModel: self.viewModel)
+            }
+            .store(in: &cancellables)
     }
 
     private func setupViewConfiguration() {
         viewModel.setupPriceInfoView(priceInfoView)
+        viewModel.setupRatingView(ratingView)
+        viewModel.setupProductReviewView(reviewView)
     }
 
     private func configureViews(with product: Product?) {

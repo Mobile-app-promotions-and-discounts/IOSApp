@@ -63,7 +63,6 @@ final class EmptyOnScreenView: UIView {
 
     @objc
     private func mainButtonTapped() {
-        print("mainButtonTapped")
         mainButtonTappedPublisher.send(())
     }
 

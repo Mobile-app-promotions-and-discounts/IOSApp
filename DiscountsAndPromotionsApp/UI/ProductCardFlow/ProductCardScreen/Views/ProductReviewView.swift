@@ -14,10 +14,10 @@ class ProductReviewView: UIView {
     private let titleLabel = UILabel()
     private let starsStackView = UIStackView()
     private let reviewTextView = UITextView()
-    private let attachButton = UIButton()
-    private let submitButton = UIButton()
+    private let attachButton = UIButton(type: .system)
+    private let submitButton = UIButton(type: .system)
 
-    private var rating: Int = 1
+    private var rating: Int = 0
     private var previousText: String = ""
 
     override init(frame: CGRect) {
@@ -31,7 +31,6 @@ class ProductReviewView: UIView {
         setupSubmitButton()
         setupAttachButton()
         setupConstraints()
-
     }
 
     required init?(coder: NSCoder) {
@@ -80,6 +79,7 @@ class ProductReviewView: UIView {
         reviewTextView.layer.cornerRadius = 5
         reviewTextView.textContainerInset = UIEdgeInsets(top: 8, left: 5, bottom: 8, right: 5)
         reviewTextView.isScrollEnabled = false
+        reviewTextView.contentInset.right = 44
         addSubview(reviewTextView)
     }
 
@@ -110,21 +110,21 @@ class ProductReviewView: UIView {
 
     private func setupAttachButton() {
         attachButton.setImage(UIImage(named: "ic_attach"), for: .normal)
-        addSubview(attachButton)
+//        убрал пока не реализовано на бэке
+//        addSubview(attachButton)
     }
 
     private func setupSubmitButton() {
-        submitButton.setImage(UIImage(named: "ic_send"), for: .normal)
+        submitButton.setImage(UIImage(named: "ic_send")?.withRenderingMode(.alwaysOriginal), for: .normal)
+        submitButton.addTarget(self, action: #selector(sendButtonTapped), for: .touchUpInside)
         addSubview(submitButton)
     }
 
     private func setupConstraints() {
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(self.snp.top).offset(12)
-//            make.centerX.equalTo(self.snp.centerX)
             make.leading.equalTo(self).offset(16)
             make.trailing.equalTo(self).offset(-16)
-//            make.height.equalTo(27)
         }
 
         starsStackView.snp.makeConstraints { make in
@@ -142,24 +142,26 @@ class ProductReviewView: UIView {
         }
 
         submitButton.snp.makeConstraints { make in
-            make.trailing.equalTo(reviewTextView).offset(-8)
-            make.bottom.equalTo(self.snp.bottom).offset(-20)
-            make.height.width.equalTo(24)
+            make.trailing.equalTo(reviewTextView)
+            make.bottom.equalTo(self.snp.bottom).offset(-10)
+            make.height.width.equalTo(44)
         }
 
-        attachButton.snp.makeConstraints { make in
-            make.trailing.equalTo(reviewTextView).offset(-8)
-            make.bottom.equalTo(submitButton.snp.top).offset(-16)
-            make.height.width.equalTo(24)
-        }
+//        убрал пока не реализовано на бэке
+//        attachButton.snp.makeConstraints { make in
+//            make.trailing.equalTo(reviewTextView).offset(-8)
+//            make.bottom.equalTo(submitButton.snp.top).offset(-16)
+//            make.height.width.equalTo(24)
+//        }
     }
 
     private func setupBindings() {
-        submitButton.publisher(for: .touchUpInside)
-            .map { [weak self] _ in (self?.viewModel?.rating.value ?? 1, self?.reviewTextView.text ?? "")
-            }
-            .sink {[weak self] rating, reviewText in
-                self?.viewModel?.submitReview.send((rating, reviewText))
+        viewModel?.didPublishReview
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] didPublishReview in
+                if didPublishReview {
+                    self?.reviewSent()
+                }
             }
             .store(in: &cancellables)
 
@@ -170,7 +172,9 @@ class ProductReviewView: UIView {
                 if self.reviewTextView.text == "Ваш отзыв" {
                     self.previousText = self.reviewTextView.text
                     self.reviewTextView.text = nil
-                    self.reviewTextView.textColor = UIColor.black
+                    self.reviewTextView.textColor = UIColor.cherryBlack
+                } else {
+                    self.reviewTextView.textColor = UIColor.cherryBlack
                 }
             }
             .store(in: &cancellables)
@@ -181,10 +185,16 @@ class ProductReviewView: UIView {
                 guard let self = self else { return }
                 if self.reviewTextView.text.isEmpty {
                     self.reviewTextView.text = "Ваш отзыв"
-                    self.reviewTextView.textColor = UIColor.lightGray
+                    self.reviewTextView.textColor = UIColor.cherryGrayBlue
                 }
             }
             .store(in: &cancellables)
+    }
+
+    private func reviewSent() {
+        reviewTextView.text = "Ваш отзыв"
+        reviewTextView.textColor = UIColor.cherryGrayBlue.withAlphaComponent(1)
+        reviewTextView.isUserInteractionEnabled = true
     }
 
     private func updateStarRating(_ rating: Int) {
@@ -210,4 +220,14 @@ class ProductReviewView: UIView {
         // Действие для кнопки "Готово"
         reviewTextView.resignFirstResponder()
     }
+
+    @objc private func sendButtonTapped() {
+        if let reviewRating = viewModel?.rating.value,
+           reviewRating != 0,
+           !reviewTextView.text.isEmpty {
+            viewModel?.submitReview.send((reviewRating, reviewTextView.text))
+            reviewTextView.textColor = .cherryGrayBlue.withAlphaComponent(0.5)
+            reviewTextView.isUserInteractionEnabled = false
+            }
+        }
 }

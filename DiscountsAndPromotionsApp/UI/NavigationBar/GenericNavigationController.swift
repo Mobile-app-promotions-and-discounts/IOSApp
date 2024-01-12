@@ -18,6 +18,7 @@ final class GenericNavigationController: UINavigationController {
         standardAppearance.configureWithTransparentBackground()
         standardAppearance.backgroundImage = image
         standardAppearance.backgroundImageContentMode = .bottom
+        standardAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.cherryWhite]
 
         navigationBar.standardAppearance = standardAppearance
         navigationBar.scrollEdgeAppearance = standardAppearance

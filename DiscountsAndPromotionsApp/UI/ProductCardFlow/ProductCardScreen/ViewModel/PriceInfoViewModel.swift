@@ -40,20 +40,17 @@ class PriceInfoViewViewModel: PriceInfoViewViewModelProtocol {
 
     func updatePrice(_ price: Int) {
         DispatchQueue.main.async {
-            print("Updating price to \(price)")
             self.price = price
         }
     }
 
     func updateDiscountPrice(_ discountPrice: Int) {
         DispatchQueue.main.async {
-            print("Updating discount price to \(discountPrice)")
             self.discountPrice = discountPrice
         }
     }
 
     func toggleFavorite() {
-        print("ADD TO FAVORITES FROM CARD")
         if profileService.isFavorite(product) {
             profileService.removeFavorite(product)
         } else {
