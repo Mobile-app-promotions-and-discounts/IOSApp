@@ -10,6 +10,7 @@ class CategoryViewController: ScannerEnabledViewController {
     private let emptyResultView: EmptyOnScreenView
 
     private var cancellables = Set<AnyCancellable>()
+    private var visibleCancellables = Set<AnyCancellable>()
 
     private lazy var progressView: UIActivityIndicatorView = {
         let progressView = UIActivityIndicatorView(style: .large)
@@ -58,9 +59,14 @@ class CategoryViewController: ScannerEnabledViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        bindUpdates()
         // Временное решение для обновления списка избранного на данном экране.
         categoryCollectionView.reloadData()
+    }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        visibleCancellables.removeAll()
     }
 
     private func setupViews() {
@@ -80,7 +86,7 @@ class CategoryViewController: ScannerEnabledViewController {
         }
     }
 
-    private func setupBindings() {
+    private func bindUpdates() {
         viewModel.productsUpdate
             .receive(on: RunLoop.main)
             .sink { [weak self] itemCount in
@@ -88,9 +94,12 @@ class CategoryViewController: ScannerEnabledViewController {
                 addItems(newCount: itemCount)
                 self.progressView.stopAnimating()
             }
-            .store(in: &cancellables)
+            .store(in: &visibleCancellables)
+    }
 
+    private func setupBindings() {
         emptyResultView.mainButtonTappedPublisher
+            .receive(on: RunLoop.main)
             .sink { [weak self] _ in
                 guard let self = self else { return }
                 self.coordinator?.navigateToMainScreen()
