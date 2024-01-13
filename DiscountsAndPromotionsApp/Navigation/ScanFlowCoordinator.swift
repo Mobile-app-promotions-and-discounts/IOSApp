@@ -2,6 +2,7 @@ import UIKit
 
 final class ScanFlowCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
+    var mainScreenCoordinator: MainScreenCoordinator?
     var navigationController: UINavigationController
     // вынес из функции чтобы вьюконтроллер не исчезал из памяти и кнопка работала
     private var scanVC: ScanViewController?
@@ -44,6 +45,7 @@ final class ScanFlowCoordinator: Coordinator {
     func navigateToMainScreen() {
         navigationController.popToRootViewController(animated: true)
         navigationController.navigationBar.isHidden = true
+        mainScreenCoordinator?.navigateToMainScreen()
     }
 
     func navigateToEmptyResultScreen() {

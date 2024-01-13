@@ -95,6 +95,14 @@ class CategoryViewController: ScannerEnabledViewController {
                 self.progressView.stopAnimating()
             }
             .store(in: &visibleCancellables)
+
+        viewModel.viewState
+            .receive(on: RunLoop.main)
+            .sink { [weak self] state in
+                guard let self = self else { return }
+                self.updateUI(for: state)
+            }
+            .store(in: &visibleCancellables)
     }
 
     private func setupBindings() {
@@ -103,14 +111,6 @@ class CategoryViewController: ScannerEnabledViewController {
             .sink { [weak self] _ in
                 guard let self = self else { return }
                 self.coordinator?.navigateToMainScreen()
-            }
-            .store(in: &cancellables)
-
-        viewModel.viewState
-            .receive(on: RunLoop.main)
-            .sink { [weak self] state in
-                guard let self = self else { return }
-                self.updateUI(for: state)
             }
             .store(in: &cancellables)
 
