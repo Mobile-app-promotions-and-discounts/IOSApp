@@ -4,7 +4,7 @@ import Combine
 
 final class LoginViewController: UIViewController {
 
-    weak var coordinator: MainCoordinator?
+    weak var coordinator: AuthCoordinator?
 
     private let viewModel: LoginViewModelProtocol
 
@@ -96,7 +96,7 @@ final class LoginViewController: UIViewController {
             .sink { [weak self] isAuthorized in
                 if isAuthorized {
                     self?.dismiss(animated: true)
-                    self?.coordinator?.navigateToMainScreen()
+                    //TODO: self?.coordinator?.navigateToMainScreen()
                 } else {
                     ErrorHandler.handle(error: .authorizationError)
                 }

@@ -2,9 +2,9 @@ import Combine
 import SnapKit
 import UIKit
 
-class RegistrationViewController: UIViewController {
+final class RegistrationViewController: UIViewController {
 
-    weak var coordinator: MainCoordinator?
+    weak var coordinator: AuthCoordinator?
 
     private let viewModel: RegistrationViewModelProtocol
 
@@ -163,6 +163,7 @@ class RegistrationViewController: UIViewController {
             $0.bottom.equalTo(privatePolicyLabelTap.snp.top)
         }
     }
+    
     @objc
     private func backAction() {
         dismiss(animated: true)
@@ -186,6 +187,7 @@ class RegistrationViewController: UIViewController {
     
     @objc private func registerAction() {
         viewModel.didTapLoginButton()
+        coordinator?.navigateToSuccessScreen(from: self)
     }
     
     private enum Const {
@@ -232,3 +234,13 @@ extension RegistrationViewController: UITextFieldDelegate {
     
 }
 
+// MARK: - UIViewControllerTransitioningDelegate
+
+extension RegistrationViewController: UIViewControllerTransitioningDelegate {
+
+    func presentationController(forPresented presented: UIViewController,
+                                presenting: UIViewController?,
+                                source: UIViewController) -> UIPresentationController? {
+        return PartialSizePresentationController(presentedViewController: presented, presenting: presenting)
+    }
+}

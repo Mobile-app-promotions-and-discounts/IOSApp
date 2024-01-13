@@ -1,8 +1,8 @@
 import UIKit
 
-class SuccessRegistrationViewController: UIViewController {
+final class SuccessRegistrationViewController: UIViewController {
     
-    weak var coordinator: MainCoordinator?
+    weak var coordinator: AuthCoordinator?
     
     private lazy var cherryImageView: UIImageView = {
         let image = UIImage(named: "cherryHi") ?? UIImage()
@@ -23,6 +23,7 @@ class SuccessRegistrationViewController: UIViewController {
         label.text = L10n.Location.enterCity
         label.font = CherryFonts.textMedium
         label.textColor = .cherryBlack
+        label.numberOfLines = 3
         label.textAlignment = .center
         return label
     }()
@@ -61,15 +62,12 @@ class SuccessRegistrationViewController: UIViewController {
         view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
     }
     
-    
-    //метод определить вручную
     @objc private func automaticLocationAction() {
-        // TODO: Дописать метод
+        // TODO: Следующий спринт
     }
     
-    //метод ввести город вручную
     @objc private func manuallyLocationAction() {
-        // TODO: Дописать метод
+        // TODO: Следующий спринт
     }
     
     private func setupConstraints() {
@@ -92,6 +90,10 @@ class SuccessRegistrationViewController: UIViewController {
         
         enterCityLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
+            $0.leading.equalToSuperview()
+                .offset(Const.EntryCity.leadingOffset)
+            $0.trailing.equalToSuperview()
+                .offset(Const.EntryCity.trailingOffset)
             $0.top.equalTo(welcomeLabel.snp.bottom)
                 .offset(Const.EntryCity.topOffset)
         }
@@ -117,6 +119,8 @@ class SuccessRegistrationViewController: UIViewController {
         }
         enum EntryCity {
             static let topOffset: CGFloat = 20
+            static let leadingOffset: CGFloat = 42
+            static let trailingOffset: CGFloat = -42
         }
         enum ButtonStack {
             static let spacing: CGFloat = 4

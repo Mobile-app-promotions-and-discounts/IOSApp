@@ -42,20 +42,12 @@ final class MainCoordinator: Coordinator {
         navigationController.viewControllers = [mainTabBarController]
     }
 
-    func navigateToAuthScreen(from splashViewController: UIViewController) {
-        let loginViewController = LoginViewController()
-        loginViewController.coordinator = self
-        loginViewController.modalPresentationStyle = .custom
-        loginViewController.transitioningDelegate = splashViewController as? any UIViewControllerTransitioningDelegate
-        splashViewController.present(loginViewController, animated: true)
-    }
-    
-    func navigateToRegistrationScreen(from viewController: UIViewController) {
-        let registerViewController = RegistrationViewController()
-        registerViewController.coordinator = self
-        registerViewController.modalPresentationStyle = .custom
-        registerViewController.transitioningDelegate = viewController as? any UIViewControllerTransitioningDelegate
-        viewController.present(registerViewController, animated: true)
+    func navigateToAuthScreen() {
+        let authCoordinator = AuthCoordinator(authService: authService,
+                                              userNetworkService: userNetworkService)
+        let authViewController = AuthViewController()
+        authViewController.coordinator = authCoordinator
+        navigationController.viewControllers = [authViewController]
     }
 
     private func configureChildCoordinators(with tabBarController: MainTabBarController) {

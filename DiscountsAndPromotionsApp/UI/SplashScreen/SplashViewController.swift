@@ -62,7 +62,8 @@ final class SplashViewController: UIViewController {
     private func selectUserFlow() {
 //        временно чтобы убрать экран авторизации
 //        coordinator?.navigateToMainScreen()
-       isUserAuthorized ? coordinator?.navigateToMainScreen() : coordinator?.navigateToAuthScreen(from: self)
+            coordinator?.navigateToAuthScreen()
+//       isUserAuthorized ? coordinator?.navigateToMainScreen() : coordinator?.navigateToAuthScreen()
     }
 
     private func bindTokenStatus() {
@@ -90,24 +91,5 @@ final class SplashViewController: UIViewController {
             make.top.equalTo(cherryLogoImageView.snp.bottom).offset(12)
             make.width.equalTo(217)
         }
-    }
-}
-
-// MARK: - UIViewControllerTransitioningDelegate
-
-extension SplashViewController: UIViewControllerTransitioningDelegate {
-
-    func presentationController(forPresented presented: UIViewController,
-                                presenting: UIViewController?,
-                                source: UIViewController) -> UIPresentationController? {
-        return PartialSizePresentationController(presentedViewController: presented, presenting: presenting)
-    }
-}
-
-class PartialSizePresentationController: UIPresentationController {
-
-    override var frameOfPresentedViewInContainerView: CGRect {
-        guard let bounds = containerView?.bounds else { return .zero }
-        return CGRect(x: 0, y: bounds.height / 4.3, width: bounds.width, height: bounds.height / 1.3)
     }
 }
