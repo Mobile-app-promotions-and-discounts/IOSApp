@@ -74,7 +74,7 @@ final class MainViewModel: MainViewModelProtocol {
         }
     }
 
-    func getCategory(for index: Int) -> CategoryUIModel? {
+    func getCategoryUIModel(for index: Int) -> CategoryUIModel? {
         guard index < categories.count else {
             return nil
         }
@@ -95,9 +95,9 @@ final class MainViewModel: MainViewModelProtocol {
         return StoreUIModel(store: store)
     }
 
-    func getCategoryID(for index: Int) -> Int {
+    func getCategory(for index: Int) -> Category {
         let category = categories[index]
-        return category.id
+        return category
     }
 
     private func setupBindings() {

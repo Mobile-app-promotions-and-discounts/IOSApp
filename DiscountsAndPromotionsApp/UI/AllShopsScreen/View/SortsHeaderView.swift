@@ -32,7 +32,7 @@ final class SortsHeaderView: UICollectionReusableView {
     private lazy var buttonsStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.distribution = .equalSpacing
-        stackView.spacing = 12
+        stackView.spacing = 16
         stackView.axis = .horizontal
         [sortButton, filterButton].forEach { stackView.addArrangedSubview($0) }
         return stackView
@@ -73,7 +73,7 @@ final class SortsHeaderView: UICollectionReusableView {
 
         buttonsStackView.snp.makeConstraints { make in
             make.trailing.bottom.equalToSuperview()
-            make.width.equalTo(60)
+            make.width.equalTo(64)
         }
     }
 }

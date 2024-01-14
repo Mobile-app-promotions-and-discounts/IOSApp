@@ -18,7 +18,7 @@ final class MainCoordinator: Coordinator {
         self.dataService = MockDataService()
         self.profileService = MockProfileService()
 
-//         Network Services
+        // Network Services
         self.networkClient = networkClient
         self.authService = AuthService(networkClient: networkClient)
         self.userNetworkService = UserNetworkService(networkClient: networkClient)
@@ -31,10 +31,20 @@ final class MainCoordinator: Coordinator {
     }
 
     func start() {
+        let launchVC = LaunchViewController()
+        navigationController.pushViewController(launchVC, animated: true)
+
+        // Задержка - чтоб успели посмотреть экран.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            self.checkAuthorizationStatus()
+        }
+    }
+
+    func checkAuthorizationStatus() {
         let splashViewController = SplashViewController(authService: authService)
         splashViewController.coordinator = self
         navigationController.viewControllers = [splashViewController]
-        
+
 //        userNetworkService.registerUser(NetworkBaseConfiguration.testUser)
     }
 
@@ -52,7 +62,7 @@ final class MainCoordinator: Coordinator {
         splashViewController.present(loginViewController, animated: true)
     }
 
-    private func configureChildCoordinators(with tabBarController: MainTabBarController) {
+    private func configureChildCoordinators(with  tabBarController: MainTabBarController) {
         // MARK: - Создание и запуск дочерних координаторов
         let scanCoordinator = ScanFlowCoordinator(navigationController: navigationController,
                                                   productService: productNetworkService,
@@ -64,6 +74,7 @@ final class MainCoordinator: Coordinator {
                                                           dataService: dataService,
                                                           productService: productNetworkService,
                                                           profileService: profileService)
+        scanCoordinator.mainScreenCoordinator = mainScreenCoordinator
 
         let favoritesScreenNavigationController = GenericNavigationController()
         favoritesScreenNavigationController.scanCoordinator = scanCoordinator
