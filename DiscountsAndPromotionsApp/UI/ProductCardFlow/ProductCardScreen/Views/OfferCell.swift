@@ -12,6 +12,7 @@ class OfferTableViewCell: UITableViewCell {
     private let discountView = UIView()
     private let discountLabel = UILabel()
     private let goToStoreButton = UIButton(configuration: .plain(), primaryAction: nil)
+    private var storeURL: String = ""
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -170,6 +171,7 @@ class OfferTableViewCell: UITableViewCell {
     }
 
     func configure(with offer: Offer) {
+        storeURL = offer.store.chainStore?.website ?? ""
         storeNameLabel.text = offer.store.name
         addressLabel.text = offer.store.location.street
         priceLabel.text = "\(Int(offer.price)) ₽"
@@ -193,7 +195,15 @@ class OfferTableViewCell: UITableViewCell {
         }
     }
 
+    // TODO: после рефакторинга координатора для product card эта функция переедет в него. сейчас это костыль для презентации
+
+    private func openURL(urlString: String) {
+        guard let url = URL(string: urlString), UIApplication.shared.canOpenURL(url) else { return }
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+    }
+
     @objc func goToStoreCard() {
+        openURL(urlString: storeURL)
         print("Переход на карточку магазина")
     }
 }

@@ -400,7 +400,5 @@ extension ProductCardViewController: UITableViewDelegate {
         return footerView
     }
 
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //        coordinator.goToStoreDetails(for: product?.stores[indexPath.row])
-    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) { }
 }
