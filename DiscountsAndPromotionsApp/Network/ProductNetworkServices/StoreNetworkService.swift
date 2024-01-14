@@ -49,6 +49,7 @@ actor StoreNetworkService: StoreNetworkServiceProtocol {
         do {
             let chainsResponse: StoreChainsResponseModel = try await networkClient.request(for: urlRequest)
             print("Store chains fetched successfully")
+//            print(chainsResponse)
 
             self.chainList = chainsResponse.sorted { $0.id < $1.id }
         } catch let error {
