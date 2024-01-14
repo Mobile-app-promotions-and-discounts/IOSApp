@@ -25,6 +25,7 @@ final class GalleryPageViewController: UIViewController {
     }
 
     private func loadImage() {
-        imageView.kf.setImage(with: imageURL)
+        imageView.kf.setImage(with: imageURL,
+                              options: [.transition(ImageTransition.fade(1))])
     }
 }
