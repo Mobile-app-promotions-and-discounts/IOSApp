@@ -2,7 +2,7 @@ import Combine
 import Foundation
 
 protocol CategoryNetworkServiceProtocol {
-    var categoryListUpdate: PassthroughSubject<CategoriesResponseModel, Never> { get }
+    var categoryListUpdate: CurrentValueSubject<CategoriesResponseModel, Never> { get }
 
     func fetchCategories()
 }
@@ -11,7 +11,7 @@ actor CategoryNetworkService: CategoryNetworkServiceProtocol {
     nonisolated private let networkClient: NetworkClientProtocol
     nonisolated private let requestConstructor: NetworkRequestConstructorProtocol
 
-    nonisolated let categoryListUpdate = PassthroughSubject<CategoriesResponseModel, Never>()
+    nonisolated let categoryListUpdate = CurrentValueSubject<CategoriesResponseModel, Never>([])
     private var categoryList = [CategoryResponseModel]() {
         didSet {
             categoryListUpdate.send(categoryList)
