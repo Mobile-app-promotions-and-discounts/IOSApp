@@ -7,7 +7,7 @@ class RegistrationViewModel: RegistrationViewModelProtocol {
     
     var validToSubmit: AnyPublisher<Bool, Never> {
         return Publishers.CombineLatest(userEmail, userPassword)
-            .receive(on: RunLoop.main)
+            .receive(on: DispatchQueue.main)
             .map {
                 userName, password in
                 return !userName.isEmpty && !password.isEmpty

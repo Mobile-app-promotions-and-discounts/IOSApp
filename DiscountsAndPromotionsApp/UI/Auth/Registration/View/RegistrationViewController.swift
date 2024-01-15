@@ -99,7 +99,7 @@ final class RegistrationViewController: UIViewController {
 
     private func setupBindings() {
         viewModel.validToSubmit
-            .receive(on: RunLoop.main)
+            .receive(on: DispatchQueue.main)
             .assign(to: \.isUserInteractionEnabled, on: registrationButton)
             .store(in: &cancellables)
     }

@@ -103,7 +103,7 @@ final class LoginViewController: UIViewController {
             }.store(in: &cancellables)
         
         viewModel.validToSubmit
-            .receive(on: RunLoop.main)
+            .receive(on: DispatchQueue.main)
             .assign(to: \.isUserInteractionEnabled, on: loginButton)
             .store(in: &cancellables)
     }
