@@ -48,12 +48,14 @@ final class RegistrationViewModel: RegistrationViewModelProtocol {
     }
     
     private func netWorkBinds() {
-        userNetworkService.userShotUpdate
+        userNetworkService.userUpdate
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] userShotResponseModel in
-                print(userShotResponseModel)
-                self?.getAutorizated(userName: userShotResponseModel.username,
-                                     password: userShotResponseModel.password)
+            .sink { [weak self] userResponseModel in
+                guard let password = self?.userPassword.value else {
+                    return
+                }
+                self?.getAutorizated(userName: userResponseModel.username,
+                                     password: password)
             }.store(in: &cancellables)
         
         authService.isTokenValidUpdate
