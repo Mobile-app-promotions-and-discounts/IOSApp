@@ -208,7 +208,7 @@ extension CategoryViewController: UICollectionViewDelegate {
     }
 
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if indexPath.row == collectionView.numberOfItems(inSection: indexPath.section) - 4 {
+        if indexPath.row == collectionView.numberOfItems(inSection: indexPath.section) - 16 {
             viewModel.loadNextPage()
         }
     }
