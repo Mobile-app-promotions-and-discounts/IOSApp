@@ -17,7 +17,7 @@ final class GalleryPageViewController: UIViewController {
 
     private func setupUI() {
         view.addSubview(imageView)
-        imageView.backgroundColor = .clear
+        imageView.backgroundColor = .cherryLightBlue
         imageView.snp.makeConstraints { make in
             make.top.bottom.leading.trailing.equalToSuperview()
         }
