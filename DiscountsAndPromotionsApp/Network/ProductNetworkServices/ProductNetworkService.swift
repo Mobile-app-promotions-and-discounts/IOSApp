@@ -20,10 +20,11 @@ protocol ProductNetworkServiceProtocol {
 
     // отзывы
     func getReviewsForProduct(id productID: Int, page: Int)
-    func addNewReviewForProduct(id productID: Int, review: ProductReviewModel)
+    func addNewReviewForProduct(id productID: Int, review: MyProductReview)
 
     func getProducts(categoryID: Int?, searchItem: String?, page: Int?)
     func getProduct(productID: Int)
+    func getRandomOffers()
 }
 
 actor ProductNetworkService: ProductNetworkServiceProtocol {
@@ -132,9 +133,38 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
             print("Products fetched successfully")
             self.paginationState = (currentPage: page ?? 1,
                                     isLastPage: productGroupResponse.next == nil)
-            self.productList = productGroupResponse.results.sorted { $0.name < $1.name }
+            self.productList = productGroupResponse.results
         } catch let error {
             print("Error fetching products: \(error.localizedDescription)")
+            if let error = error as? AppError {
+                ErrorHandler.handle(error: error)
+            } else {
+                ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
+            }
+        }
+    }
+
+    nonisolated func getRandomOffers() {
+        Task { await fetchRandomOffers() }
+    }
+
+    private func fetchRandomOffers() async {
+        guard let urlRequest = requestConstructor.makeRequest(endpoint: .getProducts,
+                                                              additionalPath: "random_discounts/",
+                                                              headers: NetworkBaseConfiguration.accessTokenHeader(),
+                                                              parameters: nil) else {
+            ErrorHandler.handle(error: AppError.customError("invalid request"))
+            return
+        }
+
+        do {
+            let productGroupResponse: PaginatedProductResponseModel = try await networkClient.request(for: urlRequest)
+            print("Random offers fetched successfully")
+            self.paginationState = (currentPage: 1,
+                                    isLastPage: productGroupResponse.next == nil)
+            self.productList = productGroupResponse.results
+        } catch let error {
+            print("Error fetching offers: \(error.localizedDescription)")
             if let error = error as? AppError {
                 ErrorHandler.handle(error: error)
             } else {
@@ -305,10 +335,10 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
         }
     }
 
-    nonisolated func addNewReviewForProduct(id productID: Int, review: ProductReviewModel) {
+    nonisolated func addNewReviewForProduct(id productID: Int, review: MyProductReview) {
         Task { await postReview(productID: productID, review: review) }
     }
-    private func postReview(productID: Int, review: ProductReviewModel) async {
+    private func postReview(productID: Int, review: MyProductReview) async {
         var newReviewParameters: [String: Any] = [:]
         newReviewParameters.updateValue(review.text, forKey: "text")
         newReviewParameters.updateValue(review.score, forKey: "score")

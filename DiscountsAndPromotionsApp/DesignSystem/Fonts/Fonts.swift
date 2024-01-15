@@ -5,6 +5,7 @@ enum Fonts {
     static let manropeBold = "Manrope Bold"
     static let manropeSemiBold = "Manrope SemiBold"
     static let manropeRegular = "Manrope Regular"
+    static let caveatRegular = "Caveat Regular"
 }
 
 // Использование шрифтов
@@ -21,4 +22,7 @@ struct CherryFonts {
     static let textSmall  = UIFont(name: Fonts.manropeRegular, size: 12)
 
     static let inputSmall = UIFont(name: Fonts.manropeRegular, size: 16)
+
+    // Текст для ЛОГО
+    static let logoText = UIFont(name: Fonts.caveatRegular, size: 90)
 }

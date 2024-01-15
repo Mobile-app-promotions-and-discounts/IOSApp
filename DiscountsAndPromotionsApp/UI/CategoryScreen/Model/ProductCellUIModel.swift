@@ -4,7 +4,6 @@ struct ProductCellUIModel {
     let id: Int
     let image: String?
     let name: String
-    let description: String
     let formattedPriceRange: String
     let formattedDiscount: String
     var isFavorite: Bool
@@ -14,7 +13,6 @@ struct ProductCellUIModel {
         self.id = product.id
         self.image = product.image?.mainImage
         self.name = product.name
-        self.description = product.description
         self.isFavorite = isFavorite
 
         // Форматирование диапазона цен

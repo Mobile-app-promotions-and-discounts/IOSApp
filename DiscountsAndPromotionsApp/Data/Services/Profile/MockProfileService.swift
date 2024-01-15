@@ -31,8 +31,6 @@ final class MockProfileService: ProfileServiceProtocol {
         var newFavorites = profile.favoritesProducts
         newFavorites.insert(product)
 
-        print(newFavorites.map { $0.id })
-
         profile = Profile(id: profile.id, avatar: profile.avatar, firstName: profile.firstName,
                           lastName: profile.lastName, phone: profile.phone, email: profile.email,
                           birthdate: profile.birthdate, gender: profile.gender,

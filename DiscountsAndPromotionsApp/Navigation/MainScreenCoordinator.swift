@@ -29,10 +29,10 @@ final class MainScreenCoordinator: Coordinator {
         navigationController.pushViewController(mainViewController, animated: false)
     }
 
-    func navigateToCategoryScreen(with ID: Int) {
+    func navigateToCategoryScreen(with category: Category) {
         let categoryViewModel = CategoryViewModel(dataService: productService,
                                                   profileService: profileService,
-                                                  categoryID: ID)
+                                                  category: category)
         let categoryViewController = CategoryViewController(viewModel: categoryViewModel)
         categoryViewController.coordinator = self
         categoryViewController.hidesBottomBarWhenPushed = true
@@ -56,7 +56,9 @@ final class MainScreenCoordinator: Coordinator {
     }
 
     func navigateToProductScreen(for product: Product) {
-        let productViewModel = ProductCardViewModel(product: product, mockProfileService: profileService)
+        let productViewModel = ProductCardViewModel(product: product,
+                                                    productService: productService,
+                                                    mockProfileService: profileService)
         let productVC = ProductCardViewController(viewModel: productViewModel)
         productVC.hidesBottomBarWhenPushed = true
         productVC.coordinator = self

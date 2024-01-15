@@ -10,6 +10,7 @@ class CategoryViewController: ScannerEnabledViewController {
     private let emptyResultView: EmptyOnScreenView
 
     private var cancellables = Set<AnyCancellable>()
+    private var visibleCancellables = Set<AnyCancellable>()
 
     private lazy var progressView: UIActivityIndicatorView = {
         let progressView = UIActivityIndicatorView(style: .large)
@@ -31,7 +32,7 @@ class CategoryViewController: ScannerEnabledViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.backgroundColor = .clear
-        collectionView.contentInset = UIEdgeInsets(top: 12,
+        collectionView.contentInset = UIEdgeInsets(top: 20,
                                                    left: 0,
                                                    bottom: 0,
                                                    right: 0)
@@ -58,9 +59,14 @@ class CategoryViewController: ScannerEnabledViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        bindUpdates()
         // Временное решение для обновления списка избранного на данном экране.
         categoryCollectionView.reloadData()
+    }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        visibleCancellables.removeAll()
     }
 
     private func setupViews() {
@@ -80,7 +86,7 @@ class CategoryViewController: ScannerEnabledViewController {
         }
     }
 
-    private func setupBindings() {
+    private func bindUpdates() {
         viewModel.productsUpdate
             .receive(on: RunLoop.main)
             .sink { [weak self] itemCount in
@@ -88,20 +94,23 @@ class CategoryViewController: ScannerEnabledViewController {
                 addItems(newCount: itemCount)
                 self.progressView.stopAnimating()
             }
-            .store(in: &cancellables)
-
-        emptyResultView.mainButtonTappedPublisher
-            .sink { [weak self] _ in
-                guard let self = self else { return }
-                self.coordinator?.navigateToMainScreen()
-            }
-            .store(in: &cancellables)
+            .store(in: &visibleCancellables)
 
         viewModel.viewState
             .receive(on: RunLoop.main)
             .sink { [weak self] state in
                 guard let self = self else { return }
                 self.updateUI(for: state)
+            }
+            .store(in: &visibleCancellables)
+    }
+
+    private func setupBindings() {
+        emptyResultView.mainButtonTappedPublisher
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                guard let self = self else { return }
+                self.coordinator?.navigateToMainScreen()
             }
             .store(in: &cancellables)
 
@@ -114,7 +123,7 @@ class CategoryViewController: ScannerEnabledViewController {
         emptyResultView.isHidden = isDataPresent
 
         if state == .loading {
-            categoryCollectionView.isHidden = false
+            categoryCollectionView.isHidden = true
             emptyResultView.isHidden = true
             progressView.startAnimating()
         }
