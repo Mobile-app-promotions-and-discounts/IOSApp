@@ -4,6 +4,7 @@ import Foundation
 protocol RegistrationViewModelProtocol {
     var userEmail: CurrentValueSubject<String, Never> { get }
     var userPassword: CurrentValueSubject<String, Never> { get }
+    var isUserAuthorizatedUpdate: PassthroughSubject<Bool, Never> { get }
     var validToSubmit: AnyPublisher<Bool, Never> { get }
     
     func didTapLoginButton()

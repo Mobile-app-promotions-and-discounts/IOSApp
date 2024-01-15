@@ -6,8 +6,7 @@ final class AuthViewController: UIViewController {
     var coordinator: AuthCoordinator?
     
     private lazy var cherryiesImageView: UIImageView = {
-        let image = UIImage(named: "cherries")
-        let imageView = UIImageView(image: image)
+        let imageView = UIImageView(image: .cherries)
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
@@ -24,7 +23,7 @@ final class AuthViewController: UIViewController {
     }
     
     private func setupView() {
-        view.backgroundColor = .cherryBlue
+        view.backgroundColor = .cherryLightBlue
     }
     
     private func setupConstraints() {

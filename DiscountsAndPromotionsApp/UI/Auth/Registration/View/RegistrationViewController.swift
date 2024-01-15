@@ -80,7 +80,7 @@ final class RegistrationViewController: UIViewController {
         return button
     }()
 
-    init(viewModel: RegistrationViewModelProtocol = RegistrationViewModel()) {
+    init(viewModel: RegistrationViewModelProtocol) {
         self.viewModel = viewModel
         self.cancellables = Set<AnyCancellable>()
         super.init(nibName: nil, bundle: nil)
@@ -102,6 +102,16 @@ final class RegistrationViewController: UIViewController {
             .receive(on: DispatchQueue.main)
             .assign(to: \.isUserInteractionEnabled, on: registrationButton)
             .store(in: &cancellables)
+        
+        viewModel.isUserAuthorizatedUpdate
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isAutorizated in
+                if isAutorizated {
+                    self?.navigateToSuccessScreen()
+                } else {
+                    ErrorHandler.handle(error: .authorizationError)
+                }
+            }.store(in: &cancellables)
     }
 
     private func setupView() {
@@ -164,6 +174,10 @@ final class RegistrationViewController: UIViewController {
         }
     }
     
+    private func navigateToSuccessScreen() {
+        coordinator?.navigateToSuccessScreen(from: self)
+    }
+    
     @objc
     private func backAction() {
         dismiss(animated: true)
@@ -187,7 +201,6 @@ final class RegistrationViewController: UIViewController {
     
     @objc private func registerAction() {
         viewModel.didTapLoginButton()
-        coordinator?.navigateToSuccessScreen(from: self)
     }
     
     private enum Const {

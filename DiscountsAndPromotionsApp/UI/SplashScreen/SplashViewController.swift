@@ -62,8 +62,8 @@ final class SplashViewController: UIViewController {
     private func selectUserFlow() {
 //        временно чтобы убрать экран авторизации
 //        coordinator?.navigateToMainScreen()
-            coordinator?.navigateToAuthScreen()
-//       isUserAuthorized ? coordinator?.navigateToMainScreen() : coordinator?.navigateToAuthScreen()
+//            coordinator?.navigateToAuthScreen()
+       isUserAuthorized ? coordinator?.navigateToMainScreen() : coordinator?.navigateToAuthScreen()
     }
 
     private func bindTokenStatus() {

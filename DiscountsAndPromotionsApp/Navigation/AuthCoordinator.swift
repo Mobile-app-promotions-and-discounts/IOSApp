@@ -27,7 +27,9 @@ final class AuthCoordinator: Coordinator {
     }
     
     func navigateToRegistrationScreen(from viewController: UIViewController) {
-        let registerViewController = RegistrationViewController()
+        let registrationViewModel = RegistrationViewModel(userNetworkService: userNetworkService,
+                                                          authService: authService)
+        let registerViewController = RegistrationViewController(viewModel: registrationViewModel)
         registerViewController.coordinator = self
         registerViewController.modalPresentationStyle = .custom
         registerViewController.transitioningDelegate = viewController as? any UIViewControllerTransitioningDelegate
