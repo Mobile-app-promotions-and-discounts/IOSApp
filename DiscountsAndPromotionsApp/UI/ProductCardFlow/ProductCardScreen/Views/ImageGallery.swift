@@ -16,6 +16,10 @@ final class ImageGalleryController: UIPageViewController {
         return pageControl
     }()
 
+    private lazy var placeholderView = {
+        UIImageView(image: .productImagePlaceholder)
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         dataSource = self
@@ -39,6 +43,10 @@ final class ImageGalleryController: UIPageViewController {
         view.layer.cornerRadius = CornerRadius.regular.cgFloat()
         view.backgroundColor = .cherryLightBlue
         view.addSubview(pageControl)
+        view.insertSubview(placeholderView, at: 0)
+        placeholderView.snp.makeConstraints { make in
+            make.centerX.centerY.equalToSuperview()
+        }
         pageControl.snp.makeConstraints { make in
             make.bottom.equalToSuperview().offset(-12)
             make.centerX.equalToSuperview()

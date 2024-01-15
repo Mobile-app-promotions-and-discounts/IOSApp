@@ -1,9 +1,9 @@
 import UIKit
 
 // Группы ошибок - стоит дополнять по мере развития приложения.
-enum AppError: Error {
+enum AppError: Error, Equatable {
     case authError
-    case networkError
+    case networkError(code: Int?)
     case parsingError
     case barcodeScanError
     case locationError

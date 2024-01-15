@@ -22,7 +22,7 @@ final class NetworkClient: NetworkClientProtocol {
                 let error = try decoder.decode(NetworkErrorDescriptionModel.self, from: data)
                 throw AppError.customError("\(error)")
             } catch {
-                throw AppError.networkError
+                throw AppError.networkError(code: statusCode)
             }
         }
     }
@@ -40,7 +40,7 @@ final class NetworkClient: NetworkClientProtocol {
                 let error = try decoder.decode(NetworkErrorDescriptionModel.self, from: data)
                 throw AppError.customError("\(error)")
             } catch {
-                throw AppError.networkError
+                throw AppError.networkError(code: statusCode)
             }
         }
     }

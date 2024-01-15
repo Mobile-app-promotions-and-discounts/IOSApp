@@ -1,9 +1,10 @@
 import UIKit
 
 final class ReviewCell: UITableViewCell {
+    static let reuseIdentifier = "review cell"
+
     private let insets = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
     private var isSetUp = false
-    static let reuseIdentifier = "review cell"
 
     private lazy var reviewBackground = {
         let background = UIView()

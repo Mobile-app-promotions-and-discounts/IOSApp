@@ -357,9 +357,15 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
             self.didPostNewReview = true
         } catch let error {
             print("Error posting new Review: \(error.localizedDescription)")
+
             self.didPostNewReview = false
             if let error = error as? AppError {
-                ErrorHandler.handle(error: error)
+                // TODO: запросить у бэка внятный ответ в этом случае, чтобы не перепутали с другой внутренней ошибкой
+                if error == AppError.networkError(code: 500) {
+                    ErrorHandler.handle(error: AppError.customError("Нельзя оставить отзыв дважды 🥺"))
+                } else {
+                    ErrorHandler.handle(error: error)
+                }
             } else {
                 ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
             }

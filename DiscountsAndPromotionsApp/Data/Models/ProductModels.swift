@@ -108,6 +108,8 @@ struct StoreLocation: Codable, Hashable {
 struct ChainStore: Codable, Hashable {
     let id: Int
     let name: String
+    let logo: String?
+    let website: String?
 }
 
 struct Discount: Codable, Hashable {
