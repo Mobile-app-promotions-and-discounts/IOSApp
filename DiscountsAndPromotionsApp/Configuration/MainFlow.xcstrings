@@ -33,10 +33,32 @@
     },
     "No favorites" : {
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "It's empty here yet"
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Нет избранного"
+            "value" : "Здесь пока пусто"
+          }
+        }
+      }
+    },
+    "No Favorites Description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Go to “Promotions” or scan the code to add products to your favorites."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Перейдите в «Акции» или отсканируйте код, чтобы добавить товары в избранное."
           }
         }
       }
