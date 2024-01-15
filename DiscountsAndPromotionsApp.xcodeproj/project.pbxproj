@@ -376,7 +376,6 @@
 			children = (
 				7F2137DF2B517265006B680C /* AuthViewController.swift */,
 				92787F7C2B2199840045B678 /* InputUserDataField.swift */,
-				92787F772B1FBC300045B678 /* AuthScreen */,
 				7F2137CD2B4E8D33006B680C /* Registration */,
 				7F2137D82B500159006B680C /* Geoposition */,
 			);
@@ -432,7 +431,8 @@
 				92787FAA2B21F0790045B678 /* ViewModel */,
 				92787FA92B21F0680045B678 /* View */,
 			);
-			path = AuthScreen;
+			name = AuthScreen;
+			path = Auth/AuthScreen;
 			sourceTree = "<group>";
 		};
 		92787FA92B21F0680045B678 /* View */ = {
