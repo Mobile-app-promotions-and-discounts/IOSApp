@@ -1,8 +1,8 @@
-import UIKit
+import Kingfisher
 import SnapKit
+import UIKit
 
 class OfferTableViewCell: UITableViewCell {
-
     private let backgroundViewBoard = UIView()
     private let logoImageView = UIImageView()
     private let storeNameLabel = UILabel()
@@ -12,6 +12,7 @@ class OfferTableViewCell: UITableViewCell {
     private let discountView = UIView()
     private let discountLabel = UILabel()
     private let goToStoreButton = UIButton(configuration: .plain(), primaryAction: nil)
+    private var storeURL: String = ""
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -52,15 +53,15 @@ class OfferTableViewCell: UITableViewCell {
     private func configureLogoImageView() {
         logoImageView.layer.cornerRadius = 14
         logoImageView.clipsToBounds = true
-        logoImageView.backgroundColor = .lightGray
+        logoImageView.backgroundColor = .cherryWhite
     }
 
     private func configureDiscountView() {
-        discountView.layer.cornerRadius = 9
+        discountView.layer.cornerRadius = 11
         discountView.clipsToBounds = true
         discountView.layer.borderWidth = 1
         discountView.layer.borderColor = UIColor.cherryGray.cgColor
-        discountView.backgroundColor = .cherryOrange
+        discountView.backgroundColor = .cherryYellow2
     }
 
     private func configureGoToStoreButton() {
@@ -105,8 +106,7 @@ class OfferTableViewCell: UITableViewCell {
             string: "...",
             attributes: [NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.single.rawValue]
         )
-
-        discountLabel.font = CherryFonts.textMedium
+        discountLabel.font = CherryFonts.textSmall
         discountLabel.textColor = .black
     }
 
@@ -129,7 +129,7 @@ class OfferTableViewCell: UITableViewCell {
 
         storeNameLabel.snp.makeConstraints { make in
             make.top.equalTo(backgroundViewBoard.snp.top).offset(paddingV)
-            make.leading.equalTo(logoImageView.snp.trailing).offset(16)
+            make.leading.equalTo(logoImageView.snp.trailing).offset(8)
             make.trailing.lessThanOrEqualTo(goToStoreButton.snp.leading)
             make.height.equalTo(19)
         }
@@ -147,19 +147,18 @@ class OfferTableViewCell: UITableViewCell {
         }
 
         discountView.snp.makeConstraints { make in
-            make.leading.equalTo(priceLabel.snp.trailing).offset(3)
+            make.leading.equalTo(priceLabel.snp.trailing).offset(8)
             make.centerY.equalTo(priceLabel)
             make.height.equalTo(22)
             make.width.equalTo(46)
         }
 
         discountLabel.snp.makeConstraints { make in
-            make.centerY.equalTo(priceLabel)
-            make.centerX.equalTo(discountView)
+            make.centerX.centerY.equalTo(discountView)
         }
 
         originalPriceLabel.snp.makeConstraints { make in
-            make.leading.equalTo(discountLabel.snp.trailing).offset(8)
+            make.leading.equalTo(discountView.snp.trailing).offset(8)
             make.centerY.equalTo(priceLabel)
         }
 
@@ -172,9 +171,13 @@ class OfferTableViewCell: UITableViewCell {
     }
 
     func configure(with offer: Offer) {
+        storeURL = offer.store.chainStore?.website ?? ""
         storeNameLabel.text = offer.store.name
         addressLabel.text = offer.store.location.street
         priceLabel.text = "\(Int(offer.price)) ₽"
+        if let logoURL = URL(string: offer.store.chainStore?.logo ?? "") {
+            logoImageView.kf.setImage(with: logoURL)
+        }
         if offer.price < offer.initialPrice {
             originalPriceLabel.isHidden = false
             discountLabel.isHidden = offer.discount == nil
@@ -192,7 +195,15 @@ class OfferTableViewCell: UITableViewCell {
         }
     }
 
+    // TODO: после рефакторинга координатора для product card эта функция переедет в него. сейчас это костыль для презентации
+
+    private func openURL(urlString: String) {
+        guard let url = URL(string: urlString), UIApplication.shared.canOpenURL(url) else { return }
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+    }
+
     @objc func goToStoreCard() {
+        openURL(urlString: storeURL)
         print("Переход на карточку магазина")
     }
 }

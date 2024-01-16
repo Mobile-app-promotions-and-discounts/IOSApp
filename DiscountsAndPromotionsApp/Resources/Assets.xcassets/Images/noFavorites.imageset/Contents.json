@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "ic_heart.png",
+      "filename" : "Component 2.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "ic_heart@2x.png",
+      "filename" : "Component 2@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "ic_heart@3x.png",
+      "filename" : "Component 2@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

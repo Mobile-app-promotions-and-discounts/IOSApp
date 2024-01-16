@@ -30,6 +30,7 @@ protocol ProductNetworkServiceProtocol {
 actor ProductNetworkService: ProductNetworkServiceProtocol {
     nonisolated private let networkClient: NetworkClientProtocol
     nonisolated private let requestConstructor: NetworkRequestConstructorProtocol
+    nonisolated private let categoryService: CategoryNetworkServiceProtocol
 
     nonisolated let productListUpdate = PassthroughSubject<ProductGroupResponseModel, Never>()
     nonisolated let productUpdate = PassthroughSubject<ProductResponseModel, Never>()
@@ -45,7 +46,10 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
     private var product = ProductResponseModel(id: 0,
                                                name: "",
                                                rating: nil,
-                                               category: CategoryResponseModel(id: 0, name: "", image: nil),
+                                               category: CategoryResponseModel(id: 0,
+                                                                               priority: 0,
+                                                                               name: "",
+                                                                               image: nil),
                                                description: nil,
                                                mainImage: "",
                                                barcode: "",
@@ -96,14 +100,27 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
     }
 
     init(networkClient: NetworkClientProtocol,
-         requestConstructor: NetworkRequestConstructorProtocol = NetworkRequestConstructor.shared) {
+         requestConstructor: NetworkRequestConstructorProtocol = NetworkRequestConstructor.shared,
+         categoryService: CategoryNetworkServiceProtocol) {
         self.networkClient = networkClient
         self.requestConstructor = requestConstructor
+        self.categoryService = categoryService
+        self.categoryService.fetchCategories()
     }
 
     // MARK: - Получение продуктов
     nonisolated func getProducts(categoryID: Int? = nil, searchItem: String? = nil, page: Int? = nil) {
-        Task { await fetchProducts(categoryID: categoryID,
+
+        let mappedCategoryID: Int? = {
+            let mappedList = categoryService.categoryListUpdate.value
+            if let mappedID = mappedList.filter({ $0.priority == categoryID }).first?.id {
+                return mappedID
+            } else {
+                return categoryID
+            }
+        }()
+
+        Task { await fetchProducts(categoryID: mappedCategoryID,
                                    searchItem: searchItem,
                                    page: page) }
     }
@@ -357,9 +374,14 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
             self.didPostNewReview = true
         } catch let error {
             print("Error posting new Review: \(error.localizedDescription)")
+
             self.didPostNewReview = false
             if let error = error as? AppError {
-                ErrorHandler.handle(error: error)
+                if error == AppError.networkError(code: 422) {
+                    ErrorHandler.handle(error: AppError.customError("Нельзя оставить отзыв дважды 🥺"))
+                } else {
+                    ErrorHandler.handle(error: error)
+                }
             } else {
                 ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
             }

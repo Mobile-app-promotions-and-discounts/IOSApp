@@ -11,7 +11,7 @@ enum EmptyViewState {
         case .noResult:
             return UIImage.emptyCherry
         case .noFavorites:
-            return UIImage.emptyCherry
+            return UIImage.noFavorites
         }
     }
 
@@ -50,6 +50,15 @@ final class EmptyOnScreenView: UIView {
         return button
     }()
 
+    private lazy var descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.font = CherryFonts.textMedium
+        label.text = NSLocalizedString("No Favorites Description", tableName: "MainFlow", comment: "")
+        label.textAlignment = .center
+        label.numberOfLines = 3
+        return label
+    }()
+
     init(state: EmptyViewState) {
         self.state = state
         super.init(frame: .zero)
@@ -72,24 +81,47 @@ final class EmptyOnScreenView: UIView {
     }
 
     private func setupViews() {
+        backgroundColor = .cherryWhite
+
         [emptyCherryImageView, titleLabel, mainButton].forEach { addSubview($0) }
 
-        emptyCherryImageView.snp.makeConstraints { make in
-            make.centerX.centerY.equalToSuperview()
-        }
-
-        titleLabel.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(16)
-            make.top.equalTo(emptyCherryImageView.snp.bottom).inset(17)
-        }
-
-        // Проверяем состояние и добавляем кнопку, если состояние не noFavorites
-        if state != .noFavorites {
+        switch state {
+        case .noResult:
             addSubview(mainButton)
+
+            emptyCherryImageView.snp.makeConstraints { make in
+                make.centerX.equalToSuperview()
+                make.width.equalTo(238)
+                make.height.equalTo(271)
+                make.top.equalToSuperview().inset(179)
+            }
+
+            titleLabel.snp.makeConstraints { make in
+                make.leading.trailing.equalToSuperview().inset(16)
+                make.top.equalTo(emptyCherryImageView.snp.bottom).inset(-47)
+            }
+
             mainButton.snp.makeConstraints { make in
                 make.leading.trailing.equalToSuperview().inset(16)
                 make.height.equalTo(51)
                 make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
+            }
+        case .noFavorites:
+            addSubview(descriptionLabel)
+
+            emptyCherryImageView.snp.makeConstraints { make in
+                make.centerX.equalToSuperview().inset(2)
+                make.top.equalToSuperview().inset(260)
+            }
+
+            titleLabel.snp.makeConstraints { make in
+                make.leading.trailing.equalToSuperview().inset(16)
+                make.top.equalTo(emptyCherryImageView.snp.bottom).inset(-50)
+            }
+
+            descriptionLabel.snp.makeConstraints { make in
+                make.top.equalTo(titleLabel.snp.bottom).inset(-11)
+                make.leading.trailing.equalTo(titleLabel)
             }
         }
     }

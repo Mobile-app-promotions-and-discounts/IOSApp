@@ -42,7 +42,7 @@ final class ReviewsViewController: CherryCustomViewController {
         view.addSubview(reviewsTable)
         reviewsTable.layer.cornerRadius = CornerRadius.regular.cgFloat()
         reviewsTable.snp.makeConstraints { make in
-            make.top.bottom.left.right.equalTo(view.safeAreaLayoutGuide).inset(insets)
+            make.edges.equalTo(view.safeAreaLayoutGuide).inset(insets)
         }
     }
 }

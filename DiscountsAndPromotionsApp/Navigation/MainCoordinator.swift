@@ -23,7 +23,7 @@ final class MainCoordinator: Coordinator {
         self.authService = AuthService(networkClient: networkClient)
         self.userNetworkService = UserNetworkService(networkClient: networkClient)
         self.categoryNetworkService = CategoryNetworkService(networkClient: networkClient)
-        self.productNetworkService = ProductNetworkService(networkClient: networkClient)
+        self.productNetworkService = ProductNetworkService(networkClient: networkClient, categoryService: categoryNetworkService)
         self.storesNetworkService = StoreNetworkService(networkClient: networkClient)
 
         self.navigationController = navigationController
