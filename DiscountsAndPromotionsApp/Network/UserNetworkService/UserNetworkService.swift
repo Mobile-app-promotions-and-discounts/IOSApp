@@ -85,11 +85,18 @@ actor UserNetworkService: UserNetworkServiceProtocol {
         }
 
         do {
-            let userResponse: UserResponseModel = try await networkClient.request(for: urlRequest)
+            let userResponse: UserShotResponseModel = try await networkClient.request(for: urlRequest)
             print(userResponse)
             print("Registration successful")
+            let userResponseModel = UserResponseModel(phone: self.user.phone,
+                                                      role: self.user.role,
+                                                      foto: self.user.foto,
+                                                      firstName: self.user.firstName,
+                                                      lastName: self.user.lastName,
+                                                      id: userResponse.id,
+                                                      username: userResponse.username)
 
-            self.user = userResponse
+            self.user = userResponseModel
         } catch let error {
             print("Registration error: \(error.localizedDescription)")
 

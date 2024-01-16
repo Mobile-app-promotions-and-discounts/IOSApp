@@ -26,7 +26,7 @@ final class RegistrationViewModel: RegistrationViewModelProtocol {
         self.cancellables = Set<AnyCancellable>()
         self.userNetworkService = userNetworkService
         self.authService = authService
-        netWorkBinds()
+        bindingOn()
     }
     
     func didTapLoginButton() {
@@ -36,7 +36,7 @@ final class RegistrationViewModel: RegistrationViewModelProtocol {
     }
     
     func didTapPrivacyPolicy() {
-        // TODO: - открыть экран политики конфидециальности
+        // TODO: -  следующий спринт
     }
     
     func changeUserEmail(_ newEmail: String) {
@@ -47,7 +47,11 @@ final class RegistrationViewModel: RegistrationViewModelProtocol {
         userPassword.send(newPassword)
     }
     
-    private func netWorkBinds() {
+    func bindingOff() {
+        cancellables.removeAll()
+    }
+    
+    private func bindingOn() {
         userNetworkService.userUpdate
             .receive(on: DispatchQueue.main)
             .sink { [weak self] userResponseModel in
@@ -61,7 +65,6 @@ final class RegistrationViewModel: RegistrationViewModelProtocol {
         authService.isTokenValidUpdate
             .receive(on: DispatchQueue.main)
             .sink { [weak self] isAutorizated in
-                print(isAutorizated)
                 self?.isUserAuthorizatedUpdate.send(isAutorizated)
             }.store(in: &cancellables)
     }

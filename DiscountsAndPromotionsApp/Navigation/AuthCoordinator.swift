@@ -4,6 +4,7 @@ final class AuthCoordinator: Coordinator {
     
     var childCoordinators: [Coordinator] = []
     var navigationController = UINavigationController()
+    weak var mainCoordinator: MainCoordinator?
     
     private let authService: AuthServiceProtocol
     private let userNetworkService: UserNetworkServiceProtocol
@@ -21,31 +22,37 @@ final class AuthCoordinator: Coordinator {
     func navigateLoginViewController(from viewController: UIViewController) {
         let loginViewController = LoginViewController()
         loginViewController.coordinator = self
-        loginViewController.modalPresentationStyle = .custom
-        loginViewController.transitioningDelegate = viewController as? any UIViewControllerTransitioningDelegate
-        viewController.present(loginViewController, animated: true)
+        navigationController.viewControllers = [loginViewController]
+        navigationController.modalPresentationStyle = .custom
+        navigationController.transitioningDelegate = viewController as? any UIViewControllerTransitioningDelegate
+        viewController.present(navigationController, animated: true)
     }
     
-    func navigateToRegistrationScreen(from viewController: UIViewController) {
+    func navigateToRegistrationScreen() {
         let registrationViewModel = RegistrationViewModel(userNetworkService: userNetworkService,
                                                           authService: authService)
         let registerViewController = RegistrationViewController(viewModel: registrationViewModel)
         registerViewController.coordinator = self
-        registerViewController.modalPresentationStyle = .custom
-        registerViewController.transitioningDelegate = viewController as? any UIViewControllerTransitioningDelegate
-        viewController.present(registerViewController, animated: true)
+        navigationController.pushViewController(registerViewController, animated: true)
     }
     
-    func navigateToSuccessScreen(from viewController: UIViewController) {
-        let registerViewController = SuccessRegistrationViewController()
-        registerViewController.coordinator = self
-        registerViewController.modalPresentationStyle = .custom
-        registerViewController.transitioningDelegate = viewController as? any UIViewControllerTransitioningDelegate
-        viewController.present(registerViewController, animated: true)
+    func navigateToSuccessScreen() {
+        let sucessViewController = SuccessRegistrationViewController()
+        sucessViewController.coordinator = self
+        sucessViewController.modalPresentationStyle = .custom
+        navigationController.pushViewController(sucessViewController, animated: true)
     }
     
-    func navigateTogeopositionScreen() {
+    func backToNavigateLoginViewController() {
+        navigationController.popViewController(animated: true)
+    }
+    
+    func navigateToGeopositionScreen() {
         //TODO: - в следующем спринте
+    }
+    
+    func navigateToMainScreen() {
+        mainCoordinator?.navigateToMainScreen()
     }
     
 }

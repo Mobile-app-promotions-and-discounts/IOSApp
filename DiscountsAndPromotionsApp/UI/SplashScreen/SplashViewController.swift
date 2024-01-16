@@ -5,39 +5,49 @@ import UIKit
 final class SplashViewController: UIViewController {
     weak var coordinator: MainCoordinator?
     private let authService: AuthServiceProtocol
-    private var isUserAuthorized = false
+    private var isUserAuthorized: CurrentValueSubject<Bool?, Never>
+    private var isViewAppear: CurrentValueSubject<Bool, Never>
+    
+    var validToSubmit: AnyPublisher<Bool?, Never> {
+        return Publishers.CombineLatest(isUserAuthorized, isViewAppear)
+            .receive(on: DispatchQueue.main)
+            .map { isUserAuthorized, isViewAppear in
+                guard let isUserAuthorized else { return nil }
+                return isUserAuthorized && isViewAppear
+            } .eraseToAnyPublisher()
+    }
+    
     private var cancellables = Set<AnyCancellable>()
 
-    private lazy var backgroundImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = .launchScreenBackground
+    private let cherryImageView: UIImageView = {
+        let imageView = UIImageView(image: .cherryLogo)
         return imageView
     }()
 
-    private lazy var cherryLogoImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = .cherryLogo
-        imageView.contentMode = .scaleAspectFit
-        return imageView
+    private let nameLabel: UILabel = {
+        let label = UILabel()
+        label.text = NSLocalizedString("Черри", tableName: "LaunchFlow", comment: "")
+        label.font = CherryFonts.logoText
+        label.textColor = .cherryRedGreetings
+        label.textAlignment = .left
+        return label
     }()
 
-    private lazy var cherryDescriptionLabel: UILabel = {
-        let label = StrokeLabel()
-        label.text = L10n.LaunchScreen.cherryDescription
-        label.font = CherryFonts.titleExtraLarge
-        label.textColor = .cherryWhite
+    private let taglineLabel: UILabel = {
+        let label = UILabel()
+        label.text = NSLocalizedString("Акции и скидки каждый день", tableName: "LaunchFlow", comment: "")
+        label.font = CherryFonts.textLarge
         label.numberOfLines = 2
+        label.textColor = .cherryRedGreetings
         label.textAlignment = .center
-        label.strokeSize = 2
-        label.strokeColor = .cherryBlack
         return label
     }()
 
     init(authService: AuthServiceProtocol) {
         self.authService = authService
+        self.isUserAuthorized = CurrentValueSubject(nil)
+        self.isViewAppear = CurrentValueSubject(false)
         super.init(nibName: nil, bundle: nil)
-
-        bindTokenStatus()
     }
 
     required init?(coder: NSCoder) {
@@ -46,50 +56,69 @@ final class SplashViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupConstraints()
+        setupViews()
+        checkUserAuthorization()
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        checkUserAuthorization()
-        selectUserFlow()
+        isViewAppear.send(true)
+        bindingOn()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        bindingOff()
     }
 
     private func checkUserAuthorization() {
         authService.verifyToken()
     }
 
-    private func selectUserFlow() {
-//        временно чтобы убрать экран авторизации
-//        coordinator?.navigateToMainScreen()
-//            coordinator?.navigateToAuthScreen()
-       isUserAuthorized ? coordinator?.navigateToMainScreen() : coordinator?.navigateToAuthScreen()
+    private func selectUserFlow(_ isAutorizated: Bool) {
+        if isAutorizated {
+            coordinator?.navigateToMainScreen()
+        } else {
+            coordinator?.navigateToAuthScreen()
+        }
     }
 
-    private func bindTokenStatus() {
+    private func bindingOn() {
         authService.isTokenValidUpdate
             .sink { isValid in
-                self.isUserAuthorized = isValid
+                self.isUserAuthorized.send(isValid)
+            }
+            .store(in: &cancellables)
+        validToSubmit
+            .sink { [weak self] isAutorizated in
+                guard let isAutorizated else { return }
+                self?.selectUserFlow(isAutorizated)
             }
             .store(in: &cancellables)
     }
+    
+    private func bindingOff() {
+        cancellables.removeAll()
+    }
 
-    private func setupConstraints() {
-        [backgroundImageView, cherryLogoImageView, cherryDescriptionLabel].forEach { view.addSubview($0) }
+    private func setupViews() {
+        view.backgroundColor = .cherryWhite
+        [cherryImageView, nameLabel, taglineLabel].forEach { view.addSubview($0) }
 
-        backgroundImageView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+        cherryImageView.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalToSuperview().inset(180)
         }
 
-        cherryLogoImageView.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalToSuperview().inset(UIScreen.main.bounds.height / 3.2)
+        nameLabel.snp.makeConstraints { make in
+            make.leading.equalTo(cherryImageView.snp.leading)
+            make.top.equalTo(cherryImageView.snp.bottom).inset(-42)
         }
 
-        cherryDescriptionLabel.snp.makeConstraints { make in
+        taglineLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(cherryLogoImageView.snp.bottom).offset(12)
-            make.width.equalTo(217)
+            make.leading.trailing.equalToSuperview().inset(79)
+            make.top.equalTo(nameLabel.snp.bottom).inset(-12)
         }
     }
 }

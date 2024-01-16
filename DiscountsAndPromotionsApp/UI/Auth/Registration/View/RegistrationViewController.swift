@@ -94,10 +94,19 @@ final class RegistrationViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         setupConstraints()
-        setupBindings()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        bindingOn()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        bindingOff()
     }
 
-    private func setupBindings() {
+    private func bindingOn() {
         viewModel.validToSubmit
             .receive(on: DispatchQueue.main)
             .assign(to: \.isUserInteractionEnabled, on: registrationButton)
@@ -175,12 +184,17 @@ final class RegistrationViewController: UIViewController {
     }
     
     private func navigateToSuccessScreen() {
-        coordinator?.navigateToSuccessScreen(from: self)
+        coordinator?.navigateToSuccessScreen()
+    }
+    
+    private func bindingOff() {
+        viewModel.bindingOff()
+        cancellables.removeAll()
     }
     
     @objc
     private func backAction() {
-        dismiss(animated: true)
+        coordinator?.backToNavigateLoginViewController()
     }
     
     @objc
@@ -245,15 +259,4 @@ extension RegistrationViewController: UITextFieldDelegate {
         view.endEditing(true)
     }
     
-}
-
-// MARK: - UIViewControllerTransitioningDelegate
-
-extension RegistrationViewController: UIViewControllerTransitioningDelegate {
-
-    func presentationController(forPresented presented: UIViewController,
-                                presenting: UIViewController?,
-                                source: UIViewController) -> UIPresentationController? {
-        return PartialSizePresentationController(presentedViewController: presented, presenting: presenting)
-    }
 }

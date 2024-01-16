@@ -15,12 +15,8 @@ final class LoginViewModel: LoginViewModelProtocol {
                 return !userName.isEmpty && !password.isEmpty
             } .eraseToAnyPublisher()
     }
-
-    private var isUserAuthorized: Bool {
-        didSet {
-            isUserAuthorizedUpdate.send(isUserAuthorized)
-        }
-    }
+    
+    private var cancellables: Set<AnyCancellable>
     
     private let authService: AuthServiceProtocol
 
@@ -28,8 +24,9 @@ final class LoginViewModel: LoginViewModelProtocol {
         self.isUserAuthorizedUpdate = PassthroughSubject<Bool, Never>()
         self.userEmail = CurrentValueSubject("")
         self.userPassword = CurrentValueSubject("")
+        self.cancellables = Set<AnyCancellable>()
         self.authService = AuthService(networkClient: NetworkClient())
-        self.isUserAuthorized = false
+        self.bindingOn()
     }
 
     func didTapLoginButton() {
@@ -43,13 +40,21 @@ final class LoginViewModel: LoginViewModelProtocol {
     func changePassword(_ newPassword: String) {
         userPassword.send(newPassword)
     }
+    
+    func bindingOff() {
+        cancellables.removeAll()
+    }
 
     private func checkUserAuthData() {
-        let userModel = UserRequestModel(username: userEmail.value, password: userPassword.value)
+        let userModel = UserRequestModel(username: userEmail.value,
+                                         password: userPassword.value)
         authService.getToken(for: userModel)
-        
-//        let isEmailCorrect = userEmail == "ivanov@example.com"
-//        let isPasswordCorrect = userPassword == "cherryapp"
-//        isUserAuthorized = isEmailCorrect && isPasswordCorrect
+    }
+    
+    private func bindingOn() {
+        authService.isTokenValidUpdate
+            .sink { [weak self] isUpdate in
+                self?.isUserAuthorizedUpdate.send(isUpdate)
+            }.store(in: &cancellables)
     }
 }

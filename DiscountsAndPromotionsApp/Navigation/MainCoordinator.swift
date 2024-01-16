@@ -44,8 +44,6 @@ final class MainCoordinator: Coordinator {
         let splashViewController = SplashViewController(authService: authService)
         splashViewController.coordinator = self
         navigationController.viewControllers = [splashViewController]
-
-//        userNetworkService.registerUser(NetworkBaseConfiguration.testUser)
     }
 
     func navigateToMainScreen() {
@@ -59,6 +57,7 @@ final class MainCoordinator: Coordinator {
                                               userNetworkService: userNetworkService)
         let authViewController = AuthViewController()
         authViewController.coordinator = authCoordinator
+        authCoordinator.mainCoordinator = self
         navigationController.viewControllers = [authViewController]
     }
 

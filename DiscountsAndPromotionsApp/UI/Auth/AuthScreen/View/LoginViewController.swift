@@ -87,16 +87,25 @@ final class LoginViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         setupConstraints()
-        setupBindings()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        bindingOn()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        bindingOff()
     }
 
-    private func setupBindings() {
+    private func bindingOn() {
         viewModel.isUserAuthorizedUpdate
             .receive(on: RunLoop.main)
             .sink { [weak self] isAuthorized in
                 if isAuthorized {
                     self?.dismiss(animated: true)
-                    //TODO: self?.coordinator?.navigateToMainScreen()
+                    self?.coordinator?.navigateToMainScreen()
                 } else {
                     ErrorHandler.handle(error: .authorizationError)
                 }
@@ -119,9 +128,24 @@ final class LoginViewController: UIViewController {
     }
     
     @objc private func registerAction() {
-        coordinator?.navigateToRegistrationScreen(from: self)
+        coordinator?.navigateToRegistrationScreen()
     }
-
+    
+    @objc
+    private func changeEmail(_ textField: UITextField) {
+        viewModel.changeUserEmail(textField.text ?? "")
+    }
+    
+    @objc
+    private func changePassword(_ textField: UITextField) {
+        viewModel.changePassword(textField.text ?? "")
+    }
+    
+    private func bindingOff() {
+        viewModel.bindingOff()
+        cancellables.removeAll()
+    }
+    
     private func setupConstraints() {
         [entryLabel,
          inputFieldsStack,
@@ -157,16 +181,6 @@ final class LoginViewController: UIViewController {
                 .inset(Const.ButtonStack.bottomInset)
             $0.height.equalTo(Const.ButtonStack.height)
         }
-    }
-    
-    @objc
-    private func changeEmail(_ textField: UITextField) {
-        viewModel.changeUserEmail(textField.text ?? "")
-    }
-    
-    @objc
-    private func changePassword(_ textField: UITextField) {
-        viewModel.changePassword(textField.text ?? "")
     }
     
     private enum Const {
@@ -208,15 +222,4 @@ extension LoginViewController: UITextFieldDelegate {
         view.endEditing(true)
     }
     
-}
-
-// MARK: - UIViewControllerTransitioningDelegate
-
-extension LoginViewController: UIViewControllerTransitioningDelegate {
-
-    func presentationController(forPresented presented: UIViewController,
-                                presenting: UIViewController?,
-                                source: UIViewController) -> UIPresentationController? {
-        return PartialSizePresentationController(presentedViewController: presented, presenting: presenting)
-    }
 }

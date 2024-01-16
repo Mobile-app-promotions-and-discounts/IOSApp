@@ -56,6 +56,16 @@ final class SuccessRegistrationViewController: UIViewController {
         setupConstraints()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        // TODO: - Временно, переход на главный экран
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            self.dismiss(animated: true)
+            self.coordinator?.navigateToMainScreen()
+        }
+    }
+    
     private func setupView() {
         view.backgroundColor = .cherryWhite
         view.layer.cornerRadius = Const.View.cornerRadius
