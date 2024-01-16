@@ -72,6 +72,8 @@ final class SplashViewController: UIViewController {
     }
 
     private func checkUserAuthorization() {
+//         MARK: Для тестов с авторизацией
+//         authService.logout()
         authService.verifyToken()
     }
 

@@ -378,6 +378,7 @@
 			children = (
 				7F2137DF2B517265006B680C /* AuthViewController.swift */,
 				92787F7C2B2199840045B678 /* InputUserDataField.swift */,
+				92787F772B1FBC300045B678 /* AuthScreen */,
 				7F2137CD2B4E8D33006B680C /* Registration */,
 				7F2137D82B500159006B680C /* Geoposition */,
 			);
@@ -433,8 +434,7 @@
 				92787FAA2B21F0790045B678 /* ViewModel */,
 				92787FA92B21F0680045B678 /* View */,
 			);
-			name = AuthScreen;
-			path = Auth/AuthScreen;
+			path = AuthScreen;
 			sourceTree = "<group>";
 		};
 		92787FA92B21F0680045B678 /* View */ = {
@@ -677,7 +677,6 @@
 			isa = PBXGroup;
 			children = (
 				BE43FA892B4EA2EE000C6F05 /* LaunchScreen */,
-				92787F772B1FBC300045B678 /* AuthScreen */,
 				7F2137CC2B4E8D25006B680C /* Auth */,
 				92787F6C2B1F263A0045B678 /* SplashScreen */,
 				BC60460F2B1E4B7900536EB3 /* ProfileScreen */,
