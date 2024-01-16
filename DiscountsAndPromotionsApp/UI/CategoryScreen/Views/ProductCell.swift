@@ -83,7 +83,9 @@ final class ProductCell: UICollectionViewCell {
         self.nameLabel.text = model.name
         if let imagePath = model.image,
            let imageURL = URL(string: imagePath) {
-            productImageView.kf.setImage(with: imageURL)
+            productImageView.kf.setImage(with: imageURL, placeholder: UIImage.productImagePlaceholder)
+        } else {
+            productImageView.image = .productImagePlaceholder
         }
         self.likeButton.setImage(model.isFavorite ? UIImage.icHeartFill : UIImage.icHeart, for: .normal)
         self.priceLabel.text = model.formattedPriceRange
