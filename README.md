@@ -1,13 +1,13 @@
-# 🚀 **О проекте**:  
+# 🍒 **О проекте**:  
 Черри-пикеры - люди, которые охотятся за скидками, чтобы экономить на повседневных товарах.
 Мобильное приложение «Черри» сделает процесс «сбора вишен» максимально простым и удобным для каждого пользователя.
 
 # 🖼️ **Скриншоты**:
 <p float="left">
   <img src="https://github.com/Mobile-app-promotions-and-discounts/IOSApp/assets/91372236/e3daaf14-eb2f-42f0-892b-faeadcf68dac" width="23%" />
-  <img src="https://github.com/Mobile-app-promotions-and-discounts/IOSApp/assets/91372236/0a9e336a-3273-47ba-8c47-813f3ac67126" width="23%" /> 
-  <img src="https://github.com/Mobile-app-promotions-and-discounts/IOSApp/assets/91372236/017c2532-e80d-4f60-a3b4-056385a07083" width="23%" />
   <img src="https://github.com/Mobile-app-promotions-and-discounts/IOSApp/assets/91372236/79521cee-45a2-44f5-ad5b-ee1d746e8a70" width="23%" />
+  <img src="https://github.com/Mobile-app-promotions-and-discounts/IOSApp/assets/61228372/bc27c691-0598-4458-bb1b-5673232960a5" width="23%" /> 
+  <img src="https://github.com/Mobile-app-promotions-and-discounts/IOSApp/assets/61228372/9af9ee7e-cc7f-4ab1-8820-119dff833ca1" width="23%" /> 
 </p>
 
 # 🔍 **Основные Функции**:
