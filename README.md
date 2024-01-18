@@ -7,7 +7,7 @@
   <img src="https://github.com/Mobile-app-promotions-and-discounts/IOSApp/assets/91372236/e3daaf14-eb2f-42f0-892b-faeadcf68dac" width="23%" />
   <img src="https://github.com/Mobile-app-promotions-and-discounts/IOSApp/assets/91372236/79521cee-45a2-44f5-ad5b-ee1d746e8a70" width="23%" />
   <img src="https://github.com/Mobile-app-promotions-and-discounts/IOSApp/assets/61228372/bc27c691-0598-4458-bb1b-5673232960a5" width="23%" /> 
-  <img src="https://github.com/Mobile-app-promotions-and-discounts/IOSApp/assets/61228372/9af9ee7e-cc7f-4ab1-8820-119dff833ca1" width="23%" /> 
+  <img src="https://github.com/Mobile-app-promotions-and-discounts/IOSApp/assets/61228372/183d4c31-f9f1-4e7b-861e-b71d514a4b55" width="23%" /> 
 </p>
 
 # 🔍 **Основные Функции**:
