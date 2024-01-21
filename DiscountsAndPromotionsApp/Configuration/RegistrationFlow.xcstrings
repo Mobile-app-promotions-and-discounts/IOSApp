@@ -103,7 +103,7 @@
         }
       }
     },
-    "RegistrationError" : {
+    "registrationError" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {

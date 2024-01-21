@@ -21,7 +21,7 @@ enum L10n {
         static let privacyPolicyTitle = NSLocalizedString("privacyPolicyTitle", tableName: "RegistrationFlow", comment: "")
         static let privacyPolicy = NSLocalizedString("privacyPolicy", tableName: "RegistrationFlow", comment: "")
         static let registrationTitle = NSLocalizedString("registration", tableName: "RegistrationFlow", comment: "")
-        static let RegistrationErrorTitle = NSLocalizedString("RegistrationError", tableName: "RegistrationFlow", comment: "")
+        static let registrationErrorTitle = NSLocalizedString("registrationError", tableName: "RegistrationFlow", comment: "")
     }
     enum Location {
         static let welcome = NSLocalizedString("welcome", tableName: "LocationFlow", comment: "")
