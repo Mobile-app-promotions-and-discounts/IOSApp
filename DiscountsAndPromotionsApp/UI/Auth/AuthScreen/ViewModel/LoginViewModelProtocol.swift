@@ -6,7 +6,7 @@ protocol LoginViewModelProtocol {
     var userEmail: CurrentValueSubject<String, Never> { get }
     var userPassword: CurrentValueSubject<String, Never> { get }
     var validToSubmit: AnyPublisher<Bool, Never> { get }
-    
+
     func didTapLoginButton()
     func bindingOff()
     func changeUserEmail(_ newEmail: String)

@@ -9,7 +9,7 @@ final class RegistrationViewController: UIViewController {
     private let viewModel: RegistrationViewModelProtocol
 
     private var cancellables: Set<AnyCancellable>
-    
+
     private lazy var registrationLabel: UILabel = {
         let label = UILabel()
         label.text = L10n.Registration.entryTitle
@@ -17,7 +17,7 @@ final class RegistrationViewController: UIViewController {
         label.textColor = .cherryBlack
         return label
     }()
-    
+
     private lazy var backButton: UIButton = {
         let button = UIButton()
         let image = UIImage(named: "ic_back") ?? UIImage()
@@ -51,7 +51,7 @@ final class RegistrationViewController: UIViewController {
         stackView.spacing = Const.TextFieldsStack.spacing
         return stackView
     }()
-    
+
     private lazy var privatePolicyLabel: UILabel = {
         let label = UILabel()
         label.text = L10n.Registration.privacyPolicyTitle
@@ -61,7 +61,7 @@ final class RegistrationViewController: UIViewController {
         label.textAlignment = .center
         return label
     }()
-    
+
     private lazy var privatePolicyLabelTap: UILabel = {
         let label = UILabel()
         label.text = L10n.Registration.privacyPolicy
@@ -95,12 +95,12 @@ final class RegistrationViewController: UIViewController {
         setupView()
         setupConstraints()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         bindingOn()
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         bindingOff()
@@ -111,7 +111,7 @@ final class RegistrationViewController: UIViewController {
             .receive(on: DispatchQueue.main)
             .assign(to: \.isUserInteractionEnabled, on: registrationButton)
             .store(in: &cancellables)
-        
+
         viewModel.isUserAuthorizatedUpdate
             .receive(on: DispatchQueue.main)
             .sink { [weak self] isAutorizated in
@@ -142,7 +142,7 @@ final class RegistrationViewController: UIViewController {
             $0.top.equalToSuperview()
                 .offset(Const.EntryLabel.topOffset)
         }
-        
+
         backButton.snp.makeConstraints {
             $0.centerY.equalTo(registrationLabel.snp.centerY)
             $0.leading.equalToSuperview()
@@ -168,55 +168,55 @@ final class RegistrationViewController: UIViewController {
             $0.trailing.equalToSuperview()
                 .offset(Const.RegisterButton.trailingOffset)
         }
-        
+
         privatePolicyLabelTap.snp.makeConstraints {
             $0.width.equalTo(registrationButton.snp.width)
             $0.centerX.equalToSuperview()
             $0.bottom.equalTo(registrationButton.snp.top)
                 .offset(Const.PrivatePolicyLabelTap.bottomoffset)
         }
-        
+
         privatePolicyLabel.snp.makeConstraints {
             $0.width.equalTo(registrationButton.snp.width)
             $0.centerX.equalToSuperview()
             $0.bottom.equalTo(privatePolicyLabelTap.snp.top)
         }
     }
-    
+
     private func navigateToSuccessScreen() {
         coordinator?.navigateToSuccessScreen()
     }
-    
+
     private func bindingOff() {
         viewModel.bindingOff()
         cancellables.removeAll()
     }
-    
+
     @objc
     private func backAction() {
         coordinator?.backToNavigateLoginViewController()
     }
-    
+
     @objc
     private func changeEmail(_ textField: UITextField) {
         viewModel.changeUserEmail(textField.text ?? "")
     }
-    
+
     @objc
     private func changePassword(_ textField: UITextField) {
         viewModel.changePassword(textField.text ?? "")
     }
-    
+
     @objc
     private func policyAction() {
         // Настроить переход на экран условия и политики конфиденсиальности
         print("tap Policy")
     }
-    
+
     @objc private func registerAction() {
         viewModel.didTapLoginButton()
     }
-    
+
     private enum Const {
         enum View {
             static let cornerRadius: CGFloat = 12
@@ -244,7 +244,7 @@ final class RegistrationViewController: UIViewController {
             static let bottomoffset: CGFloat = -12
         }
     }
-    
+
 }
 
 // MARK: - UITextFieldDelegate
@@ -254,9 +254,9 @@ extension RegistrationViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
     }
-    
+
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
-    
+
 }

@@ -1,14 +1,14 @@
 import UIKit
 
 final class SuccessRegistrationViewController: UIViewController {
-    
+
     weak var coordinator: AuthCoordinator?
-    
+
     private lazy var cherryImageView: UIImageView = {
         let image = UIImage(named: "cherryHi") ?? UIImage()
         return UIImageView(image: image)
     }()
-    
+
     private lazy var welcomeLabel: UILabel = {
         let label = UILabel()
         label.text = L10n.Location.welcome
@@ -17,7 +17,7 @@ final class SuccessRegistrationViewController: UIViewController {
         label.textAlignment = .center
         return label
     }()
-    
+
     private lazy var enterCityLabel: UILabel = {
         let label = UILabel()
         label.text = L10n.Location.enterCity
@@ -27,21 +27,21 @@ final class SuccessRegistrationViewController: UIViewController {
         label.textAlignment = .center
         return label
     }()
-    
+
     private lazy var automaticButton: UIButton = {
         let button = PrimaryButton()
         button.setTitle(L10n.Location.automatical, for: .normal)
         button.addTarget(self, action: #selector(automaticLocationAction), for: .touchUpInside)
         return button
     }()
-    
+
     private lazy var manualButton: UIButton = {
         let button = SecondaryButton()
         button.setTitle(L10n.Location.manual, for: .normal)
         button.addTarget(self, action: #selector(manuallyLocationAction), for: .touchUpInside)
         return button
     }()
-    
+
     private lazy var buttonsStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [automaticButton, manualButton])
         stackView.axis = .vertical
@@ -49,55 +49,55 @@ final class SuccessRegistrationViewController: UIViewController {
         stackView.spacing = 4
         return stackView
     }()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
         setupConstraints()
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+
         // TODO: - Временно, переход на главный экран
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             self.dismiss(animated: true)
             self.coordinator?.navigateToMainScreen()
         }
     }
-    
+
     private func setupView() {
         view.backgroundColor = .cherryWhite
         view.layer.cornerRadius = Const.View.cornerRadius
         view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
     }
-    
+
     @objc private func automaticLocationAction() {
         // TODO: Следующий спринт
     }
-    
+
     @objc private func manuallyLocationAction() {
         // TODO: Следующий спринт
     }
-    
+
     private func setupConstraints() {
         [cherryImageView,
          welcomeLabel,
          enterCityLabel,
          buttonsStackView].forEach { view.addSubview($0) }
-        
+
         cherryImageView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.top.equalToSuperview()
                 .offset(Const.ImageView.topOffset)
         }
-        
+
         welcomeLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.top.equalTo(cherryImageView.snp.bottom)
                 .offset(Const.Welcome.topOffset)
         }
-        
+
         enterCityLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.leading.equalToSuperview()
@@ -107,7 +107,7 @@ final class SuccessRegistrationViewController: UIViewController {
             $0.top.equalTo(welcomeLabel.snp.bottom)
                 .offset(Const.EntryCity.topOffset)
         }
-        
+
         buttonsStackView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
                 .inset(Const.ButtonStack.leadingInset)
@@ -116,7 +116,7 @@ final class SuccessRegistrationViewController: UIViewController {
             $0.height.equalTo(Const.ButtonStack.height)
         }
     }
-    
+
     private enum Const {
         enum View {
             static let cornerRadius: CGFloat = 12

@@ -9,7 +9,7 @@ final class LoginViewController: UIViewController {
     private let viewModel: LoginViewModelProtocol
 
     private var cancellables: Set<AnyCancellable>
-    
+
     private lazy var entryLabel: UILabel = {
         let label = UILabel()
         label.text = L10n.Authorization.entryTitle
@@ -88,12 +88,12 @@ final class LoginViewController: UIViewController {
         setupView()
         setupConstraints()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         bindingOn()
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         bindingOff()
@@ -110,7 +110,7 @@ final class LoginViewController: UIViewController {
                     ErrorHandler.handle(error: .authorizationError)
                 }
             }.store(in: &cancellables)
-        
+
         viewModel.validToSubmit
             .receive(on: DispatchQueue.main)
             .assign(to: \.isUserInteractionEnabled, on: loginButton)
@@ -126,26 +126,26 @@ final class LoginViewController: UIViewController {
     @objc private func loginAction() {
         viewModel.didTapLoginButton()
     }
-    
+
     @objc private func registerAction() {
         coordinator?.navigateToRegistrationScreen()
     }
-    
+
     @objc
     private func changeEmail(_ textField: UITextField) {
         viewModel.changeUserEmail(textField.text ?? "")
     }
-    
+
     @objc
     private func changePassword(_ textField: UITextField) {
         viewModel.changePassword(textField.text ?? "")
     }
-    
+
     private func bindingOff() {
         viewModel.bindingOff()
         cancellables.removeAll()
     }
-    
+
     private func setupConstraints() {
         [entryLabel,
          inputFieldsStack,
@@ -182,7 +182,7 @@ final class LoginViewController: UIViewController {
             $0.height.equalTo(Const.ButtonStack.height)
         }
     }
-    
+
     private enum Const {
         enum View {
             static let cornerRadius: CGFloat = 12
@@ -217,9 +217,9 @@ extension LoginViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
     }
-    
+
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
-    
+
 }
