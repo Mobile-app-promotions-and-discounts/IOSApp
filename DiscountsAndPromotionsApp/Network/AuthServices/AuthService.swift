@@ -76,9 +76,8 @@ actor AuthService: AuthServiceProtocol {
     }
 
     private func requestVerification() async {
-        // на время чтобы не мешала страница авторизации
         guard let token = tokenStorage.accessToken else {
-            getToken(for: NetworkBaseConfiguration.testUser)
+            isTokenValid = false
             return
         }
         let access: String = token

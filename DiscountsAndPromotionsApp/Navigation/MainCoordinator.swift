@@ -44,8 +44,6 @@ final class MainCoordinator: Coordinator {
         let splashViewController = SplashViewController(authService: authService)
         splashViewController.coordinator = self
         navigationController.viewControllers = [splashViewController]
-
-//        userNetworkService.registerUser(NetworkBaseConfiguration.testUser)
     }
 
     func navigateToMainScreen() {
@@ -54,12 +52,13 @@ final class MainCoordinator: Coordinator {
         navigationController.viewControllers = [mainTabBarController]
     }
 
-    func navigateToAuthScreen(from splashViewController: UIViewController) {
-        let loginViewController = LoginViewController()
-        loginViewController.coordinator = self
-        loginViewController.modalPresentationStyle = .custom
-        loginViewController.transitioningDelegate = splashViewController as? any UIViewControllerTransitioningDelegate
-        splashViewController.present(loginViewController, animated: true)
+    func navigateToAuthScreen() {
+        let authCoordinator = AuthCoordinator(authService: authService,
+                                              userNetworkService: userNetworkService)
+        let authViewController = AuthViewController()
+        authViewController.coordinator = authCoordinator
+        authCoordinator.mainCoordinator = self
+        navigationController.viewControllers = [authViewController]
     }
 
     private func configureChildCoordinators(with  tabBarController: MainTabBarController) {

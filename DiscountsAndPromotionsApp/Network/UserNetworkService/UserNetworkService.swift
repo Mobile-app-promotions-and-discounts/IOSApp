@@ -3,7 +3,7 @@ import Foundation
 
 protocol UserNetworkServiceProtocol {
     var userUpdate: PassthroughSubject<UserResponseModel, Never> { get }
-
+    
     func registerUser(_ user: UserRequestModel)
     func deleteUser(id: Int, password: String)
     func editUser(_ newUserParameters: [String: Any], id: Int)
@@ -74,6 +74,7 @@ actor UserNetworkService: UserNetworkServiceProtocol {
             "username": user.username,
             "password": user.password
         ]
+        print(userParameters)
 
         guard let urlRequest = requestConstructor.makeRequest(endpoint: .newUser,
                                                               additionalPath: nil,
@@ -84,11 +85,18 @@ actor UserNetworkService: UserNetworkServiceProtocol {
         }
 
         do {
-            let userResponse: UserResponseModel = try await networkClient.request(for: urlRequest)
+            let userResponse: UserShotResponseModel = try await networkClient.request(for: urlRequest)
             print(userResponse)
             print("Registration successful")
+            let userResponseModel = UserResponseModel(phone: self.user.phone,
+                                                      role: self.user.role,
+                                                      foto: self.user.foto,
+                                                      firstName: self.user.firstName,
+                                                      lastName: self.user.lastName,
+                                                      id: userResponse.id,
+                                                      username: userResponse.username)
 
-            self.user = userResponse
+            self.user = userResponseModel
         } catch let error {
             print("Registration error: \(error.localizedDescription)")
 
