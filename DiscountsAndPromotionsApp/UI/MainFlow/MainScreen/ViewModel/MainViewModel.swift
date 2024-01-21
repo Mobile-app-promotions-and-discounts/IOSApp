@@ -38,18 +38,25 @@ final class MainViewModel: MainViewModelProtocol {
     }
 
     private var dataService: DataServiceProtocol
+    private var productService: ProductNetworkServiceProtocol
+    private var categoryService: CategoryNetworkServiceProtocol
     private var promotionVisualService: PromotionVisualsService
     private var cancellables = Set<AnyCancellable>()
 
     init(dataService: DataServiceProtocol,
+         categoryService: CategoryNetworkServiceProtocol,
+         prosuctService: ProductNetworkServiceProtocol,
          promotionVisualService: PromotionVisualsService) {
         self.dataService = dataService
         self.promotionVisualService = promotionVisualService
+        self.productService = prosuctService
+        self.categoryService = categoryService
         setupBindings()
     }
 
     func viewDidLoad() {
         dataService.loadData()
+        categoryService.fetchCategories()
     }
 
     func numberOfItems(inSection section: MainSection) -> Int {

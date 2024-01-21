@@ -72,6 +72,7 @@ final class MainCoordinator: Coordinator {
         let mainScreenCoordinator = MainScreenCoordinator(navigationController: mainScreenNavigationController,
                                                           dataService: dataService,
                                                           productService: productNetworkService,
+                                                          categoryService: categoryNetworkService,
                                                           profileService: profileService)
         scanCoordinator.mainScreenCoordinator = mainScreenCoordinator
 

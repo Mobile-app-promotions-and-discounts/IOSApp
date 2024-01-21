@@ -105,7 +105,6 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
         self.networkClient = networkClient
         self.requestConstructor = requestConstructor
         self.categoryService = categoryService
- //       self.categoryService.fetchCategories()  из-за этого запрос на сервер отправляется раньше чем происходит проверка текщуего токена
     }
 
     // MARK: - Получение продуктов
