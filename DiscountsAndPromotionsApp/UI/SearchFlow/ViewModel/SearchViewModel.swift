@@ -10,6 +10,7 @@ final class SearchViewModel: SearchViewModelProtocol {
     private (set) var categoriesUpdate = PassthroughSubject<[Category], Never>()
 
     private var dataService: DataServiceProtocol
+    private let productService: ProductNetworkServiceProtocol
     private var subscriptions = Set<AnyCancellable>()
 
     private (set) var categories = [Category]() {
@@ -18,8 +19,9 @@ final class SearchViewModel: SearchViewModelProtocol {
         }
     }
 
-    init(dataService: DataServiceProtocol) {
+    init(dataService: DataServiceProtocol, productService: ProductNetworkServiceProtocol) {
         self.dataService = dataService
+        self.productService = productService
         setupBindings()
     }
 
@@ -28,10 +30,10 @@ final class SearchViewModel: SearchViewModelProtocol {
         return SearchCategory(rawValue: category.name) ?? SearchCategory.groceries
     }
 
-    func getCategoryID(for index: Int) -> Int? {
+    func getCategory(for index: Int) -> Category? {
         if index < categories.count {
             let category = categories[index]
-            return category.id
+            return category
         } else {
             return nil
         }

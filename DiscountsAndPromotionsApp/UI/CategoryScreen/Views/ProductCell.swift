@@ -1,6 +1,7 @@
 import UIKit
 import SnapKit
 import Combine
+import Kingfisher
 
 final class ProductCell: UICollectionViewCell {
     static let reuseIdentifier = "ProductCell"
@@ -25,24 +26,26 @@ final class ProductCell: UICollectionViewCell {
 
     private lazy var productImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = .cherryGrayBlue
+        imageView.backgroundColor = .cherryWhite
         imageView.layer.cornerRadius = CornerRadius.small.cgFloat()
         imageView.clipsToBounds = true
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
 
     private lazy var discountBGView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.cherryYellow
+        view.backgroundColor = UIColor.cherryWhite.withAlphaComponent(0.8)
         view.layer.cornerRadius = CornerRadius.regular.cgFloat()
+        view.layer.borderColor = UIColor.cherryBlack.withAlphaComponent(0.15).cgColor
+        view.layer.borderWidth = 1
         return view
     }()
 
     private lazy var discountLabel: UILabel = {
         let label = UILabel()
         label.textColor = .cherryBlack
-        label.font = CherryFonts.textSmall
+        label.font = CherryFonts.headerSmall
         return label
     }()
 
@@ -52,21 +55,6 @@ final class ProductCell: UICollectionViewCell {
         label.numberOfLines = 2
         label.font = CherryFonts.headerSmall
         return label
-    }()
-
-    private lazy var descriptionLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .cherryBlack
-        label.font = CherryFonts.textSmall
-        return label
-    }()
-
-    private lazy var nameAndDescriptionStackView: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [nameLabel, descriptionLabel])
-        stack.axis = .vertical
-        stack.distribution = .fill
-        stack.spacing = 4
-        return stack
     }()
 
     private lazy var priceLabel: UILabel = {
@@ -84,6 +72,7 @@ final class ProductCell: UICollectionViewCell {
 
     override func prepareForReuse() {
         super.prepareForReuse()
+        productImageView.image = nil
         cancellable?.cancel()
     }
 
@@ -92,11 +81,17 @@ final class ProductCell: UICollectionViewCell {
     func configure(with model: ProductCellUIModel) {
         self.productID = model.id
         self.nameLabel.text = model.name
-        self.productImageView.image = model.image
-        self.descriptionLabel.text = model.description
+        if let imagePath = model.image,
+           let imageURL = URL(string: imagePath) {
+            productImageView.kf.setImage(with: imageURL, placeholder: UIImage.productImagePlaceholder)
+        } else {
+            productImageView.image = .productImagePlaceholder
+        }
         self.likeButton.setImage(model.isFavorite ? UIImage.icHeartFill : UIImage.icHeart, for: .normal)
         self.priceLabel.text = model.formattedPriceRange
         self.discountLabel.text = model.formattedDiscount
+        self.discountLabel.isHidden = model.formattedDiscount.isEmpty
+        self.discountBGView.isHidden = model.formattedDiscount.isEmpty
     }
 
     // MARK: - Private methods
@@ -119,7 +114,7 @@ final class ProductCell: UICollectionViewCell {
         [productImageView,
          discountBGView,
          discountLabel,
-         nameAndDescriptionStackView,
+         nameLabel,
          priceLabel,
          likeButton].forEach { contentView.addSubview($0) }
 
@@ -138,17 +133,20 @@ final class ProductCell: UICollectionViewCell {
             make.centerX.centerY.equalTo(discountBGView)
         }
 
-        nameAndDescriptionStackView.snp.makeConstraints { make in
+        nameLabel.snp.makeConstraints { make in
             make.top.equalTo(productImageView.snp.bottom).inset(-8)
             make.leading.trailing.equalTo(productImageView)
         }
 
-        priceLabel.snp.makeConstraints { make in
-            make.leading.bottom.equalToSuperview().inset(8)
-        }
-
         likeButton.snp.makeConstraints { make in
             make.trailing.bottom.equalToSuperview().inset(8)
+            make.width.height.equalTo(24)
+            make.top.equalTo(nameLabel.snp.bottom).inset(-4)
+        }
+
+        priceLabel.snp.makeConstraints { make in
+            make.leading.bottom.equalToSuperview().inset(8)
+            make.trailing.equalTo(likeButton.snp.leading).inset(-16)
         }
     }
 }

@@ -11,6 +11,8 @@ final class ScanViewController: UIViewController {
 
     private var scanPreviewLayer: AVCaptureVideoPreviewLayer
 
+    private var barcodeCancellable: AnyCancellable?
+
     // MARK: - UI elements
     private let scanFrame: UIView = {
         return ScanFrameView()
@@ -128,13 +130,14 @@ final class ScanViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        navigationController?.navigationBar.isHidden = true
+        viewModel.bindBarcodeRequest(to: &barcodeCancellable)
         captureSessionController.startSessionRoutine()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-
+        barcodeCancellable = nil
         captureSessionController.stopSessionRoutine()
     }
 
@@ -325,7 +328,6 @@ final class ScanViewController: UIViewController {
     }
 }
 
-// MARK: - Button selectors
 extension ScanViewController {
     private func formatPlaceholder(_ placeholder: String) -> NSAttributedString {
         var dotIndex = placeholder.filter { $0.isWholeNumber }.count
@@ -347,6 +349,8 @@ extension ScanViewController {
 
         return formattedPlaceholderNumbers
     }
+
+    // MARK: - Button selectors
 
     @objc
     private func toggleFlash() {

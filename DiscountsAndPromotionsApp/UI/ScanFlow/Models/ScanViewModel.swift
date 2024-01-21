@@ -9,6 +9,7 @@ protocol ScanFlowViewModelProtocol {
     var barcodePlaceholderUpdate: PassthroughSubject<String, Never> { get }
 
     func bindBarcode(code: AnyPublisher<String, Never>) -> AnyPublisher<Bool, Never>
+    func bindBarcodeRequest(to cancellable: inout AnyCancellable?)
     func bindSegmentedControl(index: AnyPublisher<Int, Never>)
     func checkBarcode()
     func checkBarcode(code: String)
@@ -44,12 +45,10 @@ final class ScanFlowViewModel: ScanFlowViewModelProtocol {
          coordinator: ScanFlowCoordinator) {
         self.productService = productService
         self.coordinator = coordinator
-
-        bindBarcodeRequest()
     }
 
-    private func bindBarcodeRequest() {
-        productService.productListUpdate
+    func bindBarcodeRequest(to cancellable: inout AnyCancellable?) {
+        cancellable = productService.productListUpdate
             .sink { [weak self] products in
                 guard let self else { return }
 
@@ -57,10 +56,9 @@ final class ScanFlowViewModel: ScanFlowViewModelProtocol {
                     let product = foundProduct.convertToProductModel()
                     coordinator.showProduct(product)
                 } else {
-                    self.coordinator.scanError()
+                    self.coordinator.navigateToEmptyResultScreen()
                 }
             }
-            .store(in: &subscriptions)
     }
 
     private func formattedBarcode(barcode: String) -> String {

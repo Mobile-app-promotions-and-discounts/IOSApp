@@ -2,6 +2,7 @@ import Foundation
 import Combine
 
 final class MainViewModel: MainViewModelProtocol {
+
     var numberOfSections: Int {
         return MainSection.allCases.count
     }
@@ -9,7 +10,7 @@ final class MainViewModel: MainViewModelProtocol {
     private (set) var categoriesUpdate = PassthroughSubject<[Category], Never>()
     private (set) var productsUpdate = PassthroughSubject<[Product], Never>()
     private (set) var storesUpdate = PassthroughSubject<[Store], Never>()
-    private (set) var promotionsUpdate = PassthroughSubject<[Promotion], Never>()
+    private (set) var promotionsUpdate = PassthroughSubject<[Product], Never>()
 
     private var categories = [Category]() {
         didSet {
@@ -30,7 +31,7 @@ final class MainViewModel: MainViewModelProtocol {
         }
     }
 
-    private var promotions = [Promotion]() {
+    private var promotions = [Product]() {
         didSet {
             promotionsUpdate.send(promotions)
         }
@@ -73,7 +74,7 @@ final class MainViewModel: MainViewModelProtocol {
         }
     }
 
-    func getCategory(for index: Int) -> CategoryUIModel? {
+    func getCategoryUIModel(for index: Int) -> CategoryUIModel? {
         guard index < categories.count else {
             return nil
         }
@@ -86,7 +87,7 @@ final class MainViewModel: MainViewModelProtocol {
             return nil
         }
         let promotion = promotions[index]
-        return promotion.toUIModel(visualsService: promotionVisualService)
+        return PromotionUIModel(product: promotion, visualsService: promotionVisualService)
     }
 
     func getStore(for index: Int) -> StoreUIModel {
@@ -94,9 +95,9 @@ final class MainViewModel: MainViewModelProtocol {
         return StoreUIModel(store: store)
     }
 
-    func getCategoryID(for index: Int) -> Int {
+    func getCategory(for index: Int) -> Category {
         let category = categories[index]
-        return category.id
+        return category
     }
 
     private func setupBindings() {

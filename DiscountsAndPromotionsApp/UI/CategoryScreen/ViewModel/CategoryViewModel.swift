@@ -2,30 +2,30 @@ import Foundation
 import Combine
 
 final class CategoryViewModel: CategoryViewModelProtocol {
-    private (set) var productsUpdate = PassthroughSubject<[Product], Never>()
-
-    private var products = [Product]() {
+    private (set) var viewState = CurrentValueSubject<ViewState, Never>(.loading)
+    private (set) var productsUpdate = PassthroughSubject<Int, Never>()
+    private (set) var products: [Product] = [] {
         didSet {
-            productsUpdate.send(products)
+            productsUpdate.send(products.count)
+            viewState.value = products.isEmpty ? .empty : .dataPresent
         }
     }
 
-    private let dataService: DataServiceProtocol
+    private let dataService: ProductNetworkServiceProtocol
     private let profileService: ProfileServiceProtocol
-    private let categoryID: Int
-    private var categoryName: String?
+    private let category: Category
+
+    private var currentPage = 0
+    private var isOnLastPage = false
+    private var isFetchingData = false
 
     private var cancellables = Set<AnyCancellable>()
 
-    init(dataService: DataServiceProtocol, profileService: ProfileServiceProtocol, categoryID: Int) {
+    init(dataService: ProductNetworkServiceProtocol, profileService: ProfileServiceProtocol, category: Category) {
         self.dataService = dataService
         self.profileService = profileService
-        self.categoryID = categoryID
+        self.category = category
         setupBindings()
-    }
-
-    func numberOfItems() -> Int {
-        return products.count
     }
 
     func getProduct(for index: Int) -> ProductCellUIModel {
@@ -34,10 +34,7 @@ final class CategoryViewModel: CategoryViewModelProtocol {
     }
 
     func getTitle() -> String {
-        if let name = categoryName {
-            return NSLocalizedString(name, tableName: "MainFlow", comment: "")
-        }
-        return ""
+        return NSLocalizedString(category.name, tableName: "MainFlow", comment: "")
     }
 
     func getProductById(_ id: Int) -> Product? {
@@ -58,24 +55,33 @@ final class CategoryViewModel: CategoryViewModelProtocol {
         }
     }
 
+    func loadNextPage() {
+        if !isOnLastPage && !isFetchingData {
+            isFetchingData = true
+
+            dataService.getProducts(categoryID: category.id + 1,
+                                    searchItem: nil,
+                                    page: currentPage + 1)
+        }
+    }
+
     private func setupBindings() {
-        // Доработать под каждую категорию, с новым методом в дата сервисе
-        dataService.actualGoodsList
-            .sink { [weak self] goodsList in
-                guard let self = self else { return }
+        dataService.productListUpdate
+        .sink { [weak self] products in
+            let newProducts = products.map { $0.convertToProductModel() }
+            self?.products.append(contentsOf: newProducts)
+        }
+        .store(in: &cancellables)
 
-                // Фильтрация продуктов по категории
-                let sortedGoodsList = goodsList.filter { product in
-                    product.category.id == self.categoryID
-                }
-                self.products = sortedGoodsList
-
-                // Если список не пуст, сохраняем имя категории
-                if let firstProduct = sortedGoodsList.first {
-                    self.categoryName = firstProduct.category.name
-                }
+        dataService.paginationPublisher
+            .sink { [weak self] paginationState in
+                self?.isOnLastPage = paginationState.isLastPage
+                self?.currentPage = paginationState.currentPage
+                self?.isFetchingData = false
             }
             .store(in: &cancellables)
+
+        loadNextPage()
     }
 
     private func convertModels(for product: Product) -> ProductCellUIModel {

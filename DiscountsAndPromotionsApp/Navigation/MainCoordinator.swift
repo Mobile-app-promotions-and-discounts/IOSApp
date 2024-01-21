@@ -18,12 +18,12 @@ final class MainCoordinator: Coordinator {
         self.dataService = MockDataService()
         self.profileService = MockProfileService()
 
-//         Network Services
+        // Network Services
         self.networkClient = networkClient
         self.authService = AuthService(networkClient: networkClient)
         self.userNetworkService = UserNetworkService(networkClient: networkClient)
         self.categoryNetworkService = CategoryNetworkService(networkClient: networkClient)
-        self.productNetworkService = ProductNetworkService(networkClient: networkClient)
+        self.productNetworkService = ProductNetworkService(networkClient: networkClient, categoryService: categoryNetworkService)
         self.storesNetworkService = StoreNetworkService(networkClient: networkClient)
 
         self.navigationController = navigationController
@@ -31,11 +31,21 @@ final class MainCoordinator: Coordinator {
     }
 
     func start() {
-        let splashViewController = SplashViewController()
+        let launchVC = LaunchViewController()
+        navigationController.pushViewController(launchVC, animated: true)
+
+        // Задержка - чтоб успели посмотреть экран.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            self.checkAuthorizationStatus()
+        }
+    }
+
+    func checkAuthorizationStatus() {
+        let splashViewController = SplashViewController(authService: authService)
         splashViewController.coordinator = self
         navigationController.viewControllers = [splashViewController]
 
-//        authService.getToken(for: NetworkBaseConfiguration.testUser)
+//        userNetworkService.registerUser(NetworkBaseConfiguration.testUser)
     }
 
     func navigateToMainScreen() {
@@ -52,22 +62,26 @@ final class MainCoordinator: Coordinator {
         splashViewController.present(loginViewController, animated: true)
     }
 
-    private func configureChildCoordinators(with tabBarController: MainTabBarController) {
-        // Создание и запуск дочерних координаторов
+    private func configureChildCoordinators(with  tabBarController: MainTabBarController) {
+        // MARK: - Создание и запуск дочерних координаторов
         let scanCoordinator = ScanFlowCoordinator(navigationController: navigationController,
-                                                  productService: productNetworkService)
+                                                  productService: productNetworkService,
+                                                  profileService: profileService)
 
         let mainScreenNavigationController = GenericNavigationController()
         mainScreenNavigationController.scanCoordinator = scanCoordinator
         let mainScreenCoordinator = MainScreenCoordinator(navigationController: mainScreenNavigationController,
                                                           dataService: dataService,
+                                                          productService: productNetworkService,
                                                           profileService: profileService)
+        scanCoordinator.mainScreenCoordinator = mainScreenCoordinator
 
         let favoritesScreenNavigationController = GenericNavigationController()
         favoritesScreenNavigationController.scanCoordinator = scanCoordinator
         let favoritesScreenCoordinator = FavoritesScreenCoordinator(navigationController: favoritesScreenNavigationController,
                                                                     dataService: dataService,
-                                                                    profileService: profileService)
+                                                                    profileService: profileService,
+                                                                    productService: productNetworkService)
         let profileScreenCoordinator = ProfileScreenCoordinator(navigationController: UINavigationController())
 
         mainScreenCoordinator.start()

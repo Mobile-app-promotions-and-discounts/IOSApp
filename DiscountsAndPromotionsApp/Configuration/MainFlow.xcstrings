@@ -31,8 +31,39 @@
         }
       }
     },
-    "nothingFound" : {
-      "extractionState" : "stale",
+    "No favorites" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "It's empty here yet"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Здесь пока пусто"
+          }
+        }
+      }
+    },
+    "No Favorites Description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Go to “Promotions” or scan the code to add products to your favorites."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Перейдите в «Акции» или отсканируйте код, чтобы добавить товары в избранное."
+          }
+        }
+      }
+    },
+    "Nothing found" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -43,7 +74,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ничего не нашлось"
+            "value" : "Ничего не найдено"
           }
         }
       }
@@ -64,6 +95,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Акции на этой неделе"
+          }
+        }
+      }
+    },
+    "Return to Main" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Return to Main"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вернуться на главную"
           }
         }
       }

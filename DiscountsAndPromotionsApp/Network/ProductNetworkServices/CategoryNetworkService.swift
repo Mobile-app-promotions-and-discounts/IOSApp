@@ -2,16 +2,16 @@ import Combine
 import Foundation
 
 protocol CategoryNetworkServiceProtocol {
-    var categoryListUpdate: PassthroughSubject<CategoriesResponseModel, Never> { get }
+    var categoryListUpdate: CurrentValueSubject<CategoriesResponseModel, Never> { get }
 
     func fetchCategories()
 }
 
-final class CategoryNetworkService: CategoryNetworkServiceProtocol {
-    private var networkClient: NetworkClientProtocol
-    private let requestConstructor: NetworkRequestConstructorProtocol
+actor CategoryNetworkService: CategoryNetworkServiceProtocol {
+    nonisolated private let networkClient: NetworkClientProtocol
+    nonisolated private let requestConstructor: NetworkRequestConstructorProtocol
 
-    private (set) var categoryListUpdate = PassthroughSubject<CategoriesResponseModel, Never>()
+    nonisolated let categoryListUpdate = CurrentValueSubject<CategoriesResponseModel, Never>([])
     private var categoryList = [CategoryResponseModel]() {
         didSet {
             categoryListUpdate.send(categoryList)
@@ -24,33 +24,32 @@ final class CategoryNetworkService: CategoryNetworkServiceProtocol {
         self.requestConstructor = requestConstructor
     }
 
-    func fetchCategories() {
+    nonisolated func fetchCategories() {
+        Task { await requestCategories() }
+    }
+
+    func requestCategories() async {
         guard let urlRequest = requestConstructor.makeRequest(endpoint: .getCategories,
                                                               additionalPath: nil,
-                                                              headers: nil,
+                                                              headers: NetworkBaseConfiguration.accessTokenHeader(),
                                                               parameters: nil) else {
             ErrorHandler.handle(error: AppError.customError("invalid request"))
             return
         }
 
-        Task {
-            do {
-                let categoriesResponse: CategoriesResponseModel = try await networkClient.request(for: urlRequest)
-                await MainActor.run { [weak self] in
-                    print(categoriesResponse)
-                    print("Categories fetched successfully")
+        do {
+            let categoriesResponse: CategoriesResponseModel = try await networkClient.request(for: urlRequest)
+            print(categoriesResponse)
+            print("Categories fetched successfully")
 
-                    guard let self else { return }
-                    self.categoryList = categoriesResponse.sorted { $0.id < $1.id }
-                }
-            } catch let error {
-                print("Error fetching categories: \(error.localizedDescription)")
+            self.categoryList = categoriesResponse.sorted { $0.id < $1.id }
+        } catch let error {
+            print("Error fetching categories: \(error.localizedDescription)")
 
-                if let error = error as? AppError {
-                    ErrorHandler.handle(error: error)
-                } else {
-                    ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
-                }
+            if let error = error as? AppError {
+                ErrorHandler.handle(error: error)
+            } else {
+                ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
             }
         }
     }

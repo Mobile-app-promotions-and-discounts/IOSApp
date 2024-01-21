@@ -67,8 +67,8 @@ import UIKit
 
  extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let categoryID = viewModel.getCategoryID(for: indexPath.row) {
-            self.coordinator?.navigateToCategoryScreen(with: categoryID)
+        if let category = viewModel.getCategory(for: indexPath.row) {
+            self.coordinator?.navigateToCategoryScreen(with: category)
         } else {
             ErrorHandler.handle(error: .customError("Потерялась категория"))
         }

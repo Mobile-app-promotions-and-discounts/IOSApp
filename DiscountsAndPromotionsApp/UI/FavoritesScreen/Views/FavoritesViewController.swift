@@ -7,6 +7,7 @@ final class FavoritesViewController: ScannerEnabledViewController {
 
     private let viewModel: FavoritesViewModelProtocol
     private let layoutProvider: CollectionLayoutProvider
+    private let emptyResultView: EmptyOnScreenView
 
     private var cancellables = Set<AnyCancellable>()
 
@@ -31,7 +32,9 @@ final class FavoritesViewController: ScannerEnabledViewController {
         return collectionView
     }()
 
-    init(viewModel: FavoritesViewModelProtocol, layoutProvider: CollectionLayoutProvider = CollectionLayoutProvider()) {
+    init(viewModel: FavoritesViewModelProtocol,
+         layoutProvider: CollectionLayoutProvider = CollectionLayoutProvider()) {
+        self.emptyResultView = EmptyOnScreenView(state: .noFavorites)
         self.viewModel = viewModel
         self.layoutProvider = layoutProvider
         super.init(nibName: nil, bundle: nil)
@@ -45,13 +48,19 @@ final class FavoritesViewController: ScannerEnabledViewController {
         super.viewDidLoad()
         setupViews()
         setupBindings()
+
     }
 
     private func setupViews() {
-        // ToDo: цвет фона временный, для отладки
         view.backgroundColor = .cherryLightBlue
 
-        view.addSubview(favoritesCollectionView)
+        [favoritesCollectionView, emptyResultView].forEach { view.addSubview($0) }
+
+        emptyResultView.isHidden = true // Скрыть по умолчанию
+
+        emptyResultView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
 
         favoritesCollectionView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -66,6 +75,24 @@ final class FavoritesViewController: ScannerEnabledViewController {
                 self.favoritesCollectionView.reloadData()
             }
             .store(in: &cancellables)
+
+        viewModel.viewState
+            .receive(on: RunLoop.main)
+            .sink { [weak self] state in
+                guard let self = self else { return }
+                self.updateUI(for: state)
+            }
+            .store(in: &cancellables)
+    }
+
+    private func updateUI(for state: ViewState) {
+        let isDataPresent = state == .dataPresent
+        favoritesCollectionView.isHidden = !isDataPresent
+        emptyResultView.isHidden = isDataPresent
+
+        if state == .loading {
+            // Показать индикатор загрузки, если необходимо
+        }
     }
 }
 

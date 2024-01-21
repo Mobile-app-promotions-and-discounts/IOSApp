@@ -7,8 +7,16 @@ class CategoryViewController: ScannerEnabledViewController {
 
     private let viewModel: CategoryViewModelProtocol
     private let layoutProvider: CollectionLayoutProvider
+    private let emptyResultView: EmptyOnScreenView
 
     private var cancellables = Set<AnyCancellable>()
+    private var visibleCancellables = Set<AnyCancellable>()
+
+    private lazy var progressView: UIActivityIndicatorView = {
+        let progressView = UIActivityIndicatorView(style: .large)
+        progressView.hidesWhenStopped = true
+        return progressView
+    }()
 
     private lazy var categoryCollectionView: UICollectionView = {
         let layout = layoutProvider.createGoodsScreensLayout()
@@ -24,7 +32,7 @@ class CategoryViewController: ScannerEnabledViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.backgroundColor = .clear
-        collectionView.contentInset = UIEdgeInsets(top: 12,
+        collectionView.contentInset = UIEdgeInsets(top: 20,
                                                    left: 0,
                                                    bottom: 0,
                                                    right: 0)
@@ -33,6 +41,7 @@ class CategoryViewController: ScannerEnabledViewController {
 
     init(viewModel: CategoryViewModelProtocol,
          layoutProvider: CollectionLayoutProvider = CollectionLayoutProvider()) {
+        self.emptyResultView = EmptyOnScreenView(state: .noResult)
         self.viewModel = viewModel
         self.layoutProvider = layoutProvider
         super.init(nibName: nil, bundle: nil)
@@ -50,28 +59,84 @@ class CategoryViewController: ScannerEnabledViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        bindUpdates()
         // Временное решение для обновления списка избранного на данном экране.
         categoryCollectionView.reloadData()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        visibleCancellables.removeAll()
     }
 
     private func setupViews() {
         view.backgroundColor = .cherryLightBlue
 
-        view.addSubview(categoryCollectionView)
+        [categoryCollectionView, emptyResultView, progressView].forEach { view.addSubview($0) }
+        emptyResultView.isHidden = true // Скрыть по умолчанию
 
         categoryCollectionView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+        emptyResultView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        progressView.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
+    }
+
+    private func bindUpdates() {
+        viewModel.productsUpdate
+            .receive(on: RunLoop.main)
+            .sink { [weak self] itemCount in
+                guard let self = self else { return }
+                addItems(newCount: itemCount)
+                self.progressView.stopAnimating()
+            }
+            .store(in: &visibleCancellables)
+
+        viewModel.viewState
+            .receive(on: RunLoop.main)
+            .sink { [weak self] state in
+                guard let self = self else { return }
+                self.updateUI(for: state)
+            }
+            .store(in: &visibleCancellables)
     }
 
     private func setupBindings() {
-        viewModel.productsUpdate
+        emptyResultView.mainButtonTappedPublisher
             .receive(on: RunLoop.main)
             .sink { [weak self] _ in
                 guard let self = self else { return }
-                self.categoryCollectionView.reloadData()
+                self.coordinator?.navigateToMainScreen()
             }
             .store(in: &cancellables)
+
+        viewModel.loadNextPage()
+    }
+
+    private func updateUI(for state: ViewState) {
+        let isDataPresent = state == .dataPresent
+        categoryCollectionView.isHidden = !isDataPresent
+        emptyResultView.isHidden = isDataPresent
+
+        if state == .loading {
+            categoryCollectionView.isHidden = true
+            emptyResultView.isHidden = true
+            progressView.startAnimating()
+        }
+    }
+
+    private func addItems(newCount: Int, to section: Int = 0) {
+        let currentItemCount = categoryCollectionView.numberOfItems(inSection: section)
+        let newCellPaths = (currentItemCount..<newCount).map {
+            IndexPath(row: $0, section: section)
+        }
+        self.categoryCollectionView.performBatchUpdates {
+        self.categoryCollectionView.insertItems(at: newCellPaths)
+        }
     }
 }
 
@@ -79,7 +144,7 @@ class CategoryViewController: ScannerEnabledViewController {
 
 extension CategoryViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.numberOfItems()
+        return viewModel.products.count
     }
 
     func collectionView(_ collectionView: UICollectionView,
@@ -89,7 +154,8 @@ extension CategoryViewController: UICollectionViewDataSource {
             // Обработка заголовка
             guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
                                                                                withReuseIdentifier: SortsHeaderView.reuseIdentifier,
-                                                                               for: indexPath) as? SortsHeaderView else {
+                                                                               for: indexPath) as? SortsHeaderView
+            else {
                 return UICollectionReusableView()
             }
 
@@ -100,7 +166,8 @@ extension CategoryViewController: UICollectionViewDataSource {
             // Обработка подвала
             guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
                                                                                withReuseIdentifier: FooterView.reuseIdentifier,
-                                                                               for: indexPath) as? FooterView else {
+                                                                               for: indexPath) as? FooterView
+            else {
                 return UICollectionReusableView()
             }
 
@@ -113,7 +180,8 @@ extension CategoryViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductCell.reuseIdentifier,
-                                                            for: indexPath) as? ProductCell else {
+                                                            for: indexPath) as? ProductCell
+        else {
             return UICollectionViewCell()
         }
 
@@ -125,7 +193,6 @@ extension CategoryViewController: UICollectionViewDataSource {
 
         let product = viewModel.getProduct(for: indexPath.row)
         cell.configure(with: product)
-
         return cell
     }
 }
@@ -140,6 +207,11 @@ extension CategoryViewController: UICollectionViewDelegate {
         }
     }
 
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.row == collectionView.numberOfItems(inSection: indexPath.section) - 16 {
+            viewModel.loadNextPage()
+        }
+    }
 }
 
 // MARK: - Search field delegate

@@ -4,18 +4,19 @@ import Foundation
 protocol AuthServiceProtocol {
     var isTokenValidUpdate: PassthroughSubject<Bool, Never> { get }
 
+    // в протоколе - обернутые в Task асинхронные методы актора
     func getToken(for user: UserRequestModel)
     func verifyToken()
     func refreshToken()
     func logout()
-}
+ }
 
-final class AuthService: AuthServiceProtocol {
+actor AuthService: AuthServiceProtocol {
+    nonisolated private let networkClient: NetworkClientProtocol
+    nonisolated private let requestConstructor: NetworkRequestConstructorProtocol
     private let tokenStorage: AuthTokenStorage
-    private let networkClient: NetworkClientProtocol
-    private let requestConstructor: NetworkRequestConstructorProtocol
 
-    private (set) var isTokenValidUpdate = PassthroughSubject<Bool, Never>()
+    nonisolated let isTokenValidUpdate = PassthroughSubject<Bool, Never>()
     private var isTokenValid: Bool = false {
         didSet {
             isTokenValidUpdate.send(isTokenValid)
@@ -31,7 +32,11 @@ final class AuthService: AuthServiceProtocol {
     }
 
     // MARK: - Авторизоваться и получить токен
-    func getToken(for user: UserRequestModel) {
+    nonisolated func getToken(for user: UserRequestModel) {
+        Task { await requestToken(for: user)}
+    }
+
+    private func requestToken(for user: UserRequestModel) async {
         let userParams: [String: String] = [
             "username": user.username,
             "password": user.password
@@ -44,36 +49,39 @@ final class AuthService: AuthServiceProtocol {
             return
         }
 
-        Task {
-            do {
-                let token: TokenResponseModel = try await networkClient.request(for: urlRequest)
-                await MainActor.run { [weak self] in
-                    print(token)
-                    print("Token obtained successfully")
+        do {
+            let token: TokenResponseModel = try await networkClient.request(for: urlRequest)
+            print("Token obtained successfully")
 
-                    guard let self else { return }
-                    self.isTokenValid = true
-                    self.tokenStorage.accessToken = token.access
-                    if let refresh = token.refresh {
-                        self.tokenStorage.refreshToken = refresh
-                    }
-                }
-            } catch let error {
-                print("Error getting token: \(error.localizedDescription)")
+            isTokenValid = true
+            tokenStorage.accessToken = token.access
+            if let refresh = token.refresh {
+                tokenStorage.refreshToken = refresh
+            }
+        } catch let error {
+            print("Error getting token: \(error.localizedDescription)")
 
-                isTokenValid = false
-                if let error = error as? AppError {
-                    ErrorHandler.handle(error: error)
-                } else {
-                    ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
-                }
+            isTokenValid = false
+            if let error = error as? AppError {
+                ErrorHandler.handle(error: error)
+            } else {
+                ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
             }
         }
     }
 
     // MARK: - Проверить, что токен действителен
-    func verifyToken() {
-        let access: String = tokenStorage.accessToken ?? ""
+    nonisolated func verifyToken() {
+        Task { await requestVerification() }
+    }
+
+    private func requestVerification() async {
+        // на время чтобы не мешала страница авторизации
+        guard let token = tokenStorage.accessToken else {
+            getToken(for: NetworkBaseConfiguration.testUser)
+            return
+        }
+        let access: String = token
         let tokenParams: [String: String] = [
             "token": access
         ]
@@ -86,22 +94,23 @@ final class AuthService: AuthServiceProtocol {
             return
         }
 
-        Task {
-            do {
-                let _: URLResponse = try await networkClient.request(for: urlRequest)
-                print("Token is valid")
-                await MainActor.run {[weak self] in
-                    self?.isTokenValid = true
-                }
-            } catch let error {
-                print("Token validation error: \(error.localizedDescription). Refreshing")
-                refreshToken()
-            }
+        do {
+            let _: URLResponse = try await networkClient.request(for: urlRequest)
+            print("Token is valid")
+
+            isTokenValid = true
+        } catch let error {
+            print("Token validation error: \(error.localizedDescription). Refreshing")
+            refreshToken()
         }
     }
 
     // MARK: - Обновить токен, если он просрочен
-    func refreshToken() {
+    nonisolated func refreshToken() {
+        Task { await requestRefresh() }
+    }
+
+    func requestRefresh() async {
         let refresh: String = tokenStorage.refreshToken ?? ""
         let tokenParams: [String: String] = [
             "refresh": refresh
@@ -115,32 +124,32 @@ final class AuthService: AuthServiceProtocol {
             return
         }
 
-        Task {
-            do {
-                let token: TokenResponseModel = try await networkClient.request(for: urlRequest)
-                await MainActor.run { [weak self] in
-                    print(token)
-                    print("Token is refreshed")
+        do {
+            let token: TokenResponseModel = try await networkClient.request(for: urlRequest)
+            print("Token is refreshed")
 
-                    guard let self else { return }
-                    self.isTokenValid = true
-                    self.tokenStorage.accessToken = token.access
-                }
-            } catch let error {
-                print("Token refresh error: \(error.localizedDescription)")
+            isTokenValid = true
+            tokenStorage.accessToken = token.access
 
-                self.isTokenValid = false
-                if let error = error as? AppError {
-                    ErrorHandler.handle(error: error)
-                } else {
-                    ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
-                }
+        } catch let error {
+            print("Token refresh error: \(error.localizedDescription)")
+
+            isTokenValid = false
+            logout()
+            if let error = error as? AppError {
+                ErrorHandler.handle(error: error)
+            } else {
+                ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
             }
         }
     }
 
     // MARK: - Удалить из связки ключей сохраненный токен
-    func logout() {
+    nonisolated func logout() {
+        Task { await clearStoredTokens() }
+    }
+
+    private func clearStoredTokens() {
         tokenStorage.clearTokenStorage()
     }
 }

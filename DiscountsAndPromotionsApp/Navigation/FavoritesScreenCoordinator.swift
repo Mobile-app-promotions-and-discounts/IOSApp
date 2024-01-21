@@ -6,13 +6,16 @@ final class FavoritesScreenCoordinator: Coordinator {
 
     private let dataService: DataServiceProtocol
     private let profileService: ProfileServiceProtocol
+    private let productService: ProductNetworkServiceProtocol
 
     init(navigationController: UINavigationController,
          dataService: DataServiceProtocol,
-         profileService: ProfileServiceProtocol) {
+         profileService: ProfileServiceProtocol,
+         productService: ProductNetworkServiceProtocol) {
         self.navigationController = navigationController
         self.dataService = dataService
         self.profileService = profileService
+        self.productService = productService
     }
 
     func start() {
@@ -23,7 +26,10 @@ final class FavoritesScreenCoordinator: Coordinator {
     }
 
     func navigateToFavoriteProductScreen(for product: Product) {
-        let productVC = ProductCardViewController(product: product)
+        let productViewModel = ProductCardViewModel(product: product,
+                                                    productService: productService,
+                                                    mockProfileService: profileService)
+        let productVC = ProductCardViewController(viewModel: productViewModel)
         productVC.hidesBottomBarWhenPushed = true
         productVC.coordinator = self
         navigationController.pushViewController(productVC, animated: true)

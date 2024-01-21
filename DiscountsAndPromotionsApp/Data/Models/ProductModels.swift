@@ -1,6 +1,6 @@
 import Foundation
 
-struct Product: Codable {
+struct Product: Codable, Hashable {
     let id: Int
     let barcode: String
     let name: String
@@ -27,37 +27,48 @@ struct Product: Codable {
         self.rating = rating
         self.offers = offers
     }
+
+    static func == (lhs: Product, rhs: Product) -> Bool {
+        return lhs.id == rhs.id
+    }
 }
 
-struct Category: Codable {
+struct Category: Codable, Hashable {
     let id: Int
     let name: String
     let image: String
 }
 
-struct Offer: Codable {
-    let id: UUID
+struct Offer: Codable, Hashable {
+    let id: Int
     let price: Double
+    let initialPrice: Double
     let discount: Discount?
     let store: Store
 
-    init(id: UUID = UUID(),
+    init(id: Int = 0,
          price: Double,
+         initialPrice: Double,
          discount: Discount?,
          store: Store) {
         self.id = id
         self.price = price
+        self.initialPrice = initialPrice
         self.discount = discount
         self.store = store
     }
+
+    static func == (lhs: Offer, rhs: Offer) -> Bool {
+        return lhs.id == rhs.id
+    }
 }
 
-struct ProductImage: Codable {
+struct ProductImage: Codable, Hashable {
     let mainImage: String?
     let additionalPhoto: [String]?
 }
 
-struct Store: Codable {
+struct Store: Codable, Hashable {
     let id: Int
     let name: String
     let image: StoreImage?
@@ -75,33 +86,66 @@ struct Store: Codable {
         self.location = location
         self.chainStore = chainStore
     }
+
+    static func == (lhs: Store, rhs: Store) -> Bool {
+        return lhs.id == rhs.id
+    }
 }
 
-struct StoreImage: Codable {
+struct StoreImage: Codable, Hashable {
     let mainImage: String?
     let logoImage: String?
 }
 
-struct StoreLocation: Codable {
+struct StoreLocation: Codable, Hashable {
     let region: String
     let city: String
     let street: String
-    let building: Int
+    let building: String
     let postalIndex: Int
 }
 
-struct ChainStore: Codable {
+struct ChainStore: Codable, Hashable {
     let id: Int
     let name: String
+    let logo: String?
+    let website: String?
 }
 
-struct Discount: Codable {
+struct Discount: Codable, Hashable {
     let discountRate: Int
-    let discountUnit: Int
+    let discountUnit: String
     let discountRating: Int
     let discountStart: Date
     let discountEnd: Date
     let discountCard: Bool
+
+    enum DiscountUnit: String {
+        case percent = "%"
+        case ruble = "RUB"
+
+        func formattedString() -> String {
+            switch self {
+            case .ruble:
+                return "₽"
+            case .percent:
+                return "%"
+            }
+        }
+    }
+
+    func formattedDiscountString() -> String {
+        var formattedDiscountString = ""
+        if let unit = DiscountUnit(rawValue: self.discountUnit) {
+            switch unit {
+            case .percent:
+                formattedDiscountString = "%"
+            case .ruble:
+                formattedDiscountString = "₽"
+            }
+        }
+        return "-\(self.discountRate)" + formattedDiscountString
+    }
 }
 
 extension Product {
@@ -111,6 +155,15 @@ extension Product {
 
         let minOffer = offers.min(by: { $0.price < $1.price })
         let maxOffer = offers.max(by: { $0.price < $1.price })
+
+        return (minOffer, maxOffer)
+    }
+
+    func findMinMaxInitialOffers() -> (minOffer: Offer?, maxOffer: Offer?) {
+        guard !offers.isEmpty else { return (nil, nil) }
+
+        let minOffer = offers.min(by: { $0.initialPrice < $1.initialPrice })
+        let maxOffer = offers.max(by: { $0.initialPrice < $1.initialPrice })
 
         return (minOffer, maxOffer)
     }

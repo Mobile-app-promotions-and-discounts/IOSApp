@@ -16,7 +16,7 @@ private struct Constants {
     // Соотношения сторон
     static let promoAspectRatio: CGFloat = 106 / 112
     static let shopsAspectRatio: CGFloat = 106 / 68
-    static let goodsAspectRatio: CGFloat = 165 / 232
+    static let goodsAspectRatio: CGFloat = 165 / 212
 
     // Константы для секции категорий
     static let itemWidthForFirstTwoRows: CGFloat = 166

@@ -2,21 +2,22 @@ import UIKit
 
 final class ScanFlowCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
+    var mainScreenCoordinator: MainScreenCoordinator?
     var navigationController: UINavigationController
     // вынес из функции чтобы вьюконтроллер не исчезал из памяти и кнопка работала
     private var scanVC: ScanViewController?
-
     private var productService: ProductNetworkServiceProtocol
+    private var profileService: ProfileServiceProtocol
 
     init(navigationController: UINavigationController,
-         productService: ProductNetworkServiceProtocol) {
+         productService: ProductNetworkServiceProtocol,
+         profileService: ProfileServiceProtocol) {
         self.navigationController = navigationController
         self.productService = productService
+        self.profileService = profileService
     }
 
-    func start() {
-
-    }
+    func start() { }
 
     func showScanner() {
         let captureSessionController = ScanCaptureSessionController(coordinator: self)
@@ -41,11 +42,32 @@ final class ScanFlowCoordinator: Coordinator {
         ErrorHandler.handle(error: .barcodeScanError)
     }
 
-    func showProduct(_ product: Product) {
-        let productVC = ProductCardViewController(product: product)
-        productVC.hidesBottomBarWhenPushed = true
-        productVC.coordinator = self
-        navigationController.show(productVC, sender: nil)
+    func navigateToMainScreen() {
+        navigationController.popToRootViewController(animated: true)
         navigationController.navigationBar.isHidden = true
+        mainScreenCoordinator?.navigateToMainScreen()
+    }
+
+    func navigateToEmptyResultScreen() {
+        DispatchQueue.main.async { [weak self] in
+            let emptyVC = EmptyScanResultViewController()
+            emptyVC.coordinator = self
+            self?.navigationController.pushViewController(emptyVC, animated: true)
+        }
+    }
+
+    func showProduct(_ product: Product) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            let productViewModel = ProductCardViewModel(product: product,
+                                                        productService: productService,
+                                                        mockProfileService: profileService)
+            let productVC = ProductCardViewController(viewModel: productViewModel)
+            productVC.hidesBottomBarWhenPushed = true
+            productVC.coordinator = self
+            navigationController.navigationBar.isHidden = false
+            navigationController.navigationBar.alpha = 0.0
+            navigationController.pushViewController(productVC, animated: true)
+        }
     }
 }

@@ -5,15 +5,18 @@ final class MainScreenCoordinator: Coordinator {
     var navigationController: UINavigationController
 
     private let dataService: DataServiceProtocol
+    private let productService: ProductNetworkServiceProtocol
     private let profileService: ProfileServiceProtocol
     private let promotionVisualService: PromotionVisualsService
 
     init(navigationController: UINavigationController,
          dataService: DataServiceProtocol,
+         productService: ProductNetworkServiceProtocol,
          profileService: ProfileServiceProtocol,
          promotionVisualService: PromotionVisualsService = PromotionVisualsService()) {
         self.navigationController = navigationController
         self.dataService = dataService
+        self.productService = productService
         self.profileService = profileService
         self.promotionVisualService = promotionVisualService
     }
@@ -26,24 +29,25 @@ final class MainScreenCoordinator: Coordinator {
         navigationController.pushViewController(mainViewController, animated: false)
     }
 
-    func navigateToCategoryScreen(with ID: Int) {
-        let categoryViewModel = CategoryViewModel(dataService: dataService,
+    func navigateToCategoryScreen(with category: Category) {
+        let categoryViewModel = CategoryViewModel(dataService: productService,
                                                   profileService: profileService,
-                                                  categoryID: ID)
+                                                  category: category)
         let categoryViewController = CategoryViewController(viewModel: categoryViewModel)
         categoryViewController.coordinator = self
+        categoryViewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(categoryViewController, animated: true)
     }
 
     func navigateToSearchScreen() {
-        let viewModel = SearchViewModel(dataService: dataService)
+        let viewModel = SearchViewModel(dataService: dataService, productService: productService)
         let searchController = SearchViewController(viewModel: viewModel)
         searchController.coordinator = self
         navigationController.pushViewController(searchController, animated: true)
     }
 
     func navigateToSearchResultsScreen(for prompt: String) {
-        let viewModel = SearchResultsViewModel(dataService: dataService,
+        let viewModel = SearchResultsViewModel(productService: productService,
                                                profileService: profileService,
                                                searchText: prompt)
         let searchResultsController = SearchResultsViewController(viewModel: viewModel)
@@ -52,7 +56,10 @@ final class MainScreenCoordinator: Coordinator {
     }
 
     func navigateToProductScreen(for product: Product) {
-        let productVC = ProductCardViewController(product: product)
+        let productViewModel = ProductCardViewModel(product: product,
+                                                    productService: productService,
+                                                    mockProfileService: profileService)
+        let productVC = ProductCardViewController(viewModel: productViewModel)
         productVC.hidesBottomBarWhenPushed = true
         productVC.coordinator = self
         navigationController.pushViewController(productVC, animated: true)

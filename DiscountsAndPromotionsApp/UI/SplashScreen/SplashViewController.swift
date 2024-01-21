@@ -1,12 +1,12 @@
-import UIKit
+import Combine
 import SnapKit
+import UIKit
 
 final class SplashViewController: UIViewController {
-
     weak var coordinator: MainCoordinator?
-    private let tokenStorage: AuthTokenStorageProtocol
-
+    private let authService: AuthServiceProtocol
     private var isUserAuthorized = false
+    private var cancellables = Set<AnyCancellable>()
 
     private lazy var backgroundImageView: UIImageView = {
         let imageView = UIImageView()
@@ -33,9 +33,11 @@ final class SplashViewController: UIViewController {
         return label
     }()
 
-    init(tokenStorage: AuthTokenStorageProtocol = AuthTokenKeychainStorage.shared) {
-        self.tokenStorage = tokenStorage
+    init(authService: AuthServiceProtocol) {
+        self.authService = authService
         super.init(nibName: nil, bundle: nil)
+
+        bindTokenStatus()
     }
 
     required init?(coder: NSCoder) {
@@ -54,11 +56,22 @@ final class SplashViewController: UIViewController {
     }
 
     private func checkUserAuthorization() {
-        isUserAuthorized = tokenStorage.token != nil ? true : false
+//        authService.verifyToken()
     }
 
     private func selectUserFlow() {
-        isUserAuthorized ? coordinator?.navigateToMainScreen() : coordinator?.navigateToAuthScreen(from: self)
+        // временно чтобы убрать экран авторизации
+        authService.getToken(for: NetworkBaseConfiguration.testUser)
+        coordinator?.navigateToMainScreen()
+//        isUserAuthorized ? coordinator?.navigateToMainScreen() : coordinator?.navigateToAuthScreen(from: self)
+    }
+
+    private func bindTokenStatus() {
+        authService.isTokenValidUpdate
+            .sink { isValid in
+                self.isUserAuthorized = isValid
+            }
+            .store(in: &cancellables)
     }
 
     private func setupConstraints() {
