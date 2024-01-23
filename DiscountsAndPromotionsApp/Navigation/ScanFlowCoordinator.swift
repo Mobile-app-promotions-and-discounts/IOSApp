@@ -1,6 +1,6 @@
 import UIKit
 
-final class ScanFlowCoordinator: Coordinator {
+final class ScanFlowCoordinator: Coordinator, ProductCardEnabledCoordinatorProtocol {
     var childCoordinators: [Coordinator] = []
     var mainScreenCoordinator: MainScreenCoordinator?
     var navigationController: UINavigationController
@@ -49,22 +49,20 @@ final class ScanFlowCoordinator: Coordinator {
     }
 
     @MainActor func navigateToEmptyResultScreen() {
-        dispatchPrecondition(condition: .onQueue(DispatchQueue.main))
         let emptyVC = EmptyScanResultViewController()
         emptyVC.coordinator = self
         navigationController.pushViewController(emptyVC, animated: true)
     }
 
     @MainActor func showProduct(_ product: Product) {
-        dispatchPrecondition(condition: .onQueue(DispatchQueue.main))
-            let productViewModel = ProductCardViewModel(product: product,
-                                                        productService: productService,
-                                                        mockProfileService: profileService)
-            let productVC = ProductCardViewController(viewModel: productViewModel)
-            productVC.hidesBottomBarWhenPushed = true
-            productVC.coordinator = self
-            navigationController.navigationBar.isHidden = false
-            navigationController.navigationBar.alpha = 0.0
-            navigationController.pushViewController(productVC, animated: true)
+        let productViewModel = ProductCardViewModel(product: product,
+                                                    productService: productService,
+                                                    mockProfileService: profileService)
+        let productVC = ProductCardViewController(viewModel: productViewModel)
+        productVC.hidesBottomBarWhenPushed = true
+        productVC.coordinator = self
+        navigationController.navigationBar.isHidden = false
+        navigationController.navigationBar.alpha = 0.0
+        navigationController.pushViewController(productVC, animated: true)
     }
 }

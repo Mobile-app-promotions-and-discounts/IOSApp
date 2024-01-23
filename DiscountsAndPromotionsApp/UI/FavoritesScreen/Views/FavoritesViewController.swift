@@ -168,7 +168,7 @@ extension FavoritesViewController: UICollectionViewDelegateFlowLayout {
 
 // MARK: - Search field delegate
 extension FavoritesViewController {
-    func searchBarTextDidEnter(_ searchBar: UISearchBar) {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if let prompt = searchBar.text {
             coordinator?.navigateToSearchResultsScreen(for: prompt)
         }

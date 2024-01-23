@@ -1,6 +1,6 @@
 import UIKit
 
-protocol SearchEnabledCoordinator: Coordinator, AnyObject {
+protocol SearchEnabledCoordinator: Coordinator, ProductCardEnabledCoordinatorProtocol, AnyObject {
     var productService: ProductNetworkServiceProtocol { get }
     var profileService: ProfileServiceProtocol { get }
 

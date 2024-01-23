@@ -1,8 +1,12 @@
+import Combine
 import Kingfisher
 import SnapKit
 import UIKit
 
 class OfferTableViewCell: UITableViewCell {
+    let websitePublisher = CurrentValueSubject<String, Never>("")
+    var cancellables = Set<AnyCancellable>()
+
     private let backgroundViewBoard = UIView()
     private let logoImageView = UIImageView()
     private let storeNameLabel = UILabel()
@@ -27,6 +31,37 @@ class OfferTableViewCell: UITableViewCell {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    override func prepareForReuse() {
+        cancellables.removeAll()
+    }
+
+    // MARK: Настройка
+
+    func configure(with offer: Offer) {
+        storeURL = offer.store.chainStore?.website ?? ""
+        storeNameLabel.text = offer.store.name
+        addressLabel.text = offer.store.location.street
+        priceLabel.text = "\(Int(offer.price)) ₽"
+        if let logoURL = URL(string: offer.store.chainStore?.logo ?? "") {
+            logoImageView.kf.setImage(with: logoURL)
+        }
+        if offer.price < offer.initialPrice {
+            originalPriceLabel.isHidden = false
+            discountLabel.isHidden = offer.discount == nil
+            discountView.isHidden = offer.discount == nil
+
+            originalPriceLabel.text = "\(Int(offer.initialPrice)) ₽"
+            discountLabel.text = offer.discount?.formattedDiscountString() ?? ""
+        } else {
+            originalPriceLabel.isHidden = true
+            discountLabel.isHidden = true
+            discountView.isHidden = true
+
+            originalPriceLabel.text = ""
+            discountLabel.text = ""
+        }
     }
 
     private func setupBackgroundView() {
@@ -170,40 +205,7 @@ class OfferTableViewCell: UITableViewCell {
         }
     }
 
-    func configure(with offer: Offer) {
-        storeURL = offer.store.chainStore?.website ?? ""
-        storeNameLabel.text = offer.store.name
-        addressLabel.text = offer.store.location.street
-        priceLabel.text = "\(Int(offer.price)) ₽"
-        if let logoURL = URL(string: offer.store.chainStore?.logo ?? "") {
-            logoImageView.kf.setImage(with: logoURL)
-        }
-        if offer.price < offer.initialPrice {
-            originalPriceLabel.isHidden = false
-            discountLabel.isHidden = offer.discount == nil
-            discountView.isHidden = offer.discount == nil
-
-            originalPriceLabel.text = "\(Int(offer.initialPrice)) ₽"
-            discountLabel.text = offer.discount?.formattedDiscountString() ?? ""
-        } else {
-            originalPriceLabel.isHidden = true
-            discountLabel.isHidden = true
-            discountView.isHidden = true
-
-            originalPriceLabel.text = ""
-            discountLabel.text = ""
-        }
-    }
-
-    // TODO: после рефакторинга координатора для product card эта функция переедет в него. сейчас это костыль для презентации
-
-    private func openURL(urlString: String) {
-        guard let url = URL(string: urlString), UIApplication.shared.canOpenURL(url) else { return }
-        UIApplication.shared.open(url, options: [:], completionHandler: nil)
-    }
-
-    @objc func goToStoreCard() {
-        openURL(urlString: storeURL)
-        print("Переход на карточку магазина")
+    @objc private func goToStoreCard() {
+        websitePublisher.send(storeURL)
     }
 }
