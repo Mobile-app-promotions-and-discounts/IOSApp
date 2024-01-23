@@ -141,7 +141,6 @@
 		BE3524692B02B27A00746581 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE3524682B02B27A00746581 /* Fonts.swift */; };
 		BE3524762B02B62B00746581 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE3524752B02B62B00746581 /* MainCoordinator.swift */; };
 		BE3524832B02B92A00746581 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BE3524822B02B92A00746581 /* SnapKit */; };
-		BE43FA8B2B4EA305000C6F05 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE43FA8A2B4EA305000C6F05 /* LaunchViewController.swift */; };
 		BE43FA8F2B4EB2C4000C6F05 /* LaunchFlow.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = BE43FA8E2B4EB2C4000C6F05 /* LaunchFlow.xcstrings */; };
 		BE521A822B04DEB3005F2FE7 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE521A812B04DEB3005F2FE7 /* MainTabBarController.swift */; };
 		BE521A8F2B04DF5D005F2FE7 /* MockDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE521A8E2B04DF5D005F2FE7 /* MockDataService.swift */; };
@@ -323,7 +322,6 @@
 		BE3524592B02ABA300746581 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BE3524682B02B27A00746581 /* Fonts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		BE3524752B02B62B00746581 /* MainCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
-		BE43FA8A2B4EA305000C6F05 /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
 		BE43FA8E2B4EB2C4000C6F05 /* LaunchFlow.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = LaunchFlow.xcstrings; sourceTree = "<group>"; };
 		BE521A812B04DEB3005F2FE7 /* MainTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		BE521A8E2B04DF5D005F2FE7 /* MockDataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockDataService.swift; sourceTree = "<group>"; };
@@ -676,7 +674,6 @@
 		BCCF4FBF2B1B4AF10067A552 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				BE43FA892B4EA2EE000C6F05 /* LaunchScreen */,
 				7F2137CC2B4E8D25006B680C /* Auth */,
 				92787F6C2B1F263A0045B678 /* SplashScreen */,
 				BC60460F2B1E4B7900536EB3 /* ProfileScreen */,
@@ -1002,14 +999,6 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
-		BE43FA892B4EA2EE000C6F05 /* LaunchScreen */ = {
-			isa = PBXGroup;
-			children = (
-				BE43FA8A2B4EA305000C6F05 /* LaunchViewController.swift */,
-			);
-			path = LaunchScreen;
-			sourceTree = "<group>";
-		};
 		BE521A892B04DF1A005F2FE7 /* Data */ = {
 			isa = PBXGroup;
 			children = (
@@ -1291,7 +1280,6 @@
 				BC6046212B1E4B7900536EB3 /* ProfileViewModel.swift in Sources */,
 				BC93BB692B0BC313008BE2AD /* ScanFlowCoordinator.swift in Sources */,
 				BCD4B4712B2F58E400539CD1 /* DiscountResponseModel.swift in Sources */,
-				BE43FA8B2B4EA305000C6F05 /* LaunchViewController.swift in Sources */,
 				BCCF50092B1B4AF10067A552 /* SearchViewController.swift in Sources */,
 				BCCF50002B1B4AF10067A552 /* MainViewModelProtocol.swift in Sources */,
 				BCCF50142B1B4AF10067A552 /* GenericNavigationController.swift in Sources */,

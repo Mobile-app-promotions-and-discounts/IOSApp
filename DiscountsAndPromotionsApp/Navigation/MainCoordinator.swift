@@ -31,16 +31,6 @@ final class MainCoordinator: Coordinator {
     }
 
     func start() {
-        let launchVC = LaunchViewController()
-        navigationController.pushViewController(launchVC, animated: true)
-
-        // Задержка - чтоб успели посмотреть экран.
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            self.checkAuthorizationStatus()
-        }
-    }
-
-    func checkAuthorizationStatus() {
         let splashViewController = SplashViewController(authService: authService)
         splashViewController.coordinator = self
         navigationController.viewControllers = [splashViewController]
