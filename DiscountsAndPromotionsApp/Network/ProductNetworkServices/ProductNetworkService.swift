@@ -43,6 +43,7 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
     nonisolated let paginationPublisher = PassthroughSubject<(currentPage: Int, isLastPage: Bool), Never>()
     nonisolated let reviewPaginationPublisher = PassthroughSubject<(currentPage: Int, isLastPage: Bool), Never>()
 
+    private var isFetchingProducts = false
     private var product = ProductResponseModel(id: 0,
                                                name: "",
                                                rating: nil,
@@ -126,6 +127,9 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
     }
 
     private func fetchProducts(categoryID: Int? = nil, searchItem: String? = nil, page: Int? = nil) async {
+        guard !isFetchingProducts else { return }
+        isFetchingProducts = true
+
         var parameters: [String: Any] = [:]
         if let categoryID {
             parameters.updateValue(categoryID, forKey: "category")
@@ -159,6 +163,8 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
                 ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
             }
         }
+
+        isFetchingProducts = false
     }
 
     nonisolated func getRandomOffers() {
