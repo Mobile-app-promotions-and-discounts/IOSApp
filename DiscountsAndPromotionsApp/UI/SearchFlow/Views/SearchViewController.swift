@@ -1,7 +1,7 @@
 import Combine
 import UIKit
 
- final class SearchViewController: SearchEnabledViewController {
+final class SearchViewController: SearchEnabledViewController {
     weak var coordinator: MainScreenCoordinator?
     private var viewModel: SearchViewModel
     private var subscriptions = Set<AnyCancellable>()
@@ -54,18 +54,18 @@ import UIKit
             .store(in: &subscriptions)
     }
 
-     private func setupNavigation() {
-         backButton.removeTarget(self, action: nil, for: .touchUpInside)
-         backButton.addTarget(self, action: #selector(backAction), for: .touchUpInside)
-     }
+    private func setupNavigation() {
+        backButton.removeTarget(self, action: nil, for: .touchUpInside)
+        backButton.addTarget(self, action: #selector(backAction), for: .touchUpInside)
+    }
 
-     @objc
-     private func backAction() {
-         coordinator?.navigateToMainScreen()
-     }
- }
+    @objc
+    private func backAction() {
+        coordinator?.navigateToMainScreen()
+    }
+}
 
- extension SearchViewController: UITableViewDelegate {
+extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let category = viewModel.getCategory(for: indexPath.row) {
             self.coordinator?.navigateToCategoryScreen(with: category)
@@ -73,9 +73,9 @@ import UIKit
             ErrorHandler.handle(error: .customError("Потерялась категория"))
         }
     }
- }
+}
 
- extension SearchViewController: UITableViewDataSource {
+extension SearchViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         viewModel.categories.count
     }
@@ -93,10 +93,10 @@ import UIKit
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 52
     }
- }
+}
 
- // MARK: - Search field delegate
- extension SearchViewController {
+// MARK: - Search field delegate
+extension SearchViewController {
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchBar.becomeFirstResponder()
     }
@@ -106,4 +106,4 @@ import UIKit
             coordinator?.navigateToSearchResultsScreen(for: text)
         }
     }
- }
+}

@@ -25,6 +25,8 @@ protocol ProductNetworkServiceProtocol {
     func getProducts(categoryID: Int?, searchItem: String?, page: Int?)
     func getProduct(productID: Int)
     func getRandomOffers()
+
+    func cancel()
 }
 
 actor ProductNetworkService: ProductNetworkServiceProtocol {
@@ -43,6 +45,8 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
     nonisolated let paginationPublisher = PassthroughSubject<(currentPage: Int, isLastPage: Bool), Never>()
     nonisolated let reviewPaginationPublisher = PassthroughSubject<(currentPage: Int, isLastPage: Bool), Never>()
 
+    private var isFetchingProducts = false
+    private var isCancelled = false
     private var product = ProductResponseModel(id: 0,
                                                name: "",
                                                rating: nil,
@@ -109,7 +113,6 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
 
     // MARK: - Получение продуктов
     nonisolated func getProducts(categoryID: Int? = nil, searchItem: String? = nil, page: Int? = nil) {
-
         let mappedCategoryID: Int? = {
             let mappedList = categoryService.categoryListUpdate.value
             if let mappedID = mappedList.filter({ $0.priority == categoryID }).first?.id {
@@ -125,6 +128,9 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
     }
 
     private func fetchProducts(categoryID: Int? = nil, searchItem: String? = nil, page: Int? = nil) async {
+        guard !isFetchingProducts else { return }
+        isFetchingProducts = true
+
         var parameters: [String: Any] = [:]
         if let categoryID {
             parameters.updateValue(categoryID, forKey: "category")
@@ -144,6 +150,12 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
             return
         }
 
+        guard !isCancelled else {
+            isCancelled = false
+            isFetchingProducts = false
+            return
+        }
+
         do {
             let productGroupResponse: PaginatedProductResponseModel = try await networkClient.request(for: urlRequest)
             print("Products fetched successfully")
@@ -158,6 +170,8 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
                 ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
             }
         }
+
+        isFetchingProducts = false
     }
 
     nonisolated func getRandomOffers() {
@@ -385,5 +399,13 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
                 ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
             }
         }
+    }
+
+    nonisolated func cancel() {
+        Task { await cancelOperation() }
+    }
+
+    func cancelOperation() {
+        isCancelled = true
     }
 }

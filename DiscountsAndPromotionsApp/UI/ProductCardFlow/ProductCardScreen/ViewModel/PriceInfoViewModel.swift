@@ -14,7 +14,7 @@ protocol PriceInfoViewViewModelProtocol {
     func toggleFavorite()
 }
 
-class PriceInfoViewViewModel: PriceInfoViewViewModelProtocol {
+final class PriceInfoViewViewModel: PriceInfoViewViewModelProtocol {
     @Published private (set) var price: Int = 0
     @Published private (set) var discountPrice: Int = 0
     var addToFavorites = PassthroughSubject<Void, Never>()
@@ -32,22 +32,22 @@ class PriceInfoViewViewModel: PriceInfoViewViewModelProtocol {
 
     // Предоставляем @Published свойства как паблишеры
     var pricePublisher: AnyPublisher<Int, Never> {
-        $price.eraseToAnyPublisher()
+        $price
+            .receive(on: RunLoop.main)
+            .eraseToAnyPublisher()
     }
     var discountPricePublisher: AnyPublisher<Int, Never> {
-        $discountPrice.eraseToAnyPublisher()
+        $discountPrice
+            .receive(on: RunLoop.main)
+            .eraseToAnyPublisher()
     }
 
     func updatePrice(_ price: Int) {
-        DispatchQueue.main.async {
             self.price = price
-        }
     }
 
     func updateDiscountPrice(_ discountPrice: Int) {
-        DispatchQueue.main.async {
             self.discountPrice = discountPrice
-        }
     }
 
     func toggleFavorite() {

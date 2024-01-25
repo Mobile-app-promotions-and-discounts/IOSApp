@@ -12,4 +12,5 @@ protocol CategoryViewModelProtocol {
     func loadNextPage()
 
     func likeButtonTapped(for productID: Int)
+    func didCloseScreen()
 }

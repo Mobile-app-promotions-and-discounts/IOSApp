@@ -3,7 +3,7 @@ import SnapKit
 import Combine
 
 class CategoryViewController: ScannerEnabledViewController {
-    weak var coordinator: MainScreenCoordinator?
+    weak var coordinator: SearchEnabledCoordinator?
 
     private let viewModel: CategoryViewModelProtocol
     private let layoutProvider: CollectionLayoutProvider
@@ -67,6 +67,10 @@ class CategoryViewController: ScannerEnabledViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         visibleCancellables.removeAll()
+    }
+
+    deinit {
+        viewModel.didCloseScreen()
     }
 
     private func setupViews() {

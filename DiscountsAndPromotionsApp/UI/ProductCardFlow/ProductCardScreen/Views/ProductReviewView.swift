@@ -102,10 +102,8 @@ class ProductReviewView: UIView {
             target: self,
             action: #selector(doneButtonTapped))
 
-        DispatchQueue.main.async { [weak self] in
             toolbar.setItems([cancelButton, spaceButton, doneButton], animated: false)
-            self?.reviewTextView.inputAccessoryView = toolbar
-        }
+            self.reviewTextView.inputAccessoryView = toolbar
     }
 
     private func setupAttachButton() {

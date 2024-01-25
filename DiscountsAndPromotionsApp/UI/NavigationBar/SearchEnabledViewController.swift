@@ -39,6 +39,4 @@ class SearchEnabledViewController: CherryCustomViewController {
     }
 }
 
-extension SearchEnabledViewController: UISearchBarDelegate {
-
-}
+extension SearchEnabledViewController: UISearchBarDelegate {}
