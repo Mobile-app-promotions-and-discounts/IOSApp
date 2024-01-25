@@ -65,6 +65,10 @@ final class CategoryViewModel: CategoryViewModelProtocol {
         }
     }
 
+    func didCloseScreen() {
+        dataService.cancel()
+    }
+
     private func setupBindings() {
         dataService.productListUpdate
         .sink { [weak self] products in

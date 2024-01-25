@@ -25,6 +25,8 @@ protocol ProductNetworkServiceProtocol {
     func getProducts(categoryID: Int?, searchItem: String?, page: Int?)
     func getProduct(productID: Int)
     func getRandomOffers()
+
+    func cancel()
 }
 
 actor ProductNetworkService: ProductNetworkServiceProtocol {
@@ -44,6 +46,7 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
     nonisolated let reviewPaginationPublisher = PassthroughSubject<(currentPage: Int, isLastPage: Bool), Never>()
 
     private var isFetchingProducts = false
+    private var isCancelled = false
     private var product = ProductResponseModel(id: 0,
                                                name: "",
                                                rating: nil,
@@ -111,7 +114,6 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
 
     // MARK: - Получение продуктов
     nonisolated func getProducts(categoryID: Int? = nil, searchItem: String? = nil, page: Int? = nil) {
-
         let mappedCategoryID: Int? = {
             let mappedList = categoryService.categoryListUpdate.value
             if let mappedID = mappedList.filter({ $0.priority == categoryID }).first?.id {
@@ -146,6 +148,12 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
                                                               headers: NetworkBaseConfiguration.accessTokenHeader(),
                                                               parameters: nil) else {
             ErrorHandler.handle(error: AppError.customError("invalid request"))
+            return
+        }
+
+        guard !isCancelled else {
+            isCancelled = false
+            isFetchingProducts = false
             return
         }
 
@@ -392,5 +400,13 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
                 ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
             }
         }
+    }
+
+    nonisolated func cancel() {
+        Task { await cancelOperation() }
+    }
+
+    func cancelOperation() {
+        isCancelled = true
     }
 }

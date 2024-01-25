@@ -60,6 +60,10 @@ final class SearchResultsViewModel: CategoryViewModelProtocol {
 
     }
 
+    func didCloseScreen() {
+
+    }
+
     private func setupBindings(for prompt: String) {
         productService.productListUpdate
             .sink { [weak self] searchResponse in
