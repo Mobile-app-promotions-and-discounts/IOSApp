@@ -69,10 +69,6 @@ class ProductListViewController: ScannerEnabledViewController {
         visibleCancellables.removeAll()
     }
 
-    deinit {
-        viewModel.didCloseScreen()
-    }
-
     private func setupViews() {
         view.backgroundColor = .cherryLightBlue
 
