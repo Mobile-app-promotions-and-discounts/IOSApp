@@ -3,7 +3,7 @@ import Foundation
 
 protocol UserNetworkServiceProtocol {
     var userUpdate: PassthroughSubject<UserResponseModel, Never> { get }
-    
+
     func registerUser(_ user: UserRequestModel)
     func deleteUser(id: Int, password: String)
     func editUser(_ newUserParameters: [String: Any], id: Int)

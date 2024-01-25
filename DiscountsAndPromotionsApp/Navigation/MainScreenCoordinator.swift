@@ -6,23 +6,28 @@ final class MainScreenCoordinator: Coordinator {
 
     private let dataService: DataServiceProtocol
     private let productService: ProductNetworkServiceProtocol
+    private let categoryService: CategoryNetworkServiceProtocol
     private let profileService: ProfileServiceProtocol
     private let promotionVisualService: PromotionVisualsService
 
     init(navigationController: UINavigationController,
          dataService: DataServiceProtocol,
          productService: ProductNetworkServiceProtocol,
+         categoryService: CategoryNetworkServiceProtocol,
          profileService: ProfileServiceProtocol,
          promotionVisualService: PromotionVisualsService = PromotionVisualsService()) {
         self.navigationController = navigationController
         self.dataService = dataService
         self.productService = productService
+        self.categoryService = categoryService
         self.profileService = profileService
         self.promotionVisualService = promotionVisualService
     }
 
     func start() {
         let mainViewModel = MainViewModel(dataService: dataService,
+                                          categoryService: categoryService,
+                                          prosuctService: productService,
                                           promotionVisualService: promotionVisualService)
         let mainViewController = MainViewController(viewModel: mainViewModel)
         mainViewController.coordinator = self
