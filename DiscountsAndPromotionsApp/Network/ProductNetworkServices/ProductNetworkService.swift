@@ -130,6 +130,7 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
     private func fetchProducts(categoryID: Int? = nil, searchItem: String? = nil, page: Int? = nil) async {
         guard !isFetchingProducts else { return }
         isFetchingProducts = true
+        isCancelled = false
 
         var parameters: [String: Any] = [:]
         if let categoryID {
@@ -150,25 +151,32 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
             return
         }
 
-        guard !isCancelled else {
-            isCancelled = false
-            isFetchingProducts = false
-            return
-        }
+        var productGroupResponse: PaginatedProductResponseModel?
+        var fetchError: Error?
 
         do {
-            let productGroupResponse: PaginatedProductResponseModel = try await networkClient.request(for: urlRequest)
+            productGroupResponse = try await networkClient.request(for: urlRequest)
             print("Products fetched successfully")
-            self.paginationState = (currentPage: page ?? 1,
-                                    isLastPage: productGroupResponse.next == nil)
-            self.productList = productGroupResponse.results
         } catch let error {
+            fetchError = error
             print("Error fetching products: \(error.localizedDescription)")
-            if let error = error as? AppError {
-                ErrorHandler.handle(error: error)
+        }
+
+        await withCheckedContinuation { continueation in
+            if !isCancelled {
+                if let productGroupResponse {
+                    self.paginationState = (currentPage: page ?? 1,
+                                            isLastPage: productGroupResponse.next == nil)
+                    self.productList = productGroupResponse.results
+                } else if let error = fetchError as? AppError {
+                    ErrorHandler.handle(error: error)
+                } else if let error = fetchError {
+                    ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
+                }
             } else {
-                ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
+                print("Task cancelled")
             }
+            continueation.resume()
         }
 
         isFetchingProducts = false
@@ -189,6 +197,7 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
 
         do {
             let productGroupResponse: PaginatedProductResponseModel = try await networkClient.request(for: urlRequest)
+
             print("Random offers fetched successfully")
             self.paginationState = (currentPage: 1,
                                     isLastPage: productGroupResponse.next == nil)

@@ -11,7 +11,7 @@ final class CategoryViewModel: CategoryViewModelProtocol {
         }
     }
 
-    private let dataService: ProductNetworkServiceProtocol
+    private let productService: ProductNetworkServiceProtocol
     private let profileService: ProfileServiceProtocol
     private let category: Category
 
@@ -22,7 +22,7 @@ final class CategoryViewModel: CategoryViewModelProtocol {
     private var cancellables = Set<AnyCancellable>()
 
     init(dataService: ProductNetworkServiceProtocol, profileService: ProfileServiceProtocol, category: Category) {
-        self.dataService = dataService
+        self.productService = dataService
         self.profileService = profileService
         self.category = category
         setupBindings()
@@ -59,33 +59,31 @@ final class CategoryViewModel: CategoryViewModelProtocol {
         if !isOnLastPage && !isFetchingData {
             isFetchingData = true
 
-            dataService.getProducts(categoryID: category.id + 1,
-                                    searchItem: nil,
-                                    page: currentPage + 1)
+            productService.getProducts(categoryID: category.id + 1,
+                                       searchItem: nil,
+                                       page: currentPage + 1)
         }
     }
 
     func didCloseScreen() {
-        dataService.cancel()
+        productService.cancel()
     }
 
     private func setupBindings() {
-        dataService.productListUpdate
+        productService.productListUpdate
         .sink { [weak self] products in
             let newProducts = products.map { $0.convertToProductModel() }
             self?.products.append(contentsOf: newProducts)
         }
         .store(in: &cancellables)
 
-        dataService.paginationPublisher
+        productService.paginationPublisher
             .sink { [weak self] paginationState in
                 self?.isOnLastPage = paginationState.isLastPage
                 self?.currentPage = paginationState.currentPage
                 self?.isFetchingData = false
             }
             .store(in: &cancellables)
-
-        loadNextPage()
     }
 
     private func convertModels(for product: Product) -> ProductCellUIModel {
