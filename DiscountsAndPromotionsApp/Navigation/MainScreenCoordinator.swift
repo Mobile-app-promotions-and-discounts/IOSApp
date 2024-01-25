@@ -35,7 +35,7 @@ final class MainScreenCoordinator: SearchEnabledCoordinator {
     }
 
     func navigateToCategoryScreen(with category: Category) {
-        let categoryViewModel = ProductListViewModel(dataService: productService,
+        let categoryViewModel = CategoryScreenViewModel(dataService: productService,
                                                   profileService: profileService,
                                                   category: category)
         let categoryViewController = ProductListViewController(viewModel: categoryViewModel)

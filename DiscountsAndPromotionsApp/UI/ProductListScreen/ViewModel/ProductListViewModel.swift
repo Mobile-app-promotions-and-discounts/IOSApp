@@ -1,7 +1,7 @@
 import Foundation
 import Combine
 
-final class ProductListViewModel: ProductListViewModelProtocol {
+class ProductListViewModel: ProductListViewModelProtocol {
     private (set) var viewState = CurrentValueSubject<ViewState, Never>(.loading)
     private (set) var productsUpdate = PassthroughSubject<Int, Never>()
     private (set) var products: [Product] = [] {
@@ -11,20 +11,18 @@ final class ProductListViewModel: ProductListViewModelProtocol {
         }
     }
 
-    private let productService: ProductNetworkServiceProtocol
-    private let profileService: ProfileServiceProtocol
-    private let category: Category
+    private (set) var productService: ProductNetworkServiceProtocol
+    private (set) var profileService: ProfileServiceProtocol
 
-    private var currentPage = 0
-    private var isOnLastPage = false
-    private var isFetchingData = false
+    private (set) var currentPage = 0
+    private (set) var isOnLastPage = false
+    private (set) var isFetchingData = false
 
     private var cancellables = Set<AnyCancellable>()
 
-    init(dataService: ProductNetworkServiceProtocol, profileService: ProfileServiceProtocol, category: Category) {
+    init(dataService: ProductNetworkServiceProtocol, profileService: ProfileServiceProtocol) {
         self.productService = dataService
         self.profileService = profileService
-        self.category = category
         setupBindings()
     }
 
@@ -34,7 +32,7 @@ final class ProductListViewModel: ProductListViewModelProtocol {
     }
 
     func getTitle() -> String {
-        return NSLocalizedString(category.name, tableName: "MainFlow", comment: "")
+        return ""
     }
 
     func getProductById(_ id: Int) -> Product? {
@@ -58,16 +56,15 @@ final class ProductListViewModel: ProductListViewModelProtocol {
     func loadNextPage() {
         if !isOnLastPage && !isFetchingData {
             isFetchingData = true
-
-            productService.getProducts(categoryID: category.id + 1,
-                                       searchItem: nil,
-                                       page: currentPage + 1)
+            nextPageAction()
         }
     }
 
     func didCloseScreen() {
         productService.cancel()
     }
+
+    func nextPageAction() { }
 
     private func setupBindings() {
         productService.productListUpdate
