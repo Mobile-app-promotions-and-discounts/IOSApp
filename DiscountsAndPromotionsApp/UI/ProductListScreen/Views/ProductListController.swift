@@ -2,10 +2,10 @@ import UIKit
 import SnapKit
 import Combine
 
-class CategoryViewController: ScannerEnabledViewController {
+class ProductListViewController: ScannerEnabledViewController {
     weak var coordinator: SearchEnabledCoordinator?
 
-    private let viewModel: CategoryViewModelProtocol
+    private let viewModel: ProductListViewModelProtocol
     private let layoutProvider: CollectionLayoutProvider
     private let emptyResultView: EmptyOnScreenView
 
@@ -39,7 +39,7 @@ class CategoryViewController: ScannerEnabledViewController {
         return collectionView
     }()
 
-    init(viewModel: CategoryViewModelProtocol,
+    init(viewModel: ProductListViewModelProtocol,
          layoutProvider: CollectionLayoutProvider = CollectionLayoutProvider()) {
         self.emptyResultView = EmptyOnScreenView(state: .noResult)
         self.viewModel = viewModel
@@ -146,7 +146,7 @@ class CategoryViewController: ScannerEnabledViewController {
 
 // MARK: - UICollectionViewDataSource
 
-extension CategoryViewController: UICollectionViewDataSource {
+extension ProductListViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.products.count
     }
@@ -203,7 +203,7 @@ extension CategoryViewController: UICollectionViewDataSource {
 
 // MARK: - UICollectionViewDelegate
 
-extension CategoryViewController: UICollectionViewDelegate {
+extension ProductListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let uiModel = viewModel.getProduct(for: indexPath.row)
         if let product = viewModel.getProductById(uiModel.id) {
@@ -219,7 +219,7 @@ extension CategoryViewController: UICollectionViewDelegate {
 }
 
 // MARK: - Search field delegate
-extension CategoryViewController {
+extension ProductListViewController {
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         coordinator?.navigateToSearchScreen()
     }

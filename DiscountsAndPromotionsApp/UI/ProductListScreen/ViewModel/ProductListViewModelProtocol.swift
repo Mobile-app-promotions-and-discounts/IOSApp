@@ -1,7 +1,7 @@
 import Foundation
 import Combine
 
-protocol CategoryViewModelProtocol {
+protocol ProductListViewModelProtocol {
     var productsUpdate: PassthroughSubject<Int, Never> { get }
     var products: [Product] { get }
     var viewState: CurrentValueSubject<ViewState, Never> { get }

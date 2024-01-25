@@ -35,10 +35,10 @@ final class MainScreenCoordinator: SearchEnabledCoordinator {
     }
 
     func navigateToCategoryScreen(with category: Category) {
-        let categoryViewModel = CategoryViewModel(dataService: productService,
+        let categoryViewModel = ProductListViewModel(dataService: productService,
                                                   profileService: profileService,
                                                   category: category)
-        let categoryViewController = CategoryViewController(viewModel: categoryViewModel)
+        let categoryViewController = ProductListViewController(viewModel: categoryViewModel)
         categoryViewController.coordinator = self
         categoryViewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(categoryViewController, animated: true)

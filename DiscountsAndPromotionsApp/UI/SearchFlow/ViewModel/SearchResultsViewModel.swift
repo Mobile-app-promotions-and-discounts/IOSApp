@@ -1,12 +1,17 @@
 import Combine
 import Foundation
 
-final class SearchResultsViewModel: CategoryViewModelProtocol {
+final class SearchResultsViewModel: ProductListViewModelProtocol {
     private let productService: ProductNetworkServiceProtocol
-    private (set) var viewState = CurrentValueSubject<ViewState, Never>(.loading)
     private let profileService: ProfileServiceProtocol
+    private (set) var viewState = CurrentValueSubject<ViewState, Never>(.loading)
 
-    var productsUpdate = PassthroughSubject<Int, Never>()
+    private var currentPage = 0
+    private var isOnLastPage = false
+    private var isFetchingData = false
+    private var searchText = ""
+
+    private (set) var productsUpdate = PassthroughSubject<Int, Never>()
     private var subscriptions = Set<AnyCancellable>()
 
     private (set) var products = [Product]() {
@@ -57,14 +62,37 @@ final class SearchResultsViewModel: CategoryViewModelProtocol {
     }
 
     func loadNextPage() {
+        if !isOnLastPage && !isFetchingData {
+            isFetchingData = true
 
+            productService.getProducts(categoryID: nil,
+                                       searchItem: searchText,
+                                       page: currentPage + 1)
+        }
     }
 
     func didCloseScreen() {
-
+        productService.cancel()
     }
 
     private func setupBindings(for prompt: String) {
+        searchText = prompt
+
+        productService.productListUpdate
+        .sink { [weak self] products in
+            let newProducts = products.map { $0.convertToProductModel() }
+            self?.products.append(contentsOf: newProducts)
+        }
+        .store(in: &subscriptions)
+
+        productService.paginationPublisher
+            .sink { [weak self] paginationState in
+                self?.isOnLastPage = paginationState.isLastPage
+                self?.currentPage = paginationState.currentPage
+                self?.isFetchingData = false
+            }
+            .store(in: &subscriptions)
+
         productService.productListUpdate
             .sink { [weak self] searchResponse in
                 guard let self = self else { return }
@@ -73,9 +101,7 @@ final class SearchResultsViewModel: CategoryViewModelProtocol {
             }
             .store(in: &subscriptions)
 
-        productService.getProducts(categoryID: nil,
-                                   searchItem: prompt,
-                                   page: nil)
+        loadNextPage()
     }
 
     private func convertModels(for product: Product) -> ProductCellUIModel {
