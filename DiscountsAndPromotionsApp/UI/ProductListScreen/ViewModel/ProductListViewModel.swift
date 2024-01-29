@@ -12,7 +12,6 @@ class ProductListViewModel: ProductListViewModelProtocol {
     }
 
     private (set) var productService: ProductNetworkServiceProtocol
-
     private (set) var currentPage = 0
     private (set) var isOnLastPage = false
     private (set) var isFetchingData = false
@@ -35,6 +34,13 @@ class ProductListViewModel: ProductListViewModelProtocol {
 
     func getProductById(_ id: Int) -> Product? {
         return products.first { $0.id == id }
+    }
+
+    func refresh() {
+        products = []
+        currentPage = 0
+        isOnLastPage = false
+        loadNextPage()
     }
 
     func likeButtonTapped(for productID: Int) {
@@ -64,6 +70,26 @@ class ProductListViewModel: ProductListViewModelProtocol {
 
     func nextPageAction() { }
 
+    func removeProduct(at index: Int) {
+        products.remove(at: index)
+    }
+
+    func updateFavoriteStatus(productID: Int, isFavorite: Bool) {
+        if let index = products.firstIndex(where: { $0.id == productID }) {
+            let product = products[index]
+            let newProduct = Product(id: productID,
+                                     barcode: product.barcode,
+                                     name: product.name,
+                                     description: product.description,
+                                     category: product.category,
+                                     image: product.image,
+                                     rating: product.rating,
+                                     offers: product.offers,
+                                     isFavorite: isFavorite)
+            products[index] = newProduct
+        }
+    }
+
     private func setupBindings() {
         productService.isFavoriteUpdate
             .sink { [weak self] productID, isFavorite in
@@ -90,21 +116,5 @@ class ProductListViewModel: ProductListViewModelProtocol {
 
     private func convertModels(for product: Product) -> ProductCellUIModel {
         return ProductCellUIModel(product: product)
-    }
-
-    private func updateFavoriteStatus(productID: Int, isFavorite: Bool) {
-        if let index = products.firstIndex(where: { $0.id == productID }) {
-            let product = products[index]
-            let newProduct = Product(id: productID,
-                                     barcode: product.barcode,
-                                     name: product.name,
-                                     description: product.description,
-                                     category: product.category,
-                                     image: product.image,
-                                     rating: product.rating,
-                                     offers: product.offers,
-                                     isFavorite: isFavorite)
-            products[index] = newProduct
-        }
     }
 }

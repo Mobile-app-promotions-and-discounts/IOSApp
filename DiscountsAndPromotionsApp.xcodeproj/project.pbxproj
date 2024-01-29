@@ -116,7 +116,6 @@
 		BCCF50142B1B4AF10067A552 /* GenericNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCF4FE62B1B4AF10067A552 /* GenericNavigationController.swift */; };
 		BCCF50152B1B4AF10067A552 /* SearchEnabledViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCF4FE72B1B4AF10067A552 /* SearchEnabledViewController.swift */; };
 		BCCF50172B1B4AF10067A552 /* FavoritesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCF4FEB2B1B4AF10067A552 /* FavoritesViewModel.swift */; };
-		BCCF50182B1B4AF10067A552 /* FavoritesViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCF4FEC2B1B4AF10067A552 /* FavoritesViewModelProtocol.swift */; };
 		BCCF50192B1B4AF10067A552 /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCF4FEE2B1B4AF10067A552 /* FavoritesViewController.swift */; };
 		BCCF501A2B1B4AF10067A552 /* RatingViewViewModel .swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCF4FF12B1B4AF10067A552 /* RatingViewViewModel .swift */; };
 		BCCF501B2B1B4AF10067A552 /* ProductReviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCF4FF22B1B4AF10067A552 /* ProductReviewViewModel.swift */; };
@@ -302,7 +301,6 @@
 		BCCF4FE62B1B4AF10067A552 /* GenericNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenericNavigationController.swift; sourceTree = "<group>"; };
 		BCCF4FE72B1B4AF10067A552 /* SearchEnabledViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchEnabledViewController.swift; sourceTree = "<group>"; };
 		BCCF4FEB2B1B4AF10067A552 /* FavoritesViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritesViewModel.swift; sourceTree = "<group>"; };
-		BCCF4FEC2B1B4AF10067A552 /* FavoritesViewModelProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritesViewModelProtocol.swift; sourceTree = "<group>"; };
 		BCCF4FEE2B1B4AF10067A552 /* FavoritesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
 		BCCF4FF12B1B4AF10067A552 /* RatingViewViewModel .swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RatingViewViewModel .swift"; sourceTree = "<group>"; };
 		BCCF4FF22B1B4AF10067A552 /* ProductReviewViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductReviewViewModel.swift; sourceTree = "<group>"; };
@@ -843,7 +841,6 @@
 			isa = PBXGroup;
 			children = (
 				BCCF4FEB2B1B4AF10067A552 /* FavoritesViewModel.swift */,
-				BCCF4FEC2B1B4AF10067A552 /* FavoritesViewModelProtocol.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1374,7 +1371,6 @@
 				BC6045FB2B1D9CA700536EB3 /* SearchResultsViewController.swift in Sources */,
 				BEF503B62B15288C00577D7F /* ProfileServiceProtocol.swift in Sources */,
 				BE3524692B02B27A00746581 /* Fonts.swift in Sources */,
-				BCCF50182B1B4AF10067A552 /* FavoritesViewModelProtocol.swift in Sources */,
 				BC6045FF2B1E3B3900536EB3 /* SectionBackgroundView.swift in Sources */,
 				BCAACF3B2B38D85C0082A7CB /* BarcodeTextField.swift in Sources */,
 				BCCF500F2B1B4AF10067A552 /* ProductListViewModelProtocol.swift in Sources */,

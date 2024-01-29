@@ -268,11 +268,11 @@ extension ProductNetworkService {
         }
 
         do {
-            let favoritesResponse: ProductGroupResponseModel = try await networkClient.request(for: urlRequest)
+            let favoritesResponse: PaginatedProductResponseModel = try await networkClient.request(for: urlRequest)
             print(favoritesResponse)
             print("Favorites fetched successfully")
 
-            self.productList = favoritesResponse.sorted { $0.name < $1.name }
+            self.productList = favoritesResponse.results
         } catch let error {
             print("Error fetching favorites: \(error.localizedDescription)")
 

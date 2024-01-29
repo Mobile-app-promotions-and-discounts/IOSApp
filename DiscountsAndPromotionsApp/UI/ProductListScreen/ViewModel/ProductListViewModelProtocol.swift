@@ -13,4 +13,5 @@ protocol ProductListViewModelProtocol {
 
     func likeButtonTapped(for productID: Int)
     func didCloseScreen()
+    func refresh()
 }

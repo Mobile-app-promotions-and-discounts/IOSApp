@@ -5,7 +5,7 @@ import Combine
 class ProductListViewController: ScannerEnabledViewController {
     weak var coordinator: SearchEnabledCoordinator?
 
-    private let viewModel: ProductListViewModelProtocol
+    let viewModel: ProductListViewModelProtocol
     private let layoutProvider: CollectionLayoutProvider
     private let emptyResultView: EmptyOnScreenView
 
@@ -18,26 +18,7 @@ class ProductListViewController: ScannerEnabledViewController {
         return progressView
     }()
 
-    private lazy var categoryCollectionView: UICollectionView = {
-        let layout = layoutProvider.createGoodsScreensLayout()
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.showsVerticalScrollIndicator = false
-        collectionView.register(SortsHeaderView.self,
-                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                                withReuseIdentifier: SortsHeaderView.reuseIdentifier)
-        collectionView.register(FooterView.self,
-                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
-                                withReuseIdentifier: FooterView.reuseIdentifier)
-        collectionView.register(ProductCell.self, forCellWithReuseIdentifier: ProductCell.reuseIdentifier)
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        collectionView.backgroundColor = .clear
-        collectionView.contentInset = UIEdgeInsets(top: 20,
-                                                   left: 0,
-                                                   bottom: 0,
-                                                   right: 0)
-        return collectionView
-    }()
+    private (set) var categoryCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
 
     init(viewModel: ProductListViewModelProtocol,
          layoutProvider: CollectionLayoutProvider = CollectionLayoutProvider()) {
@@ -45,6 +26,7 @@ class ProductListViewController: ScannerEnabledViewController {
         self.viewModel = viewModel
         self.layoutProvider = layoutProvider
         super.init(nibName: nil, bundle: nil)
+        setupCollection()
     }
 
     required init?(coder: NSCoder) {
@@ -72,6 +54,26 @@ class ProductListViewController: ScannerEnabledViewController {
 
     deinit {
         viewModel.didCloseScreen()
+    }
+
+    private func setupCollection() {
+        let layout = layoutProvider.createGoodsScreensLayout()
+        categoryCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        categoryCollectionView.showsVerticalScrollIndicator = false
+        categoryCollectionView.register(SortsHeaderView.self,
+                                        forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                                        withReuseIdentifier: SortsHeaderView.reuseIdentifier)
+        categoryCollectionView.register(FooterView.self,
+                                        forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
+                                        withReuseIdentifier: FooterView.reuseIdentifier)
+        categoryCollectionView.register(ProductCell.self, forCellWithReuseIdentifier: ProductCell.reuseIdentifier)
+        categoryCollectionView.dataSource = self
+        categoryCollectionView.delegate = self
+        categoryCollectionView.backgroundColor = .clear
+        categoryCollectionView.contentInset = UIEdgeInsets(top: 20,
+                                                           left: 0,
+                                                           bottom: 0,
+                                                           right: 0)
     }
 
     private func setupViews() {

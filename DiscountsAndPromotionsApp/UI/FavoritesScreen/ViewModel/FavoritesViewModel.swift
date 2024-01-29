@@ -1,69 +1,20 @@
 import Foundation
 import Combine
 
-final class FavoritesViewModel: FavoritesViewModelProtocol {
-    private (set) var favoriteProductsUpdate = PassthroughSubject<[Product], Never>()
-    private (set) var viewState = CurrentValueSubject<ViewState, Never>(.loading)
-
-    private var favoriteProducts = [Product]() {
-        didSet {
-            favoriteProductsUpdate.send(favoriteProducts)
-            viewState.value = favoriteProducts.isEmpty ? .empty : .dataPresent
-        }
+final class FavoritesViewModel: ProductListViewModel {
+    override func getTitle() -> String {
+        return "Результаты поиска"
     }
 
-    private var dataService: DataServiceProtocol
-    private var profileService: ProfileServiceProtocol
-
-    private var cancellables = Set<AnyCancellable>()
-
-    init(dataService: DataServiceProtocol, profileService: ProfileServiceProtocol) {
-        self.dataService = dataService
-        self.profileService = profileService
-        setupBindings()
+    override func nextPageAction() {
+        productService.getFavorites(searchItem: nil,
+                                   page: currentPage + 1)
     }
 
-    func numberOfItems() -> Int {
-        return favoriteProducts.count
-    }
-
-    func getProduct(for index: Int) -> ProductCellUIModel {
-        let product = favoriteProducts[index]
-        return convertModels(for: product)
-    }
-
-    func getProductById(_ id: Int) -> Product? {
-        return favoriteProducts.first { $0.id == id }
-    }
-
-    func likeButtonTapped(for productID: Int) {
-        guard let productIndex = favoriteProducts.firstIndex(where: { $0.id == productID }) else {
-            ErrorHandler.handle(error: .customError("Продукт с ID \(productID) не найден"))
-            return
-        }
-
-        let product = favoriteProducts[productIndex]
-        if profileService.isFavorite(product) {
-            profileService.removeFavorite(product)
-        } else {
-            profileService.addFavorite(product)
-        }
-    }
-
-    func getTitleForHeader() -> String {
-        return NSLocalizedString("Favorites", tableName: "FavoritesFlow", comment: "")
-    }
-
-    private func setupBindings() {
-        profileService.updatedProfile
-            .sink { [weak self] updatedProfile in
-                guard let self = self else { return }
-                self.favoriteProducts = Array(updatedProfile.favoritesProducts)
+    override func updateFavoriteStatus(productID: Int, isFavorite: Bool) {
+        guard !isFavorite else { return }
+            if let index = products.firstIndex(where: { $0.id == productID }) {
+                removeProduct(at: index)
             }
-            .store(in: &cancellables)
-    }
-
-    private func convertModels(for product: Product) -> ProductCellUIModel {
-        return ProductCellUIModel(product: product)
     }
 }

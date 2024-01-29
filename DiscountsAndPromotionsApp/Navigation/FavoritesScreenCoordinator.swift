@@ -4,22 +4,19 @@ final class FavoritesScreenCoordinator: SearchEnabledCoordinator {
     var childCoordinators = [Coordinator]()
     var navigationController: UINavigationController
 
-    private let dataService: DataServiceProtocol
     private (set) var profileService: ProfileServiceProtocol
     private (set) var productService: ProductNetworkServiceProtocol
 
     init(navigationController: UINavigationController,
-         dataService: DataServiceProtocol,
          profileService: ProfileServiceProtocol,
          productService: ProductNetworkServiceProtocol) {
         self.navigationController = navigationController
-        self.dataService = dataService
         self.profileService = profileService
         self.productService = productService
     }
 
     func start() {
-        let viewModel = FavoritesViewModel(dataService: dataService, profileService: profileService)
+        let viewModel = FavoritesViewModel(dataService: productService)
         let favoritesViewController = FavoritesViewController(viewModel: viewModel)
         favoritesViewController.coordinator = self
         navigationController.pushViewController(favoritesViewController, animated: false)
