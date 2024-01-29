@@ -48,3 +48,22 @@ extension UIControl {
         return Publisher(control: self, events: events)
     }
 }
+
+extension UIButton {
+    func startLoadingAnimation() {
+        let animation = CABasicAnimation(keyPath: "opacity")
+        animation.fromValue = 1
+        animation.toValue = 0.25
+        animation.duration = 0.75
+        animation.autoreverses = true
+        animation.repeatCount = .infinity
+        layer.add(animation, forKey: "opacityAnimation")
+        isUserInteractionEnabled = false
+    }
+
+    func stopLoadingAnimation() {
+        layer.removeAllAnimations()
+        isUserInteractionEnabled = true
+    }
+
+}
