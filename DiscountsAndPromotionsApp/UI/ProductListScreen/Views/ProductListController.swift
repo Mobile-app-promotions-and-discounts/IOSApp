@@ -220,7 +220,17 @@ extension ProductListViewController: UICollectionViewDelegate {
             viewModel.loadNextPage()
         }
     }
+}
 
+// MARK: - Search field delegate
+extension ProductListViewController {
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        coordinator?.navigateToSearchScreen()
+    }
+}
+
+// MARK: - обновление ячеек когда переходим с другого экрана
+extension ProductListViewController {
     func updateVisibleCells() {
         for cell in categoryCollectionView.visibleCells {
             if let cell = cell as? ProductCell,
@@ -230,11 +240,9 @@ extension ProductListViewController: UICollectionViewDelegate {
             }
         }
     }
-}
 
-// MARK: - Search field delegate
-extension ProductListViewController {
-    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        coordinator?.navigateToSearchScreen()
+    func refresh() {
+        viewModel.refresh()
+        setupViews()
     }
 }

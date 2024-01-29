@@ -22,6 +22,14 @@ final class FavoritesScreenCoordinator: SearchEnabledCoordinator {
         navigationController.pushViewController(favoritesViewController, animated: false)
     }
 
+    func refresh() {
+        let viewModel = FavoritesViewModel(dataService: productService)
+        let favoritesViewController = FavoritesViewController(viewModel: viewModel)
+        favoritesViewController.coordinator = self
+        navigationController.popToRootViewController(animated: false)
+        navigationController.pushViewController(favoritesViewController, animated: false)
+    }
+
     func navigateToFavoriteProductScreen(for product: Product) {
         let productViewModel = ProductCardViewModel(product: product,
                                                     productService: productService)

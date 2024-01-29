@@ -8,11 +8,6 @@ final class FavoritesViewController: ProductListViewController {
         setupNavigation()
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        viewModel.refresh()
-    }
-
     private func setupNavigation() {
         backButton.removeTarget(self, action: nil, for: .touchUpInside)
     }
