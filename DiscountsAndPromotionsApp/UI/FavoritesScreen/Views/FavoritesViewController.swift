@@ -3,12 +3,13 @@ import Combine
 import SnapKit
 
 final class FavoritesViewController: ProductListViewController {
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupNavigation()
+    override init(viewModel: ProductListViewModelProtocol,
+                  layoutProvider: CollectionLayoutProvider = CollectionLayoutProvider()) {
+        super.init(viewModel: viewModel, layoutProvider: layoutProvider)
+        setEmptyResultsMode(to: .noFavorites)
     }
 
-    private func setupNavigation() {
-        backButton.removeTarget(self, action: nil, for: .touchUpInside)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }

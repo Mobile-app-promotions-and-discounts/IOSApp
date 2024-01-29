@@ -5,9 +5,9 @@ import Combine
 class ProductListViewController: ScannerEnabledViewController {
     weak var coordinator: SearchEnabledCoordinator?
 
-    let viewModel: ProductListViewModelProtocol
+    private let viewModel: ProductListViewModelProtocol
     private let layoutProvider: CollectionLayoutProvider
-    private let emptyResultView: EmptyOnScreenView
+    private (set) var emptyResultView: EmptyOnScreenView
 
     private var cancellables = Set<AnyCancellable>()
     private var visibleCancellables = Set<AnyCancellable>()
@@ -244,5 +244,9 @@ extension ProductListViewController {
     func refresh() {
         viewModel.refresh()
         setupViews()
+    }
+
+    func setEmptyResultsMode(to state: EmptyViewState) {
+        emptyResultView = EmptyOnScreenView(state: state)
     }
 }
