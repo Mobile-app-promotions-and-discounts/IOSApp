@@ -27,8 +27,7 @@ final class FavoritesScreenCoordinator: SearchEnabledCoordinator {
 
     func navigateToFavoriteProductScreen(for product: Product) {
         let productViewModel = ProductCardViewModel(product: product,
-                                                    productService: productService,
-                                                    mockProfileService: profileService)
+                                                    productService: productService)
         let productVC = ProductCardViewController(viewModel: productViewModel)
         productVC.hidesBottomBarWhenPushed = true
         productVC.coordinator = self

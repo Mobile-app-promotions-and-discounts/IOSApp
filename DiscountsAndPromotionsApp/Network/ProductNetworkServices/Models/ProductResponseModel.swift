@@ -59,7 +59,8 @@ struct ProductResponseModel: Codable {
                        category: category,
                        image: image,
                        rating: modelRating,
-                       offers: offers)
+                       offers: offers,
+                       isFavorite: isFavorited)
     }
 }
 

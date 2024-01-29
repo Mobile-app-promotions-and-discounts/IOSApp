@@ -9,8 +9,7 @@ final class CategoryScreenViewModel: ProductListViewModel {
          category: Category) {
         self.category = category
 
-        super.init(dataService: dataService,
-                   profileService: profileService)
+        super.init(dataService: dataService)
     }
 
     override func getTitle() -> String {

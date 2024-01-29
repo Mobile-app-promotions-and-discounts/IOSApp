@@ -12,7 +12,6 @@ class ProductListViewModel: ProductListViewModelProtocol {
     }
 
     private (set) var productService: ProductNetworkServiceProtocol
-    private (set) var profileService: ProfileServiceProtocol
 
     private (set) var currentPage = 0
     private (set) var isOnLastPage = false
@@ -20,9 +19,8 @@ class ProductListViewModel: ProductListViewModelProtocol {
 
     private var cancellables = Set<AnyCancellable>()
 
-    init(dataService: ProductNetworkServiceProtocol, profileService: ProfileServiceProtocol) {
+    init(dataService: ProductNetworkServiceProtocol) {
         self.productService = dataService
-        self.profileService = profileService
         setupBindings()
     }
 
@@ -46,10 +44,10 @@ class ProductListViewModel: ProductListViewModelProtocol {
         }
 
         let product = products[productIndex]
-        if profileService.isFavorite(product) {
-            profileService.removeFavorite(product)
+        if product.isFavorite {
+            productService.removeFromFavorites(productID: product.id)
         } else {
-            profileService.addFavorite(product)
+            productService.addToFavorites(productID: product.id)
         }
     }
 
@@ -84,7 +82,7 @@ class ProductListViewModel: ProductListViewModelProtocol {
     }
 
     private func convertModels(for product: Product) -> ProductCellUIModel {
-        let isFavorite = profileService.isFavorite(product)
-        return ProductCellUIModel(product: product, isFavorite: isFavorite)
+//        let isFavorite = profileService.isFavorite(product)
+        return ProductCellUIModel(product: product)
     }
 }

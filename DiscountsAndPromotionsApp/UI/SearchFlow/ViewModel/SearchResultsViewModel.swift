@@ -9,8 +9,7 @@ final class SearchResultsViewModel: ProductListViewModel {
          searchText: String) {
         self.searchRequest = searchText
 
-        super.init(dataService: productService,
-                   profileService: profileService)
+        super.init(dataService: productService)
     }
 
     override func getTitle() -> String {

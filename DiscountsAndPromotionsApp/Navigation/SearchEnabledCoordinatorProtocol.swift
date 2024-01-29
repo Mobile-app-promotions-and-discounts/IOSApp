@@ -12,8 +12,7 @@ protocol SearchEnabledCoordinator: Coordinator, ProductCardEnabledCoordinatorPro
 extension SearchEnabledCoordinator {
     func navigateToProductScreen(for product: Product) {
         let productViewModel = ProductCardViewModel(product: product,
-                                                    productService: productService,
-                                                    mockProfileService: profileService)
+                                                    productService: productService)
         let productVC = ProductCardViewController(viewModel: productViewModel)
         productVC.hidesBottomBarWhenPushed = true
         productVC.coordinator = self

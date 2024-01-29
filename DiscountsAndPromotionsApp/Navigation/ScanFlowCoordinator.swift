@@ -56,8 +56,7 @@ final class ScanFlowCoordinator: Coordinator, ProductCardEnabledCoordinatorProto
 
     @MainActor func showProduct(_ product: Product) {
         let productViewModel = ProductCardViewModel(product: product,
-                                                    productService: productService,
-                                                    mockProfileService: profileService)
+                                                    productService: productService)
         let productVC = ProductCardViewController(viewModel: productViewModel)
         productVC.hidesBottomBarWhenPushed = true
         productVC.coordinator = self

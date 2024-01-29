@@ -18,17 +18,15 @@ final class PriceInfoViewViewModel: PriceInfoViewViewModelProtocol {
     @Published private (set) var price: Int = 0
     @Published private (set) var discountPrice: Int = 0
     var addToFavorites = PassthroughSubject<Void, Never>()
-    private let profileService: ProfileServiceProtocol
+    private let productService: ProductNetworkServiceProtocol
     private var product: Product
 
-    init(profileService: ProfileServiceProtocol, product: Product) {
-        self.profileService = profileService
+    init(product: Product, productService: ProductNetworkServiceProtocol) {
         self.product = product
+        self.productService = productService
     }
 
-    var isFavorite: Bool {
-        profileService.isFavorite(product)
-    }
+    private (set) lazy var isFavorite = product.isFavorite
 
     // Предоставляем @Published свойства как паблишеры
     var pricePublisher: AnyPublisher<Int, Never> {
@@ -51,10 +49,10 @@ final class PriceInfoViewViewModel: PriceInfoViewViewModelProtocol {
     }
 
     func toggleFavorite() {
-        if profileService.isFavorite(product) {
-            profileService.removeFavorite(product)
+        if isFavorite {
+            productService.removeFromFavorites(productID: product.id)
         } else {
-            profileService.addFavorite(product)
+            productService.addToFavorites(productID: product.id)
         }
     }
 

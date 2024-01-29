@@ -64,7 +64,6 @@ final class FavoritesViewModel: FavoritesViewModelProtocol {
     }
 
     private func convertModels(for product: Product) -> ProductCellUIModel {
-        let isFavorite = profileService.isFavorite(product)
-        return ProductCellUIModel(product: product, isFavorite: isFavorite)
+        return ProductCellUIModel(product: product)
     }
 }
