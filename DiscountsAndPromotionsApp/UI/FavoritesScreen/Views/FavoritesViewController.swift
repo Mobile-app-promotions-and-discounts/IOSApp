@@ -2,7 +2,7 @@ import UIKit
 import Combine
 import SnapKit
 
-final class FavoritesViewController: ScannerEnabledViewController {
+final class FavoritesViewController: SearchEnabledViewController {
     weak var coordinator: FavoritesScreenCoordinator?
 
     private let viewModel: FavoritesViewModelProtocol
@@ -29,6 +29,7 @@ final class FavoritesViewController: ScannerEnabledViewController {
                                                    left: 0,
                                                    bottom: 0,
                                                    right: 0)
+        collectionView.keyboardDismissMode = .onDrag
         return collectionView
     }()
 
@@ -159,6 +160,17 @@ extension FavoritesViewController: UICollectionViewDelegateFlowLayout {
         let uiModel = viewModel.getProduct(for: indexPath.row)
         if let product = viewModel.getProductById(uiModel.id) {
         coordinator?.navigateToFavoriteProductScreen(for: product)
+        }
+    }
+}
+
+//
+
+// MARK: - Search field delegate
+extension FavoritesViewController {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        if let prompt = searchBar.text {
+            coordinator?.navigateToSearchResultsScreen(for: prompt)
         }
     }
 }

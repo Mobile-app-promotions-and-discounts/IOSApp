@@ -111,7 +111,7 @@ final class InputUserDataField: UIView {
         inputDataTextField.isSecureTextEntry.toggle()
         showHidePasswordButton.setImage(inputDataTextField.isSecureTextEntry ? .icEyeOpen : .icEyeClosed, for: .normal)
     }
-    
+
     private enum Constants {
         enum TextField {
             static let cornerRadius: CGFloat = 10

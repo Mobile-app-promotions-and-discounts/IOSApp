@@ -1,12 +1,12 @@
 import UIKit
 
-final class FavoritesScreenCoordinator: Coordinator {
+final class FavoritesScreenCoordinator: SearchEnabledCoordinator {
     var childCoordinators = [Coordinator]()
     var navigationController: UINavigationController
 
     private let dataService: DataServiceProtocol
-    private let profileService: ProfileServiceProtocol
-    private let productService: ProductNetworkServiceProtocol
+    private (set) var profileService: ProfileServiceProtocol
+    private (set) var productService: ProductNetworkServiceProtocol
 
     init(navigationController: UINavigationController,
          dataService: DataServiceProtocol,
@@ -34,4 +34,19 @@ final class FavoritesScreenCoordinator: Coordinator {
         productVC.coordinator = self
         navigationController.pushViewController(productVC, animated: true)
     }
+
+    func navigateToMainScreen() {
+        navigationController.popToRootViewController(animated: true)
+    }
+
+    func navigateToSearchResultsScreen(for prompt: String) {
+        let viewModel = SearchResultsViewModel(productService: productService,
+                                               profileService: profileService,
+                                               searchText: prompt)
+        let searchResultsController = SearchResultsViewController(viewModel: viewModel)
+        searchResultsController.coordinator = self
+        navigationController.pushViewController(searchResultsController, animated: true)
+    }
+
+    func navigateToSearchScreen() {}
 }

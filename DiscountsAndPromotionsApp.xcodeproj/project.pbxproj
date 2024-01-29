@@ -39,7 +39,10 @@
 		BC0723182B1A589800EF82B8 /* Manrope-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC0723152B1A588E00EF82B8 /* Manrope-Regular.ttf */; };
 		BC0723192B1A589A00EF82B8 /* Manrope-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC0723162B1A588E00EF82B8 /* Manrope-SemiBold.ttf */; };
 		BC07231B2B1A6A5C00EF82B8 /* SecondaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC07231A2B1A6A5C00EF82B8 /* SecondaryButton.swift */; };
+		BC0C557D2B62DB070093437E /* ProductCardCoordinatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0C557B2B62DB070093437E /* ProductCardCoordinatorProtocol.swift */; };
+		BC0C557E2B62DB070093437E /* SearchEnabledCoordinatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0C557C2B62DB070093437E /* SearchEnabledCoordinatorProtocol.swift */; };
 		BC411C6A2B49A1260045CE23 /* GalleryPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC411C692B49A1260045CE23 /* GalleryPage.swift */; };
+		BC4469082B6813EF00F618F0 /* OfferUIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4469072B6813EF00F618F0 /* OfferUIModel.swift */; };
 		BC50097A2B18B0A200385381 /* CornerRadius.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5009792B18B0A200385381 /* CornerRadius.swift */; };
 		BC6045FB2B1D9CA700536EB3 /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6045FA2B1D9CA700536EB3 /* SearchResultsViewController.swift */; };
 		BC6045FD2B1E3B2E00536EB3 /* PromotionVisualsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6045FC2B1E3B2E00536EB3 /* PromotionVisualsService.swift */; };
@@ -221,7 +224,10 @@
 		BC0723152B1A588E00EF82B8 /* Manrope-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Manrope-Regular.ttf"; sourceTree = "<group>"; };
 		BC0723162B1A588E00EF82B8 /* Manrope-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Manrope-SemiBold.ttf"; sourceTree = "<group>"; };
 		BC07231A2B1A6A5C00EF82B8 /* SecondaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryButton.swift; sourceTree = "<group>"; };
+		BC0C557B2B62DB070093437E /* ProductCardCoordinatorProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductCardCoordinatorProtocol.swift; sourceTree = "<group>"; };
+		BC0C557C2B62DB070093437E /* SearchEnabledCoordinatorProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchEnabledCoordinatorProtocol.swift; sourceTree = "<group>"; };
 		BC411C692B49A1260045CE23 /* GalleryPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryPage.swift; sourceTree = "<group>"; };
+		BC4469072B6813EF00F618F0 /* OfferUIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferUIModel.swift; sourceTree = "<group>"; };
 		BC5009792B18B0A200385381 /* CornerRadius.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CornerRadius.swift; sourceTree = "<group>"; };
 		BC6045FA2B1D9CA700536EB3 /* SearchResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
 		BC6045FC2B1E3B2E00536EB3 /* PromotionVisualsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PromotionVisualsService.swift; sourceTree = "<group>"; };
@@ -492,6 +498,14 @@
 			path = Fonts;
 			sourceTree = "<group>";
 		};
+		BC4469062B6813DB00F618F0 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				BC4469072B6813EF00F618F0 /* OfferUIModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		BC60460F2B1E4B7900536EB3 /* ProfileScreen */ = {
 			isa = PBXGroup;
 			children = (
@@ -553,6 +567,7 @@
 		BCAA6CFC2B4E75FA007C6FB4 /* ProductCardScreen */ = {
 			isa = PBXGroup;
 			children = (
+				BC4469062B6813DB00F618F0 /* Models */,
 				BCCF50242B1B4D390067A552 /* ProductCardViewController.swift */,
 				92AEAD572B2CAAC200F1C7A3 /* ProductCardViewModel.swift */,
 				BCCF4FF52B1B4AF10067A552 /* Views */,
@@ -970,6 +985,8 @@
 		BE35246D2B02B29F00746581 /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
+				BC0C557B2B62DB070093437E /* ProductCardCoordinatorProtocol.swift */,
+				BC0C557C2B62DB070093437E /* SearchEnabledCoordinatorProtocol.swift */,
 				BC93BB682B0BC313008BE2AD /* ScanFlowCoordinator.swift */,
 				BEBA916B2B0A9D0000C2DE96 /* Coordinator.swift */,
 				BE3524752B02B62B00746581 /* MainCoordinator.swift */,
@@ -1279,6 +1296,7 @@
 				BC6046092B1E3CAB00536EB3 /* MainHeaderView.swift in Sources */,
 				BCCF500C2B1B4AF10067A552 /* ScanFrameView.swift in Sources */,
 				BEBA916E2B0A9F9500C2DE96 /* ProductModels.swift in Sources */,
+				BC0C557E2B62DB070093437E /* SearchEnabledCoordinatorProtocol.swift in Sources */,
 				7F2137E02B517265006B680C /* AuthViewController.swift in Sources */,
 				BCAA6CF92B4E7177007C6FB4 /* ReviewCell.swift in Sources */,
 				BCCF501A2B1B4AF10067A552 /* RatingViewViewModel .swift in Sources */,
@@ -1310,6 +1328,7 @@
 				BCD4B4802B31759100539CD1 /* StoreNetworkService.swift in Sources */,
 				BCAA6D002B4F0B1D007C6FB4 /* ReviewRatingHeader.swift in Sources */,
 				BCCF501B2B1B4AF10067A552 /* ProductReviewViewModel.swift in Sources */,
+				BC0C557D2B62DB070093437E /* ProductCardCoordinatorProtocol.swift in Sources */,
 				BCCF50192B1B4AF10067A552 /* FavoritesViewController.swift in Sources */,
 				7F2137D32B4E9283006B680C /* RegistrationViewModel.swift in Sources */,
 				BCCF50022B1B4AF10067A552 /* MainScreenSections.swift in Sources */,
@@ -1332,6 +1351,7 @@
 				BC50097A2B18B0A200385381 /* CornerRadius.swift in Sources */,
 				BC60461F2B1E4B7900536EB3 /* ProfileAssetButton.swift in Sources */,
 				BC6046232B1E4BC600536EB3 /* TextField.swift in Sources */,
+				BC4469082B6813EF00F618F0 /* OfferUIModel.swift in Sources */,
 				BE8E70B42B0E74F600BEAA5A /* ProfileScreenCoordinator.swift in Sources */,
 				BCAA6CFE2B4EFE42007C6FB4 /* CherryCustomViewController.swift in Sources */,
 				92787FA82B21EEE00045B678 /* LoginViewModelProtocol.swift in Sources */,
