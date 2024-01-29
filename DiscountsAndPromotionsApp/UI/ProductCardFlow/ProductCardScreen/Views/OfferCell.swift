@@ -39,15 +39,15 @@ class OfferTableViewCell: UITableViewCell {
 
     // MARK: Настройка
 
-    func configure(with offer: Offer) {
+    func configure(with offer: OfferUIModel) {
         storeURL = offer.store.chainStore?.website ?? ""
         storeNameLabel.text = offer.store.name
         addressLabel.text = offer.store.location.street
-        priceLabel.text = "\(Int(offer.price)) ₽"
+        priceLabel.text = "\(Int(offer.discountPrice)) ₽"
         if let logoURL = URL(string: offer.store.chainStore?.logo ?? "") {
             logoImageView.kf.setImage(with: logoURL)
         }
-        if offer.price < offer.initialPrice {
+        if offer.discountPrice < offer.initialPrice {
             originalPriceLabel.isHidden = false
             discountLabel.isHidden = offer.discount == nil
             discountView.isHidden = offer.discount == nil

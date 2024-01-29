@@ -161,8 +161,9 @@ final class ProductCardViewModel {
               let offer = product?.offers[indexPath.row] else {
             return UITableViewCell()
         }
+        let offerUI = OfferUIModel(offer: offer)
         cell.selectionStyle = .none
-        cell.configure(with: offer)
+        cell.configure(with: offerUI)
         return cell
     }
 
