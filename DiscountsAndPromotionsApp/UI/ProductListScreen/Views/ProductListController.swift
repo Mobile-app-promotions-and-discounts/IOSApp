@@ -97,6 +97,7 @@ class ProductListViewController: ScannerEnabledViewController {
             .sink { [weak self] itemCount in
                 guard let self = self else { return }
                 addItems(newCount: itemCount)
+                updateVisibleCells()
                 self.progressView.stopAnimating()
             }
             .store(in: &visibleCancellables)

@@ -10,6 +10,11 @@ final class ProductCell: UICollectionViewCell {
 
     // PassthroughSubject для события нажатия кнопки
     private (set) var likeButtonTappedPublisher = PassthroughSubject<Int, Never>()
+    private (set) var isProcessingFavorite = false {
+        didSet {
+            isProcessingFavorite ? likeButton.startLoadingAnimation() : likeButton.stopLoadingAnimation()
+        }
+    }
 
     private var productID: Int?
 
@@ -80,6 +85,7 @@ final class ProductCell: UICollectionViewCell {
 
     func updateFavoriteStatus(isFavorite: Bool) {
         self.likeButton.setImage(isFavorite ? UIImage.icHeartFill : UIImage.icHeart, for: .normal)
+        isProcessingFavorite = false
     }
 
     func configure(with model: ProductCellUIModel) {
@@ -102,9 +108,7 @@ final class ProductCell: UICollectionViewCell {
 
     @objc
     private func likeButtonTapped() {
-        // Переключение изображения кнопки "лайк"
-        let isFavoriteNow = likeButton.currentImage == UIImage.icHeart
-        likeButton.setImage(isFavoriteNow ? UIImage.icHeartFill : UIImage.icHeart, for: .normal)
+        isProcessingFavorite = true
 
         if let productID {
             likeButtonTappedPublisher.send(productID)
