@@ -78,6 +78,10 @@ final class ProductCell: UICollectionViewCell {
 
     // MARK: - Public methods
 
+    func updateFavoriteStatus(isFavorite: Bool) {
+        self.likeButton.setImage(isFavorite ? UIImage.icHeartFill : UIImage.icHeart, for: .normal)
+    }
+
     func configure(with model: ProductCellUIModel) {
         self.productID = model.id
         self.nameLabel.text = model.name

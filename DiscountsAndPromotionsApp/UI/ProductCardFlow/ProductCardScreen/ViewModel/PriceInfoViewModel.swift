@@ -61,7 +61,7 @@ final class PriceInfoViewViewModel: PriceInfoViewViewModelProtocol {
 
     private func bindFavoritesStatus() {
         productService.isFavoriteUpdate
-            .sink { [weak self] isFavorite in
+            .sink { [weak self] _, isFavorite in
                 self?.isFavorite = isFavorite
             }
             .store(in: &cancellables)

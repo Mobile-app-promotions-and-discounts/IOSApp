@@ -62,6 +62,7 @@ class ProductListViewController: ScannerEnabledViewController {
         bindUpdates()
         // Временное решение для обновления списка избранного на данном экране.
         categoryCollectionView.reloadData()
+        updateVisibleCells()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -214,6 +215,16 @@ extension ProductListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if indexPath.row == collectionView.numberOfItems(inSection: indexPath.section) - 16 {
             viewModel.loadNextPage()
+        }
+    }
+
+    func updateVisibleCells() {
+        for cell in categoryCollectionView.visibleCells {
+            if let cell = cell as? ProductCell,
+               let indexPath = categoryCollectionView.indexPath(for: cell) {
+                let product = viewModel.getProduct(for: indexPath.row)
+                cell.updateFavoriteStatus(isFavorite: product.isFavorite)
+            }
         }
     }
 }

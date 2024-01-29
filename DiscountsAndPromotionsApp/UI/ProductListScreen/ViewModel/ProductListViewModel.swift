@@ -65,6 +65,12 @@ class ProductListViewModel: ProductListViewModelProtocol {
     func nextPageAction() { }
 
     private func setupBindings() {
+        productService.isFavoriteUpdate
+            .sink { [weak self] productID, isFavorite in
+                self?.updateFavoriteStatus(productID: productID, isFavorite: isFavorite)
+            }
+            .store(in: &cancellables)
+
         productService.productListUpdate
         .sink { [weak self] products in
             let newProducts = products.map { $0.convertToProductModel() }
@@ -79,10 +85,26 @@ class ProductListViewModel: ProductListViewModelProtocol {
                 self?.isFetchingData = false
             }
             .store(in: &cancellables)
+
     }
 
     private func convertModels(for product: Product) -> ProductCellUIModel {
-//        let isFavorite = profileService.isFavorite(product)
         return ProductCellUIModel(product: product)
+    }
+
+    private func updateFavoriteStatus(productID: Int, isFavorite: Bool) {
+        if let index = products.firstIndex(where: { $0.id == productID }) {
+            let product = products[index]
+            let newProduct = Product(id: productID,
+                                     barcode: product.barcode,
+                                     name: product.name,
+                                     description: product.description,
+                                     category: product.category,
+                                     image: product.image,
+                                     rating: product.rating,
+                                     offers: product.offers,
+                                     isFavorite: isFavorite)
+            products[index] = newProduct
+        }
     }
 }
