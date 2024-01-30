@@ -1,10 +1,3 @@
-//
-//  RecoveryStartViewController.swift
-//  DiscountsAndPromotionsApp
-//
-//  Created by Александр Кудряшов on 23.01.2024.
-//
-
 import Combine
 import SnapKit
 import UIKit
@@ -196,7 +189,7 @@ final class RecoveryStartViewController: UIViewController {
     }
         
     @objc private func backAction() {
-        coordinator?.backToNavigateLoginViewController()
+        coordinator?.popToNavigate()
     }
     
     @objc private func changeTextField(_ textField: UITextField) {
@@ -210,7 +203,7 @@ final class RecoveryStartViewController: UIViewController {
     }
     
     @objc private func recoveryAction() {
-        // TODO: - переход на 2й экран
+        coordinator?.navigateToRecoveryEndScreen()
     }
     
     private func setupConstraints() {

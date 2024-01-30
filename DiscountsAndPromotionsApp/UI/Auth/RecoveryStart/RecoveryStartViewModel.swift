@@ -1,10 +1,3 @@
-//
-//  RecoveryStartViewModel.swift
-//  DiscountsAndPromotionsApp
-//
-//  Created by Александр Кудряшов on 23.01.2024.
-//
-
 import Combine
 import Foundation
 

@@ -51,10 +51,13 @@ final class AuthCoordinator: Coordinator {
     }
     
     func navigateToRecoveryEndScreen() {
-        // TODO: -
+        let recoveryEndViewModel = RecoveryEndViewModel()
+        let recoveryEndViewController = RecoveryEndViewController(viewModel: recoveryEndViewModel)
+        recoveryEndViewController.coordinator = self
+        navigationController.pushViewController(recoveryEndViewController, animated: true)
     }
     
-    func backToNavigateLoginViewController() {
+    func popToNavigate() {
         navigationController.popViewController(animated: true)
     }
     

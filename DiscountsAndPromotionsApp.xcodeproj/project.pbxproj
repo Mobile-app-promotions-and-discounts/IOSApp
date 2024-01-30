@@ -21,6 +21,9 @@
 		7FCB3D9C2B603F6800EC20E7 /* RecoveryStartViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCB3D9B2B603F6800EC20E7 /* RecoveryStartViewModel.swift */; };
 		7FCB3D9E2B603FB500EC20E7 /* RecoveryStartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCB3D9D2B603FB500EC20E7 /* RecoveryStartViewController.swift */; };
 		7FCB3DB02B6964DD00EC20E7 /* RecoveryStartViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCB3DAF2B6964DD00EC20E7 /* RecoveryStartViewModelProtocol.swift */; };
+		7FCB3DB42B69659E00EC20E7 /* RecoveryEndViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCB3DB32B69659E00EC20E7 /* RecoveryEndViewModelProtocol.swift */; };
+		7FCB3DB62B69669300EC20E7 /* RecoveryEndViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCB3DB52B69669300EC20E7 /* RecoveryEndViewModel.swift */; };
+		7FCB3DB82B69673000EC20E7 /* RecoveryEndViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCB3DB72B69673000EC20E7 /* RecoveryEndViewController.swift */; };
 		92787F662B1F133C0045B678 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92787F652B1F133C0045B678 /* SplashViewController.swift */; };
 		92787F682B1F14500045B678 /* AuthTokenKeychainStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92787F672B1F14500045B678 /* AuthTokenKeychainStorage.swift */; };
 		92787F6B2B1F159A0045B678 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 92787F6A2B1F159A0045B678 /* SwiftKeychainWrapper */; };
@@ -208,6 +211,9 @@
 		7FCB3D9B2B603F6800EC20E7 /* RecoveryStartViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecoveryStartViewModel.swift; sourceTree = "<group>"; };
 		7FCB3D9D2B603FB500EC20E7 /* RecoveryStartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecoveryStartViewController.swift; sourceTree = "<group>"; };
 		7FCB3DAF2B6964DD00EC20E7 /* RecoveryStartViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecoveryStartViewModelProtocol.swift; sourceTree = "<group>"; };
+		7FCB3DB32B69659E00EC20E7 /* RecoveryEndViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecoveryEndViewModelProtocol.swift; sourceTree = "<group>"; };
+		7FCB3DB52B69669300EC20E7 /* RecoveryEndViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecoveryEndViewModel.swift; sourceTree = "<group>"; };
+		7FCB3DB72B69673000EC20E7 /* RecoveryEndViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecoveryEndViewController.swift; sourceTree = "<group>"; };
 		92787F652B1F133C0045B678 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		92787F672B1F14500045B678 /* AuthTokenKeychainStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTokenKeychainStorage.swift; sourceTree = "<group>"; };
 		92787F6F2B1F5E9F0045B678 /* LaunchScreen.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = LaunchScreen.xcstrings; sourceTree = "<group>"; };
@@ -441,6 +447,8 @@
 		7FCB3D992B603EF900EC20E7 /* RecoveryEnd */ = {
 			isa = PBXGroup;
 			children = (
+				7FCB3DB12B69656900EC20E7 /* ViewModel */,
+				7FCB3DB22B69657200EC20E7 /* View */,
 			);
 			path = RecoveryEnd;
 			sourceTree = "<group>";
@@ -458,6 +466,23 @@
 			isa = PBXGroup;
 			children = (
 				7FCB3D9D2B603FB500EC20E7 /* RecoveryStartViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		7FCB3DB12B69656900EC20E7 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				7FCB3DB32B69659E00EC20E7 /* RecoveryEndViewModelProtocol.swift */,
+				7FCB3DB52B69669300EC20E7 /* RecoveryEndViewModel.swift */,
+			);
+			name = ViewModel;
+			sourceTree = "<group>";
+		};
+		7FCB3DB22B69657200EC20E7 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				7FCB3DB72B69673000EC20E7 /* RecoveryEndViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1287,6 +1312,7 @@
 				BC93BB742B0C8166008BE2AD /* ScannerNavButton.swift in Sources */,
 				BCAC6B792B223C4100AD5C96 /* NetworkErrorDescriptionModel.swift in Sources */,
 				92787F682B1F14500045B678 /* AuthTokenKeychainStorage.swift in Sources */,
+				7FCB3DB82B69673000EC20E7 /* RecoveryEndViewController.swift in Sources */,
 				BC6046202B1E4B7900536EB3 /* ProfileViewController.swift in Sources */,
 				BEBBDCA82B3C6EB700DB6F34 /* ViewState.swift in Sources */,
 				BCCF50042B1B4AF10067A552 /* MainViewController.swift in Sources */,
@@ -1376,6 +1402,7 @@
 				92787FA82B21EEE00045B678 /* LoginViewModelProtocol.swift in Sources */,
 				BCCF50212B1B4AF10067A552 /* RatingView.swift in Sources */,
 				D02E38722B25DB4500B3D27E /* ChooseRegionViewController.swift in Sources */,
+				7FCB3DB62B69669300EC20E7 /* RecoveryEndViewModel.swift in Sources */,
 				BC93BB722B0C814F008BE2AD /* PrimaryButton.swift in Sources */,
 				BCCF50102B1B4AF10067A552 /* ProductCellUIModel.swift in Sources */,
 				7F2137DA2B5001A4006B680C /* SuccessRegistrationViewController.swift in Sources */,
@@ -1403,6 +1430,7 @@
 				BCCF50202B1B4AF10067A552 /* OfferCell.swift in Sources */,
 				BCD4B4772B2F5DDE00539CD1 /* StoreChainResponseModel.swift in Sources */,
 				BCCF50052B1B4AF10067A552 /* StoresCell.swift in Sources */,
+				7FCB3DB42B69659E00EC20E7 /* RecoveryEndViewModelProtocol.swift in Sources */,
 				BCAC6B7D2B223C4100AD5C96 /* TokenResponseModel.swift in Sources */,
 				BE70C22B2B1E5E43004FD1E9 /* CategoryUIModel.swift in Sources */,
 				92787F722B1F5F5F0045B678 /* Localization.swift in Sources */,

@@ -194,7 +194,7 @@ final class RegistrationViewController: UIViewController {
     
     @objc
     private func backAction() {
-        coordinator?.backToNavigateLoginViewController()
+        coordinator?.popToNavigate()
     }
     
     @objc
