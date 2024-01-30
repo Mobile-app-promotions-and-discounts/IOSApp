@@ -29,4 +29,18 @@ enum L10n {
         static let automatical = NSLocalizedString("automatical", tableName: "LocationFlow", comment: "")
         static let manual = NSLocalizedString("manual", tableName: "LocationFlow", comment: "")
     }
+    enum RecoveryStart {
+        static let title = NSLocalizedString("title", tableName: "RecoveryStartFlow", comment: "")
+        static let time = NSLocalizedString("time", tableName: "RecoveryStartFlow", comment: "")
+        static let recoveryButton = NSLocalizedString("recovery", tableName: "RecoveryStartFlow", comment: "")
+        static let sendCode = NSLocalizedString("sendCode", tableName: "RecoveryStartFlow", comment: "")
+        static let sendCodeButton = NSLocalizedString("sendCodeButton", tableName: "RecoveryStartFlow" ,comment: "")
+        static let sentCode = NSLocalizedString("sentCode", tableName: "RecoveryStartFlow", comment: "")
+        static let willSendCode = NSLocalizedString("willSendCode", tableName: "RecoveryStartFlow", comment: "")
+    }
+    enum RecoveryEnd {
+        static let title = NSLocalizedString("title", tableName: "RecoveryEndFlow", comment: "")
+        static let newPassword = NSLocalizedString("newPassword", tableName: "RecoveryEndFlow", comment: "")
+        static let sign = NSLocalizedString("sign", tableName: "RecoveryEndFlow", comment: "")
+    }
 }

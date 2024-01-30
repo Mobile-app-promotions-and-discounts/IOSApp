@@ -43,6 +43,17 @@ final class AuthCoordinator: Coordinator {
         navigationController.pushViewController(sucessViewController, animated: true)
     }
     
+    func navigateToRecoveryStartScreen() {
+        let recoveryStartViewModel = RecoveryStartViewModel()
+        let recoveryStartViewController = RecoveryStartViewController(viewModel: recoveryStartViewModel)
+        recoveryStartViewController.coordinator = self
+        navigationController.pushViewController(recoveryStartViewController, animated: true)
+    }
+    
+    func navigateToRecoveryEndScreen() {
+        // TODO: -
+    }
+    
     func backToNavigateLoginViewController() {
         navigationController.popViewController(animated: true)
     }

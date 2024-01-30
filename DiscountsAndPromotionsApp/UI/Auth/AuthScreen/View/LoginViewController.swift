@@ -46,8 +46,9 @@ final class LoginViewController: UIViewController {
     private lazy var passwordRecoveryButton: UIButton = {
         let button = UIButton()
         button.setTitle(L10n.Authorization.forgotPasswordTitle, for: .normal)
-        button.setTitleColor(.cherryGrayBlue, for: .normal)
+        button.setTitleColor(.cherryBlue, for: .normal)
         button.titleLabel?.font = CherryFonts.textMedium
+        button.addTarget(self, action: #selector(navigateToRecoveryScreen), for: .touchUpInside)
         return button
     }()
 
@@ -122,6 +123,10 @@ final class LoginViewController: UIViewController {
         view.layer.cornerRadius = Const.View.cornerRadius
         view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
     }
+    
+    @objc private func navigateToRecoveryScreen() {
+        coordinator?.navigateToRecoveryStartScreen()
+    }
 
     @objc private func loginAction() {
         viewModel.didTapLoginButton()
@@ -131,13 +136,11 @@ final class LoginViewController: UIViewController {
         coordinator?.navigateToRegistrationScreen()
     }
     
-    @objc
-    private func changeEmail(_ textField: UITextField) {
+    @objc private func changeEmail(_ textField: UITextField) {
         viewModel.changeUserEmail(textField.text ?? "")
     }
     
-    @objc
-    private func changePassword(_ textField: UITextField) {
+    @objc private func changePassword(_ textField: UITextField) {
         viewModel.changePassword(textField.text ?? "")
     }
     
