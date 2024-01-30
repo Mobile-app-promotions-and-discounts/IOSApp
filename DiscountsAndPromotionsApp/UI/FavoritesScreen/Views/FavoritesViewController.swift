@@ -12,6 +12,10 @@ final class FavoritesViewController: ProductListViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    override func additionalCellSetup(for cell: ProductCell) {
+        cell.setMode(to: .favorites)
+    }
 }
 
 extension FavoritesViewController {

@@ -5,8 +5,8 @@ import Combine
 class ProductListViewController: ScannerEnabledViewController {
     weak var coordinator: SearchEnabledCoordinator?
 
-    private let viewModel: ProductListViewModelProtocol
     private let layoutProvider: CollectionLayoutProvider
+    private (set) var viewModel: ProductListViewModelProtocol
     private (set) var emptyResultView: EmptyOnScreenView
 
     private var cancellables = Set<AnyCancellable>()
@@ -144,8 +144,32 @@ class ProductListViewController: ScannerEnabledViewController {
             IndexPath(row: $0, section: section)
         }
         self.categoryCollectionView.performBatchUpdates {
-        self.categoryCollectionView.insertItems(at: newCellPaths)
+            self.categoryCollectionView.insertItems(at: newCellPaths)
         }
+    }
+
+    // MARK: - обновление ячеек когда переходим с другого экрана
+    func updateVisibleCells() {
+        for cell in categoryCollectionView.visibleCells {
+            if let cell = cell as? ProductCell,
+               let indexPath = categoryCollectionView.indexPath(for: cell) {
+                let product = viewModel.getProduct(for: indexPath.row)
+                cell.updateFavoriteStatus(isFavorite: product.isFavorite)
+            }
+        }
+    }
+
+    func refresh() {
+        viewModel.refresh()
+        setupViews()
+    }
+
+    func setEmptyResultsMode(to state: EmptyViewState) {
+        emptyResultView = EmptyOnScreenView(state: state)
+    }
+
+    func additionalCellSetup(for cell: ProductCell) {
+
     }
 }
 
@@ -202,6 +226,7 @@ extension ProductListViewController: UICollectionViewDataSource {
 
         let product = viewModel.getProduct(for: indexPath.row)
         cell.configure(with: product)
+        additionalCellSetup(for: cell)
         return cell
     }
 }
@@ -227,27 +252,5 @@ extension ProductListViewController: UICollectionViewDelegate {
 extension ProductListViewController {
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         coordinator?.navigateToSearchScreen()
-    }
-}
-
-// MARK: - обновление ячеек когда переходим с другого экрана
-extension ProductListViewController {
-    func updateVisibleCells() {
-        for cell in categoryCollectionView.visibleCells {
-            if let cell = cell as? ProductCell,
-               let indexPath = categoryCollectionView.indexPath(for: cell) {
-                let product = viewModel.getProduct(for: indexPath.row)
-                cell.updateFavoriteStatus(isFavorite: product.isFavorite)
-            }
-        }
-    }
-
-    func refresh() {
-        viewModel.refresh()
-        setupViews()
-    }
-
-    func setEmptyResultsMode(to state: EmptyViewState) {
-        emptyResultView = EmptyOnScreenView(state: state)
     }
 }
