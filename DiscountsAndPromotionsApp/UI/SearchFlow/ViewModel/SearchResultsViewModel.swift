@@ -1,8 +1,8 @@
 import Combine
 import Foundation
 
-final class SearchResultsViewModel: ProductListViewModel {
-    private var searchRequest = ""
+class SearchResultsViewModel: ProductListViewModel {
+    private (set) var searchRequest = ""
 
     init(productService: ProductNetworkServiceProtocol,
          profileService: ProfileServiceProtocol,

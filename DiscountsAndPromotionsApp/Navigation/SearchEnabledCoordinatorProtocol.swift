@@ -6,6 +6,7 @@ protocol SearchEnabledCoordinator: Coordinator, ProductCardEnabledCoordinatorPro
 
     func navigateToMainScreen()
     func navigateToSearchScreen()
+    func navigateToSearchResultsScreen(for prompt: String)
     func navigateToProductScreen(for product: Product)
 }
 

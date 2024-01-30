@@ -74,6 +74,7 @@ class ProductListViewController: ScannerEnabledViewController {
                                                            left: 0,
                                                            bottom: 0,
                                                            right: 0)
+        categoryCollectionView.keyboardDismissMode = .onDrag
     }
 
     private func setupViews() {

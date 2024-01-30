@@ -13,3 +13,21 @@ final class FavoritesViewController: ProductListViewController {
         fatalError("init(coder:) has not been implemented")
     }
 }
+
+extension FavoritesViewController {
+    override func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchBar.becomeFirstResponder()
+        hideScanButton()
+    }
+
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        if let text = searchBar.text {
+            coordinator?.navigateToSearchResultsScreen(for: text)
+        }
+    }
+
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        searchBar.text = ""
+        showScanButton()
+    }
+}

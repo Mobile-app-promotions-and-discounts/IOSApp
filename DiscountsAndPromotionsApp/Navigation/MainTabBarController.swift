@@ -71,7 +71,6 @@ final class MainTabBarController: UITabBarController {
 extension MainTabBarController: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         if tabBarController.selectedIndex == 1 {
-            // TODO: refresh VC
             if  let navController = viewControllers?[1] as? GenericNavigationController,
                 let favoritesVC = navController.viewControllers.first as? FavoritesViewController,
                 let coordinator = favoritesVC.coordinator as? FavoritesScreenCoordinator {

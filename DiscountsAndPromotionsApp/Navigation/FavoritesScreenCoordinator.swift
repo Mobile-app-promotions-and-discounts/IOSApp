@@ -42,14 +42,14 @@ final class FavoritesScreenCoordinator: SearchEnabledCoordinator {
         navigationController.popToRootViewController(animated: true)
     }
 
+    func navigateToSearchScreen() {}
+
     func navigateToSearchResultsScreen(for prompt: String) {
-        let viewModel = SearchResultsViewModel(productService: productService,
+        let viewModel = FavoritesSearchResultsViewModel(productService: productService,
                                                profileService: profileService,
                                                searchText: prompt)
         let searchResultsController = SearchResultsViewController(viewModel: viewModel)
         searchResultsController.coordinator = self
         navigationController.pushViewController(searchResultsController, animated: true)
     }
-
-    func navigateToSearchScreen() {}
 }
