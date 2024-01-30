@@ -268,16 +268,15 @@ extension ProductNetworkService {
         }
 
         do {
-            let favoritesResponse: PaginatedProductResponseModel = try await networkClient.request(for: urlRequest)
-            print(favoritesResponse)
+            let productGroupResponse: PaginatedProductResponseModel = try await networkClient.request(for: urlRequest)
             print("Favorites fetched successfully")
-
-            self.productList = favoritesResponse.results
+            self.paginationState = (currentPage: page ?? 1,
+                                    isLastPage: productGroupResponse.next == nil)
+            self.productList = productGroupResponse.results
         } catch let error {
             print("Error fetching favorites: \(error.localizedDescription)")
-
-            if let error = error as? AppError {
-                ErrorHandler.handle(error: error)
+            if let fetchError = error as? AppError {
+                ErrorHandler.handle(error: fetchError)
             } else {
                 ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
             }
