@@ -107,8 +107,6 @@ final class LoginViewController: UIViewController {
                 if isAuthorized {
                     self?.dismiss(animated: true)
                     self?.coordinator?.navigateToMainScreen()
-                } else {
-                    ErrorHandler.handle(error: .authorizationError)
                 }
             }.store(in: &cancellables)
         
@@ -125,7 +123,11 @@ final class LoginViewController: UIViewController {
     }
     
     @objc private func navigateToRecoveryScreen() {
-        coordinator?.navigateToRecoveryStartScreen()
+        if viewModel.checkUserEmail() {
+            coordinator?.navigateToRecoveryStartScreen()
+        } else {
+            ErrorHandler.handle(error: .customError(L10n.RecoveryStart.recoveryError))
+        }
     }
 
     @objc private func loginAction() {

@@ -10,6 +10,7 @@ enum AppError: Error, Equatable {
     case profileError(String)
     case customError(String)
     case authorizationError
+    case registrationError
 }
 
 final class ErrorHandler {
@@ -37,6 +38,8 @@ final class ErrorHandler {
             return message
         case .authorizationError:
             return L10n.Authorization.authorizationError
+        case .registrationError:
+            return L10n.Registration.registrationErrorTitle
         }
     }
 

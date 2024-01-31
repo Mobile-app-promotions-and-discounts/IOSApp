@@ -18,6 +18,23 @@
         }
       }
     },
+    "recoveryError" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Please enter a valid email"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Введите корректный email."
+          }
+        }
+      }
+    },
     "sendCode" : {
       "extractionState" : "manual",
       "localizations" : {

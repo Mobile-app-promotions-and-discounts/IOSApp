@@ -109,13 +109,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Failed to register"
+            "value" : "Registration error. Enter a correct email or a more complex password."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ошибка регистрации"
+            "value" : "Ошибка регистрации. Введите корректный email или более сложный пароль."
           }
         }
       }

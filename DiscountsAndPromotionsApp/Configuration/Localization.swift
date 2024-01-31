@@ -37,6 +37,7 @@ enum L10n {
         static let sendCodeButton = NSLocalizedString("sendCodeButton", tableName: "RecoveryStartFlow" ,comment: "")
         static let sentCode = NSLocalizedString("sentCode", tableName: "RecoveryStartFlow", comment: "")
         static let willSendCode = NSLocalizedString("willSendCode", tableName: "RecoveryStartFlow", comment: "")
+        static let recoveryError = NSLocalizedString("recoveryError", tableName: "RecoveryStartFlow", comment: "")
     }
     enum RecoveryEnd {
         static let title = NSLocalizedString("title", tableName: "RecoveryEndFlow", comment: "")

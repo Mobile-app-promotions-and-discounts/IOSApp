@@ -9,6 +9,7 @@ protocol LoginViewModelProtocol {
     
     func didTapLoginButton()
     func bindingOff()
+    func checkUserEmail() -> Bool
     func changeUserEmail(_ newEmail: String)
     func changePassword(_ newPassword: String)
 }

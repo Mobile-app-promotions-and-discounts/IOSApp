@@ -44,6 +44,10 @@ final class LoginViewModel: LoginViewModelProtocol {
     func bindingOff() {
         cancellables.removeAll()
     }
+    
+    func checkUserEmail() -> Bool {
+        return userEmail.value.contains("@")
+    }
 
     private func checkUserAuthData() {
         let userModel = UserRequestModel(username: userEmail.value,
