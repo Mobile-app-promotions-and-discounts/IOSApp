@@ -7,7 +7,7 @@ final class SplashViewController: UIViewController {
     private let authService: AuthServiceProtocol
     private var isUserAuthorized: CurrentValueSubject<Bool?, Never>
     private var isViewAppear: CurrentValueSubject<Bool, Never>
-    
+
     var validToSubmit: AnyPublisher<Bool?, Never> {
         return Publishers.CombineLatest(isUserAuthorized, isViewAppear)
             .receive(on: DispatchQueue.main)
@@ -16,7 +16,7 @@ final class SplashViewController: UIViewController {
                 return isUserAuthorized && isViewAppear
             } .eraseToAnyPublisher()
     }
-    
+
     private var cancellables = Set<AnyCancellable>()
 
     private let cherryImageView: UIImageView = {
@@ -65,14 +65,14 @@ final class SplashViewController: UIViewController {
         checkUserAuthorization()
         isViewAppear.send(true)
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         bindingOff()
     }
 
     private func checkUserAuthorization() {
-//         MARK: Для тестов с авторизацией
+// MARK: Для тестов с авторизацией
 //         authService.logout()
         authService.verifyToken()
     }
@@ -102,7 +102,7 @@ final class SplashViewController: UIViewController {
             }
             .store(in: &cancellables)
     }
-    
+
     private func bindingOff() {
         cancellables.removeAll()
     }

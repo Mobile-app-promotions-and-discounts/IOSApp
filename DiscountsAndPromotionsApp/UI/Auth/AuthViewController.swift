@@ -2,40 +2,40 @@ import SnapKit
 import UIKit
 
 final class AuthViewController: UIViewController {
-    
+
     var coordinator: AuthCoordinator?
-    
+
     private lazy var cherryiesImageView: UIImageView = {
         let imageView = UIImageView(image: .cherries)
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
         setupConstraints()
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         coordinator?.navigateLoginViewController(from: self)
     }
-    
+
     private func setupView() {
         view.backgroundColor = .cherryLightBlue
     }
-    
+
     private func setupConstraints() {
         view.addSubview(cherryiesImageView)
-        
+
         cherryiesImageView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             $0.leading.equalToSuperview()
             $0.trailing.equalToSuperview()
         }
     }
-    
+
 }
 
 // MARK: - UIViewControllerTransitioningDelegate

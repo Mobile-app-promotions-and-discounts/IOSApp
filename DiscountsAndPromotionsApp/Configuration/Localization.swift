@@ -34,7 +34,7 @@ enum L10n {
         static let time = NSLocalizedString("time", tableName: "RecoveryStartFlow", comment: "")
         static let recoveryButton = NSLocalizedString("recovery", tableName: "RecoveryStartFlow", comment: "")
         static let sendCode = NSLocalizedString("sendCode", tableName: "RecoveryStartFlow", comment: "")
-        static let sendCodeButton = NSLocalizedString("sendCodeButton", tableName: "RecoveryStartFlow" ,comment: "")
+        static let sendCodeButton = NSLocalizedString("sendCodeButton", tableName: "RecoveryStartFlow", comment: "")
         static let sentCode = NSLocalizedString("sentCode", tableName: "RecoveryStartFlow", comment: "")
         static let willSendCode = NSLocalizedString("willSendCode", tableName: "RecoveryStartFlow", comment: "")
         static let recoveryError = NSLocalizedString("recoveryError", tableName: "RecoveryStartFlow", comment: "")

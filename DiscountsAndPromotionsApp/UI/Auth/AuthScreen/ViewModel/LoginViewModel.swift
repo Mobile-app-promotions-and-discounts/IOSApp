@@ -4,20 +4,19 @@ import Combine
 final class LoginViewModel: LoginViewModelProtocol {
 
     private(set) var isUserAuthorizedUpdate: PassthroughSubject<Bool, Never>
-    private(set) var userEmail: CurrentValueSubject<String,Never>
-    private(set) var userPassword: CurrentValueSubject<String,Never>
-    
+    private(set) var userEmail: CurrentValueSubject<String, Never>
+    private(set) var userPassword: CurrentValueSubject<String, Never>
+
     var validToSubmit: AnyPublisher<Bool, Never> {
         return Publishers.CombineLatest(userEmail, userPassword)
             .receive(on: DispatchQueue.main)
-            .map {
-                userName, password in
+            .map { userName, password in
                 return !userName.isEmpty && !password.isEmpty
             } .eraseToAnyPublisher()
     }
-    
+
     private var cancellables: Set<AnyCancellable>
-    
+
     private let authService: AuthServiceProtocol
 
     init() {
@@ -32,19 +31,19 @@ final class LoginViewModel: LoginViewModelProtocol {
     func didTapLoginButton() {
         checkUserAuthData()
     }
-    
+
     func changeUserEmail(_ newEmail: String) {
         userEmail.send(newEmail)
     }
-    
+
     func changePassword(_ newPassword: String) {
         userPassword.send(newPassword)
     }
-    
+
     func bindingOff() {
         cancellables.removeAll()
     }
-    
+
     func checkUserEmail() -> Bool {
         return userEmail.value.contains("@")
     }
@@ -54,7 +53,7 @@ final class LoginViewModel: LoginViewModelProtocol {
                                          password: userPassword.value)
         authService.getToken(for: userModel)
     }
-    
+
     private func bindingOn() {
         authService.isTokenValidUpdate
             .sink { [weak self] isUpdate in
