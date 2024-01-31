@@ -2,12 +2,12 @@ import UIKit
 import SnapKit
 import Combine
 
-class CategoryViewController: ScannerEnabledViewController {
+class ProductListViewController: ScannerEnabledViewController {
     weak var coordinator: SearchEnabledCoordinator?
 
-    private let viewModel: CategoryViewModelProtocol
     private let layoutProvider: CollectionLayoutProvider
-    private let emptyResultView: EmptyOnScreenView
+    private (set) var viewModel: ProductListViewModelProtocol
+    private (set) var emptyResultView: EmptyOnScreenView
 
     private var cancellables = Set<AnyCancellable>()
     private var visibleCancellables = Set<AnyCancellable>()
@@ -18,33 +18,15 @@ class CategoryViewController: ScannerEnabledViewController {
         return progressView
     }()
 
-    private lazy var categoryCollectionView: UICollectionView = {
-        let layout = layoutProvider.createGoodsScreensLayout()
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.showsVerticalScrollIndicator = false
-        collectionView.register(SortsHeaderView.self,
-                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                                withReuseIdentifier: SortsHeaderView.reuseIdentifier)
-        collectionView.register(FooterView.self,
-                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
-                                withReuseIdentifier: FooterView.reuseIdentifier)
-        collectionView.register(ProductCell.self, forCellWithReuseIdentifier: ProductCell.reuseIdentifier)
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        collectionView.backgroundColor = .clear
-        collectionView.contentInset = UIEdgeInsets(top: 20,
-                                                   left: 0,
-                                                   bottom: 0,
-                                                   right: 0)
-        return collectionView
-    }()
+    private (set) var categoryCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
 
-    init(viewModel: CategoryViewModelProtocol,
+    init(viewModel: ProductListViewModelProtocol,
          layoutProvider: CollectionLayoutProvider = CollectionLayoutProvider()) {
         self.emptyResultView = EmptyOnScreenView(state: .noResult)
         self.viewModel = viewModel
         self.layoutProvider = layoutProvider
         super.init(nibName: nil, bundle: nil)
+        setupCollection()
     }
 
     required init?(coder: NSCoder) {
@@ -62,6 +44,7 @@ class CategoryViewController: ScannerEnabledViewController {
         bindUpdates()
         // Временное решение для обновления списка избранного на данном экране.
         categoryCollectionView.reloadData()
+        updateVisibleCells()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -71,6 +54,27 @@ class CategoryViewController: ScannerEnabledViewController {
 
     deinit {
         viewModel.didCloseScreen()
+    }
+
+    private func setupCollection() {
+        let layout = layoutProvider.createGoodsScreensLayout()
+        categoryCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        categoryCollectionView.showsVerticalScrollIndicator = false
+        categoryCollectionView.register(SortsHeaderView.self,
+                                        forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                                        withReuseIdentifier: SortsHeaderView.reuseIdentifier)
+        categoryCollectionView.register(FooterView.self,
+                                        forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
+                                        withReuseIdentifier: FooterView.reuseIdentifier)
+        categoryCollectionView.register(ProductCell.self, forCellWithReuseIdentifier: ProductCell.reuseIdentifier)
+        categoryCollectionView.dataSource = self
+        categoryCollectionView.delegate = self
+        categoryCollectionView.backgroundColor = .clear
+        categoryCollectionView.contentInset = UIEdgeInsets(top: 20,
+                                                           left: 0,
+                                                           bottom: 0,
+                                                           right: 0)
+        categoryCollectionView.keyboardDismissMode = .onDrag
     }
 
     private func setupViews() {
@@ -96,6 +100,7 @@ class CategoryViewController: ScannerEnabledViewController {
             .sink { [weak self] itemCount in
                 guard let self = self else { return }
                 addItems(newCount: itemCount)
+                updateVisibleCells()
                 self.progressView.stopAnimating()
             }
             .store(in: &visibleCancellables)
@@ -139,14 +144,38 @@ class CategoryViewController: ScannerEnabledViewController {
             IndexPath(row: $0, section: section)
         }
         self.categoryCollectionView.performBatchUpdates {
-        self.categoryCollectionView.insertItems(at: newCellPaths)
+            self.categoryCollectionView.insertItems(at: newCellPaths)
         }
+    }
+
+    // MARK: - обновление ячеек когда переходим с другого экрана
+    func updateVisibleCells() {
+        for cell in categoryCollectionView.visibleCells {
+            if let cell = cell as? ProductCell,
+               let indexPath = categoryCollectionView.indexPath(for: cell) {
+                let product = viewModel.getProduct(for: indexPath.row)
+                cell.updateFavoriteStatus(isFavorite: product.isFavorite)
+            }
+        }
+    }
+
+    func refresh() {
+        viewModel.refresh()
+        setupViews()
+    }
+
+    func setEmptyResultsMode(to state: EmptyViewState) {
+        emptyResultView = EmptyOnScreenView(state: state)
+    }
+
+    func additionalCellSetup(for cell: ProductCell) {
+
     }
 }
 
 // MARK: - UICollectionViewDataSource
 
-extension CategoryViewController: UICollectionViewDataSource {
+extension ProductListViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.products.count
     }
@@ -197,13 +226,14 @@ extension CategoryViewController: UICollectionViewDataSource {
 
         let product = viewModel.getProduct(for: indexPath.row)
         cell.configure(with: product)
+        additionalCellSetup(for: cell)
         return cell
     }
 }
 
 // MARK: - UICollectionViewDelegate
 
-extension CategoryViewController: UICollectionViewDelegate {
+extension ProductListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let uiModel = viewModel.getProduct(for: indexPath.row)
         if let product = viewModel.getProductById(uiModel.id) {
@@ -219,7 +249,7 @@ extension CategoryViewController: UICollectionViewDelegate {
 }
 
 // MARK: - Search field delegate
-extension CategoryViewController {
+extension ProductListViewController {
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         coordinator?.navigateToSearchScreen()
     }

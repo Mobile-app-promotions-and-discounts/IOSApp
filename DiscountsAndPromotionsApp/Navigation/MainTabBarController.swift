@@ -2,6 +2,10 @@ import UIKit
 
 final class MainTabBarController: UITabBarController {
 
+    override func viewDidLoad() {
+        delegate = self
+    }
+
     // Настройка вкладок UITabBarController
     func setUpTabBarItems() {
         guard let viewControllers = viewControllers, viewControllers.count >= 3 else {
@@ -61,5 +65,17 @@ final class MainTabBarController: UITabBarController {
 
         tabBar.itemPositioning = .centered
         tabBar.itemSpacing = (tabBarFrame.width - tabBar.itemWidth * 3 - 104) / 2
+    }
+}
+
+extension MainTabBarController: UITabBarControllerDelegate {
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        if tabBarController.selectedIndex == 1 {
+            if  let navController = viewControllers?[1] as? GenericNavigationController,
+                let favoritesVC = navController.viewControllers.first as? FavoritesViewController,
+                let coordinator = favoritesVC.coordinator as? FavoritesScreenCoordinator {
+                coordinator.refresh()
+            }
+        }
     }
 }

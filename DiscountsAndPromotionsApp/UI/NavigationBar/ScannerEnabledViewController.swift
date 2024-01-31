@@ -3,6 +3,14 @@ import UIKit
 class ScannerEnabledViewController: SearchEnabledViewController {
     private var scanButton = UIButton(type: .infoDark)
 
+    func hideScanButton() {
+        scanButton.isHidden = true
+    }
+
+    func showScanButton() {
+        scanButton.isHidden = false
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupScanButton()
@@ -17,6 +25,7 @@ class ScannerEnabledViewController: SearchEnabledViewController {
             make.centerY.equalTo(searchBar.snp.centerY)
             make.trailing.equalTo(searchBar.snp.trailing).offset(-28)
         }
+        showScanButton()
     }
 
     @objc

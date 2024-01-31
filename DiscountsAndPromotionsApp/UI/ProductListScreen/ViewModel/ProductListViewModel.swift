@@ -1,7 +1,7 @@
 import Foundation
 import Combine
 
-final class CategoryViewModel: CategoryViewModelProtocol {
+class ProductListViewModel: ProductListViewModelProtocol {
     private (set) var viewState = CurrentValueSubject<ViewState, Never>(.loading)
     private (set) var productsUpdate = PassthroughSubject<Int, Never>()
     private (set) var products: [Product] = [] {
@@ -11,20 +11,15 @@ final class CategoryViewModel: CategoryViewModelProtocol {
         }
     }
 
-    private let productService: ProductNetworkServiceProtocol
-    private let profileService: ProfileServiceProtocol
-    private let category: Category
-
-    private var currentPage = 0
-    private var isOnLastPage = false
-    private var isFetchingData = false
+    private (set) var productService: ProductNetworkServiceProtocol
+    private (set) var currentPage = 0
+    private (set) var isOnLastPage = false
+    private (set) var isFetchingData = false
 
     private var cancellables = Set<AnyCancellable>()
 
-    init(dataService: ProductNetworkServiceProtocol, profileService: ProfileServiceProtocol, category: Category) {
+    init(dataService: ProductNetworkServiceProtocol) {
         self.productService = dataService
-        self.profileService = profileService
-        self.category = category
         setupBindings()
     }
 
@@ -34,11 +29,18 @@ final class CategoryViewModel: CategoryViewModelProtocol {
     }
 
     func getTitle() -> String {
-        return NSLocalizedString(category.name, tableName: "MainFlow", comment: "")
+        return ""
     }
 
     func getProductById(_ id: Int) -> Product? {
         return products.first { $0.id == id }
+    }
+
+    func refresh() {
+        products = []
+        currentPage = 0
+        isOnLastPage = false
+        loadNextPage()
     }
 
     func likeButtonTapped(for productID: Int) {
@@ -48,20 +50,17 @@ final class CategoryViewModel: CategoryViewModelProtocol {
         }
 
         let product = products[productIndex]
-        if profileService.isFavorite(product) {
-            profileService.removeFavorite(product)
+        if product.isFavorite {
+            productService.removeFromFavorites(productID: product.id)
         } else {
-            profileService.addFavorite(product)
+            productService.addToFavorites(productID: product.id)
         }
     }
 
     func loadNextPage() {
         if !isOnLastPage && !isFetchingData {
             isFetchingData = true
-
-            productService.getProducts(categoryID: category.id + 1,
-                                       searchItem: nil,
-                                       page: currentPage + 1)
+            nextPageAction()
         }
     }
 
@@ -69,7 +68,35 @@ final class CategoryViewModel: CategoryViewModelProtocol {
         productService.cancel()
     }
 
+    func nextPageAction() { }
+
+    func removeProduct(at index: Int) {
+        products.remove(at: index)
+    }
+
+    func updateFavoriteStatus(productID: Int, isFavorite: Bool) {
+        if let index = products.firstIndex(where: { $0.id == productID }) {
+            let product = products[index]
+            let newProduct = Product(id: productID,
+                                     barcode: product.barcode,
+                                     name: product.name,
+                                     description: product.description,
+                                     category: product.category,
+                                     image: product.image,
+                                     rating: product.rating,
+                                     offers: product.offers,
+                                     isFavorite: isFavorite)
+            products[index] = newProduct
+        }
+    }
+
     private func setupBindings() {
+        productService.isFavoriteUpdate
+            .sink { [weak self] productID, isFavorite in
+                self?.updateFavoriteStatus(productID: productID, isFavorite: isFavorite)
+            }
+            .store(in: &cancellables)
+
         productService.productListUpdate
         .sink { [weak self] products in
             let newProducts = products.map { $0.convertToProductModel() }
@@ -84,10 +111,10 @@ final class CategoryViewModel: CategoryViewModelProtocol {
                 self?.isFetchingData = false
             }
             .store(in: &cancellables)
+
     }
 
     private func convertModels(for product: Product) -> ProductCellUIModel {
-        let isFavorite = profileService.isFavorite(product)
-        return ProductCellUIModel(product: product, isFavorite: isFavorite)
+        return ProductCellUIModel(product: product)
     }
 }

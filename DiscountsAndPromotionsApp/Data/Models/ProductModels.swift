@@ -9,6 +9,7 @@ struct Product: Codable, Hashable {
     let image: ProductImage?
     let rating: Double?
     let offers: [Offer] // Предложения от разных магазинов
+    let isFavorite: Bool
 
     init(id: Int = 0,
          barcode: String,
@@ -17,7 +18,8 @@ struct Product: Codable, Hashable {
          category: Category,
          image: ProductImage?,
          rating: Double?,
-         offers: [Offer]) {
+         offers: [Offer],
+         isFavorite: Bool = false) {
         self.id = id
         self.barcode = barcode
         self.name = name
@@ -26,6 +28,7 @@ struct Product: Codable, Hashable {
         self.image = image
         self.rating = rating
         self.offers = offers
+        self.isFavorite = isFavorite
     }
 
     static func == (lhs: Product, rhs: Product) -> Bool {

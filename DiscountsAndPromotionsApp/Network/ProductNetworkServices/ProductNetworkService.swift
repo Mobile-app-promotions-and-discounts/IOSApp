@@ -4,7 +4,7 @@ import Foundation
 protocol ProductNetworkServiceProtocol {
     var productListUpdate: PassthroughSubject<ProductGroupResponseModel, Never> { get }
     var productUpdate: PassthroughSubject<ProductResponseModel, Never> { get }
-    var isFavoriteUpdate: PassthroughSubject<Bool, Never> { get }
+    var isFavoriteUpdate: PassthroughSubject<(Int, Bool), Never> { get }
 
     var reviewListUpdate: PassthroughSubject<ProductReviews, Never> { get }
     var didPostNewReviewUpdate: PassthroughSubject<Bool, Never> { get }
@@ -36,7 +36,7 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
 
     nonisolated let productListUpdate = PassthroughSubject<ProductGroupResponseModel, Never>()
     nonisolated let productUpdate = PassthroughSubject<ProductResponseModel, Never>()
-    nonisolated let isFavoriteUpdate = PassthroughSubject<Bool, Never>()
+    nonisolated let isFavoriteUpdate = PassthroughSubject<(Int, Bool), Never>()
 
     nonisolated let reviewListUpdate = PassthroughSubject<ProductReviews, Never>()
     nonisolated let didPostNewReviewUpdate = PassthroughSubject<Bool, Never>()
@@ -69,7 +69,7 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
             productListUpdate.send(productList)
         }
     }
-    private var isFavorite = false {
+    private var isFavorite = (0, false) {
         didSet {
             isFavoriteUpdate.send(isFavorite)
         }
@@ -110,8 +110,10 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
         self.requestConstructor = requestConstructor
         self.categoryService = categoryService
     }
+}
 
-    // MARK: - Получение продуктов
+// MARK: - Получение продуктов
+extension ProductNetworkService {
     nonisolated func getProducts(categoryID: Int? = nil, searchItem: String? = nil, page: Int? = nil) {
         let mappedCategoryID: Int? = {
             let mappedList = categoryService.categoryListUpdate.value
@@ -240,8 +242,10 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
             }
         }
     }
+}
 
-    // MARK: - работа с избранным
+// MARK: - работа с избранным
+extension ProductNetworkService {
     nonisolated func getFavorites(searchItem: String?, page: Int?) {
         Task { await fetchFavorites(searchItem: searchItem, page: page) }
     }
@@ -264,16 +268,15 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
         }
 
         do {
-            let favoritesResponse: ProductGroupResponseModel = try await networkClient.request(for: urlRequest)
-            print(favoritesResponse)
+            let productGroupResponse: PaginatedProductResponseModel = try await networkClient.request(for: urlRequest)
             print("Favorites fetched successfully")
-
-            self.productList = favoritesResponse.sorted { $0.name < $1.name }
+            self.paginationState = (currentPage: page ?? 1,
+                                    isLastPage: productGroupResponse.next == nil)
+            self.productList = productGroupResponse.results
         } catch let error {
             print("Error fetching favorites: \(error.localizedDescription)")
-
-            if let error = error as? AppError {
-                ErrorHandler.handle(error: error)
+            if let fetchError = error as? AppError {
+                ErrorHandler.handle(error: fetchError)
             } else {
                 ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
             }
@@ -298,7 +301,7 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
             print(favoriteProductResponse)
             print("New favorite product added successfully")
 
-            self.isFavorite = true
+            self.isFavorite = (productID, true)
         } catch let error {
             print("Error adding to favorites: \(error.localizedDescription)")
 
@@ -327,8 +330,7 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
             let favoriteProductResponse: URLResponse = try await networkClient.request(for: urlRequest)
             print(favoriteProductResponse)
             print("Un-favorited product fetched successfully")
-
-            self.isFavorite = false
+            self.isFavorite = (productID, false)
         } catch let error {
             print("Error removing from favorites: \(error.localizedDescription)")
 
@@ -339,8 +341,10 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
             }
         }
     }
+}
 
     // MARK: - работа с отзывами
+extension ProductNetworkService {
     nonisolated func getReviewsForProduct(id productID: Int, page: Int) {
         Task { await fetchReviews(productID: productID, page: page) }
     }
@@ -377,6 +381,7 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
     nonisolated func addNewReviewForProduct(id productID: Int, review: MyProductReview) {
         Task { await postReview(productID: productID, review: review) }
     }
+
     private func postReview(productID: Int, review: MyProductReview) async {
         var newReviewParameters: [String: Any] = [:]
         newReviewParameters.updateValue(review.text, forKey: "text")

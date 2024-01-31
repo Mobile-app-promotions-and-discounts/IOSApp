@@ -3,7 +3,6 @@ import SnapKit
 import Combine
 
 class PriceInfoView: UIView {
-
     var viewModel: PriceInfoViewViewModelProtocol? {
         didSet {
             bindViewModel()
@@ -39,6 +38,12 @@ class PriceInfoView: UIView {
     }
 
     func bindViewModel() {
+        viewModel?.favoritesUpdate
+            .sink { [weak self] _ in
+                self?.updateFavoritesButtonState()
+            }
+            .store(in: &cancellables)
+
         viewModel?.pricePublisher
             .map { "\($0) ₽" }
             .receive(on: DispatchQueue.main)
@@ -58,7 +63,7 @@ class PriceInfoView: UIView {
             .sink { [weak self] _ in
                 self?.viewModel?.addToFavorites.send()
                 self?.viewModel?.toggleFavorite()
-                self?.updateFavoritesButtonState()
+                self?.toFavoritesButton.startLoadingAnimation()
             }
             .store(in: &cancellables)
 
@@ -66,6 +71,7 @@ class PriceInfoView: UIView {
     }
 
     private func updateFavoritesButtonState() {
+        toFavoritesButton.stopLoadingAnimation()
         if let isFavorite = viewModel?.isFavorite {
             toFavoritesButton.isSelected = isFavorite
         }

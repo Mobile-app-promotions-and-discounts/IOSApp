@@ -16,6 +16,23 @@
           }
         }
       }
+    },
+    "Unfavorited" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Removed from favorites"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Больше не в избранном"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"
