@@ -5,7 +5,7 @@ import Kingfisher
 
 final class ProductCell: UICollectionViewCell {
     enum Mode {
-        case regualar
+        case regular
         case favorites
     }
 
@@ -29,7 +29,7 @@ final class ProductCell: UICollectionViewCell {
     }
 
     private var productID: Int?
-    private var mode: Mode = .regualar
+    private var mode: Mode = .regular
 
     override init(frame: CGRect) {
         super.init(frame: frame)
