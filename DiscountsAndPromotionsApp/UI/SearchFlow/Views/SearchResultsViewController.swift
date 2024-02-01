@@ -1,7 +1,7 @@
 import Combine
 import UIKit
 
-final class SearchResultsViewController: CategoryViewController {
+final class SearchResultsViewController: ProductListViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigation()

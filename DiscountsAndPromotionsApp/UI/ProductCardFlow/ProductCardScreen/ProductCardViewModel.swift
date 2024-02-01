@@ -20,21 +20,19 @@ final class ProductCardViewModel {
     private let ratingViewModel: RatingViewViewModelProtocol
     private let reviewViewViewModel: ProductReviewViewModelProtocol
     private let priceInfoViewModel: PriceInfoViewViewModelProtocol
-    private let profileService: ProfileServiceProtocol
     private let productService: ProductNetworkServiceProtocol
 
     private var cancellables = Set<AnyCancellable>()
 
     init(product: Product,
-         productService: ProductNetworkServiceProtocol,
-         mockProfileService: ProfileServiceProtocol) {
+         productService: ProductNetworkServiceProtocol) {
         self.product = product
-
+        print(product)
+        print("IS FAVORITE" + "\(product.id) is \(product.isFavorite)")
         self.productService = productService
-        self.profileService = mockProfileService
         self.ratingViewModel = RatingViewViewModel(rating: product.rating ?? 0.0)
         self.reviewViewViewModel = ProductReviewViewModel(productName: product.name)
-        self.priceInfoViewModel = PriceInfoViewViewModel(profileService: profileService, product: product)
+        self.priceInfoViewModel = PriceInfoViewViewModel(product: product, productService: productService)
 
         setupBindings()
         productService.getReviewsForProduct(id: product.id, page: 1)
@@ -161,8 +159,9 @@ final class ProductCardViewModel {
               let offer = product?.offers[indexPath.row] else {
             return UITableViewCell()
         }
+        let offerUI = OfferUIModel(offer: offer)
         cell.selectionStyle = .none
-        cell.configure(with: offer)
+        cell.configure(with: offerUI)
         return cell
     }
 

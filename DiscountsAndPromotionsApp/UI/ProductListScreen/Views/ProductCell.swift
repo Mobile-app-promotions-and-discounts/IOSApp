@@ -4,14 +4,32 @@ import Combine
 import Kingfisher
 
 final class ProductCell: UICollectionViewCell {
+    enum Mode {
+        case regular
+        case favorites
+    }
+
     static let reuseIdentifier = "ProductCell"
 
     var cancellable: AnyCancellable?
 
     // PassthroughSubject для события нажатия кнопки
     private (set) var likeButtonTappedPublisher = PassthroughSubject<Int, Never>()
+    private (set) var isProcessingFavorite = false {
+        didSet {
+            isProcessingFavorite ? likeButton.startLoadingAnimation() : likeButton.stopLoadingAnimation()
+        }
+    }
+    private (set) var isInactive = false {
+        didSet {
+            inactiveOverlay.alpha = isInactive ? 0.8 : 0.0
+            priceLabel.isHidden = isInactive
+            inactiveLabel.isHidden = !isInactive
+        }
+    }
 
     private var productID: Int?
+    private var mode: Mode = .regular
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -64,6 +82,26 @@ final class ProductCell: UICollectionViewCell {
         return label
     }()
 
+    private lazy var inactiveOverlay = {
+        let view = UIView()
+        view.backgroundColor = .cherryLightBlue
+        view.alpha = 0
+        view.layer.cornerRadius = CornerRadius.regular.cgFloat()
+        return view
+    }()
+
+    private lazy var inactiveLabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.font = CherryFonts.headerSmall
+        label.textColor = UIColor.cherryMainAccent
+        label.textAlignment = .left
+        label.text = NSLocalizedString("Unfavorited", tableName: "FavoritesFlow", comment: "")
+        label.isHidden = true
+        label.adjustsFontSizeToFitWidth = true
+        return label
+    }()
+
     private lazy var likeButton: UIButton = {
         let button = UIButton(type: .custom)
         button.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)
@@ -74,9 +112,30 @@ final class ProductCell: UICollectionViewCell {
         super.prepareForReuse()
         productImageView.image = nil
         cancellable?.cancel()
+        isInactive = false
     }
 
     // MARK: - Public methods
+
+    func makeInactive() {
+        isInactive = true
+    }
+
+    func makeActive() {
+        isInactive = false
+    }
+
+    func setMode(to mode: Mode) {
+        self.mode = mode
+    }
+
+    func updateFavoriteStatus(isFavorite: Bool) {
+        self.likeButton.setImage(isFavorite ? UIImage.icHeartFill : UIImage.icHeart, for: .normal)
+        if mode == .favorites {
+            isInactive = !isFavorite
+        }
+        isProcessingFavorite = false
+    }
 
     func configure(with model: ProductCellUIModel) {
         self.productID = model.id
@@ -98,9 +157,7 @@ final class ProductCell: UICollectionViewCell {
 
     @objc
     private func likeButtonTapped() {
-        // Переключение изображения кнопки "лайк"
-        let isFavoriteNow = likeButton.currentImage == UIImage.icHeart
-        likeButton.setImage(isFavoriteNow ? UIImage.icHeartFill : UIImage.icHeart, for: .normal)
+        isProcessingFavorite = true
 
         if let productID {
             likeButtonTappedPublisher.send(productID)
@@ -109,13 +166,15 @@ final class ProductCell: UICollectionViewCell {
 
     private func setupViews() {
         contentView.backgroundColor = .cherryLightBlue
-        contentView.layer.cornerRadius = 10
+        contentView.layer.cornerRadius = CornerRadius.regular.cgFloat()
 
         [productImageView,
          discountBGView,
          discountLabel,
          nameLabel,
          priceLabel,
+         inactiveOverlay,
+         inactiveLabel,
          likeButton].forEach { contentView.addSubview($0) }
 
         productImageView.snp.makeConstraints { make in
@@ -138,10 +197,20 @@ final class ProductCell: UICollectionViewCell {
             make.leading.trailing.equalTo(productImageView)
         }
 
+        inactiveOverlay.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+
         likeButton.snp.makeConstraints { make in
             make.trailing.bottom.equalToSuperview().inset(8)
             make.width.height.equalTo(24)
             make.top.equalTo(nameLabel.snp.bottom).inset(-4)
+        }
+
+        inactiveLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(8)
+            make.height.centerY.equalTo(likeButton)
+            make.trailing.equalTo(likeButton.snp.leading).offset(-4)
         }
 
         priceLabel.snp.makeConstraints { make in

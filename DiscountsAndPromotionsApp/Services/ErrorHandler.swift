@@ -13,6 +13,10 @@ enum AppError: Error, Equatable {
     case registrationError
 }
 
+struct CancellationError: Error {
+
+}
+
 final class ErrorHandler {
     static func handle(error: AppError) {
         print("Ошибка: \(error)")

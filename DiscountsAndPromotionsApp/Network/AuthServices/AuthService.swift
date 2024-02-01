@@ -14,6 +14,8 @@ protocol AuthServiceProtocol {
 actor AuthService: AuthServiceProtocol {
     nonisolated private let networkClient: NetworkClientProtocol
     nonisolated private let requestConstructor: NetworkRequestConstructorProtocol
+
+    private let userDefaults = UserDefaults.standard
     private let tokenStorage: AuthTokenStorage
 
     nonisolated let isTokenValidUpdate = PassthroughSubject<Bool, Never>()
@@ -72,7 +74,10 @@ actor AuthService: AuthServiceProtocol {
 
     // MARK: - Проверить, что токен действителен
     nonisolated func verifyToken() {
-        Task { await requestVerification() }
+        Task {
+            if !userDefaults.bool(forKey: "isTokenSaved") { await clearStoredTokens() }
+            await requestVerification()
+        }
     }
 
     private func requestVerification() async {

@@ -5,6 +5,7 @@ final class AuthTokenStorage {
     static let shared = AuthTokenStorage()
 
     private let wrapper = KeychainWrapper.standard
+    private let userDefaults = UserDefaults.standard
 
     private enum Keys: String {
         case refreshToken
@@ -18,6 +19,7 @@ final class AuthTokenStorage {
         set {
             guard let newToken = newValue else { return }
             let isSuccess = wrapper.set(newToken, forKey: Keys.accessToken.rawValue)
+            userDefaults.set(true, forKey: "isTokenSaved")
 
             if !isSuccess {
                 ErrorHandler.handle(error: .customError("Access token saving error"))
@@ -32,6 +34,7 @@ final class AuthTokenStorage {
         set {
             guard let newToken = newValue else { return }
             let isSuccess = wrapper.set(newToken, forKey: Keys.refreshToken.rawValue)
+            userDefaults.set(true, forKey: "isTokenSaved")
 
             if !isSuccess {
                 ErrorHandler.handle(error: .customError("Refresh token saving error"))
@@ -44,5 +47,6 @@ final class AuthTokenStorage {
     func clearTokenStorage() {
         wrapper.remove(forKey: KeychainWrapper.Key(rawValue: Keys.accessToken.rawValue))
         wrapper.remove(forKey: KeychainWrapper.Key(rawValue: Keys.refreshToken.rawValue))
+        userDefaults.set(false, forKey: "isTokenSaved")
     }
 }

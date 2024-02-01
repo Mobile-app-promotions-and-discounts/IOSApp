@@ -51,12 +51,11 @@ final class ScanFlowViewModel: ScanFlowViewModelProtocol {
         cancellable = productService.productListUpdate
             .sink { [weak self] products in
                 guard let self else { return }
-
                 if let foundProduct = products.first {
                     let product = foundProduct.convertToProductModel()
-                    coordinator.showProduct(product)
+                    Task { await self.coordinator.showProduct(product) }
                 } else {
-                    self.coordinator.navigateToEmptyResultScreen()
+                    Task { await self.coordinator.navigateToEmptyResultScreen() }
                 }
             }
     }

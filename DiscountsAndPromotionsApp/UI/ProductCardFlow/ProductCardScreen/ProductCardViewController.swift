@@ -3,7 +3,7 @@ import SnapKit
 import Combine
 
 final class ProductCardViewController: UIViewController {
-    weak var coordinator: Coordinator?
+    weak var coordinator: ProductCardEnabledCoordinatorProtocol?
 
     private var originalNavBarAppearance: UINavigationBarAppearance?
 
@@ -353,14 +353,24 @@ extension ProductCardViewController {
 
 }
 
+// MARK: table view
+
 extension ProductCardViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         viewModel.numberOfRowsInSection(section)
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        viewModel.cellForRowAt(tableView, indexPath: indexPath)
-        // Здесь конфигурируем ячейку с данными о магазине
+        guard let cell = viewModel.cellForRowAt(tableView, indexPath: indexPath) as? OfferTableViewCell else { return UITableViewCell() }
+
+        cell.websitePublisher
+            .receive(on: RunLoop.main)
+            .sink { [weak self] storeURL in
+                self?.coordinator?.openURL(urlString: storeURL)
+            }
+            .store(in: &cell.cancellables)
+
+        return cell
     }
 }
 

@@ -6,7 +6,7 @@ protocol SearchViewModelProtocol {
     var categories: [Category] { get }
 }
 
-final class SearchViewModel: SearchViewModelProtocol {
+class SearchViewModel: SearchViewModelProtocol {
     private (set) var categoriesUpdate = PassthroughSubject<[Category], Never>()
 
     private var dataService: DataServiceProtocol

@@ -13,9 +13,4 @@ extension Coordinator {
         navigationController.popViewController(animated: true)
         navigationController.navigationBar.isHidden = true
     }
-
-    func navigateToReviewsScreen(viewModel: ProductCardViewModel) {
-        let reviewsVC = ReviewsViewController(viewModel: viewModel)
-        navigationController.pushViewController(reviewsVC, animated: true)
-    }
 }

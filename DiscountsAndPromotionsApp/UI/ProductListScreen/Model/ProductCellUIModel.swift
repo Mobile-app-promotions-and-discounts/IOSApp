@@ -9,11 +9,11 @@ struct ProductCellUIModel {
     var isFavorite: Bool
 
     // Инициализатор для преобразования Product в UI модель для отображения
-    init(product: Product, isFavorite: Bool) {
+    init(product: Product) {
         self.id = product.id
         self.image = product.image?.mainImage
         self.name = product.name
-        self.isFavorite = isFavorite
+        self.isFavorite = product.isFavorite
 
         // Форматирование диапазона цен
         if let lowerPrice = product.findMinMaxOffers().minOffer?.price,
