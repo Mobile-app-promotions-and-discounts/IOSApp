@@ -17,8 +17,9 @@ final class RecoveryStartViewController: AuthParentViewController {
         return label
     }()
 
+    private var textFields = [UITextField]()
+
     private lazy var textFeildsHStack: UIStackView = {
-        var textFields = [UITextField]()
         for dataTextField in viewModel.dataTextFields {
             let textField = createTextField(tag: dataTextField.id, delegate: self)
             textFields.append(textField)
@@ -27,6 +28,7 @@ final class RecoveryStartViewController: AuthParentViewController {
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
         stackView.spacing = Const.TextFieldStack.spacing
+        textFields.first?.becomeFirstResponder()
         return stackView
     }()
 
@@ -150,7 +152,7 @@ final class RecoveryStartViewController: AuthParentViewController {
         textField.textColor = .cherryBlack
         textField.keyboardType = .numberPad
         textField.backgroundColor = .cherryLightBlue
-        textField.addTarget(self, action: #selector(changeTextField(_:)), for: .editingChanged)
+        textField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         return textField
     }
 
@@ -171,10 +173,20 @@ final class RecoveryStartViewController: AuthParentViewController {
         coordinator?.popToNavigate()
     }
 
-    @objc private func changeTextField(_ textField: UITextField) {
-        let tag = textField.tag
-        let text = textField.text ?? ""
-        viewModel.changeTextField(id: tag, text: text)
+    @objc private func textFieldDidChange(_ textField: UITextField) {
+        let currentIndex = textField.tag
+        let changedText = textField.text ?? ""
+
+        viewModel.changeTextField(id: currentIndex, text: changedText)
+
+        if currentIndex < textFields.count - 1,
+           !changedText.isEmpty {
+            let nextTextField = textFields[currentIndex + 1]
+            nextTextField.becomeFirstResponder()
+        } else {
+            textField.resignFirstResponder()
+        }
+
     }
 
     @objc private func sendAgainAction() {
@@ -269,6 +281,14 @@ final class RecoveryStartViewController: AuthParentViewController {
 extension RecoveryStartViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
+    }
+
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        if textField.text?.isEmpty == false {
+            textField.text = ""
+            viewModel.changeTextField(id: textField.tag, text: "")
+        }
+        return true
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
