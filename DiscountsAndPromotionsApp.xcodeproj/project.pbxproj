@@ -324,7 +324,7 @@
 		BCDFDFA02B486BCC00FB9C61 /* ProductReviewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductReviewModels.swift; sourceTree = "<group>"; };
 		BE007AF62B399D9600BCFDCF /* EmptyOnScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyOnScreenView.swift; sourceTree = "<group>"; };
 		BE2774BB2B0FD0890000C8C2 /* MainFlow.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = MainFlow.xcstrings; sourceTree = "<group>"; };
-		BE35244A2B02ABA200746581 /* DiscountsAndPromotionsApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DiscountsAndPromotionsApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BE35244A2B02ABA200746581 /* Cherry App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cherry App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE35244D2B02ABA200746581 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BE35244F2B02ABA200746581 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		BE3524562B02ABA300746581 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -899,7 +899,7 @@
 		BE35244B2B02ABA200746581 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				BE35244A2B02ABA200746581 /* DiscountsAndPromotionsApp.app */,
+				BE35244A2B02ABA200746581 /* Cherry App.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1158,7 +1158,7 @@
 				BC97CDE92B3DF2BE00310AD8 /* Kingfisher */,
 			);
 			productName = DiscountsAndPromotionsApp;
-			productReference = BE35244A2B02ABA200746581 /* DiscountsAndPromotionsApp.app */;
+			productReference = BE35244A2B02ABA200746581 /* Cherry App.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -1553,7 +1553,7 @@
 				CODE_SIGN_ENTITLEMENTS = DiscountsAndPromotionsApp/Configuration/DiscountsAndPromotionsApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = Y27NXSCDUZ;
+				DEVELOPMENT_TEAM = 3YZWNV863X;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DiscountsAndPromotionsApp/Configuration/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Cherry;
@@ -1569,8 +1569,8 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = aleksandr.kudryashov.cherryApp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = pavel.afanasiev.cherryApp;
+				PRODUCT_NAME = "Cherry App";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -1588,7 +1588,7 @@
 				CODE_SIGN_ENTITLEMENTS = DiscountsAndPromotionsApp/Configuration/DiscountsAndPromotionsApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = Y27NXSCDUZ;
+				DEVELOPMENT_TEAM = 3YZWNV863X;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DiscountsAndPromotionsApp/Configuration/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Cherry;
@@ -1604,8 +1604,8 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = aleksandr.kudryashov.cherryApp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = pavel.afanasiev.cherryApp;
+				PRODUCT_NAME = "Cherry App";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
