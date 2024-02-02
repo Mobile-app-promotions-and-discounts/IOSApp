@@ -14,7 +14,7 @@ final class AuthCoordinator: Coordinator {
 
         self.authService = authService
         self.userNetworkService = userNetworkService
-        self.navigationController.navigationBar.isHidden = true
+        setupNavigationController()
     }
 
     func start() { }
@@ -39,7 +39,6 @@ final class AuthCoordinator: Coordinator {
     func navigateToSuccessScreen() {
         let sucessViewController = SuccessRegistrationViewController()
         sucessViewController.coordinator = self
-        sucessViewController.modalPresentationStyle = .custom
         navigationController.pushViewController(sucessViewController, animated: true)
     }
 
@@ -67,6 +66,12 @@ final class AuthCoordinator: Coordinator {
 
     func navigateToMainScreen() {
         mainCoordinator?.navigateToMainScreen()
+    }
+
+    private func setupNavigationController() {
+        navigationController.navigationBar.isHidden = true
+        navigationController.view.layer.cornerRadius =  12
+        navigationController.view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
     }
 
 }

@@ -2,30 +2,10 @@ import Combine
 import SnapKit
 import UIKit
 
-final class RecoveryStartViewController: UIViewController {
+final class RecoveryStartViewController: AuthParentViewController {
 
-    weak var coordinator: AuthCoordinator?
     private let viewModel: RecoveryStartViewModelProtocol
     private var cancellables: Set<AnyCancellable>
-
-    private lazy var recoveryLabel: UILabel = {
-        let label = UILabel()
-        label.text = L10n.RecoveryStart.title
-        label.numberOfLines = 2
-        label.textAlignment = .center
-        label.font = CherryFonts.titleExtraLarge
-        label.textColor = .cherryBlack
-        return label
-    }()
-
-    private lazy var backButton: UIButton = {
-        let button = UIButton()
-        let image = UIImage(named: "ic_back") ?? UIImage()
-        button.setImage(image, for: .normal)
-        button.tintColor = .cherryBlack
-        button.addTarget(self, action: #selector(backAction), for: .touchUpInside)
-        return button
-    }()
 
     private lazy var sentLabel: UILabel = {
         let label = UILabel()
@@ -111,7 +91,8 @@ final class RecoveryStartViewController: UIViewController {
     init(viewModel: RecoveryStartViewModelProtocol) {
         self.viewModel = viewModel
         self.cancellables = Set<AnyCancellable>()
-        super .init(nibName: nil, bundle: nil)
+        super .init(title: L10n.RecoveryStart.title,
+                    isAddBackButton: true)
     }
 
     required init?(coder: NSCoder) {
@@ -120,7 +101,7 @@ final class RecoveryStartViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupView()
+        backButtonAction()
         setupConstraints()
     }
 
@@ -173,12 +154,6 @@ final class RecoveryStartViewController: UIViewController {
         return textField
     }
 
-    private func setupView() {
-        view.backgroundColor = .cherryWhite
-        view.layer.cornerRadius = Const.View.cornerRadius
-        view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-    }
-
     private func setTime(_ time: Int) {
         timerLabel.text = String(time) + " " + L10n.RecoveryStart.time
     }
@@ -186,6 +161,10 @@ final class RecoveryStartViewController: UIViewController {
     private func isTimerEnded(_ isEnded: Bool) {
         timerHStack.isHidden = isEnded
         sendAgainButton.isHidden = !isEnded
+    }
+
+    private func backButtonAction() {
+        backButton.addTarget(self, action: #selector(backAction), for: .touchUpInside)
     }
 
     @objc private func backAction() {
@@ -207,40 +186,19 @@ final class RecoveryStartViewController: UIViewController {
     }
 
     private func setupConstraints() {
-        [recoveryLabel,
-         backButton,
-         sentLabel,
+        [sentLabel,
          textFeildsHStack,
          timerHStack,
          sendAgainButton,
          willSendLabel,
          recoveryButton].forEach { view.addSubview($0) }
 
-        recoveryLabel.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.top.equalToSuperview()
-                .offset(Const.RecoveryLabel.topOffset)
-            $0.leading.equalToSuperview()
-                .offset(Const.RecoveryLabel.leadingOffset)
-            $0.trailing.equalToSuperview()
-                .offset(Const.RecoveryLabel.trailingOffset)
-        }
-
-        backButton.snp.makeConstraints {
-            $0.top.equalToSuperview()
-                .offset(Const.BackButton.topOffset)
-            $0.leading.equalToSuperview()
-                .offset(Const.BackButton.leadingOffset)
-        }
-
         sentLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalTo(recoveryLabel.snp.bottom)
+            $0.top.equalToSuperview()
                 .offset(Const.SentLabel.topOffset)
-            $0.leading.equalToSuperview()
-                .offset(Const.SentLabel.leadingOffset)
-            $0.trailing.equalToSuperview()
-                .offset(Const.SentLabel.trailingOffset)
+            $0.leading.trailing.equalToSuperview()
+                .inset(Const.SentLabel.horizontalInset)
         }
 
         textFeildsHStack.snp.makeConstraints {
@@ -248,10 +206,8 @@ final class RecoveryStartViewController: UIViewController {
             $0.height.equalTo(Const.TextFieldStack.height)
             $0.top.equalTo(sentLabel.snp.bottom)
                 .offset(Const.TextFieldStack.topOffset)
-            $0.leading.equalToSuperview()
-                .offset(Const.TextFieldStack.leadingOffset)
-            $0.trailing.equalToSuperview()
-                .offset(Const.TextFieldStack.trailingOffset)
+            $0.leading.trailing.equalToSuperview()
+                .inset(Const.TextFieldStack.horizontalInset)
         }
 
         timerHStack.snp.makeConstraints {
@@ -268,48 +224,30 @@ final class RecoveryStartViewController: UIViewController {
             $0.centerX.equalToSuperview()
             $0.bottom.equalTo(recoveryButton.snp.top)
                 .offset(Const.WillSendLabel.bottomOffset)
-            $0.leading.equalToSuperview()
-                .offset(Const.WillSendLabel.leadingOffset)
-            $0.trailing.equalToSuperview()
-                .offset(Const.WillSendLabel.trailingOffset)
+            $0.leading.trailing.equalToSuperview()
+                .inset(Const.WillSendLabel.horizontalInset)
         }
 
         recoveryButton.snp.makeConstraints {
             $0.height.equalTo(Const.RecoveryButton.height)
             $0.bottom.equalToSuperview()
-                .offset(Const.RecoveryButton.bottomOffset)
-            $0.leading.equalToSuperview()
-                .offset(Const.RecoveryButton.leadingOffset)
-            $0.trailing.equalToSuperview()
-                .offset(Const.RecoveryButton.trailingOffset)
+                .inset(Const.RecoveryButton.bottomInset)
+            $0.leading.trailing.equalToSuperview()
+                .inset(Const.RecoveryButton.horizontalInset)
         }
 
     }
 
     private enum Const {
-        enum View {
-            static let cornerRadius: CGFloat = 12
-        }
-        enum RecoveryLabel {
-            static let topOffset: CGFloat = 32
-            static let leadingOffset: CGFloat = 65
-            static let trailingOffset: CGFloat = -65
-        }
-        enum BackButton {
-            static let topOffset: CGFloat = 35
-            static let leadingOffset: CGFloat = 16
-        }
         enum SentLabel {
-            static let topOffset: CGFloat = 28
-            static let leadingOffset: CGFloat = 16
-            static let trailingOffset: CGFloat = -16
+            static let topOffset: CGFloat = 120
+            static let horizontalInset: CGFloat = 16
         }
         enum TextFieldStack {
             static let spacing: CGFloat = 8
             static let height: CGFloat = 63
             static let topOffset: CGFloat = 12
-            static let leadingOffset: CGFloat = 60
-            static let trailingOffset: CGFloat = -60
+            static let horizontalInset: CGFloat = 60
         }
         enum SendHStack {
             static let spacing: CGFloat = 8
@@ -317,14 +255,12 @@ final class RecoveryStartViewController: UIViewController {
         }
         enum WillSendLabel {
             static let bottomOffset: CGFloat = -12
-            static let leadingOffset: CGFloat = 16
-            static let trailingOffset: CGFloat = -16
+            static let horizontalInset: CGFloat = 16
         }
         enum RecoveryButton {
             static let height: CGFloat = 51
-            static let bottomOffset: CGFloat = -24
-            static let leadingOffset: CGFloat = 16
-            static let trailingOffset: CGFloat = -16
+            static let bottomInset: CGFloat = 24
+            static let horizontalInset: CGFloat = 16
         }
     }
 

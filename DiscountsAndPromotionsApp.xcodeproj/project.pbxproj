@@ -15,6 +15,8 @@
 		7F2137DC2B500393006B680C /* LocationFlow.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7F2137DB2B500393006B680C /* LocationFlow.xcstrings */; };
 		7F2137DE2B516E65006B680C /* AuthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F2137DD2B516E65006B680C /* AuthCoordinator.swift */; };
 		7F2137E02B517265006B680C /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F2137DF2B517265006B680C /* AuthViewController.swift */; };
+		7FA46CE12B6CF03300820A39 /* UIKit_ext..swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA46CE02B6CF03300820A39 /* UIKit_ext..swift */; };
+		7FA46CE52B6D055100820A39 /* AuthParentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA46CE42B6D055100820A39 /* AuthParentViewController.swift */; };
 		7FCB3D2F2B56A0DB00EC20E7 /* UserShotResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCB3D2E2B56A0DB00EC20E7 /* UserShotResponseModel.swift */; };
 		7FCB3D942B6038A100EC20E7 /* RecoveryStartFlow.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7FCB3D932B6038A100EC20E7 /* RecoveryStartFlow.xcstrings */; };
 		7FCB3D962B603C1500EC20E7 /* RecoveryEndFlow.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7FCB3D952B603C1500EC20E7 /* RecoveryEndFlow.xcstrings */; };
@@ -209,6 +211,8 @@
 		7F2137DB2B500393006B680C /* LocationFlow.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = LocationFlow.xcstrings; sourceTree = "<group>"; };
 		7F2137DD2B516E65006B680C /* AuthCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCoordinator.swift; sourceTree = "<group>"; };
 		7F2137DF2B517265006B680C /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
+		7FA46CE02B6CF03300820A39 /* UIKit_ext..swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKit_ext..swift; sourceTree = "<group>"; };
+		7FA46CE42B6D055100820A39 /* AuthParentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthParentViewController.swift; sourceTree = "<group>"; };
 		7FCB3D2E2B56A0DB00EC20E7 /* UserShotResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserShotResponseModel.swift; sourceTree = "<group>"; };
 		7FCB3D932B6038A100EC20E7 /* RecoveryStartFlow.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = RecoveryStartFlow.xcstrings; sourceTree = "<group>"; };
 		7FCB3D952B603C1500EC20E7 /* RecoveryEndFlow.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = RecoveryEndFlow.xcstrings; sourceTree = "<group>"; };
@@ -399,6 +403,7 @@
 			isa = PBXGroup;
 			children = (
 				7F2137DF2B517265006B680C /* AuthViewController.swift */,
+				7FA46CE42B6D055100820A39 /* AuthParentViewController.swift */,
 				92787F7C2B2199840045B678 /* InputUserDataField.swift */,
 				92787F772B1FBC300045B678 /* AuthScreen */,
 				7F2137CD2B4E8D33006B680C /* Registration */,
@@ -1049,6 +1054,7 @@
 				BC6046222B1E4BC600536EB3 /* TextField.swift */,
 				BC0723112B1A4E5300EF82B8 /* Gradients.swift */,
 				BE007AF62B399D9600BCFDCF /* EmptyOnScreenView.swift */,
+				7FA46CE02B6CF03300820A39 /* UIKit_ext..swift */,
 				BCAA6D052B4F13CB007C6FB4 /* StarsRatingView */,
 			);
 			path = DesignSystem;
@@ -1323,6 +1329,7 @@
 				BCAC6B8F2B22726F00AD5C96 /* ProductNetworkService.swift in Sources */,
 				BEBA91712B0AA7F800C2DE96 /* MainScreenCoordinator.swift in Sources */,
 				BCCF500A2B1B4AF10067A552 /* ScanViewModel.swift in Sources */,
+				7FA46CE52B6D055100820A39 /* AuthParentViewController.swift in Sources */,
 				BE70C2272B1E5912004FD1E9 /* AllStoresViewModel.swift in Sources */,
 				BCAC6B782B223C4100AD5C96 /* NetworkClientProtocol.swift in Sources */,
 				BCCF50132B1B4AF10067A552 /* ScannerEnabledViewController.swift in Sources */,
@@ -1424,6 +1431,7 @@
 				BC4469082B6813EF00F618F0 /* OfferUIModel.swift in Sources */,
 				BE8E70B42B0E74F600BEAA5A /* ProfileScreenCoordinator.swift in Sources */,
 				BCAA6CFE2B4EFE42007C6FB4 /* CherryCustomViewController.swift in Sources */,
+				7FA46CE12B6CF03300820A39 /* UIKit_ext..swift in Sources */,
 				92787FA82B21EEE00045B678 /* LoginViewModelProtocol.swift in Sources */,
 				BCCF50212B1B4AF10067A552 /* RatingView.swift in Sources */,
 				D02E38722B25DB4500B3D27E /* ChooseRegionViewController.swift in Sources */,

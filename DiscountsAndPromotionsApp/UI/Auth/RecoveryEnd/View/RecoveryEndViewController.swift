@@ -1,30 +1,10 @@
 import Combine
 import UIKit
 
-class RecoveryEndViewController: UIViewController {
+class RecoveryEndViewController: AuthParentViewController {
 
-    weak var coordinator: AuthCoordinator?
     private let viewModel: RecoveryEndViewModelProtocol
     private var cancellables: Set<AnyCancellable>
-
-    private lazy var recoveryLabel: UILabel = {
-        let label = UILabel()
-        label.text = L10n.RecoveryEnd.title
-        label.numberOfLines = 2
-        label.textAlignment = .center
-        label.font = CherryFonts.titleExtraLarge
-        label.textColor = .cherryBlack
-        return label
-    }()
-
-    private lazy var backButton: UIButton = {
-        let button = UIButton()
-        let image = UIImage(named: "ic_back") ?? UIImage()
-        button.setImage(image, for: .normal)
-        button.tintColor = .cherryBlack
-        button.addTarget(self, action: #selector(backAction), for: .touchUpInside)
-        return button
-    }()
 
     private lazy var inputPasswordField: InputUserDataField = {
         let field = InputUserDataField(textFieldDelegate: self)
@@ -45,7 +25,8 @@ class RecoveryEndViewController: UIViewController {
     init(viewModel: RecoveryEndViewModelProtocol) {
         self.viewModel = viewModel
         self.cancellables = Set<AnyCancellable>()
-        super.init(nibName: nil, bundle: nil)
+        super.init(title: L10n.RecoveryEnd.title,
+                   isAddBackButton: true)
     }
 
     required init?(coder: NSCoder) {
@@ -54,7 +35,7 @@ class RecoveryEndViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupView()
+        backButtonAction()
         setupConstraints()
     }
 
@@ -92,40 +73,19 @@ class RecoveryEndViewController: UIViewController {
         // TODO: -
     }
 
-    private func setupView() {
-        view.backgroundColor = .cherryWhite
-        view.layer.cornerRadius = Const.View.cornerRadius
-        view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+    private func backButtonAction() {
+        backButton.addTarget(self, action: #selector(backAction), for: .touchUpInside)
     }
 
     private func setupConstraints() {
-        [recoveryLabel,
-         backButton,
-         inputPasswordField,
+        [inputPasswordField,
          signButton].forEach { view.addSubview($0) }
 
-        recoveryLabel.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.top.equalToSuperview()
-                .offset(Const.RecoveryLabel.topOffset)
-            $0.leading.equalToSuperview()
-                .offset(Const.RecoveryLabel.leadingOffset)
-            $0.trailing.equalToSuperview()
-                .offset(Const.RecoveryLabel.trailingOffset)
-        }
-
-        backButton.snp.makeConstraints {
-            $0.top.equalToSuperview()
-                .offset(Const.BackButton.topOffset)
-            $0.leading.equalToSuperview()
-                .offset(Const.BackButton.leadingOffset)
-        }
-
         inputPasswordField.snp.makeConstraints {
-            $0.top.equalTo(recoveryLabel.snp.bottom)
+            $0.top.equalToSuperview()
                 .offset(Const.TextField.topOffset)
             $0.leading.trailing.equalToSuperview()
-                .inset(Const.TextField.leadingInset)
+                .inset(Const.TextField.horizontalInset)
             $0.height.equalTo(Const.TextField.height)
         }
 
@@ -133,39 +93,23 @@ class RecoveryEndViewController: UIViewController {
             $0.bottom.equalToSuperview()
                 .offset(Const.SignButton.bottomOffset)
             $0.height.equalTo(Const.SignButton.height)
-            $0.leading.equalToSuperview()
-                .offset(Const.SignButton.leadingOffset)
-            $0.trailing.equalToSuperview()
-                .offset(Const.SignButton.trailingOffset)
+            $0.leading.trailing.equalToSuperview()
+                .inset(Const.SignButton.horizontalInset)
         }
 
     }
 
     private enum Const {
-        enum View {
-            static let cornerRadius: CGFloat = 12
-        }
-        enum RecoveryLabel {
-            static let topOffset: CGFloat = 32
-            static let leadingOffset: CGFloat = 65
-            static let trailingOffset: CGFloat = -65
-        }
-        enum BackButton {
-            static let topOffset: CGFloat = 35
-            static let leadingOffset: CGFloat = 16
-        }
         enum TextField {
-            static let topOffset: CGFloat = 20
-            static let leadingInset: CGFloat = 16
+            static let topOffset: CGFloat = 112
+            static let horizontalInset: CGFloat = 16
             static let height: CGFloat = 75
         }
         enum SignButton {
             static let bottomOffset: CGFloat = -24
             static let height: CGFloat = 51
-            static let leadingOffset: CGFloat = 16
-            static let trailingOffset: CGFloat = -16
+            static let horizontalInset: CGFloat = 16
         }
-
     }
 
 }

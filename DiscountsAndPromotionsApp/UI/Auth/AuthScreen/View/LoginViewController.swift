@@ -2,21 +2,11 @@ import UIKit
 import SnapKit
 import Combine
 
-final class LoginViewController: UIViewController {
-
-    weak var coordinator: AuthCoordinator?
+final class LoginViewController: AuthParentViewController {
 
     private let viewModel: LoginViewModelProtocol
 
     private var cancellables: Set<AnyCancellable>
-
-    private lazy var entryLabel: UILabel = {
-        let label = UILabel()
-        label.text = L10n.Authorization.entryTitle
-        label.font = CherryFonts.titleExtraLarge
-        label.textColor = .cherryBlack
-        return label
-    }()
 
     private lazy var inputEmailField: InputUserDataField = {
         let field = InputUserDataField(textFieldDelegate: self)
@@ -77,7 +67,7 @@ final class LoginViewController: UIViewController {
     init(viewModel: LoginViewModelProtocol = LoginViewModel()) {
         self.viewModel = viewModel
         self.cancellables = Set<AnyCancellable>()
-        super.init(nibName: nil, bundle: nil)
+        super.init(title: L10n.Authorization.entryTitle)
     }
 
     required init?(coder: NSCoder) {
@@ -86,7 +76,6 @@ final class LoginViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupView()
         setupConstraints()
     }
 
@@ -114,12 +103,6 @@ final class LoginViewController: UIViewController {
             .receive(on: DispatchQueue.main)
             .assign(to: \.isUserInteractionEnabled, on: loginButton)
             .store(in: &cancellables)
-    }
-
-    private func setupView() {
-        view.backgroundColor = .cherryWhite
-        view.layer.cornerRadius = Const.View.cornerRadius
-        view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
     }
 
     @objc private func navigateToRecoveryScreen() {
@@ -152,22 +135,15 @@ final class LoginViewController: UIViewController {
     }
 
     private func setupConstraints() {
-        [entryLabel,
-         inputFieldsStack,
+        [inputFieldsStack,
          passwordRecoveryButton,
          buttonsStackView].forEach { view.addSubview($0) }
 
-        entryLabel.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.top.equalToSuperview()
-                .offset(Const.EntryLabel.topOffset)
-        }
-
         inputFieldsStack.snp.makeConstraints {
-            $0.top.equalTo(entryLabel.snp.bottom)
+            $0.top.equalToSuperview()
                 .offset(Const.TextFieldsStack.topOffset)
             $0.leading.trailing.equalToSuperview()
-                .inset(Const.TextFieldsStack.leadingInset)
+                .inset(Const.TextFieldsStack.horizontalInset)
             $0.height.equalTo(Const.TextFieldsStack.height)
         }
 
@@ -181,31 +157,25 @@ final class LoginViewController: UIViewController {
 
         buttonsStackView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
-                .inset(Const.ButtonStack.leadingInset)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+                .inset(Const.ButtonStack.horizontalInset)
+            $0.bottom.equalToSuperview()
                 .inset(Const.ButtonStack.bottomInset)
             $0.height.equalTo(Const.ButtonStack.height)
         }
     }
 
     private enum Const {
-        enum View {
-            static let cornerRadius: CGFloat = 12
-        }
         enum TextFieldsStack {
             static let spacing: CGFloat = 8
-            static let topOffset: CGFloat = 20
-            static let leadingInset: CGFloat = 16
+            static let topOffset: CGFloat = 82
+            static let horizontalInset: CGFloat = 16
             static let height: CGFloat = 158
         }
         enum ButtonStack {
             static let spacing: CGFloat = 4
-            static let leadingInset: CGFloat = 16
-            static let bottomInset: CGFloat = 11
+            static let horizontalInset: CGFloat = 16
+            static let bottomInset: CGFloat = 24
             static let height: CGFloat = 106
-        }
-        enum EntryLabel {
-            static let topOffset: CGFloat = 32
         }
         enum PasswordButtom {
             static let topOffset: CGFloat = 4

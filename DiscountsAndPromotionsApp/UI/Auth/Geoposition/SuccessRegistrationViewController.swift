@@ -1,8 +1,6 @@
 import UIKit
 
-final class SuccessRegistrationViewController: UIViewController {
-
-    weak var coordinator: AuthCoordinator?
+final class SuccessRegistrationViewController: AuthParentViewController {
 
     private lazy var cherryImageView: UIImageView = {
         let image = UIImage(named: "cherryHi") ?? UIImage()
@@ -52,7 +50,6 @@ final class SuccessRegistrationViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupView()
         setupConstraints()
     }
 
@@ -64,12 +61,6 @@ final class SuccessRegistrationViewController: UIViewController {
             self.dismiss(animated: true)
             self.coordinator?.navigateToMainScreen()
         }
-    }
-
-    private func setupView() {
-        view.backgroundColor = .cherryWhite
-        view.layer.cornerRadius = Const.View.cornerRadius
-        view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
     }
 
     @objc private func automaticLocationAction() {
@@ -101,26 +92,21 @@ final class SuccessRegistrationViewController: UIViewController {
         enterCityLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.leading.equalToSuperview()
-                .offset(Const.EntryCity.leadingOffset)
-            $0.trailing.equalToSuperview()
-                .offset(Const.EntryCity.trailingOffset)
+                .inset(Const.EntryCity.horizontalInset)
             $0.top.equalTo(welcomeLabel.snp.bottom)
                 .offset(Const.EntryCity.topOffset)
         }
 
         buttonsStackView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
-                .inset(Const.ButtonStack.leadingInset)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+                .inset(Const.ButtonStack.horizontalInset)
+            $0.bottom.equalToSuperview()
                 .inset(Const.ButtonStack.bottomInset)
             $0.height.equalTo(Const.ButtonStack.height)
         }
     }
 
     private enum Const {
-        enum View {
-            static let cornerRadius: CGFloat = 12
-        }
         enum ImageView {
             static let topOffset: CGFloat = 17
         }
@@ -129,13 +115,12 @@ final class SuccessRegistrationViewController: UIViewController {
         }
         enum EntryCity {
             static let topOffset: CGFloat = 20
-            static let leadingOffset: CGFloat = 42
-            static let trailingOffset: CGFloat = -42
+            static let horizontalInset: CGFloat = 42
         }
         enum ButtonStack {
             static let spacing: CGFloat = 4
-            static let leadingInset: CGFloat = 16
-            static let bottomInset: CGFloat = 11
+            static let horizontalInset: CGFloat = 16
+            static let bottomInset: CGFloat = 24
             static let height: CGFloat = 106
         }
     }
