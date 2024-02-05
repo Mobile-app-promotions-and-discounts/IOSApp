@@ -25,7 +25,6 @@ final class RegistrationViewModel: RegistrationViewModelProtocol {
         self.cancellables = Set<AnyCancellable>()
         self.userNetworkService = userNetworkService
         self.authService = authService
-        bindingOn()
     }
 
     func didTapLoginButton() {
@@ -50,7 +49,7 @@ final class RegistrationViewModel: RegistrationViewModelProtocol {
         cancellables.removeAll()
     }
 
-    private func bindingOn() {
+    func bindingOn() {
         userNetworkService.userUpdate
             .receive(on: DispatchQueue.main)
             .sink { [weak self] userResponseModel in

@@ -11,7 +11,6 @@ final class RegistrationViewController: AuthParentViewController {
     private lazy var inputEmailField: InputUserDataField = {
         let field = InputUserDataField(textFieldDelegate: self)
         field.titleLabelText = L10n.Registration.emailTitle
-        field.placeholder = "ivanov@example.com"
         field.textField.addTarget(self, action: #selector(changeEmail(_:)), for: .editingChanged)
         return field
     }()
@@ -19,7 +18,6 @@ final class RegistrationViewController: AuthParentViewController {
     private lazy var inputPasswordField: InputUserDataField = {
         let field = InputUserDataField(textFieldDelegate: self)
         field.titleLabelText = L10n.Registration.passwordTitle
-        field.placeholder = "cherryapp"
         field.textField.addTarget(self, action: #selector(changePassword(_:)), for: .editingChanged)
         field.isShowHidePasswordButtonVisible = true
         return field
@@ -89,6 +87,8 @@ final class RegistrationViewController: AuthParentViewController {
     }
 
     private func bindingOn() {
+        viewModel.bindingOn()
+
         viewModel.validToSubmit
             .receive(on: DispatchQueue.main)
             .assign(to: \.isUserInteractionEnabled, on: registrationButton)

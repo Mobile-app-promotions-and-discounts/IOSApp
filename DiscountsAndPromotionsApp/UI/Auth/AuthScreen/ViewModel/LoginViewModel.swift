@@ -54,7 +54,7 @@ final class LoginViewModel: LoginViewModelProtocol {
         authService.getToken(for: userModel)
     }
 
-    private func bindingOn() {
+    func bindingOn() {
         authService.isTokenValidUpdate
             .sink { [weak self] isUpdate in
                 self?.isUserAuthorizedUpdate.send(isUpdate)

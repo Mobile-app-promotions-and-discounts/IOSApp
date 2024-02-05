@@ -182,7 +182,11 @@ final class RecoveryStartViewController: AuthParentViewController {
         if currentIndex < textFields.count - 1,
            !changedText.isEmpty {
             let nextTextField = textFields[currentIndex + 1]
-            nextTextField.becomeFirstResponder()
+            if nextTextField.text?.isEmpty == true {
+                nextTextField.becomeFirstResponder()
+            } else {
+                textField.resignFirstResponder()
+            }
         } else {
             textField.resignFirstResponder()
         }

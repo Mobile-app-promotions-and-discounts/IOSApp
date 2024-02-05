@@ -57,7 +57,7 @@ final class SuccessRegistrationViewController: AuthParentViewController {
         super.viewDidAppear(animated)
 
         // TODO: - Временно, переход на главный экран
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.dismiss(animated: true)
             self.coordinator?.navigateToMainScreen()
         }

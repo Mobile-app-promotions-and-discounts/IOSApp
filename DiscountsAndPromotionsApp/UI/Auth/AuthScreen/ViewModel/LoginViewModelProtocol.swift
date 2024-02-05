@@ -8,6 +8,7 @@ protocol LoginViewModelProtocol {
     var validToSubmit: AnyPublisher<Bool, Never> { get }
 
     func didTapLoginButton()
+    func bindingOn()
     func bindingOff()
     func checkUserEmail() -> Bool
     func changeUserEmail(_ newEmail: String)

@@ -11,7 +11,6 @@ final class LoginViewController: AuthParentViewController {
     private lazy var inputEmailField: InputUserDataField = {
         let field = InputUserDataField(textFieldDelegate: self)
         field.titleLabelText = L10n.Authorization.emailTitle
-        field.placeholder = "ivanov@example.com"
         field.textField.addTarget(self, action: #selector(changeEmail(_:)), for: .editingChanged)
         return field
     }()
@@ -19,7 +18,6 @@ final class LoginViewController: AuthParentViewController {
     private lazy var inputPasswordField: InputUserDataField = {
         let field = InputUserDataField(textFieldDelegate: self)
         field.titleLabelText = L10n.Authorization.passwordTitle
-        field.placeholder = "cherryapp"
         field.textField.addTarget(self, action: #selector(changePassword(_:)), for: .editingChanged)
         field.isShowHidePasswordButtonVisible = true
         return field
@@ -90,6 +88,8 @@ final class LoginViewController: AuthParentViewController {
     }
 
     private func bindingOn() {
+        viewModel.bindingOn()
+
         viewModel.isUserAuthorizedUpdate
             .receive(on: RunLoop.main)
             .sink { [weak self] isAuthorized in
