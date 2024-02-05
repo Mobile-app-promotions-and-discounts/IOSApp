@@ -9,8 +9,8 @@ protocol RegistrationViewModelProtocol {
 
     func didTapLoginButton()
     func didTapPrivacyPolicy()
-    func bindingOn()
-    func bindingOff()
+    func viewWillAppear()
+    func viewWillDisappear()
     func changeUserEmail(_ newEmail: String)
     func changePassword(_ newPassword: String)
 }

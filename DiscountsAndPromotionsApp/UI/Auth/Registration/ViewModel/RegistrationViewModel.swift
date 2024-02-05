@@ -45,11 +45,15 @@ final class RegistrationViewModel: RegistrationViewModelProtocol {
         userPassword.send(newPassword)
     }
 
-    func bindingOff() {
-        cancellables.removeAll()
+    func viewWillAppear() {
+        bindingOn()
     }
 
-    func bindingOn() {
+    func viewWillDisappear() {
+        bindingOff()
+    }
+
+    private func bindingOn() {
         userNetworkService.userUpdate
             .receive(on: DispatchQueue.main)
             .sink { [weak self] userResponseModel in
@@ -65,6 +69,10 @@ final class RegistrationViewModel: RegistrationViewModelProtocol {
             .sink { [weak self] isAutorizated in
                 self?.isUserAuthorizatedUpdate.send(isAutorizated)
             }.store(in: &cancellables)
+    }
+
+    private func bindingOff() {
+        cancellables.removeAll()
     }
 
     private func getAutorizated(userName: String, password: String) {

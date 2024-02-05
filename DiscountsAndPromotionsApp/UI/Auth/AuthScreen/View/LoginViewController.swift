@@ -79,16 +79,17 @@ final class LoginViewController: AuthParentViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        viewModel.viewWillAppear()
         bindingOn()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        viewModel.viewWillDisappear()
         bindingOff()
     }
 
     private func bindingOn() {
-        viewModel.bindingOn()
 
         viewModel.isUserAuthorizedUpdate
             .receive(on: RunLoop.main)
@@ -130,7 +131,6 @@ final class LoginViewController: AuthParentViewController {
     }
 
     private func bindingOff() {
-        viewModel.bindingOff()
         cancellables.removeAll()
     }
 
