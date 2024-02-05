@@ -45,9 +45,9 @@ final class MainViewController: ScannerEnabledViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel.viewDidLoad()
         setupViews()
         setupBindings()
+        viewModel.viewDidLoad()
     }
 
     private func setupViews() {
@@ -153,7 +153,7 @@ extension MainViewController: UICollectionViewDataSource {
                 return UICollectionViewCell()
             }
             guard let category = viewModel.getCategoryUIModel(for: indexPath.row) else {
-                ErrorHandler.handle(error: .customError("Ошибка получения категории во вью модели"))
+//                ErrorHandler.handle(error: .customError("Ошибка получения категории во вью модели"))
                 return cell
             }
             cell.configure(with: category)
@@ -164,8 +164,8 @@ extension MainViewController: UICollectionViewDataSource {
                                                                 for: indexPath) as? PromotionCell else {
                 return UICollectionViewCell()
             }
-            guard let promotion = viewModel.getPromotion(for: indexPath.row) else {
-                ErrorHandler.handle(error: .customError("Ошибка получения акции во вью модели"))
+            guard let promotion = viewModel.getPromotion(for: indexPath.row)
+            else {
                 return cell
             }
             cell.configure(with: promotion)
@@ -175,8 +175,9 @@ extension MainViewController: UICollectionViewDataSource {
                                                                 for: indexPath) as? StoresCell else {
                 return UICollectionViewCell()
             }
-            let store = viewModel.getStore(for: indexPath.row)
-            cell.configure(with: store)
+            if let store = viewModel.getStore(for: indexPath.row) {
+                cell.configure(with: store)
+            }
             return cell
         }
     }
@@ -186,8 +187,8 @@ extension MainViewController: UICollectionViewDataSource {
 
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.section == 0 {
-            let category = viewModel.getCategory(for: indexPath.row)
+        if indexPath.section == 0,
+           let category = viewModel.getCategory(for: indexPath.row) {
             self.coordinator?.navigateToCategoryScreen(with: category)
         } else {
             print("Для других ячеек обработка нажатия будет реализована позже")

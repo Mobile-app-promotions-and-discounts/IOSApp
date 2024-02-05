@@ -28,7 +28,7 @@ final class StoresCell: UICollectionViewCell {
         contentView.layer.borderWidth = 1
         contentView.layer.borderColor = UIColor.cherryLightBlue.cgColor
         contentView.clipsToBounds = true
-
+        contentView.backgroundColor = .cherryLightBlue
         contentView.addSubview(storeImageView)
 
         storeImageView.snp.makeConstraints { make in

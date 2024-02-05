@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "BE3524492B02ABA200746581"
-               BuildableName = "DiscountsAndPromotionsApp.app"
+               BuildableName = "Cherry App.app"
                BlueprintName = "DiscountsAndPromotionsApp"
                ReferencedContainer = "container:DiscountsAndPromotionsApp.xcodeproj">
             </BuildableReference>
@@ -45,7 +45,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "BE3524492B02ABA200746581"
-            BuildableName = "DiscountsAndPromotionsApp.app"
+            BuildableName = "Cherry App.app"
             BlueprintName = "DiscountsAndPromotionsApp"
             ReferencedContainer = "container:DiscountsAndPromotionsApp.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "BE3524492B02ABA200746581"
-            BuildableName = "DiscountsAndPromotionsApp.app"
+            BuildableName = "Cherry App.app"
             BlueprintName = "DiscountsAndPromotionsApp"
             ReferencedContainer = "container:DiscountsAndPromotionsApp.xcodeproj">
          </BuildableReference>

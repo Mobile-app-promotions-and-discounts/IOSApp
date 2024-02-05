@@ -43,9 +43,8 @@ struct PromotionUIModel {
             self.gradientAccentColor = accentColor
             self.gradientLayer = gradientLayer
         } else {
-            self.gradientAccentColor = .clear
+            self.gradientAccentColor = .cherryLightBlue
             self.gradientLayer = CAGradientLayer()
-            ErrorHandler.handle(error: .customError("Ошибка настройки градиента акции по товару"))
         }
     }
 }

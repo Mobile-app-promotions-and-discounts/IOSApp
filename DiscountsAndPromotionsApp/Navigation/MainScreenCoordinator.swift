@@ -67,7 +67,11 @@ final class MainScreenCoordinator: SearchEnabledCoordinator {
     func navigateToAllDetailsScreen(with type: MainSection) {
         switch type {
         case .promotions:
-            ErrorHandler.handle(error: .profileError("Нажата кнопка Все на секции с акциями"))
+            let viewModel = PromotionsScreenViewModel(productService: productService)
+            let promotionsViewController = ProductListViewController(viewModel: viewModel)
+            promotionsViewController.coordinator = self
+            promotionsViewController.hidesBottomBarWhenPushed = true
+            navigationController.pushViewController(promotionsViewController, animated: true)
         case .stores:
             let viewModel = AllStoresViewModel(dataService: dataService)
             let viewController = AllStoresViewController(viewModel: viewModel)

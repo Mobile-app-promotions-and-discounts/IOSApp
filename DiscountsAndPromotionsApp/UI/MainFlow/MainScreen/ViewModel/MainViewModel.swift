@@ -8,7 +8,7 @@ final class MainViewModel: MainViewModelProtocol {
     }
 
     private (set) var categoriesUpdate = PassthroughSubject<[Category], Never>()
-    private (set) var productsUpdate = PassthroughSubject<[Product], Never>()
+    private (set) var productsUpdate = CurrentValueSubject<[Product], Never>([])
     private (set) var storesUpdate = PassthroughSubject<[Store], Never>()
     private (set) var promotionsUpdate = PassthroughSubject<[Product], Never>()
 
@@ -55,7 +55,7 @@ final class MainViewModel: MainViewModelProtocol {
     }
 
     func viewDidLoad() {
-        dataService.loadData()
+        productService.getRandomOffers()
         categoryService.fetchCategories()
     }
 
@@ -90,28 +90,34 @@ final class MainViewModel: MainViewModelProtocol {
     }
 
     func getPromotion(for index: Int) -> PromotionUIModel? {
-        guard index < promotions.count else {
+        guard index < products.count else {
             return nil
         }
-        let promotion = promotions[index]
-        return PromotionUIModel(product: promotion, visualsService: promotionVisualService)
+        print(products[index])
+        return PromotionUIModel(product: products[index],
+                                visualsService: promotionVisualService)
     }
 
-    func getStore(for index: Int) -> StoreUIModel {
+    func getStore(for index: Int) -> StoreUIModel? {
+        guard index < stores.count else {
+            return nil
+        }
         let store = stores[index]
         return StoreUIModel(store: store)
     }
 
-    func getCategory(for index: Int) -> Category {
+    func getCategory(for index: Int) -> Category? {
+        guard index < categories.count else {
+            return nil
+        }
         let category = categories[index]
         return category
     }
 
     private func setupBindings() {
-        dataService.actualGoodsList
-            .sink { [weak self] productsList in
-                guard let self = self else { return }
-                self.products = productsList
+        productService.promotionListUpdate
+            .sink { [weak self] productList in
+                self?.products = productList.map { $0.convertToProductModel() }
             }
             .store(in: &cancellables)
 
@@ -126,13 +132,6 @@ final class MainViewModel: MainViewModelProtocol {
             .sink { [weak self] storeList in
                 guard let self = self else { return }
                 self.stores = storeList
-            }
-            .store(in: &cancellables)
-
-        dataService.promotionList
-            .sink { [weak self] promotionList in
-                guard let self = self else { return }
-                self.promotions = promotionList
             }
             .store(in: &cancellables)
     }

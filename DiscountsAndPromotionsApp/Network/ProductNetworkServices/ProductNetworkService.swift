@@ -2,6 +2,7 @@ import Combine
 import Foundation
 
 protocol ProductNetworkServiceProtocol {
+    var promotionListUpdate: CurrentValueSubject<ProductGroupResponseModel, Never> { get }
     var productListUpdate: PassthroughSubject<ProductGroupResponseModel, Never> { get }
     var productUpdate: PassthroughSubject<ProductResponseModel, Never> { get }
     var isFavoriteUpdate: PassthroughSubject<(Int, Bool), Never> { get }
@@ -34,6 +35,7 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
     nonisolated private let requestConstructor: NetworkRequestConstructorProtocol
     nonisolated private let categoryService: CategoryNetworkServiceProtocol
 
+    nonisolated let promotionListUpdate = CurrentValueSubject<ProductGroupResponseModel, Never>([])
     nonisolated let productListUpdate = PassthroughSubject<ProductGroupResponseModel, Never>()
     nonisolated let productUpdate = PassthroughSubject<ProductResponseModel, Never>()
     nonisolated let isFavoriteUpdate = PassthroughSubject<(Int, Bool), Never>()
@@ -185,7 +187,9 @@ extension ProductNetworkService {
     }
 
     nonisolated func getRandomOffers() {
-        Task { await fetchRandomOffers() }
+        if promotionListUpdate.value.isEmpty {
+            Task { await fetchRandomOffers() }
+        }
     }
 
     private func fetchRandomOffers() async {
@@ -203,7 +207,8 @@ extension ProductNetworkService {
             print("Random offers fetched successfully")
             self.paginationState = (currentPage: 1,
                                     isLastPage: productGroupResponse.next == nil)
-            self.productList = productGroupResponse.results
+            self.promotionListUpdate.append(productGroupResponse.results)
+            self.promotionListUpdate.send(productGroupResponse.results)
         } catch let error {
             print("Error fetching offers: \(error.localizedDescription)")
             if let error = error as? AppError {

@@ -55,7 +55,7 @@ final class PromotionCell: UICollectionViewCell {
             productImageView.image = UIImage(named: imagePath)
         }
 
-        discountLabel.text = "До -40%"
+        discountLabel.text = model.discount
         priceLabel.text = model.price
 
         // Настройка градиента заднего фона
@@ -65,12 +65,22 @@ final class PromotionCell: UICollectionViewCell {
         gradientLayer.needsDisplayOnBoundsChange = true
 
         // Добавление градиента к contentView
-        contentView.layer.insertSublayer(gradientLayer, at: 0)
+//        contentView.layer.insertSublayer(gradientLayer, at: 0)
+
+        if let image = model.productImage {
+            productImageView.kf.setImage(with: URL(string: image))
+        } else {
+            productImageView.image = .productImagePlaceholder
+        }
+
+        discountLabel.isHidden = model.discount.isEmpty
+        discountBGView.isHidden = model.discount.isEmpty
     }
 
     private func setupViews() {
         contentView.layer.cornerRadius = CornerRadius.large.cgFloat()
         contentView.clipsToBounds = true
+        contentView.backgroundColor = .cherryLightBlue
 
         [priceLabel, productImageView, discountBGView, discountLabel].forEach { contentView.addSubview($0) }
 
@@ -91,10 +101,12 @@ final class PromotionCell: UICollectionViewCell {
             make.height.equalTo(18)
             make.width.equalTo(60)
         }
+        discountBGView.isHidden = true
 
         discountLabel.snp.makeConstraints { make in
             make.centerX.equalTo(discountBGView.snp.centerX)
             make.centerY.equalTo(discountBGView.snp.centerY)
         }
+        discountLabel.isHidden = true
     }
 }
