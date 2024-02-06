@@ -9,7 +9,7 @@ final class MainViewModel: MainViewModelProtocol {
 
     private (set) var categoriesUpdate = PassthroughSubject<[Category], Never>()
     private (set) var productsUpdate = CurrentValueSubject<[Product], Never>([])
-    private (set) var storesUpdate = PassthroughSubject<[Store], Never>()
+    private (set) var storesUpdate = PassthroughSubject<[ChainStore], Never>()
     private (set) var promotionsUpdate = PassthroughSubject<[Product], Never>()
 
     private var categories = [Category]() {
@@ -25,9 +25,9 @@ final class MainViewModel: MainViewModelProtocol {
         }
     }
 
-    private var stores = [Store]() {
+    private var chains = [ChainStore]() {
         didSet {
-            storesUpdate.send(stores)
+            storesUpdate.send(chains)
         }
     }
 
@@ -39,6 +39,7 @@ final class MainViewModel: MainViewModelProtocol {
 
     private var dataService: DataServiceProtocol
     private var productService: ProductNetworkServiceProtocol
+    private var storesService: StoreNetworkServiceProtocol
     private var categoryService: CategoryNetworkServiceProtocol
     private var promotionVisualService: PromotionVisualsService
     private var cancellables = Set<AnyCancellable>()
@@ -46,16 +47,19 @@ final class MainViewModel: MainViewModelProtocol {
     init(dataService: DataServiceProtocol,
          categoryService: CategoryNetworkServiceProtocol,
          prosuctService: ProductNetworkServiceProtocol,
+         storesService: StoreNetworkServiceProtocol,
          promotionVisualService: PromotionVisualsService) {
         self.dataService = dataService
         self.promotionVisualService = promotionVisualService
         self.productService = prosuctService
+        self.storesService = storesService
         self.categoryService = categoryService
         setupBindings()
     }
 
     func viewDidLoad() {
         productService.getRandomOffers()
+        storesService.fetchChains()
         categoryService.fetchCategories()
     }
 
@@ -99,11 +103,11 @@ final class MainViewModel: MainViewModelProtocol {
     }
 
     func getStore(for index: Int) -> StoreUIModel? {
-        guard index < stores.count else {
+        guard index < chains.count else {
             return nil
         }
-        let store = stores[index]
-        return StoreUIModel(store: store)
+        let store = chains[index]
+        return StoreUIModel(name: store.name, logo: store.logo)
     }
 
     func getCategory(for index: Int) -> Category? {
@@ -121,17 +125,16 @@ final class MainViewModel: MainViewModelProtocol {
             }
             .store(in: &cancellables)
 
+        storesService.chainListUpdate
+            .sink { [weak self] storeChainList in
+                self?.chains = storeChainList.map { $0.convert() }
+            }
+            .store(in: &cancellables)
+
         dataService.actualCategoryList
             .sink { [weak self] categoryList in
                 guard let self = self else { return }
                 self.categories = categoryList
-            }
-            .store(in: &cancellables)
-
-        dataService.actualStoreList
-            .sink { [weak self] storeList in
-                guard let self = self else { return }
-                self.stores = storeList
             }
             .store(in: &cancellables)
     }

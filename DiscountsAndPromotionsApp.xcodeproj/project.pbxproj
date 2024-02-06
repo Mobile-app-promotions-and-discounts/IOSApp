@@ -558,6 +558,22 @@
 			path = MainProfile;
 			sourceTree = "<group>";
 		};
+		BC70C8EF2B7208FB00991087 /* PromotionsScreen */ = {
+			isa = PBXGroup;
+			children = (
+				BC70C8F02B72091000991087 /* ViewModel */,
+			);
+			path = PromotionsScreen;
+			sourceTree = "<group>";
+		};
+		BC70C8F02B72091000991087 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				BC70C8ED2B70B8C400991087 /* PromotionsScreenViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		BCAA6CF32B4E70F0007C6FB4 /* ReviewsScreen */ = {
 			isa = PBXGroup;
 			children = (
@@ -700,6 +716,7 @@
 				92787F6C2B1F263A0045B678 /* SplashScreen */,
 				BC60460F2B1E4B7900536EB3 /* ProfileScreen */,
 				BCCF4FC82B1B4AF10067A552 /* MainFlow */,
+				BC70C8EF2B7208FB00991087 /* PromotionsScreen */,
 				BE70C2202B1E57EA004FD1E9 /* AllShopsScreen */,
 				BCCF4FD32B1B4AF10067A552 /* SearchFlow */,
 				BCCF4FD52B1B4AF10067A552 /* ScanFlow */,
@@ -716,7 +733,6 @@
 			children = (
 				BCCF4FC62B1B4AF10067A552 /* MainViewModel.swift */,
 				BCCF4FC72B1B4AF10067A552 /* MainViewModelProtocol.swift */,
-				BC70C8ED2B70B8C400991087 /* PromotionsScreenViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";

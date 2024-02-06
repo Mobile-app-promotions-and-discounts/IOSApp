@@ -15,12 +15,18 @@ final class StoresCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
+    override func prepareForReuse() {
+        storeImageView.image = nil
+    }
+
     func configure(with store: StoreUIModel) {
         guard let imageString = store.image else {
             ErrorHandler.handle(error: .customError("Ошибка получения фото для ячейки раздела Магазин"))
             return
         }
-        self.storeImageView.image = UIImage(named: imageString)
+        if let imageURL = URL(string: imageString) {
+            storeImageView.kf.setImage(with: imageURL)
+        }
     }
 
     private func setupViews() {

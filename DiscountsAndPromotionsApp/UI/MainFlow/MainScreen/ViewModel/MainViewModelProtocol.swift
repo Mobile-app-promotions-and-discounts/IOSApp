@@ -4,7 +4,7 @@ import Combine
 protocol MainViewModelProtocol {
     var categoriesUpdate: PassthroughSubject<[Category], Never> { get }
     var productsUpdate: CurrentValueSubject<[Product], Never> { get }
-    var storesUpdate: PassthroughSubject<[Store], Never> { get }
+    var storesUpdate: PassthroughSubject<[ChainStore], Never> { get }
     var promotionsUpdate: PassthroughSubject<[Product], Never> { get }
 
     var numberOfSections: Int { get }

@@ -7,18 +7,21 @@ final class MainScreenCoordinator: SearchEnabledCoordinator {
     private let dataService: DataServiceProtocol
     private (set) var productService: ProductNetworkServiceProtocol
     private (set) var categoryService: CategoryNetworkServiceProtocol
+    private (set) var storeService: StoreNetworkServiceProtocol
     private (set) var profileService: ProfileServiceProtocol
     private let promotionVisualService: PromotionVisualsService
 
     init(navigationController: UINavigationController,
          dataService: DataServiceProtocol,
          productService: ProductNetworkServiceProtocol,
+         storeService: StoreNetworkServiceProtocol,
          categoryService: CategoryNetworkServiceProtocol,
          profileService: ProfileServiceProtocol,
          promotionVisualService: PromotionVisualsService = PromotionVisualsService()) {
         self.navigationController = navigationController
         self.dataService = dataService
         self.productService = productService
+        self.storeService = storeService
         self.categoryService = categoryService
         self.profileService = profileService
         self.promotionVisualService = promotionVisualService
@@ -28,6 +31,7 @@ final class MainScreenCoordinator: SearchEnabledCoordinator {
         let mainViewModel = MainViewModel(dataService: dataService,
                                           categoryService: categoryService,
                                           prosuctService: productService,
+                                          storesService: storeService,
                                           promotionVisualService: promotionVisualService)
         let mainViewController = MainViewController(viewModel: mainViewModel)
         mainViewController.coordinator = self
@@ -73,7 +77,7 @@ final class MainScreenCoordinator: SearchEnabledCoordinator {
             promotionsViewController.hidesBottomBarWhenPushed = true
             navigationController.pushViewController(promotionsViewController, animated: true)
         case .stores:
-            let viewModel = AllStoresViewModel(dataService: dataService)
+            let viewModel = AllStoresViewModel(storesService: storeService)
             let viewController = AllStoresViewController(viewModel: viewModel)
             viewController.coordinator = self
             navigationController.pushViewController(viewController, animated: true)
