@@ -2,26 +2,15 @@ import UIKit
 import SnapKit
 import Combine
 
-final class LoginViewController: UIViewController {
-
-    weak var coordinator: AuthCoordinator?
+final class LoginViewController: AuthParentViewController {
 
     private let viewModel: LoginViewModelProtocol
 
     private var cancellables: Set<AnyCancellable>
 
-    private lazy var entryLabel: UILabel = {
-        let label = UILabel()
-        label.text = L10n.Authorization.entryTitle
-        label.font = CherryFonts.titleExtraLarge
-        label.textColor = .cherryBlack
-        return label
-    }()
-
     private lazy var inputEmailField: InputUserDataField = {
         let field = InputUserDataField(textFieldDelegate: self)
         field.titleLabelText = L10n.Authorization.emailTitle
-        field.placeholder = "ivanov@example.com"
         field.textField.addTarget(self, action: #selector(changeEmail(_:)), for: .editingChanged)
         return field
     }()
@@ -29,7 +18,6 @@ final class LoginViewController: UIViewController {
     private lazy var inputPasswordField: InputUserDataField = {
         let field = InputUserDataField(textFieldDelegate: self)
         field.titleLabelText = L10n.Authorization.passwordTitle
-        field.placeholder = "cherryapp"
         field.textField.addTarget(self, action: #selector(changePassword(_:)), for: .editingChanged)
         field.isShowHidePasswordButtonVisible = true
         return field
@@ -46,8 +34,9 @@ final class LoginViewController: UIViewController {
     private lazy var passwordRecoveryButton: UIButton = {
         let button = UIButton()
         button.setTitle(L10n.Authorization.forgotPasswordTitle, for: .normal)
-        button.setTitleColor(.cherryGrayBlue, for: .normal)
+        button.setTitleColor(.cherryBlue, for: .normal)
         button.titleLabel?.font = CherryFonts.textMedium
+        button.addTarget(self, action: #selector(navigateToRecoveryScreen), for: .touchUpInside)
         return button
     }()
 
@@ -76,7 +65,7 @@ final class LoginViewController: UIViewController {
     init(viewModel: LoginViewModelProtocol = LoginViewModel()) {
         self.viewModel = viewModel
         self.cancellables = Set<AnyCancellable>()
-        super.init(nibName: nil, bundle: nil)
+        super.init(title: L10n.Authorization.entryTitle)
     }
 
     required init?(coder: NSCoder) {
@@ -85,29 +74,29 @@ final class LoginViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupView()
         setupConstraints()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        viewModel.viewWillAppear()
         bindingOn()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        viewModel.viewWillDisappear()
         bindingOff()
     }
 
     private func bindingOn() {
+
         viewModel.isUserAuthorizedUpdate
             .receive(on: RunLoop.main)
             .sink { [weak self] isAuthorized in
                 if isAuthorized {
                     self?.dismiss(animated: true)
                     self?.coordinator?.navigateToMainScreen()
-                } else {
-                    ErrorHandler.handle(error: .authorizationError)
                 }
             }.store(in: &cancellables)
 
@@ -117,10 +106,12 @@ final class LoginViewController: UIViewController {
             .store(in: &cancellables)
     }
 
-    private func setupView() {
-        view.backgroundColor = .cherryWhite
-        view.layer.cornerRadius = Const.View.cornerRadius
-        view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+    @objc private func navigateToRecoveryScreen() {
+        if viewModel.checkUserEmail() {
+            coordinator?.navigateToRecoveryStartScreen()
+        } else {
+            ErrorHandler.handle(error: .customError(L10n.RecoveryStart.recoveryError))
+        }
     }
 
     @objc private func loginAction() {
@@ -131,38 +122,28 @@ final class LoginViewController: UIViewController {
         coordinator?.navigateToRegistrationScreen()
     }
 
-    @objc
-    private func changeEmail(_ textField: UITextField) {
+    @objc private func changeEmail(_ textField: UITextField) {
         viewModel.changeUserEmail(textField.text ?? "")
     }
 
-    @objc
-    private func changePassword(_ textField: UITextField) {
+    @objc private func changePassword(_ textField: UITextField) {
         viewModel.changePassword(textField.text ?? "")
     }
 
     private func bindingOff() {
-        viewModel.bindingOff()
         cancellables.removeAll()
     }
 
     private func setupConstraints() {
-        [entryLabel,
-         inputFieldsStack,
+        [inputFieldsStack,
          passwordRecoveryButton,
          buttonsStackView].forEach { view.addSubview($0) }
 
-        entryLabel.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.top.equalToSuperview()
-                .offset(Const.EntryLabel.topOffset)
-        }
-
         inputFieldsStack.snp.makeConstraints {
-            $0.top.equalTo(entryLabel.snp.bottom)
+            $0.top.equalToSuperview()
                 .offset(Const.TextFieldsStack.topOffset)
             $0.leading.trailing.equalToSuperview()
-                .inset(Const.TextFieldsStack.leadingInset)
+                .inset(Const.TextFieldsStack.horizontalInset)
             $0.height.equalTo(Const.TextFieldsStack.height)
         }
 
@@ -176,31 +157,25 @@ final class LoginViewController: UIViewController {
 
         buttonsStackView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
-                .inset(Const.ButtonStack.leadingInset)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+                .inset(Const.ButtonStack.horizontalInset)
+            $0.bottom.equalToSuperview()
                 .inset(Const.ButtonStack.bottomInset)
             $0.height.equalTo(Const.ButtonStack.height)
         }
     }
 
     private enum Const {
-        enum View {
-            static let cornerRadius: CGFloat = 12
-        }
         enum TextFieldsStack {
             static let spacing: CGFloat = 8
-            static let topOffset: CGFloat = 20
-            static let leadingInset: CGFloat = 16
+            static let topOffset: CGFloat = 82
+            static let horizontalInset: CGFloat = 16
             static let height: CGFloat = 158
         }
         enum ButtonStack {
             static let spacing: CGFloat = 4
-            static let leadingInset: CGFloat = 16
-            static let bottomInset: CGFloat = 11
+            static let horizontalInset: CGFloat = 16
+            static let bottomInset: CGFloat = 24
             static let height: CGFloat = 106
-        }
-        enum EntryLabel {
-            static let topOffset: CGFloat = 32
         }
         enum PasswordButtom {
             static let topOffset: CGFloat = 4

@@ -10,8 +10,7 @@ final class RegistrationViewModel: RegistrationViewModelProtocol {
     var validToSubmit: AnyPublisher<Bool, Never> {
         return Publishers.CombineLatest(userEmail, userPassword)
             .receive(on: DispatchQueue.main)
-            .map {
-                userName, password in
+            .map { userName, password in
                 return !userName.isEmpty && !password.isEmpty
             } .eraseToAnyPublisher()
     }
@@ -26,7 +25,6 @@ final class RegistrationViewModel: RegistrationViewModelProtocol {
         self.cancellables = Set<AnyCancellable>()
         self.userNetworkService = userNetworkService
         self.authService = authService
-        bindingOn()
     }
 
     func didTapLoginButton() {
@@ -47,8 +45,12 @@ final class RegistrationViewModel: RegistrationViewModelProtocol {
         userPassword.send(newPassword)
     }
 
-    func bindingOff() {
-        cancellables.removeAll()
+    func viewWillAppear() {
+        bindingOn()
+    }
+
+    func viewWillDisappear() {
+        bindingOff()
     }
 
     private func bindingOn() {
@@ -67,6 +69,10 @@ final class RegistrationViewModel: RegistrationViewModelProtocol {
             .sink { [weak self] isAutorizated in
                 self?.isUserAuthorizatedUpdate.send(isAutorizated)
             }.store(in: &cancellables)
+    }
+
+    private func bindingOff() {
+        cancellables.removeAll()
     }
 
     private func getAutorizated(userName: String, password: String) {

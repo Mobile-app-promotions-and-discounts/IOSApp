@@ -1,121 +1,138 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "email" : {
+    "recovery" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Email"
+            "value" : "Recover Password"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Email"
+            "value" : "Восстановить пароль"
           }
         }
       }
     },
-    "entry" : {
+    "recoveryError" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Registration"
+            "value" : "Please enter a valid email"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Регистрация"
+            "value" : "Введите корректный email."
           }
         }
       }
     },
-    "password" : {
+    "sendCode" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Password"
+            "value" : "Send code again via"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Пароль"
+            "value" : "Отправить код повторно через"
           }
         }
       }
     },
-    "privacyPolicy" : {
+    "sendCodeButton" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Terms and Privacy Policy."
+            "value" : "Send code again"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Условиями и Политикой конфиденциальности."
+            "value" : "Отправить код повторно"
           }
         }
       }
     },
-    "privacyPolicyTitle" : {
+    "sentCode" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "By clicking the “Register” button you confirm your agreement with our"
+            "value" : "We sent a password recovery code to the specified email"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Нажимая кнопку «Зарегистрироваться»  вы подтверждаете своё согласие с нашими"
+            "value" : "Мы отправили на указанный Email код для восстановления пароля"
           }
         }
       }
     },
-    "registration" : {
+    "time" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Register"
+            "value" : "c."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Зарегистрироваться"
+            "value" : "c."
           }
         }
       }
     },
-    "registrationError" : {
+    "title" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Registration error. Enter a correct email or a more complex password."
+            "value" : "Password Recovery"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ошибка регистрации. Введите корректный email или более сложный пароль."
+            "value" : "Восстановление пароля"
+          }
+        }
+      }
+    },
+    "willSendCode" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We will send the password to the specified email code to restore the password"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Мы отправим на указанный email код для восстановления пароля"
           }
         }
       }

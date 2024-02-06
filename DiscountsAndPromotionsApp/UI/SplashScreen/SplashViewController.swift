@@ -57,13 +57,13 @@ final class SplashViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        checkUserAuthorization()
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        isViewAppear.send(true)
         bindingOn()
+        checkUserAuthorization()
+        isViewAppear.send(true)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -79,9 +79,13 @@ final class SplashViewController: UIViewController {
 
     private func selectUserFlow(_ isAutorizated: Bool) {
         if isAutorizated {
-            coordinator?.navigateToMainScreen()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                self.coordinator?.navigateToMainScreen()
+            }
         } else {
-            coordinator?.navigateToAuthScreen()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                self.coordinator?.navigateToAuthScreen()
+            }
         }
     }
 
