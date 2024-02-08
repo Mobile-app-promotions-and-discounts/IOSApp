@@ -60,8 +60,13 @@ final class AuthCoordinator: Coordinator {
         navigationController.popViewController(animated: true)
     }
 
-    func navigateToGeopositionScreen() {
-        // TODO: - в следующем спринте
+    func navigateToGeopositionScreen(from viewController: UIViewController) {
+        let navController = GenericNavigationController()
+        let selectionCityViewModel = SelectionCityViewModel(authService: authService)
+        let selectionCityVC = SelectionCityViewController(viewModel: selectionCityViewModel)
+        navController.viewControllers = [selectionCityVC]
+        navController.modalPresentationStyle = .overFullScreen
+        viewController.present(navController, animated: true)
     }
 
     func navigateToMainScreen() {

@@ -53,22 +53,12 @@ final class SuccessRegistrationViewController: AuthParentViewController {
         setupConstraints()
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
-        // TODO: - Временно, переход на главный экран
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.dismiss(animated: true)
-            self.coordinator?.navigateToMainScreen()
-        }
-    }
-
     @objc private func automaticLocationAction() {
         // TODO: Следующий спринт
     }
 
     @objc private func manuallyLocationAction() {
-        // TODO: Следующий спринт
+        coordinator?.navigateToGeopositionScreen(from: self)
     }
 
     private func setupConstraints() {

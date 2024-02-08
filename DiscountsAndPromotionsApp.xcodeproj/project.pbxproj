@@ -17,6 +17,12 @@
 		7F2137E02B517265006B680C /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F2137DF2B517265006B680C /* AuthViewController.swift */; };
 		7FA46CE12B6CF03300820A39 /* UIKit_ext..swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA46CE02B6CF03300820A39 /* UIKit_ext..swift */; };
 		7FA46CE52B6D055100820A39 /* AuthParentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA46CE42B6D055100820A39 /* AuthParentViewController.swift */; };
+		7FA46CE72B737E7A00820A39 /* SelectionCityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA46CE62B737E7A00820A39 /* SelectionCityViewController.swift */; };
+		7FA46CE92B737F2F00820A39 /* SelectionCityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA46CE82B737F2F00820A39 /* SelectionCityViewModel.swift */; };
+		7FA46CEB2B737F5B00820A39 /* SelectionCityViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA46CEA2B737F5B00820A39 /* SelectionCityViewModelProtocol.swift */; };
+		7FA46CEF2B73809E00820A39 /* CityResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA46CEE2B73809E00820A39 /* CityResponseModel.swift */; };
+		7FA46CF22B738B9E00820A39 /* CityModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA46CF12B738B9E00820A39 /* CityModel.swift */; };
+		7FA46CF42B739EFC00820A39 /* CityTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA46CF32B739EFC00820A39 /* CityTableViewCell.swift */; };
 		7FCB3D2F2B56A0DB00EC20E7 /* UserShotResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCB3D2E2B56A0DB00EC20E7 /* UserShotResponseModel.swift */; };
 		7FCB3D942B6038A100EC20E7 /* RecoveryStartFlow.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7FCB3D932B6038A100EC20E7 /* RecoveryStartFlow.xcstrings */; };
 		7FCB3D962B603C1500EC20E7 /* RecoveryEndFlow.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7FCB3D952B603C1500EC20E7 /* RecoveryEndFlow.xcstrings */; };
@@ -213,6 +219,12 @@
 		7F2137DF2B517265006B680C /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		7FA46CE02B6CF03300820A39 /* UIKit_ext..swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKit_ext..swift; sourceTree = "<group>"; };
 		7FA46CE42B6D055100820A39 /* AuthParentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthParentViewController.swift; sourceTree = "<group>"; };
+		7FA46CE62B737E7A00820A39 /* SelectionCityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionCityViewController.swift; sourceTree = "<group>"; };
+		7FA46CE82B737F2F00820A39 /* SelectionCityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionCityViewModel.swift; sourceTree = "<group>"; };
+		7FA46CEA2B737F5B00820A39 /* SelectionCityViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionCityViewModelProtocol.swift; sourceTree = "<group>"; };
+		7FA46CEE2B73809E00820A39 /* CityResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityResponseModel.swift; sourceTree = "<group>"; };
+		7FA46CF12B738B9E00820A39 /* CityModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityModel.swift; sourceTree = "<group>"; };
+		7FA46CF32B739EFC00820A39 /* CityTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityTableViewCell.swift; sourceTree = "<group>"; };
 		7FCB3D2E2B56A0DB00EC20E7 /* UserShotResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserShotResponseModel.swift; sourceTree = "<group>"; };
 		7FCB3D932B6038A100EC20E7 /* RecoveryStartFlow.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = RecoveryStartFlow.xcstrings; sourceTree = "<group>"; };
 		7FCB3D952B603C1500EC20E7 /* RecoveryEndFlow.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = RecoveryEndFlow.xcstrings; sourceTree = "<group>"; };
@@ -444,8 +456,37 @@
 			isa = PBXGroup;
 			children = (
 				7F2137D92B5001A4006B680C /* SuccessRegistrationViewController.swift */,
+				7FA46CF02B738B8900820A39 /* Model */,
+				7FA46CED2B737F7700820A39 /* ViewModel */,
+				7FA46CEC2B737F6E00820A39 /* View */,
 			);
 			path = Geoposition;
+			sourceTree = "<group>";
+		};
+		7FA46CEC2B737F6E00820A39 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				7FA46CE62B737E7A00820A39 /* SelectionCityViewController.swift */,
+				7FA46CF32B739EFC00820A39 /* CityTableViewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		7FA46CED2B737F7700820A39 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				7FA46CE82B737F2F00820A39 /* SelectionCityViewModel.swift */,
+				7FA46CEA2B737F5B00820A39 /* SelectionCityViewModelProtocol.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		7FA46CF02B738B8900820A39 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				7FA46CF12B738B9E00820A39 /* CityModel.swift */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 		7FCB3D982B603EEF00EC20E7 /* RecoveryStart */ = {
@@ -724,6 +765,7 @@
 			isa = PBXGroup;
 			children = (
 				BCAC6B732B223C4100AD5C96 /* TokenResponseModel.swift */,
+				7FA46CEE2B73809E00820A39 /* CityResponseModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1346,6 +1388,7 @@
 				BC0723122B1A4E5300EF82B8 /* Gradients.swift in Sources */,
 				BCDFDFA12B486BCC00FB9C61 /* ProductReviewModels.swift in Sources */,
 				BCAC6B7C2B223C4100AD5C96 /* UserNetworkService.swift in Sources */,
+				7FA46CEF2B73809E00820A39 /* CityResponseModel.swift in Sources */,
 				BE70C2232B1E586E004FD1E9 /* AllStoresViewController.swift in Sources */,
 				BC60461C2B1E4B7900536EB3 /* EditProfileView.swift in Sources */,
 				BED4B5C42B3B24F80032C4CE /* EmptyScanResultViewController.swift in Sources */,
@@ -1389,6 +1432,7 @@
 				BCCF50142B1B4AF10067A552 /* GenericNavigationController.swift in Sources */,
 				BCAC6B7A2B223C4100AD5C96 /* UserResponseModel.swift in Sources */,
 				BCCF500B2B1B4AF10067A552 /* ScanCaptureSessionController.swift in Sources */,
+				7FA46CE92B737F2F00820A39 /* SelectionCityViewModel.swift in Sources */,
 				BE3524762B02B62B00746581 /* MainCoordinator.swift in Sources */,
 				BC0C55802B630EC80093437E /* CateroryScreenViewModel.swift in Sources */,
 				BCCF50272B1B4E090067A552 /* UIButton+Extension.swift in Sources */,
@@ -1404,9 +1448,11 @@
 				BCD4B4802B31759100539CD1 /* StoreNetworkService.swift in Sources */,
 				BCAA6D002B4F0B1D007C6FB4 /* ReviewRatingHeader.swift in Sources */,
 				BCCF501B2B1B4AF10067A552 /* ProductReviewViewModel.swift in Sources */,
+				7FA46CE72B737E7A00820A39 /* SelectionCityViewController.swift in Sources */,
 				BC0C557D2B62DB070093437E /* ProductCardCoordinatorProtocol.swift in Sources */,
 				BCCF50192B1B4AF10067A552 /* FavoritesViewController.swift in Sources */,
 				7F2137D32B4E9283006B680C /* RegistrationViewModel.swift in Sources */,
+				7FA46CF22B738B9E00820A39 /* CityModel.swift in Sources */,
 				BCCF50022B1B4AF10067A552 /* MainScreenSections.swift in Sources */,
 				BCCF501E2B1B4AF10067A552 /* ProductReviewView.swift in Sources */,
 				BC6046072B1E3CA500536EB3 /* FooterView.swift in Sources */,
@@ -1443,6 +1489,7 @@
 				BE007AF72B399D9600BCFDCF /* EmptyOnScreenView.swift in Sources */,
 				D059EB922B205F3F004C8A1A /* RegionViewController.swift in Sources */,
 				BCAC6B772B223C4100AD5C96 /* NetworkClient.swift in Sources */,
+				7FA46CEB2B737F5B00820A39 /* SelectionCityViewModelProtocol.swift in Sources */,
 				BEF503B42B15287F00577D7F /* MockProfileService.swift in Sources */,
 				BCCF50122B1B4AF10067A552 /* ProductListController.swift in Sources */,
 				BE70C2292B1E5918004FD1E9 /* AllStoresViewModelProtocol.swift in Sources */,
@@ -1460,6 +1507,7 @@
 				BCCF50152B1B4AF10067A552 /* SearchEnabledViewController.swift in Sources */,
 				92787F792B1FBCE00045B678 /* LoginViewController.swift in Sources */,
 				BCCF50202B1B4AF10067A552 /* OfferCell.swift in Sources */,
+				7FA46CF42B739EFC00820A39 /* CityTableViewCell.swift in Sources */,
 				BCD4B4772B2F5DDE00539CD1 /* StoreChainResponseModel.swift in Sources */,
 				BCCF50052B1B4AF10067A552 /* StoresCell.swift in Sources */,
 				7FCB3DB42B69659E00EC20E7 /* RecoveryEndViewModelProtocol.swift in Sources */,
