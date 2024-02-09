@@ -97,7 +97,6 @@ final class MainViewModel: MainViewModelProtocol {
         guard index < products.count else {
             return nil
         }
-        print(products[index])
         return PromotionUIModel(product: products[index],
                                 visualsService: promotionVisualService)
     }
@@ -131,10 +130,11 @@ final class MainViewModel: MainViewModelProtocol {
             }
             .store(in: &cancellables)
 
-        dataService.actualCategoryList
+        categoryService.categoryListUpdate
             .sink { [weak self] categoryList in
-                guard let self = self else { return }
-                self.categories = categoryList
+                self?.categories = categoryList
+                    .sorted { $0.priority < $1.priority }
+                    .map { Category(id: $0.priority, name: $0.name, image: $0.image) }
             }
             .store(in: &cancellables)
     }

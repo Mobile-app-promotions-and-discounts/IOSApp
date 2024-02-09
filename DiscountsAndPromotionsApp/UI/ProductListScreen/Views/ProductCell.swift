@@ -142,7 +142,10 @@ final class ProductCell: UICollectionViewCell {
         self.nameLabel.text = model.name
         if let imagePath = model.image,
            let imageURL = URL(string: imagePath) {
-            productImageView.kf.setImage(with: imageURL, placeholder: UIImage.productImagePlaceholder)
+            productImageView.kf.setImage(with: imageURL,
+                                         placeholder: UIImage.productImagePlaceholder,
+                                         options: [
+                                               .transition(ImageTransition.fade(0.3))])
         } else {
             productImageView.image = .productImagePlaceholder
         }

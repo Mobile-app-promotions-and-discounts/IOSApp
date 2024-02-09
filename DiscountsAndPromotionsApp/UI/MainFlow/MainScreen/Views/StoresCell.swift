@@ -1,4 +1,5 @@
 import UIKit
+import Kingfisher
 import SnapKit
 
 final class StoresCell: UICollectionViewCell {
@@ -25,7 +26,9 @@ final class StoresCell: UICollectionViewCell {
             return
         }
         if let imageURL = URL(string: imageString) {
-            storeImageView.kf.setImage(with: imageURL)
+            storeImageView.kf.setImage(with: imageURL,
+                                       options: [
+                                             .transition(ImageTransition.fade(0.3))])
         }
     }
 

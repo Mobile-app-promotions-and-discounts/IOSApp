@@ -68,7 +68,9 @@ final class PromotionCell: UICollectionViewCell {
 //        contentView.layer.insertSublayer(gradientLayer, at: 0)
 
         if let image = model.productImage {
-            productImageView.kf.setImage(with: URL(string: image))
+            productImageView.kf.setImage(with: URL(string: image),
+                                         options: [
+                                               .transition(ImageTransition.fade(0.3))])
         } else {
             productImageView.image = .productImagePlaceholder
         }

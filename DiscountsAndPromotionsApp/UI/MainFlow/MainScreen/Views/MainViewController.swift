@@ -66,7 +66,8 @@ final class MainViewController: ScannerEnabledViewController {
             .receive(on: RunLoop.main)
             .sink { [weak self] _ in
                 guard let self = self else { return }
-                self.mainCollectionView.reloadData()
+                let sectionIndex = MainSection.categories.rawValue
+                self.mainCollectionView.reloadSections(IndexSet(integer: sectionIndex))
             }
             .store(in: &cancellables)
 
@@ -75,7 +76,8 @@ final class MainViewController: ScannerEnabledViewController {
             .receive(on: RunLoop.main)
             .sink { [weak self] _ in
                 guard let self = self else { return }
-                self.mainCollectionView.reloadData()
+                let sectionIndex = MainSection.promotions.rawValue
+                self.mainCollectionView.reloadSections(IndexSet(integer: sectionIndex))
             }
             .store(in: &cancellables)
 
@@ -84,7 +86,8 @@ final class MainViewController: ScannerEnabledViewController {
             .receive(on: RunLoop.main)
             .sink { [weak self] _ in
                 guard let self = self else { return }
-                self.mainCollectionView.reloadData()
+                let sectionIndex = MainSection.stores.rawValue
+                self.mainCollectionView.reloadSections(IndexSet(integer: sectionIndex))
             }
             .store(in: &cancellables)
     }
@@ -153,7 +156,6 @@ extension MainViewController: UICollectionViewDataSource {
                 return UICollectionViewCell()
             }
             guard let category = viewModel.getCategoryUIModel(for: indexPath.row) else {
-//                ErrorHandler.handle(error: .customError("Ошибка получения категории во вью модели"))
                 return cell
             }
             cell.configure(with: category)

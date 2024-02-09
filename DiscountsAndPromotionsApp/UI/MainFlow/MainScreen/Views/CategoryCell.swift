@@ -1,4 +1,5 @@
 import UIKit
+import Kingfisher
 import SnapKit
 
 final class CategoryCell: UICollectionViewCell {
@@ -11,6 +12,10 @@ final class CategoryCell: UICollectionViewCell {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    override func prepareForReuse() {
+        self.categoryImageView.image = nil
     }
 
     private lazy var categoryImageView: UIImageView = {
@@ -27,7 +32,13 @@ final class CategoryCell: UICollectionViewCell {
     }()
 
     func configure(with model: CategoryUIModel) {
-        self.categoryImageView.image = model.image
+        if let imageURL = URL(string: model.image ?? "") {
+            categoryImageView.kf.setImage(with: imageURL,
+                                          options: [
+                                                .transition(ImageTransition.fade(0.3))])
+        } else {
+            categoryImageView.image = UIImage(systemName: "circle.fill")
+        }
         self.cellTitle.text = model.title
     }
 
