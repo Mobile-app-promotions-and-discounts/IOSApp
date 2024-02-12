@@ -66,11 +66,11 @@ final class MainViewModel: MainViewModelProtocol {
     func numberOfItems(inSection section: MainSection) -> Int {
         switch section {
         case .categories:
-            return 8
+            return categoryService.categoryListUpdate.value.count == 0 ? 8 : categoryService.categoryListUpdate.value.count
         case .promotions:
             return 6
         case .stores:
-            return 6
+            return storesService.chainListUpdate.value.count == 0 ? 6 : storesService.chainListUpdate.value.count
         }
     }
 
@@ -99,6 +99,13 @@ final class MainViewModel: MainViewModelProtocol {
         }
         return PromotionUIModel(product: products[index],
                                 visualsService: promotionVisualService)
+    }
+
+    func getProduct(for index: Int) -> Product? {
+        guard index < products.count else {
+            return nil
+        }
+        return products[index]
     }
 
     func getStore(for index: Int) -> StoreUIModel? {

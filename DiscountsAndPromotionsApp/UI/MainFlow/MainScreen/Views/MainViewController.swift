@@ -192,6 +192,9 @@ extension MainViewController: UICollectionViewDelegate {
         if indexPath.section == 0,
            let category = viewModel.getCategory(for: indexPath.row) {
             self.coordinator?.navigateToCategoryScreen(with: category)
+        } else if indexPath.section == 1,
+                  let product = viewModel.getProduct(for: indexPath.row) {
+            self.coordinator?.navigateToProductScreen(for: product)
         } else {
             print("Для других ячеек обработка нажатия будет реализована позже")
         }

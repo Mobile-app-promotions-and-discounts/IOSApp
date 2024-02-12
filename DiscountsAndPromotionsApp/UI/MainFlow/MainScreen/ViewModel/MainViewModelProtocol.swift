@@ -16,5 +16,6 @@ protocol MainViewModelProtocol {
     func getCategoryUIModel(for index: Int) -> CategoryUIModel?
     func getCategory(for index: Int) -> Category?
     func getPromotion(for idex: Int) -> PromotionUIModel?
+    func getProduct(for index: Int) -> Product?
     func getStore(for index: Int) -> StoreUIModel?
 }
