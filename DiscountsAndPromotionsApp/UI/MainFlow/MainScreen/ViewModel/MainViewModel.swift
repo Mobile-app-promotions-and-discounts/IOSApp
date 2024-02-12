@@ -11,6 +11,8 @@ final class MainViewModel: MainViewModelProtocol {
     private (set) var productsUpdate = CurrentValueSubject<[Product], Never>([])
     private (set) var storesUpdate = PassthroughSubject<[ChainStore], Never>()
     private (set) var promotionsUpdate = PassthroughSubject<[Product], Never>()
+    private (set) var didFetchStores = false
+    private (set) var didFetchProducts = false
 
     private var categories = [Category]() {
         didSet {
@@ -127,12 +129,14 @@ final class MainViewModel: MainViewModelProtocol {
     private func setupBindings() {
         productService.promotionListUpdate
             .sink { [weak self] productList in
+                self?.didFetchProducts = true
                 self?.products = productList.map { $0.convertToProductModel() }
             }
             .store(in: &cancellables)
 
         storesService.chainListUpdate
             .sink { [weak self] storeChainList in
+                self?.didFetchStores = true
                 self?.chains = storeChainList.map { $0.convert() }
             }
             .store(in: &cancellables)

@@ -6,7 +6,9 @@ protocol MainViewModelProtocol {
     var productsUpdate: CurrentValueSubject<[Product], Never> { get }
     var storesUpdate: PassthroughSubject<[ChainStore], Never> { get }
     var promotionsUpdate: PassthroughSubject<[Product], Never> { get }
-
+    
+    var didFetchStores: Bool { get }
+    var didFetchProducts: Bool { get }
     var numberOfSections: Int { get }
 
     func viewDidLoad()

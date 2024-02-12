@@ -128,6 +128,15 @@ extension MainViewController: UICollectionViewDataSource {
 
             let headerName = viewModel.getTitleFor(section: mainSection)
             header.configure(with: headerName)
+
+            if mainSection == .promotions {
+                header.isUserInteractionEnabled = viewModel.didFetchProducts
+            }
+
+            if mainSection == .stores {
+                header.isUserInteractionEnabled = viewModel.didFetchStores
+            }
+
             return header
         } else if kind == UICollectionView.elementKindSectionFooter {
             // Обработка подвала
