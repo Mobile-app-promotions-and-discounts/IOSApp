@@ -11,7 +11,7 @@ final class GenericNavigationController: UINavigationController {
     private func setupNavBar() {
         let imageSize = CGSize(width: navigationBar.frame.width, height: navigationBar.frame.width)
         let image = makeNavBackground(size: imageSize,
-                                      color: .cherryMainAccent,
+                                      color: .cherryWhite,
                                       cornerRadius: CornerRadius.regular.cgFloat())
 
         let standardAppearance = UINavigationBarAppearance()
@@ -23,6 +23,10 @@ final class GenericNavigationController: UINavigationController {
         navigationBar.standardAppearance = standardAppearance
         navigationBar.scrollEdgeAppearance = standardAppearance
         navigationBar.tintColor = .clear
+
+        navigationBar.layer.shadowColor = UIColor.black.cgColor
+        navigationBar.layer.shadowOpacity = 0.1
+        navigationBar.layer.shadowRadius = 10
     }
 
     private func makeNavBackground(size: CGSize, color: UIColor, cornerRadius: CGFloat) -> UIImage? {
