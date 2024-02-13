@@ -1,4 +1,5 @@
 import Combine
+import UIKit
 import Foundation
 
 protocol SearchViewModelProtocol {
@@ -7,27 +8,32 @@ protocol SearchViewModelProtocol {
 }
 
 class SearchViewModel: SearchViewModelProtocol {
-    private (set) var categoriesUpdate = PassthroughSubject<[Category], Never>()
+    var categoriesUpdate = PassthroughSubject<[Category], Never>()
 
-    private var dataService: DataServiceProtocol
+    private var categoryService: CategoryNetworkServiceProtocol
     private let productService: ProductNetworkServiceProtocol
-    private var subscriptions = Set<AnyCancellable>()
 
-    private (set) var categories = [Category]() {
-        didSet {
-            categoriesUpdate.send(categories)
+    private (set) var categories = [Category]()
+
+    init(categoryService: CategoryNetworkServiceProtocol, productService: ProductNetworkServiceProtocol) {
+        self.categoryService = categoryService
+        self.productService = productService
+        self.categories = categoryService.categoryListUpdate.value.sorted { $0.priority < $1.priority }.map {
+            Category(id: $0.priority, name: $0.name, image: $0.image)
         }
     }
 
-    init(dataService: DataServiceProtocol, productService: ProductNetworkServiceProtocol) {
-        self.dataService = dataService
-        self.productService = productService
-        setupBindings()
-    }
-
-    func getSearchCategory(for index: Int) -> SearchCategory {
+    func getSearchCategory(for index: Int) -> SearchCategoryModel {
         let category = categories[index]
-        return SearchCategory(rawValue: category.name) ?? SearchCategory.groceries
+        if let searchCategory = SearchCategory(rawValue: category.name) {
+            return SearchCategoryModel(icon: searchCategory.getIcon(),
+                                       name: searchCategory.rawValue,
+                                       id: searchCategory.getID())
+        } else {
+            return SearchCategoryModel(icon: UIImage(systemName: "circle.fill"),
+                                       name: category.name,
+                                       id: category.id)
+        }
     }
 
     func getCategory(for index: Int) -> Category? {
@@ -37,14 +43,5 @@ class SearchViewModel: SearchViewModelProtocol {
         } else {
             return nil
         }
-    }
-
-    private func setupBindings() {
-        dataService.actualCategoryList
-            .sink { [weak self] categoryList in
-                guard let self = self else { return }
-                self.categories = categoryList
-            }
-            .store(in: &subscriptions)
     }
 }

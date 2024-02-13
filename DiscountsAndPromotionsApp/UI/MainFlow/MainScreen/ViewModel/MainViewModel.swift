@@ -99,8 +99,7 @@ final class MainViewModel: MainViewModelProtocol {
         guard index < products.count else {
             return nil
         }
-        return PromotionUIModel(product: products[index],
-                                visualsService: promotionVisualService)
+        return PromotionUIModel(product: products[index])
     }
 
     func getProduct(for index: Int) -> Product? {

@@ -42,7 +42,7 @@ actor CategoryNetworkService: CategoryNetworkServiceProtocol {
             print(categoriesResponse)
             print("Categories fetched successfully")
 
-            self.categoryList = categoriesResponse.sorted { $0.id < $1.id }
+            self.categoryList = categoriesResponse.sorted { $0.priority < $1.priority }
         } catch let error {
             print("Error fetching categories: \(error.localizedDescription)")
 

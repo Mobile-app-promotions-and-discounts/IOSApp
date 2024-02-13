@@ -1,6 +1,8 @@
 import Combine
 import Foundation
 
+// TODO: сейчас много повторяющегося кода с ProductListViewModel, нужно будет их унифицировать
+
 final class PromotionsScreenViewModel: ProductListViewModelProtocol {
     private (set) var productsUpdate = PassthroughSubject<Int, Never>()
     private (set) var products: [Product] = [] {
