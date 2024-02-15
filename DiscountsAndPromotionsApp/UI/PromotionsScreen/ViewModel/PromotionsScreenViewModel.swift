@@ -58,6 +58,7 @@ final class PromotionsScreenViewModel: ProductListViewModelProtocol {
                                      isFavorite: isFavorite)
             products[index] = newProduct
         }
+
     }
 
     func likeButtonTapped(for productID: Int) {

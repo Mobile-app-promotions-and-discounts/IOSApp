@@ -72,7 +72,11 @@ final class MainViewModel: MainViewModelProtocol {
         case .promotions:
             return 6
         case .stores:
-            return storesService.chainListUpdate.value.count == 0 ? 6 : storesService.chainListUpdate.value.count
+            if storesService.chainListUpdate.value.count == 0 && storesService.chainListUpdate.value.count > 6 {
+                return 6
+            } else {
+                return storesService.chainListUpdate.value.count
+            }
         }
     }
 

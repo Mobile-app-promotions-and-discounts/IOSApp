@@ -74,6 +74,7 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
     private var isFavorite = (0, false) {
         didSet {
             isFavoriteUpdate.send(isFavorite)
+            updatePromotionFavorites(to: isFavorite)
         }
     }
     private var paginationState: (currentPage: Int, isLastPage: Bool) = (currentPage: 1, isLastPage: false) {
@@ -207,7 +208,6 @@ extension ProductNetworkService {
             print("Random offers fetched successfully")
             self.paginationState = (currentPage: 1,
                                     isLastPage: productGroupResponse.next == nil)
-            self.promotionListUpdate.append(productGroupResponse.results)
             self.promotionListUpdate.send(productGroupResponse.results)
         } catch let error {
             print("Error fetching offers: \(error.localizedDescription)")
@@ -318,6 +318,26 @@ extension ProductNetworkService {
         }
     }
 
+    private func updatePromotionFavorites(to isFavorite: (Int, Bool)) {
+        let updatedGroup = promotionListUpdate.value.map {
+            if $0.id == isFavorite.0 {
+                return ProductResponseModel(id: $0.id,
+                                            name: $0.name,
+                                            rating: $0.rating,
+                                            category: $0.category,
+                                            description: $0.description,
+                                            mainImage: $0.mainImage,
+                                            barcode: $0.barcode,
+                                            stores: $0.stores,
+                                            isFavorited: isFavorite.1,
+                                            images: $0.images)
+            } else {
+                return $0
+            }
+        }
+        promotionListUpdate.send(updatedGroup)
+    }
+
     nonisolated func removeFromFavorites(productID: Int) {
         Task { await deleteFavorite(productID: productID) }
     }
@@ -335,6 +355,7 @@ extension ProductNetworkService {
             let favoriteProductResponse: URLResponse = try await networkClient.request(for: urlRequest)
             print(favoriteProductResponse)
             print("Un-favorited product fetched successfully")
+
             self.isFavorite = (productID, false)
         } catch let error {
             print("Error removing from favorites: \(error.localizedDescription)")

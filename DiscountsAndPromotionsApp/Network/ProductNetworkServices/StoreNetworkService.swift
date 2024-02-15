@@ -21,11 +21,6 @@ actor StoreNetworkService: StoreNetworkServiceProtocol {
     }
 
     nonisolated let chainListUpdate = CurrentValueSubject<StoreChainsResponseModel, Never>([])
-    private var chainList = [StoreChainResponseModel]() {
-        didSet {
-            chainListUpdate.send(chainList)
-        }
-    }
 
     init(networkClient: NetworkClientProtocol,
          requestConstructor: NetworkRequestConstructorProtocol = NetworkRequestConstructor.shared) {
@@ -51,7 +46,8 @@ actor StoreNetworkService: StoreNetworkServiceProtocol {
             print("Store chains fetched successfully")
             print(chainsResponse)
 
-            self.chainList = chainsResponse.sorted { $0.id < $1.id }
+            let chainList = chainsResponse.sorted { $0.id < $1.id }
+            chainListUpdate.send(chainList)
         } catch let error {
             print("Error fetching store chains: \(error.localizedDescription)")
 
