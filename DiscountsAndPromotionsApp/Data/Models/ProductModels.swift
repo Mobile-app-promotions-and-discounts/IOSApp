@@ -39,7 +39,7 @@ struct Product: Codable, Hashable {
 struct Category: Codable, Hashable {
     let id: Int
     let name: String
-    let image: String
+    let image: String?
 }
 
 struct Offer: Codable, Hashable {

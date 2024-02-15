@@ -47,30 +47,34 @@ final class PromotionCell: UICollectionViewCell {
     }
 
     func configure(with model: PromotionUIModel) {
-        // Удаляем предыдущие градиентные слои, если они есть
-        contentView.layer.sublayers?.removeAll(where: { $0 is CAGradientLayer })
-
         // Заполняем содержимое акции
         if let imagePath = model.productImage {
             productImageView.image = UIImage(named: imagePath)
         }
 
-        discountLabel.text = "До -40%"
+        discountLabel.text = model.discount
         priceLabel.text = model.price
 
-        // Настройка градиента заднего фона
-        let gradientAccent: UIColor = model.gradientAccentColor
-        let gradientLayer = CherryGradient.setupGradientLayer(accentColor: gradientAccent, for: contentView)
+        if let image = model.productImage {
+            productImageView.kf.setImage(with: URL(string: image),
+                                         placeholder: UIImage.productImagePlaceholder,
+                                         options: [
+                                               .transition(ImageTransition.fade(0.3))])
+        } else {
+            productImageView.image = .productImagePlaceholder
+        }
+        UIView.animate(withDuration: 0.3, animations: { [weak self] in
+            self?.productImageView.alpha = 1
+        })
 
-        gradientLayer.needsDisplayOnBoundsChange = true
-
-        // Добавление градиента к contentView
-        contentView.layer.insertSublayer(gradientLayer, at: 0)
+        discountLabel.isHidden = model.discount.isEmpty
+        discountBGView.isHidden = model.discount.isEmpty
     }
 
     private func setupViews() {
         contentView.layer.cornerRadius = CornerRadius.large.cgFloat()
         contentView.clipsToBounds = true
+        contentView.backgroundColor = .cherryLightBlue
 
         [priceLabel, productImageView, discountBGView, discountLabel].forEach { contentView.addSubview($0) }
 
@@ -84,6 +88,7 @@ final class PromotionCell: UICollectionViewCell {
             make.top.equalToSuperview().inset(8)
             make.bottom.equalTo(priceLabel.snp.top).inset(-4)
         }
+        productImageView.alpha = 0
 
         discountBGView.snp.makeConstraints { make in
             make.top.equalTo(productImageView.snp.top).inset(4)
@@ -91,10 +96,12 @@ final class PromotionCell: UICollectionViewCell {
             make.height.equalTo(18)
             make.width.equalTo(60)
         }
+        discountBGView.isHidden = true
 
         discountLabel.snp.makeConstraints { make in
             make.centerX.equalTo(discountBGView.snp.centerX)
             make.centerY.equalTo(discountBGView.snp.centerY)
         }
+        discountLabel.isHidden = true
     }
 }

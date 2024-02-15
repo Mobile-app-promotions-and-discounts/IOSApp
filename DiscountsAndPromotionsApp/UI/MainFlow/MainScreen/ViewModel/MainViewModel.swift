@@ -8,9 +8,11 @@ final class MainViewModel: MainViewModelProtocol {
     }
 
     private (set) var categoriesUpdate = PassthroughSubject<[Category], Never>()
-    private (set) var productsUpdate = PassthroughSubject<[Product], Never>()
-    private (set) var storesUpdate = PassthroughSubject<[Store], Never>()
+    private (set) var productsUpdate = CurrentValueSubject<[Product], Never>([])
+    private (set) var storesUpdate = PassthroughSubject<[ChainStore], Never>()
     private (set) var promotionsUpdate = PassthroughSubject<[Product], Never>()
+    private (set) var didFetchStores = false
+    private (set) var didFetchProducts = false
 
     private var categories = [Category]() {
         didSet {
@@ -25,9 +27,9 @@ final class MainViewModel: MainViewModelProtocol {
         }
     }
 
-    private var stores = [Store]() {
+    private var chains = [ChainStore]() {
         didSet {
-            storesUpdate.send(stores)
+            storesUpdate.send(chains)
         }
     }
 
@@ -39,6 +41,7 @@ final class MainViewModel: MainViewModelProtocol {
 
     private var dataService: DataServiceProtocol
     private var productService: ProductNetworkServiceProtocol
+    private var storesService: StoreNetworkServiceProtocol
     private var categoryService: CategoryNetworkServiceProtocol
     private var promotionVisualService: PromotionVisualsService
     private var cancellables = Set<AnyCancellable>()
@@ -46,27 +49,34 @@ final class MainViewModel: MainViewModelProtocol {
     init(dataService: DataServiceProtocol,
          categoryService: CategoryNetworkServiceProtocol,
          prosuctService: ProductNetworkServiceProtocol,
+         storesService: StoreNetworkServiceProtocol,
          promotionVisualService: PromotionVisualsService) {
         self.dataService = dataService
         self.promotionVisualService = promotionVisualService
         self.productService = prosuctService
+        self.storesService = storesService
         self.categoryService = categoryService
         setupBindings()
     }
 
     func viewDidLoad() {
-        dataService.loadData()
+        productService.getRandomOffers()
+        storesService.fetchChains()
         categoryService.fetchCategories()
     }
 
     func numberOfItems(inSection section: MainSection) -> Int {
         switch section {
         case .categories:
-            return 8
+            return categoryService.categoryListUpdate.value.count == 0 ? 8 : categoryService.categoryListUpdate.value.count
         case .promotions:
             return 6
         case .stores:
-            return 6
+            if storesService.chainListUpdate.value.count == 0 && storesService.chainListUpdate.value.count > 6 {
+                return 6
+            } else {
+                return storesService.chainListUpdate.value.count
+            }
         }
     }
 
@@ -90,49 +100,55 @@ final class MainViewModel: MainViewModelProtocol {
     }
 
     func getPromotion(for index: Int) -> PromotionUIModel? {
-        guard index < promotions.count else {
+        guard index < products.count else {
             return nil
         }
-        let promotion = promotions[index]
-        return PromotionUIModel(product: promotion, visualsService: promotionVisualService)
+        return PromotionUIModel(product: products[index])
     }
 
-    func getStore(for index: Int) -> StoreUIModel {
-        let store = stores[index]
-        return StoreUIModel(store: store)
+    func getProduct(for index: Int) -> Product? {
+        guard index < products.count else {
+            return nil
+        }
+        return products[index]
     }
 
-    func getCategory(for index: Int) -> Category {
+    func getStore(for index: Int) -> StoreUIModel? {
+        guard index < chains.count else {
+            return nil
+        }
+        let store = chains[index]
+        return StoreUIModel(name: store.name, logo: store.logo)
+    }
+
+    func getCategory(for index: Int) -> Category? {
+        guard index < categories.count else {
+            return nil
+        }
         let category = categories[index]
         return category
     }
 
     private func setupBindings() {
-        dataService.actualGoodsList
-            .sink { [weak self] productsList in
-                guard let self = self else { return }
-                self.products = productsList
+        productService.promotionListUpdate
+            .sink { [weak self] productList in
+                self?.didFetchProducts = true
+                self?.products = productList.map { $0.convertToProductModel() }
             }
             .store(in: &cancellables)
 
-        dataService.actualCategoryList
+        storesService.chainListUpdate
+            .sink { [weak self] storeChainList in
+                self?.didFetchStores = true
+                self?.chains = storeChainList.map { $0.convert() }
+            }
+            .store(in: &cancellables)
+
+        categoryService.categoryListUpdate
             .sink { [weak self] categoryList in
-                guard let self = self else { return }
-                self.categories = categoryList
-            }
-            .store(in: &cancellables)
-
-        dataService.actualStoreList
-            .sink { [weak self] storeList in
-                guard let self = self else { return }
-                self.stores = storeList
-            }
-            .store(in: &cancellables)
-
-        dataService.promotionList
-            .sink { [weak self] promotionList in
-                guard let self = self else { return }
-                self.promotions = promotionList
+                self?.categories = categoryList
+                    .sorted { $0.priority < $1.priority }
+                    .map { Category(id: $0.priority, name: $0.name, image: $0.image) }
             }
             .store(in: &cancellables)
     }

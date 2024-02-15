@@ -72,6 +72,7 @@
 		BC6046212B1E4B7900536EB3 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC60461A2B1E4B7900536EB3 /* ProfileViewModel.swift */; };
 		BC6046232B1E4BC600536EB3 /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6046222B1E4BC600536EB3 /* TextField.swift */; };
 		BC6046252B1E4C0100536EB3 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6046242B1E4C0100536EB3 /* Date+Extension.swift */; };
+		BC70C8EE2B70B8C400991087 /* PromotionsScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC70C8ED2B70B8C400991087 /* PromotionsScreenViewModel.swift */; };
 		BC93BB692B0BC313008BE2AD /* ScanFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC93BB682B0BC313008BE2AD /* ScanFlowCoordinator.swift */; };
 		BC93BB6B2B0BCBF1008BE2AD /* StringBarcodeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC93BB6A2B0BCBF1008BE2AD /* StringBarcodeExtension.swift */; };
 		BC93BB722B0C814F008BE2AD /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC93BB712B0C814F008BE2AD /* PrimaryButton.swift */; };
@@ -267,6 +268,7 @@
 		BC60461A2B1E4B7900536EB3 /* ProfileViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		BC6046222B1E4BC600536EB3 /* TextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TextField.swift; path = DiscountsAndPromotionsApp/DesignSystem/TextField.swift; sourceTree = SOURCE_ROOT; };
 		BC6046242B1E4C0100536EB3 /* Date+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
+		BC70C8ED2B70B8C400991087 /* PromotionsScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromotionsScreenViewModel.swift; sourceTree = "<group>"; };
 		BC93BB682B0BC313008BE2AD /* ScanFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanFlowCoordinator.swift; sourceTree = "<group>"; };
 		BC93BB6A2B0BCBF1008BE2AD /* StringBarcodeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringBarcodeExtension.swift; sourceTree = "<group>"; };
 		BC93BB702B0BDA0A008BE2AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -629,6 +631,22 @@
 			path = MainProfile;
 			sourceTree = "<group>";
 		};
+		BC70C8EF2B7208FB00991087 /* PromotionsScreen */ = {
+			isa = PBXGroup;
+			children = (
+				BC70C8F02B72091000991087 /* ViewModel */,
+			);
+			path = PromotionsScreen;
+			sourceTree = "<group>";
+		};
+		BC70C8F02B72091000991087 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				BC70C8ED2B70B8C400991087 /* PromotionsScreenViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		BCAA6CF32B4E70F0007C6FB4 /* ReviewsScreen */ = {
 			isa = PBXGroup;
 			children = (
@@ -770,6 +788,7 @@
 				92787F6C2B1F263A0045B678 /* SplashScreen */,
 				BC60460F2B1E4B7900536EB3 /* ProfileScreen */,
 				BCCF4FC82B1B4AF10067A552 /* MainFlow */,
+				BC70C8EF2B7208FB00991087 /* PromotionsScreen */,
 				BE70C2202B1E57EA004FD1E9 /* AllShopsScreen */,
 				BCCF4FD32B1B4AF10067A552 /* SearchFlow */,
 				BCCF4FD52B1B4AF10067A552 /* ScanFlow */,
@@ -1382,6 +1401,7 @@
 				BC0545722B1D274D008D65A3 /* SearchCaterory.swift in Sources */,
 				BCCF50172B1B4AF10067A552 /* FavoritesViewModel.swift in Sources */,
 				BC6046212B1E4B7900536EB3 /* ProfileViewModel.swift in Sources */,
+				BC70C8EE2B70B8C400991087 /* PromotionsScreenViewModel.swift in Sources */,
 				BC93BB692B0BC313008BE2AD /* ScanFlowCoordinator.swift in Sources */,
 				BCD4B4712B2F58E400539CD1 /* DiscountResponseModel.swift in Sources */,
 				BCCF50092B1B4AF10067A552 /* SearchViewController.swift in Sources */,

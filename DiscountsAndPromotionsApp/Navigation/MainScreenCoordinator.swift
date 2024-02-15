@@ -7,18 +7,21 @@ final class MainScreenCoordinator: SearchEnabledCoordinator {
     private let dataService: DataServiceProtocol
     private (set) var productService: ProductNetworkServiceProtocol
     private (set) var categoryService: CategoryNetworkServiceProtocol
+    private (set) var storeService: StoreNetworkServiceProtocol
     private (set) var profileService: ProfileServiceProtocol
     private let promotionVisualService: PromotionVisualsService
 
     init(navigationController: UINavigationController,
          dataService: DataServiceProtocol,
          productService: ProductNetworkServiceProtocol,
+         storeService: StoreNetworkServiceProtocol,
          categoryService: CategoryNetworkServiceProtocol,
          profileService: ProfileServiceProtocol,
          promotionVisualService: PromotionVisualsService = PromotionVisualsService()) {
         self.navigationController = navigationController
         self.dataService = dataService
         self.productService = productService
+        self.storeService = storeService
         self.categoryService = categoryService
         self.profileService = profileService
         self.promotionVisualService = promotionVisualService
@@ -28,6 +31,7 @@ final class MainScreenCoordinator: SearchEnabledCoordinator {
         let mainViewModel = MainViewModel(dataService: dataService,
                                           categoryService: categoryService,
                                           prosuctService: productService,
+                                          storesService: storeService,
                                           promotionVisualService: promotionVisualService)
         let mainViewController = MainViewController(viewModel: mainViewModel)
         mainViewController.coordinator = self
@@ -45,7 +49,7 @@ final class MainScreenCoordinator: SearchEnabledCoordinator {
     }
 
     func navigateToSearchScreen() {
-        let viewModel = SearchViewModel(dataService: dataService, productService: productService)
+        let viewModel = SearchViewModel(categoryService: categoryService, productService: productService)
         let searchController = SearchViewController(viewModel: viewModel)
         searchController.coordinator = self
         navigationController.pushViewController(searchController, animated: true)
@@ -67,9 +71,13 @@ final class MainScreenCoordinator: SearchEnabledCoordinator {
     func navigateToAllDetailsScreen(with type: MainSection) {
         switch type {
         case .promotions:
-            ErrorHandler.handle(error: .profileError("Нажата кнопка Все на секции с акциями"))
+            let viewModel = PromotionsScreenViewModel(productService: productService)
+            let promotionsViewController = ProductListViewController(viewModel: viewModel)
+            promotionsViewController.coordinator = self
+            promotionsViewController.hidesBottomBarWhenPushed = true
+            navigationController.pushViewController(promotionsViewController, animated: true)
         case .stores:
-            let viewModel = AllStoresViewModel(dataService: dataService)
+            let viewModel = AllStoresViewModel(storesService: storeService)
             let viewController = AllStoresViewController(viewModel: viewModel)
             viewController.coordinator = self
             navigationController.pushViewController(viewController, animated: true)

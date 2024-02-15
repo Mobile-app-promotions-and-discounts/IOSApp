@@ -13,4 +13,11 @@ struct StoreUIModel {
         self.offersCount = 150 // Пока не понял откуда и как считать
         self.distance = 240 // Пока не понял откуда и как считать
     }
+
+    init(name: String, logo: String?) {
+        self.name = name
+        self.image = logo
+        self.offersCount = 0
+        self.distance = 0
+    }
 }

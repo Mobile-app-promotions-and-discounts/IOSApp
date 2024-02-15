@@ -21,7 +21,6 @@ final class PromotionVisualsService {
         if let attributes = visualsDict[category.id] {
             return attributes
         } else {
-            ErrorHandler.handle(error: .customError("Ошибка получения атрибутов для Акии"))
             return nil
         }
     }

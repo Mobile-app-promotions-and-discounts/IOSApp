@@ -1,7 +1,7 @@
 import UIKit
 
 final class SearchCategoryCell: UITableViewCell {
-    private (set) var category: Category?
+    private (set) var category: SearchCategoryModel?
     static let reuseIdentiffier = "SearchCategoryCell"
 
     private lazy var backdropView = {
@@ -21,10 +21,10 @@ final class SearchCategoryCell: UITableViewCell {
         UIImageView()
     }()
 
-    func setUpCell(with searchCategory: SearchCategory) {
-        category = Category(id: searchCategory.getID(), name: searchCategory.rawValue, image: "")
-        categoryIconView.image = searchCategory.getIcon()
-        categoryNameLabel.text = searchCategory.rawValue
+    func setUpCell(with searchCategory: SearchCategoryModel) {
+        category = searchCategory
+        categoryIconView.image = searchCategory.icon
+        categoryNameLabel.text = searchCategory.name
 
         setupUI()
     }
