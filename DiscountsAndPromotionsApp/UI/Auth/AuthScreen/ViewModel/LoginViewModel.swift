@@ -10,8 +10,7 @@ final class LoginViewModel: LoginViewModelProtocol {
     var validToSubmit: AnyPublisher<Bool, Never> {
         return Publishers.CombineLatest(userEmail, userPassword)
             .receive(on: DispatchQueue.main)
-            .map {
-                userName, password in
+            .map { userName, password in
                 return !userName.isEmpty && !password.isEmpty
             } .eraseToAnyPublisher()
     }
@@ -26,7 +25,6 @@ final class LoginViewModel: LoginViewModelProtocol {
         self.userPassword = CurrentValueSubject("")
         self.cancellables = Set<AnyCancellable>()
         self.authService = AuthService(networkClient: NetworkClient())
-        self.bindingOn()
     }
 
     func didTapLoginButton() {
@@ -41,8 +39,16 @@ final class LoginViewModel: LoginViewModelProtocol {
         userPassword.send(newPassword)
     }
 
-    func bindingOff() {
-        cancellables.removeAll()
+    func viewWillAppear() {
+        bindingOn()
+    }
+
+    func viewWillDisappear() {
+        bindingOff()
+    }
+
+    func checkUserEmail() -> Bool {
+        return userEmail.value.contains("@")
     }
 
     private func checkUserAuthData() {
@@ -56,5 +62,9 @@ final class LoginViewModel: LoginViewModelProtocol {
             .sink { [weak self] isUpdate in
                 self?.isUserAuthorizedUpdate.send(isUpdate)
             }.store(in: &cancellables)
+    }
+
+    private func bindingOff() {
+        cancellables.removeAll()
     }
 }

@@ -14,7 +14,7 @@ final class AuthCoordinator: Coordinator {
 
         self.authService = authService
         self.userNetworkService = userNetworkService
-        self.navigationController.navigationBar.isHidden = true
+        setupNavigationController()
     }
 
     func start() { }
@@ -39,11 +39,24 @@ final class AuthCoordinator: Coordinator {
     func navigateToSuccessScreen() {
         let sucessViewController = SuccessRegistrationViewController()
         sucessViewController.coordinator = self
-        sucessViewController.modalPresentationStyle = .custom
         navigationController.pushViewController(sucessViewController, animated: true)
     }
 
-    func backToNavigateLoginViewController() {
+    func navigateToRecoveryStartScreen() {
+        let recoveryStartViewModel = RecoveryStartViewModel()
+        let recoveryStartViewController = RecoveryStartViewController(viewModel: recoveryStartViewModel)
+        recoveryStartViewController.coordinator = self
+        navigationController.pushViewController(recoveryStartViewController, animated: true)
+    }
+
+    func navigateToRecoveryEndScreen() {
+        let recoveryEndViewModel = RecoveryEndViewModel()
+        let recoveryEndViewController = RecoveryEndViewController(viewModel: recoveryEndViewModel)
+        recoveryEndViewController.coordinator = self
+        navigationController.pushViewController(recoveryEndViewController, animated: true)
+    }
+
+    func popToNavigate() {
         navigationController.popViewController(animated: true)
     }
 
@@ -53,6 +66,12 @@ final class AuthCoordinator: Coordinator {
 
     func navigateToMainScreen() {
         mainCoordinator?.navigateToMainScreen()
+    }
+
+    private func setupNavigationController() {
+        navigationController.navigationBar.isHidden = true
+        navigationController.view.layer.cornerRadius =  12
+        navigationController.view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
     }
 
 }

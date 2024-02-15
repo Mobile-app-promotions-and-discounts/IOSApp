@@ -51,6 +51,7 @@ final class InputUserDataField: UIView {
         let textField = UITextField()
         textField.font = CherryFonts.textMedium
         textField.textColor = .cherryBlack
+        textField.autocapitalizationType = .none
         textField.layer.cornerRadius = Constants.TextField.cornerRadius
         textField.layer.borderWidth = Constants.TextField.borderWidth
         textField.layer.borderColor = UIColor.cherryGrayBlue.cgColor
@@ -109,7 +110,9 @@ final class InputUserDataField: UIView {
 
     @objc private func showHidePassword() {
         inputDataTextField.isSecureTextEntry.toggle()
-        showHidePasswordButton.setImage(inputDataTextField.isSecureTextEntry ? .icEyeOpen : .icEyeClosed, for: .normal)
+        showHidePasswordButton.setImage(
+            inputDataTextField.isSecureTextEntry ? .icEyeOpen : .icEyeClosed, for: .normal
+        )
     }
 
     private enum Constants {
