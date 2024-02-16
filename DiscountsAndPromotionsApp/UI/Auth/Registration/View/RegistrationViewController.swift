@@ -49,6 +49,7 @@ final class RegistrationViewController: AuthParentViewController {
         label.textColor = .cherryMainAccent
         label.textAlignment = .center
         label.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(policyAction)))
+        label.isUserInteractionEnabled = true
         return label
     }()
 
@@ -101,7 +102,7 @@ final class RegistrationViewController: AuthParentViewController {
                 if isAutorizated {
                     self?.navigateToSuccessScreen()
                 } else {
-                    ErrorHandler.handle(error: .authorizationError)
+                    ErrorHandler.handle(error: .authError)
                 }
             }.store(in: &cancellables)
     }
@@ -113,8 +114,8 @@ final class RegistrationViewController: AuthParentViewController {
     private func setupConstraints() {
         [inputFieldsStack,
          privatePolicyLabel,
-         privatePolicyLabelTap,
-         registrationButton].forEach { view.addSubview($0) }
+         registrationButton,
+         privatePolicyLabelTap].forEach { view.addSubview($0) }
 
         inputFieldsStack.snp.makeConstraints {
             $0.top.equalToSuperview()
@@ -171,8 +172,7 @@ final class RegistrationViewController: AuthParentViewController {
 
     @objc
     private func policyAction() {
-        // Настроить переход на экран условия и политики конфиденсиальности
-        print("tap Policy")
+        coordinator?.navigateToPrivacyWebView(from: self)
     }
 
     @objc private func registerAction() {

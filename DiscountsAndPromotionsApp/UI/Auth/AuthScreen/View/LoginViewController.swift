@@ -119,9 +119,7 @@ final class LoginViewController: AuthParentViewController {
     }
 
     @objc private func registerAction() {
-        // Временное решение для перехода выбора города
-        coordinator?.navigateToSuccessScreen()
-//        coordinator?.navigateToRegistrationScreen()
+        coordinator?.navigateToRegistrationScreen()
     }
 
     @objc private func changeEmail(_ textField: UITextField) {

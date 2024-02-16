@@ -43,7 +43,7 @@ final class CityTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configureCity(_ cityModel: CityModel) {
+    func configureCity(_ cityModel: CityUIModel) {
         cityLabel.text = cityModel.name
         countryLabel.text = cityModel.country
     }

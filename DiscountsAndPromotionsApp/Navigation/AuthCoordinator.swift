@@ -20,12 +20,19 @@ final class AuthCoordinator: Coordinator {
     func start() { }
 
     func navigateLoginViewController(from viewController: UIViewController) {
+        /*
+         Временное решение
+         */
+        navigateToGeopositionScreen(from: viewController)
+
+        /*
         let loginViewController = LoginViewController()
         loginViewController.coordinator = self
         navigationController.viewControllers = [loginViewController]
         navigationController.modalPresentationStyle = .custom
         navigationController.transitioningDelegate = viewController as? any UIViewControllerTransitioningDelegate
         viewController.present(navigationController, animated: true)
+         */
     }
 
     func navigateToRegistrationScreen() {
@@ -34,6 +41,13 @@ final class AuthCoordinator: Coordinator {
         let registerViewController = RegistrationViewController(viewModel: registrationViewModel)
         registerViewController.coordinator = self
         navigationController.pushViewController(registerViewController, animated: true)
+    }
+
+    func navigateToPrivacyWebView(from viewController: UIViewController) {
+        let privacyWebViewVC = WebViewViewController(titleName: L10n.WebView.termsAndPrivacy,
+                                                     webViewURL: .termsAndPrivacy)
+        privacyWebViewVC.modalPresentationStyle = .overFullScreen
+        viewController.present(privacyWebViewVC, animated: true)
     }
 
     func navigateToSuccessScreen() {

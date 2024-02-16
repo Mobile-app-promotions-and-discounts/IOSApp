@@ -73,6 +73,53 @@ final class SelectionCityViewController: SearchEnabledViewController {
         bindingOff()
     }
 
+    private func bindingOn() {
+
+        viewModel.isChangeCities
+            .receive(on: DispatchQueue.main)
+            .sink { [ weak self ] isChange in
+                self?.changeTableView(isChange)
+            }.store(in: &cancellables)
+
+        viewModel.tableIsEmpty
+            .receive(on: DispatchQueue.main)
+            .sink { [ weak self ] isEmpty in
+                self?.tableViewIsEmpty(isEmpty)
+            }.store(in: &cancellables)
+
+        viewModel.networkIsWorking
+            .receive(on: RunLoop.main)
+            .sink { [ weak self ] isWorking in
+                self?.isShowActivityIndicator(isWorking)
+            }.store(in: &cancellables)
+    }
+
+    private func bindingOff() {
+        cancellables.removeAll()
+    }
+
+    private func tableViewIsEmpty(_ isEmpty: Bool) {
+        citiesTableView.isHidden = isEmpty
+        emptyImageView.isHidden = !isEmpty
+        emptyLabel.isHidden = !isEmpty
+    }
+
+    private func isShowActivityIndicator(_ isShow: Bool) {
+        if isShow {
+            activityIdicator.startAnimating()
+        } else {
+            activityIdicator.stopAnimating()
+        }
+    }
+
+    private func changeTableView(_ isChange: Bool) {
+        if isChange { citiesTableView.reloadData() }
+    }
+
+    @objc private func backAction() {
+        self.dismiss(animated: true)
+    }
+
     private func setupView() {
         view.backgroundColor = .cherryWhite
         showBackButton()
@@ -81,10 +128,6 @@ final class SelectionCityViewController: SearchEnabledViewController {
         }
         searchBar.searchTextField.delegate = self
         searchBar.delegate = self
-    }
-
-    @objc private func backAction() {
-        self.dismiss(animated: true)
     }
 
     private func setupConstraints() {
@@ -117,47 +160,6 @@ final class SelectionCityViewController: SearchEnabledViewController {
             $0.bottom.leading.trailing.equalToSuperview()
         }
 
-    }
-
-    private func bindingOn() {
-
-        viewModel.isChangeCities
-            .receive(on: RunLoop.main)
-            .sink { [ weak self ] isChange in
-                if isChange {
-                    self?.citiesTableView.reloadData()
-                }
-            }.store(in: &cancellables)
-
-        viewModel.tableIsEmpty
-            .receive(on: RunLoop.main)
-            .sink { [ weak self ] isEmpty in
-                self?.tableViewIsEmpty(isEmpty)
-            }.store(in: &cancellables)
-
-        viewModel.networkIsWorking
-            .receive(on: RunLoop.main)
-            .sink { [ weak self ] isWorking in
-                self?.isShowActivityIndicator(isWorking)
-            }.store(in: &cancellables)
-    }
-
-    private func bindingOff() {
-        cancellables.removeAll()
-    }
-
-    private func tableViewIsEmpty(_ isEmpty: Bool) {
-        citiesTableView.isHidden = isEmpty
-        emptyImageView.isHidden = !isEmpty
-        emptyLabel.isHidden = !isEmpty
-    }
-
-    private func isShowActivityIndicator(_ isShow: Bool) {
-        if isShow {
-            activityIdicator.startAnimating()
-        } else {
-            activityIdicator.stopAnimating()
-        }
     }
 
     private enum Const {
@@ -217,11 +219,14 @@ extension SelectionCityViewController: UITextFieldDelegate {
 }
 
 // MARK: - UISearchBarDelegate
+// FIXME: -  Починить скрытие клавиатуры
 /*
  Не работает скрытие клавиатуры при нажатии на кнопку отмена(справа) в SearchBar
  Не работает скрытие клавиаутуры при нажатии вне поисковой строки
  */
+
 extension SelectionCityViewController {
+
     func searchBar(_: UISearchBar, textDidChange: String) {
         viewModel.findCity(textDidChange)
     }

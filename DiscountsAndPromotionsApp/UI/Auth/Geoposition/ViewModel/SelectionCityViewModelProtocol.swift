@@ -5,7 +5,7 @@ protocol SelectionCityViewModelProtocol {
     var tableIsEmpty: CurrentValueSubject<Bool, Never> { get }
     var networkIsWorking: CurrentValueSubject<Bool, Never> { get }
     var isChangeCities: PassthroughSubject<Bool, Never> { get }
-    var visibleCities: [CityModel] { get }
+    var visibleCities: [CityUIModel] { get }
 
     func viewWillAppear()
     func viewWillDisappear()

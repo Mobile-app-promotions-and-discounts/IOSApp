@@ -15,13 +15,15 @@
 		7F2137DC2B500393006B680C /* LocationFlow.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7F2137DB2B500393006B680C /* LocationFlow.xcstrings */; };
 		7F2137DE2B516E65006B680C /* AuthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F2137DD2B516E65006B680C /* AuthCoordinator.swift */; };
 		7F2137E02B517265006B680C /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F2137DF2B517265006B680C /* AuthViewController.swift */; };
-		7FA46CE12B6CF03300820A39 /* UIKit_ext..swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA46CE02B6CF03300820A39 /* UIKit_ext..swift */; };
+		7F8A3FF82B7DE56600FF0EDC /* WebViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F8A3FF72B7DE56600FF0EDC /* WebViewViewController.swift */; };
+		7F8A3FFA2B7E11EA00FF0EDC /* WebViewFlow.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7F8A3FF92B7E11EA00FF0EDC /* WebViewFlow.xcstrings */; };
+		7FA46CE12B6CF03300820A39 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA46CE02B6CF03300820A39 /* UILabel+Extension.swift */; };
 		7FA46CE52B6D055100820A39 /* AuthParentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA46CE42B6D055100820A39 /* AuthParentViewController.swift */; };
 		7FA46CE72B737E7A00820A39 /* SelectionCityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA46CE62B737E7A00820A39 /* SelectionCityViewController.swift */; };
 		7FA46CE92B737F2F00820A39 /* SelectionCityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA46CE82B737F2F00820A39 /* SelectionCityViewModel.swift */; };
 		7FA46CEB2B737F5B00820A39 /* SelectionCityViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA46CEA2B737F5B00820A39 /* SelectionCityViewModelProtocol.swift */; };
 		7FA46CEF2B73809E00820A39 /* CityResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA46CEE2B73809E00820A39 /* CityResponseModel.swift */; };
-		7FA46CF22B738B9E00820A39 /* CityModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA46CF12B738B9E00820A39 /* CityModel.swift */; };
+		7FA46CF22B738B9E00820A39 /* CityUIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA46CF12B738B9E00820A39 /* CityUIModel.swift */; };
 		7FA46CF42B739EFC00820A39 /* CityTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA46CF32B739EFC00820A39 /* CityTableViewCell.swift */; };
 		7FCB3D2F2B56A0DB00EC20E7 /* UserShotResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCB3D2E2B56A0DB00EC20E7 /* UserShotResponseModel.swift */; };
 		7FCB3D942B6038A100EC20E7 /* RecoveryStartFlow.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7FCB3D932B6038A100EC20E7 /* RecoveryStartFlow.xcstrings */; };
@@ -217,13 +219,15 @@
 		7F2137DB2B500393006B680C /* LocationFlow.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = LocationFlow.xcstrings; sourceTree = "<group>"; };
 		7F2137DD2B516E65006B680C /* AuthCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCoordinator.swift; sourceTree = "<group>"; };
 		7F2137DF2B517265006B680C /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
-		7FA46CE02B6CF03300820A39 /* UIKit_ext..swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKit_ext..swift; sourceTree = "<group>"; };
+		7F8A3FF72B7DE56600FF0EDC /* WebViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewViewController.swift; sourceTree = "<group>"; };
+		7F8A3FF92B7E11EA00FF0EDC /* WebViewFlow.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = WebViewFlow.xcstrings; sourceTree = "<group>"; };
+		7FA46CE02B6CF03300820A39 /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
 		7FA46CE42B6D055100820A39 /* AuthParentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthParentViewController.swift; sourceTree = "<group>"; };
 		7FA46CE62B737E7A00820A39 /* SelectionCityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionCityViewController.swift; sourceTree = "<group>"; };
 		7FA46CE82B737F2F00820A39 /* SelectionCityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionCityViewModel.swift; sourceTree = "<group>"; };
 		7FA46CEA2B737F5B00820A39 /* SelectionCityViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionCityViewModelProtocol.swift; sourceTree = "<group>"; };
 		7FA46CEE2B73809E00820A39 /* CityResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityResponseModel.swift; sourceTree = "<group>"; };
-		7FA46CF12B738B9E00820A39 /* CityModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityModel.swift; sourceTree = "<group>"; };
+		7FA46CF12B738B9E00820A39 /* CityUIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityUIModel.swift; sourceTree = "<group>"; };
 		7FA46CF32B739EFC00820A39 /* CityTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityTableViewCell.swift; sourceTree = "<group>"; };
 		7FCB3D2E2B56A0DB00EC20E7 /* UserShotResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserShotResponseModel.swift; sourceTree = "<group>"; };
 		7FCB3D932B6038A100EC20E7 /* RecoveryStartFlow.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = RecoveryStartFlow.xcstrings; sourceTree = "<group>"; };
@@ -484,7 +488,7 @@
 		7FA46CF02B738B8900820A39 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				7FA46CF12B738B9E00820A39 /* CityModel.swift */,
+				7FA46CF12B738B9E00820A39 /* CityUIModel.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -1054,6 +1058,7 @@
 				7F2137DB2B500393006B680C /* LocationFlow.xcstrings */,
 				7FCB3D932B6038A100EC20E7 /* RecoveryStartFlow.xcstrings */,
 				7FCB3D952B603C1500EC20E7 /* RecoveryEndFlow.xcstrings */,
+				7F8A3FF92B7E11EA00FF0EDC /* WebViewFlow.xcstrings */,
 				92787F712B1F5F5F0045B678 /* Localization.swift */,
 			);
 			path = Configuration;
@@ -1096,7 +1101,6 @@
 				BC6046222B1E4BC600536EB3 /* TextField.swift */,
 				BC0723112B1A4E5300EF82B8 /* Gradients.swift */,
 				BE007AF62B399D9600BCFDCF /* EmptyOnScreenView.swift */,
-				7FA46CE02B6CF03300820A39 /* UIKit_ext..swift */,
 				BCAA6D052B4F13CB007C6FB4 /* StarsRatingView */,
 			);
 			path = DesignSystem;
@@ -1122,6 +1126,7 @@
 		BE3524722B02B30800746581 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				7FA46CE02B6CF03300820A39 /* UILabel+Extension.swift */,
 				BC60460D2B1E4B5900536EB3 /* UIColor+Extension.swift */,
 				927EC3032B1F94EF005C100B /* UIImage+Extensions.swift */,
 				BCCF50282B1B4E4C0067A552 /* UITextView+Extension.swift */,
@@ -1206,6 +1211,7 @@
 		BEBA944B2B14D8FA00ABE1AD /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				7F8A3FF72B7DE56600FF0EDC /* WebViewViewController.swift */,
 				BC6045FE2B1E3B3900536EB3 /* SectionBackgroundView.swift */,
 				BC6045FC2B1E3B2E00536EB3 /* PromotionVisualsService.swift */,
 				BE8E709C2B0D275300BEAA5A /* CollectionLayoutProvider.swift */,
@@ -1319,6 +1325,7 @@
 				92787F702B1F5E9F0045B678 /* LaunchScreen.xcstrings in Resources */,
 				7F2137DC2B500393006B680C /* LocationFlow.xcstrings in Resources */,
 				BC0723182B1A589800EF82B8 /* Manrope-Regular.ttf in Resources */,
+				7F8A3FFA2B7E11EA00FF0EDC /* WebViewFlow.xcstrings in Resources */,
 				D059EB8F2B1FC1CB004C8A1A /* ProfileFlow.xcstrings in Resources */,
 				BEBA944F2B14E1DC00ABE1AD /* ErrorHandler.xcstrings in Resources */,
 				BE35245A2B02ABA300746581 /* LaunchScreen.storyboard in Resources */,
@@ -1435,6 +1442,7 @@
 				7FA46CE92B737F2F00820A39 /* SelectionCityViewModel.swift in Sources */,
 				BE3524762B02B62B00746581 /* MainCoordinator.swift in Sources */,
 				BC0C55802B630EC80093437E /* CateroryScreenViewModel.swift in Sources */,
+				7F8A3FF82B7DE56600FF0EDC /* WebViewViewController.swift in Sources */,
 				BCCF50272B1B4E090067A552 /* UIButton+Extension.swift in Sources */,
 				7FCB3D9E2B603FB500EC20E7 /* RecoveryStartViewController.swift in Sources */,
 				D02E38742B261FA700B3D27E /* String+Extension.swift in Sources */,
@@ -1452,7 +1460,7 @@
 				BC0C557D2B62DB070093437E /* ProductCardCoordinatorProtocol.swift in Sources */,
 				BCCF50192B1B4AF10067A552 /* FavoritesViewController.swift in Sources */,
 				7F2137D32B4E9283006B680C /* RegistrationViewModel.swift in Sources */,
-				7FA46CF22B738B9E00820A39 /* CityModel.swift in Sources */,
+				7FA46CF22B738B9E00820A39 /* CityUIModel.swift in Sources */,
 				BCCF50022B1B4AF10067A552 /* MainScreenSections.swift in Sources */,
 				BCCF501E2B1B4AF10067A552 /* ProductReviewView.swift in Sources */,
 				BC6046072B1E3CA500536EB3 /* FooterView.swift in Sources */,
@@ -1477,7 +1485,7 @@
 				BC4469082B6813EF00F618F0 /* OfferUIModel.swift in Sources */,
 				BE8E70B42B0E74F600BEAA5A /* ProfileScreenCoordinator.swift in Sources */,
 				BCAA6CFE2B4EFE42007C6FB4 /* CherryCustomViewController.swift in Sources */,
-				7FA46CE12B6CF03300820A39 /* UIKit_ext..swift in Sources */,
+				7FA46CE12B6CF03300820A39 /* UILabel+Extension.swift in Sources */,
 				92787FA82B21EEE00045B678 /* LoginViewModelProtocol.swift in Sources */,
 				BCCF50212B1B4AF10067A552 /* RatingView.swift in Sources */,
 				D02E38722B25DB4500B3D27E /* ChooseRegionViewController.swift in Sources */,

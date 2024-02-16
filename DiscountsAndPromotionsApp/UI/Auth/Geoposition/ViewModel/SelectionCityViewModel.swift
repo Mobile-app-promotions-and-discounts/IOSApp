@@ -6,7 +6,7 @@ final class SelectionCityViewModel: SelectionCityViewModelProtocol {
     private(set) var tableIsEmpty: CurrentValueSubject<Bool, Never>
     private(set) var networkIsWorking: CurrentValueSubject<Bool, Never>
     private(set) var isChangeCities: PassthroughSubject<Bool, Never>
-    private(set) var visibleCities: [CityModel] {
+    private(set) var visibleCities: [CityUIModel] {
         didSet {
             isChangeCities.send(true)
             tableIsEmpty.send(visibleCities.isEmpty)
@@ -14,20 +14,17 @@ final class SelectionCityViewModel: SelectionCityViewModelProtocol {
     }
 
     private let authService: AuthServiceProtocol
-    private var cities: [CityModel] = [CityModel(name: "Москва", country: "Россия"),
-                                       CityModel(name: "Санкт-Петербург", country: "Россия"),
-                                       CityModel(name: "Алматы", country: "Казахстан")]
+    private var cities: [CityUIModel] = CityUIModel.examples
 
     init(authService: AuthServiceProtocol) {
         self.tableIsEmpty = CurrentValueSubject(false)
         self.networkIsWorking = CurrentValueSubject(false)
         self.isChangeCities = PassthroughSubject<Bool, Never>()
-        self.visibleCities = []
+        self.visibleCities = cities
         self.authService = authService
     }
 
     func viewWillAppear() {
-        visibleCities = cities
         bindingOn()
     }
 
@@ -36,29 +33,31 @@ final class SelectionCityViewModel: SelectionCityViewModelProtocol {
     }
 
     func findCity(_ name: String) {
-        if name.isEmpty {
-            visibleCities = cities
-            return
-        }
         let filterText = name.lowercased()
-        visibleCities = cities.filter { $0.name.lowercased().contains(filterText) }
+        if !filterText.isEmpty {
+            visibleCities = cities.filter {
+                $0.name.lowercased().contains(filterText) || $0.country.lowercased().contains(filterText)
+            }
+        } else {
+            visibleCities = cities
+        }
     }
 
     func selectCity(_ tag: Int) {
-        // отправить запрос на сервер с выбранным городом
+        // TODO: отправить запрос на сервер с выбранным городом
         print("Выбран город \(visibleCities[tag].name)")
     }
 
     private func bindingOn() {
-        // связать данные с сетью
+        // TODO:  связать данные с сетью
     }
 
     private func bindingOff() {
-        // отвязать данные от сети
+        // TODO: отвязать данные от сети
     }
 
     private func fetchCities() {
-        // запросить данные из сети
+        // TODO: запросить данные из сети
     }
 
 }
