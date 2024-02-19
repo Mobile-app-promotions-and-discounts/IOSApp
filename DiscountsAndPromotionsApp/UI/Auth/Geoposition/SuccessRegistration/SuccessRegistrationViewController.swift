@@ -1,6 +1,11 @@
+import Combine
+import CoreLocation
 import UIKit
 
 final class SuccessRegistrationViewController: AuthParentViewController {
+
+    let geopositionService = GeoposiotionService.shared
+    private var cancellables = Set<AnyCancellable>()
 
     private lazy var cherryImageView: UIImageView = {
         let image = UIImage(named: "cherryHi") ?? UIImage()
@@ -54,11 +59,44 @@ final class SuccessRegistrationViewController: AuthParentViewController {
     }
 
     @objc private func automaticLocationAction() {
-        // TODO: Следующий спринт
+        geopositionService.requestLocationAuthorization()
+
+        geopositionService.geopositionStatus
+            .receive(on: RunLoop.current)
+            .sink { [weak self] geopositionStatus in
+                self?.checkGeopositionStatus(geopositionStatus)
+            }.store(in: &cancellables)
+
     }
 
     @objc private func manuallyLocationAction() {
         coordinator?.navigateToGeopositionScreen(from: self)
+    }
+
+    private func checkGeopositionStatus(_ status: GeopositionStatus?) {
+        switch status {
+        case .notDetermined:
+            break
+        case .restricted:
+            break
+        case .denied:
+            showError()
+        case .authorizedWhenInUse:
+            navigateToMainScreen()
+        case nil:
+            break
+        }
+    }
+
+    private func navigateToMainScreen() {
+        self.dismiss(animated: true)
+        coordinator?.navigateToMainScreen()
+    }
+
+    private func showError() {
+        ErrorHandler.handle(error: AppError.locationSettingError) { [weak self] in
+            self?.manuallyLocationAction()
+        }
     }
 
     private func setupConstraints() {

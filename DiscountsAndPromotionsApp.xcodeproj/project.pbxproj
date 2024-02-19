@@ -17,6 +17,10 @@
 		7F2137E02B517265006B680C /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F2137DF2B517265006B680C /* AuthViewController.swift */; };
 		7F8A3FF82B7DE56600FF0EDC /* WebViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F8A3FF72B7DE56600FF0EDC /* WebViewViewController.swift */; };
 		7F8A3FFA2B7E11EA00FF0EDC /* WebViewFlow.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7F8A3FF92B7E11EA00FF0EDC /* WebViewFlow.xcstrings */; };
+		7F8A3FFE2B7F702200FF0EDC /* GeoposiotionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F8A3FFD2B7F702200FF0EDC /* GeoposiotionService.swift */; };
+		7F8A40012B83858800FF0EDC /* Geoposition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F8A40002B83858800FF0EDC /* Geoposition.swift */; };
+		7F8A40032B8385AC00FF0EDC /* GeopositionStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F8A40022B8385AC00FF0EDC /* GeopositionStatus.swift */; };
+		7F8A40072B83A6A600FF0EDC /* GeoposiotionServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F8A40062B83A6A600FF0EDC /* GeoposiotionServiceProtocol.swift */; };
 		7FA46CE12B6CF03300820A39 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA46CE02B6CF03300820A39 /* UILabel+Extension.swift */; };
 		7FA46CE52B6D055100820A39 /* AuthParentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA46CE42B6D055100820A39 /* AuthParentViewController.swift */; };
 		7FA46CE72B737E7A00820A39 /* SelectionCityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA46CE62B737E7A00820A39 /* SelectionCityViewController.swift */; };
@@ -221,6 +225,11 @@
 		7F2137DF2B517265006B680C /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		7F8A3FF72B7DE56600FF0EDC /* WebViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewViewController.swift; sourceTree = "<group>"; };
 		7F8A3FF92B7E11EA00FF0EDC /* WebViewFlow.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = WebViewFlow.xcstrings; sourceTree = "<group>"; };
+		7F8A3FFD2B7F702200FF0EDC /* GeoposiotionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoposiotionService.swift; sourceTree = "<group>"; };
+		7F8A40002B83858800FF0EDC /* Geoposition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geoposition.swift; sourceTree = "<group>"; };
+		7F8A40022B8385AC00FF0EDC /* GeopositionStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeopositionStatus.swift; sourceTree = "<group>"; };
+		7F8A40042B838B5400FF0EDC /* Route.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Route.gpx; sourceTree = "<group>"; };
+		7F8A40062B83A6A600FF0EDC /* GeoposiotionServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoposiotionServiceProtocol.swift; sourceTree = "<group>"; };
 		7FA46CE02B6CF03300820A39 /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
 		7FA46CE42B6D055100820A39 /* AuthParentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthParentViewController.swift; sourceTree = "<group>"; };
 		7FA46CE62B737E7A00820A39 /* SelectionCityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionCityViewController.swift; sourceTree = "<group>"; };
@@ -459,12 +468,40 @@
 		7F2137D82B500159006B680C /* Geoposition */ = {
 			isa = PBXGroup;
 			children = (
-				7F2137D92B5001A4006B680C /* SuccessRegistrationViewController.swift */,
+				7F8A40092B83ABF900FF0EDC /* ManuallySelectionCity */,
+				7F8A400C2B83AE0300FF0EDC /* SuccessRegistration */,
+			);
+			path = Geoposition;
+			sourceTree = "<group>";
+		};
+		7F8A3FFF2B8384F100FF0EDC /* Geoposition */ = {
+			isa = PBXGroup;
+			children = (
+				7F8A40062B83A6A600FF0EDC /* GeoposiotionServiceProtocol.swift */,
+				7F8A3FFD2B7F702200FF0EDC /* GeoposiotionService.swift */,
+				7F8A40002B83858800FF0EDC /* Geoposition.swift */,
+				7F8A40022B8385AC00FF0EDC /* GeopositionStatus.swift */,
+				7F8A40042B838B5400FF0EDC /* Route.gpx */,
+			);
+			path = Geoposition;
+			sourceTree = "<group>";
+		};
+		7F8A40092B83ABF900FF0EDC /* ManuallySelectionCity */ = {
+			isa = PBXGroup;
+			children = (
 				7FA46CF02B738B8900820A39 /* Model */,
 				7FA46CED2B737F7700820A39 /* ViewModel */,
 				7FA46CEC2B737F6E00820A39 /* View */,
 			);
-			path = Geoposition;
+			path = ManuallySelectionCity;
+			sourceTree = "<group>";
+		};
+		7F8A400C2B83AE0300FF0EDC /* SuccessRegistration */ = {
+			isa = PBXGroup;
+			children = (
+				7F2137D92B5001A4006B680C /* SuccessRegistrationViewController.swift */,
+			);
+			path = SuccessRegistration;
 			sourceTree = "<group>";
 		};
 		7FA46CEC2B737F6E00820A39 /* View */ = {
@@ -491,6 +528,7 @@
 				7FA46CF12B738B9E00820A39 /* CityUIModel.swift */,
 			);
 			name = Model;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		7FCB3D982B603EEF00EC20E7 /* RecoveryStart */ = {
@@ -1218,6 +1256,7 @@
 				BEBA944C2B14D93800ABE1AD /* ErrorHandler.swift */,
 				92787F672B1F14500045B678 /* AuthTokenKeychainStorage.swift */,
 				BEBBDCA72B3C6EB700DB6F34 /* ViewState.swift */,
+				7F8A3FFF2B8384F100FF0EDC /* Geoposition */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1392,6 +1431,7 @@
 				BC6046202B1E4B7900536EB3 /* ProfileViewController.swift in Sources */,
 				BEBBDCA82B3C6EB700DB6F34 /* ViewState.swift in Sources */,
 				BCCF50042B1B4AF10067A552 /* MainViewController.swift in Sources */,
+				7F8A40012B83858800FF0EDC /* Geoposition.swift in Sources */,
 				BC0723122B1A4E5300EF82B8 /* Gradients.swift in Sources */,
 				BCDFDFA12B486BCC00FB9C61 /* ProductReviewModels.swift in Sources */,
 				BCAC6B7C2B223C4100AD5C96 /* UserNetworkService.swift in Sources */,
@@ -1439,6 +1479,7 @@
 				BCCF50142B1B4AF10067A552 /* GenericNavigationController.swift in Sources */,
 				BCAC6B7A2B223C4100AD5C96 /* UserResponseModel.swift in Sources */,
 				BCCF500B2B1B4AF10067A552 /* ScanCaptureSessionController.swift in Sources */,
+				7F8A40072B83A6A600FF0EDC /* GeoposiotionServiceProtocol.swift in Sources */,
 				7FA46CE92B737F2F00820A39 /* SelectionCityViewModel.swift in Sources */,
 				BE3524762B02B62B00746581 /* MainCoordinator.swift in Sources */,
 				BC0C55802B630EC80093437E /* CateroryScreenViewModel.swift in Sources */,
@@ -1464,6 +1505,8 @@
 				BCCF50022B1B4AF10067A552 /* MainScreenSections.swift in Sources */,
 				BCCF501E2B1B4AF10067A552 /* ProductReviewView.swift in Sources */,
 				BC6046072B1E3CA500536EB3 /* FooterView.swift in Sources */,
+				7F8A3FFE2B7F702200FF0EDC /* GeoposiotionService.swift in Sources */,
+				7F8A40032B8385AC00FF0EDC /* GeopositionStatus.swift in Sources */,
 				BCD4B4752B2F5DA600539CD1 /* LocationResponseModel.swift in Sources */,
 				BCCF501C2B1B4AF10067A552 /* PriceInfoViewModel.swift in Sources */,
 				BC6046252B1E4C0100536EB3 /* Date+Extension.swift in Sources */,
@@ -1690,8 +1733,7 @@
 				INFOPLIST_FILE = DiscountsAndPromotionsApp/Configuration/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Cherry;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Доступ к камере нужен для сканирования штрихкодов";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Мы используем данные о вашей геолокации, чтобы находить актуальные скидки и акции рядом с вами.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = "";
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -1725,8 +1767,7 @@
 				INFOPLIST_FILE = DiscountsAndPromotionsApp/Configuration/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Cherry;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Доступ к камере нужен для сканирования штрихкодов";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Мы используем данные о вашей геолокации, чтобы находить актуальные скидки и акции рядом с вами.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = "";
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;

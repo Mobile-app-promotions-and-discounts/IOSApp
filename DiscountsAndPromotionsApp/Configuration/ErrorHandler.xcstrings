@@ -66,6 +66,23 @@
         }
       }
     },
+    "locationSettingError" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open access to geolocation in your device settings"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Откройте доступ к геолокации в настройках устройства"
+          }
+        }
+      }
+    },
     "networkError" : {
       "localizations" : {
         "en" : {

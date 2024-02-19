@@ -20,19 +20,16 @@ final class AuthCoordinator: Coordinator {
     func start() { }
 
     func navigateLoginViewController(from viewController: UIViewController) {
-        /*
-         Временное решение
-         */
-        navigateToGeopositionScreen(from: viewController)
-
-        /*
         let loginViewController = LoginViewController()
         loginViewController.coordinator = self
         navigationController.viewControllers = [loginViewController]
         navigationController.modalPresentationStyle = .custom
         navigationController.transitioningDelegate = viewController as? any UIViewControllerTransitioningDelegate
         viewController.present(navigationController, animated: true)
+        /*
+          ВРЕМЕННО ДЛЯ РАБОТЫ CLLManager
          */
+        navigateToSuccessScreen()
     }
 
     func navigateToRegistrationScreen() {
