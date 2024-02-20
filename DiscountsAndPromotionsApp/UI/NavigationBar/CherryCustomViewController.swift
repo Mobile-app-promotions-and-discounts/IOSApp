@@ -30,6 +30,7 @@ class CherryCustomViewController: UIViewController {
     private func setupUI() {
         view.backgroundColor = .cherryLightBlue
         navigationItem.hidesBackButton = true
+        navigationController?.navigationBar.standardAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.cherryBlack]
         if self != navigationController?.viewControllers[0] {
             navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
         }
