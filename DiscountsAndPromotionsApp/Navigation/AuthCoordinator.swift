@@ -28,7 +28,7 @@ final class AuthCoordinator: Coordinator {
         UIViewControllerTransitioningDelegate
         viewController.present(navigationController, animated: true)
 ///        ВРЕМЕННО ДЛЯ РАБОТЫ CLLManager
-        navigateToSuccessScreen()
+//        navigateToSuccessScreen()
     }
 
     func navigateToRegistrationScreen() {
