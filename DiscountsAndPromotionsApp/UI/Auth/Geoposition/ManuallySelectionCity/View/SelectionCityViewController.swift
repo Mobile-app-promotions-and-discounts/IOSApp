@@ -14,6 +14,7 @@ final class SelectionCityViewController: SearchEnabledViewController {
         tableView.allowsMultipleSelection = false
         tableView.separatorInset.left = 0
         tableView.separatorInset.right = 0
+        tableView.keyboardDismissMode = .onDrag
         tableView.dataSource = self
         tableView.delegate = self
         return tableView
@@ -219,11 +220,6 @@ extension SelectionCityViewController: UITextFieldDelegate {
 }
 
 // MARK: - UISearchBarDelegate
-// FIXME: -  Починить скрытие клавиатуры
-/*
- Не работает скрытие клавиатуры при нажатии на кнопку отмена(справа) в SearchBar
- Не работает скрытие клавиаутуры при нажатии вне поисковой строки
- */
 
 extension SelectionCityViewController {
 

@@ -406,7 +406,7 @@
 		BEF503B52B15288C00577D7F /* ProfileServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileServiceProtocol.swift; sourceTree = "<group>"; };
 		D02E38712B25DB4500B3D27E /* ChooseRegionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseRegionViewController.swift; sourceTree = "<group>"; };
 		D02E38732B261FA700B3D27E /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
-		D059EB8E2B1FC1CA004C8A1A /* ProfileFlow.xcstrings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json.xcstrings; name = ProfileFlow.xcstrings; path = ../../ProfileFlow.xcstrings; sourceTree = "<group>"; };
+		D059EB8E2B1FC1CA004C8A1A /* ProfileFlow.xcstrings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json.xcstrings; path = ProfileFlow.xcstrings; sourceTree = "<group>"; };
 		D059EB912B205F3F004C8A1A /* RegionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionViewController.swift; sourceTree = "<group>"; };
 		D059EB972B2252F7004C8A1A /* ChangeAvatarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeAvatarViewController.swift; sourceTree = "<group>"; };
 		D059EB992B2253FE004C8A1A /* CameraButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraButton.swift; sourceTree = "<group>"; };
@@ -868,8 +868,8 @@
 		BCCF4FBF2B1B4AF10067A552 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				7F2137CC2B4E8D25006B680C /* Auth */,
 				92787F6C2B1F263A0045B678 /* SplashScreen */,
+				7F2137CC2B4E8D25006B680C /* Auth */,
 				BC60460F2B1E4B7900536EB3 /* ProfileScreen */,
 				BCCF4FC82B1B4AF10067A552 /* MainFlow */,
 				BC70C8EF2B7208FB00991087 /* PromotionsScreen */,

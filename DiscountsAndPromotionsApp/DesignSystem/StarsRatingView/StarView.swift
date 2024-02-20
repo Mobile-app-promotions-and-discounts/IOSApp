@@ -4,7 +4,8 @@ final class StarView: UIImageView {
     let id: Int
     var isActive: Bool = false {
         didSet {
-            image = isActive ? UIImage.icStarFill.withRenderingMode(.alwaysOriginal) : UIImage.icStar.withRenderingMode(.alwaysTemplate)
+            image = isActive ? UIImage.icStarFill.withRenderingMode(.alwaysOriginal) :
+            UIImage.icStar.withRenderingMode(.alwaysTemplate)
         }
     }
 

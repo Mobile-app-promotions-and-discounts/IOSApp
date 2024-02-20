@@ -24,11 +24,10 @@ final class AuthCoordinator: Coordinator {
         loginViewController.coordinator = self
         navigationController.viewControllers = [loginViewController]
         navigationController.modalPresentationStyle = .custom
-        navigationController.transitioningDelegate = viewController as? any UIViewControllerTransitioningDelegate
+        navigationController.transitioningDelegate = viewController as? any
+        UIViewControllerTransitioningDelegate
         viewController.present(navigationController, animated: true)
-        /*
-          ВРЕМЕННО ДЛЯ РАБОТЫ CLLManager
-         */
+///        ВРЕМЕННО ДЛЯ РАБОТЫ CLLManager
         navigateToSuccessScreen()
     }
 

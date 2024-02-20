@@ -19,7 +19,8 @@ extension UIControl {
             subscriber.receive(subscription: subscription)
         }
 
-        private final class Subscription<S: Subscriber, Control: UIControl>: Combine.Subscription where S.Input == Control, S.Failure == Failure {
+        private final class Subscription<S: Subscriber, Control: UIControl>: Combine.Subscription where
+        S.Input == Control, S.Failure == Failure {
             private var subscriber: S?
             private weak var control: Control?
 

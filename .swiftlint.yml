@@ -1,0 +1,70 @@
+# By default, SwiftLint uses a set of sensible default rules you can adjust:
+disabled_rules: # rule identifiers turned on by default to exclude from running
+  - colon
+  - comma
+  - control_statement
+  - todo
+  - blanket_disable_command
+  - empty_count
+opt_in_rules: # some rules are turned off by default, so you need to opt-in
+# - empty_count find all the available rules by running: `swiftlint rules`
+
+# Alternatively, specify all rules explicitly by uncommenting this option:
+# only_rules: # delete `disabled_rules` & `opt_in_rules` if using this
+#   - empty_parameters
+#   - vertical_whitespace
+
+included: # case-sensitive paths to include during linting. `--path` is ignored if present
+#  - Sources
+excluded: # case-sensitive paths to ignore during linting. Takes precedence over `included`
+  - Pods
+#  - Sources/ExcludedFolder
+#  - Sources/ExcludedFile.swift
+#  - Sources/*/ExcludedFile.swift # exclude files with a wildcard
+
+# If true, SwiftLint will not fail if no lintable files are found.
+allow_zero_lintable_files: false
+
+# If true, SwiftLint will treat all warnings as errors.
+#strict: false
+
+# configurable rules can be customized from this configuration file
+# binary rules can set their severity level
+force_cast: warning # implicitly
+force_try:
+  severity: warning # explicitly
+# rules that have both warning and error levels, can set just the warning level
+# implicitly
+line_length:
+    warning: 120
+    ignores_comments: true
+# they can set both implicitly with an array
+type_body_length:
+  - 300 # warning
+  - 400 # error
+# or they can set both explicitly
+file_length:
+  warning: 500
+  error: 1200
+# naming rules can set warnings/errors for min_length and max_length
+# additionally they can set excluded names
+type_name:
+  min_length: 1 # only warning
+  max_length: # warning and error
+    warning: 40
+    error: 50
+  excluded: iPhone # excluded via string
+identifier_name:
+  min_length: 1
+  excluded: # excluded via string array
+    - id
+    - URL
+    - GlobalAPIKey
+nesting:
+  type_level:
+    warning: 3
+    error: 6
+  function_level:
+    warning: 5
+    error: 10
+reporter: "xcode" # reporter type (xcode, json, csv, checkstyle, codeclimate, junit, html, emoji, sonarqube, markdown, github-actions-logging, summary)

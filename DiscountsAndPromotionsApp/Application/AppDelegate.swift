@@ -8,7 +8,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let geopositionService = GeoposiotionService.shared
 
     func application(_ application: UIApplication,
-                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+                     didFinishLaunchingWithOptions launchOptions:
+                     [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         UITabBar.appearance().barTintColor = UIColor.cherryWhite
         geopositionService.setDelegate(self)
 
@@ -23,13 +24,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
     }
 
-    // Этот метод вызывается, когда устройство успешно зарегистрировано в APNs и получен device token.
-    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+     // Этот метод вызывается, когда устройство успешно зарегистрировано в APNs и получен device token.
+    func application(_ application: UIApplication,
+                     didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         convertAndSebtToken(deviceToken: deviceToken)
     }
 
-    // Этот метод вызывается, если произошла ошибка при попытке зарегистрировать устройство для push-уведомлений.
-    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+     // Этот метод вызывается, если произошла ошибка при попытке зарегистрировать устройство для push-уведомлений.
+    func application(_ application: UIApplication,
+                     didFailToRegisterForRemoteNotificationsWithError error: Error) {
         ErrorHandler.handle(error: .customError("Failed to register for remote notifications: \(error)"))
     }
 
@@ -38,7 +41,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let tokenParts = deviceToken.map { data in String(format: "%02.2hhx", data) }
         let token = tokenParts.joined()
         print("Device Token: \(token)")
-        // ToDo: - Здесь код для отправки token на сервер. Это обычно делается через HTTP-запрос к API сервера.
+        // ToDo: - Здесь код для отправки token на сервер. 
+        // Это обычно делается через HTTP-запрос к API сервера.
     }
 }
 
@@ -52,9 +56,11 @@ extension AppDelegate: CLLocationManagerDelegate {
     }
 
     // получает текущее значение локации
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager,
+                         didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
-        let visit = Geoposition(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+        let visit = Geoposition(latitude: location.coordinate.latitude,
+                                longitude: location.coordinate.longitude)
         print(visit)
         geopositionService.newVisit(visit)
     }
@@ -80,7 +86,7 @@ extension AppDelegate: CLLocationManagerDelegate {
         default:
             geopositionStatus = nil
         }
-        print(geopositionStatus)
+        print(geopositionStatus ?? "geoposition no status")
         geopositionService.changeAuthorizationStatus(geopositionStatus)
     }
 

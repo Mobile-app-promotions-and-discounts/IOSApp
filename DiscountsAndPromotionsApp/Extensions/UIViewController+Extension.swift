@@ -1,7 +1,8 @@
 import UIKit
 
 extension UIViewController {
-    // Метод для нахождения самого верхнего контроллера, для показа на нем аллерта системы обработки ошибок ErrorHandler
+    // Метод для нахождения самого верхнего контроллера,
+    // для показа на нем аллерта системы обработки ошибок ErrorHandler
 
     static func topMostViewController() -> UIViewController? {
         // Получаем активную сцену

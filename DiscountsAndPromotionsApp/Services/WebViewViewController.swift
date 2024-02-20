@@ -11,6 +11,7 @@ final class WebViewViewController: UIViewController {
 
     private let viewState = CurrentValueSubject<ViewState, Never>(.empty)
     private var cancellables = Set<AnyCancellable>()
+    private var webViewProgressObservation: NSKeyValueObservation?
 
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
@@ -64,6 +65,7 @@ final class WebViewViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         setupConstraints()
+        observeWebView()
         loadWebView()
     }
 
@@ -77,24 +79,16 @@ final class WebViewViewController: UIViewController {
         bindingOff()
     }
 
-    override func observeValue(
-        forKeyPath keyPath: String?,
-        of object: Any?,
-        change: [NSKeyValueChangeKey: Any]?,
-        context: UnsafeMutableRawPointer?
-    ) {
-        if keyPath == #keyPath(WKWebView.estimatedProgress) {
-            updateProgressValue(webView.estimatedProgress)
-        } else {
-            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
+    private func observeWebView() {
+        webViewProgressObservation = webView.observe(\.estimatedProgress,
+                                                      options: [.new]) { [weak self] _, change in
+            if let newValue = change.newValue {
+                self?.updateProgressValue(newValue)
+            }
         }
     }
 
     private func bindingOn() {
-        webView.addObserver(self,
-                            forKeyPath: #keyPath(WKWebView.estimatedProgress),
-                            options: .new,
-                            context: nil)
         viewState.sink { [weak self] isLoading in
             self?.showIsActivityIndicator(isLoading)
         }.store(in: &cancellables)
@@ -102,9 +96,6 @@ final class WebViewViewController: UIViewController {
     }
 
     private func bindingOff() {
-        webView.removeObserver(self,
-                               forKeyPath: #keyPath(WKWebView.estimatedProgress),
-                               context: nil)
         cancellables.removeAll()
     }
 

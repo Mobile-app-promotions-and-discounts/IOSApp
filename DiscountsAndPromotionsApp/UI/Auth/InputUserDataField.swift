@@ -63,12 +63,14 @@ final class InputUserDataField: UIView {
     private lazy var showHidePasswordButton: UIButton = {
         let button = UIButton(frame: CGRect(origin: .zero, size: CGSize(width: Constants.Button.widthHeidth,
                                                                         height: Constants.Button.widthHeidth)))
-        button.setImage(.icEyeOpen, for: .normal)
         button.addTarget(self, action: #selector(showHidePassword), for: .touchUpInside)
-        button.imageEdgeInsets = UIEdgeInsets(top: Constants.Button.Insets.top,
-                                              left: Constants.Button.Insets.left,
-                                              bottom: Constants.Button.Insets.bottom,
-                                              right: Constants.Button.Insets.right)
+        var configuration = UIButton.Configuration.plain()
+        configuration.image = .icEyeOpen
+        configuration.contentInsets = NSDirectionalEdgeInsets(top: Constants.Button.Insets.top,
+                                                              leading: Constants.Button.Insets.left,
+                                                              bottom: Constants.Button.Insets.bottom,
+                                                              trailing: Constants.Button.Insets.right)
+        button.configuration = configuration
         return button
     }()
 

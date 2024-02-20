@@ -8,7 +8,8 @@ final class SearchViewController: SearchEnabledViewController {
 
     private lazy var categoriesTable: UITableView = {
         let tableView = UITableView()
-        tableView.register(SearchCategoryCell.self, forCellReuseIdentifier: SearchCategoryCell.reuseIdentiffier)
+        tableView.register(SearchCategoryCell.self,
+                           forCellReuseIdentifier: SearchCategoryCell.reuseIdentiffier)
         tableView.delegate = self
         tableView.dataSource = self
         tableView.backgroundColor = .cherryLightBlue
