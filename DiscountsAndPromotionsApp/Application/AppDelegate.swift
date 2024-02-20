@@ -51,11 +51,13 @@ extension AppDelegate: CLLocationManagerDelegate {
 
     // отслеживает новый визит при перемещении
     func locationManager(_ manager: CLLocationManager, didVisit visit: CLVisit) {
-        geopositionService.newVisit(Geoposition(latitude: visit.coordinate.latitude,
-                                                longitude: visit.coordinate.longitude))
+        let visit = Geoposition(latitude: visit.coordinate.latitude,
+                                longitude: visit.coordinate.longitude)
+        print("new visit \(visit)")
+        geopositionService.newVisit(visit)
     }
 
-    // получает текущее значение локации
+    // получает обновление локации
     func locationManager(_ manager: CLLocationManager,
                          didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
