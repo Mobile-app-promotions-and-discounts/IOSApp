@@ -43,7 +43,6 @@ final class AllStoresViewController: ScannerEnabledViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        setupBindings()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -66,16 +65,6 @@ final class AllStoresViewController: ScannerEnabledViewController {
         }
     }
 
-    private func setupBindings() {
-        // Подписка на обновления магазинов
-        viewModel.storesUpdate
-            .receive(on: RunLoop.main)
-            .sink { [weak self] _ in
-                guard let self = self else { return }
-                self.storesCollectionView.reloadData()
-            }
-            .store(in: &cancellables)
-    }
 }
 
 // MARK: - UICollectionViewDataSource
@@ -118,8 +107,9 @@ extension AllStoresViewController: UICollectionViewDataSource {
                                                             for: indexPath) as? StoresCell else {
             return UICollectionViewCell()
         }
-        let store = viewModel.getStore(for: indexPath.row)
-        cell.configure(with: store)
+        if let store = viewModel.getStore(for: indexPath.row) {
+            cell.configure(with: store)
+        }
         return cell
     }
 }

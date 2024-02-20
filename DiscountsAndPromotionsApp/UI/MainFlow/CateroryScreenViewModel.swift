@@ -17,7 +17,7 @@ final class CategoryScreenViewModel: ProductListViewModel {
     }
 
     override func nextPageAction() {
-        productService.getProducts(categoryID: category.id + 1,
+        productService.getProducts(categoryID: category.id,
                                    searchItem: nil,
                                    page: currentPage + 1)
     }

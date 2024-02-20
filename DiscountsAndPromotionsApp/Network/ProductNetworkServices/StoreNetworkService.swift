@@ -3,7 +3,7 @@ import Foundation
 
 protocol StoreNetworkServiceProtocol {
     var storeListUpdate: PassthroughSubject<StoresResponseModel, Never> { get }
-    var chainListUpdate: PassthroughSubject<StoreChainsResponseModel, Never> { get }
+    var chainListUpdate: CurrentValueSubject<StoreChainsResponseModel, Never> { get }
 
     func fetchStores(page: Int)
     func fetchChains()
@@ -20,12 +20,7 @@ actor StoreNetworkService: StoreNetworkServiceProtocol {
         }
     }
 
-    nonisolated let chainListUpdate = PassthroughSubject<StoreChainsResponseModel, Never>()
-    private var chainList = [StoreChainResponseModel]() {
-        didSet {
-            chainListUpdate.send(chainList)
-        }
-    }
+    nonisolated let chainListUpdate = CurrentValueSubject<StoreChainsResponseModel, Never>([])
 
     init(networkClient: NetworkClientProtocol,
          requestConstructor: NetworkRequestConstructorProtocol = NetworkRequestConstructor.shared) {
@@ -49,9 +44,10 @@ actor StoreNetworkService: StoreNetworkServiceProtocol {
         do {
             let chainsResponse: StoreChainsResponseModel = try await networkClient.request(for: urlRequest)
             print("Store chains fetched successfully")
-//            print(chainsResponse)
+            print(chainsResponse)
 
-            self.chainList = chainsResponse.sorted { $0.id < $1.id }
+            let chainList = chainsResponse.sorted { $0.id < $1.id }
+            chainListUpdate.send(chainList)
         } catch let error {
             print("Error fetching store chains: \(error.localizedDescription)")
 

@@ -45,9 +45,9 @@ final class MainViewController: ScannerEnabledViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel.viewDidLoad()
         setupViews()
         setupBindings()
+        viewModel.viewDidLoad()
     }
 
     private func setupViews() {
@@ -66,7 +66,8 @@ final class MainViewController: ScannerEnabledViewController {
             .receive(on: RunLoop.main)
             .sink { [weak self] _ in
                 guard let self = self else { return }
-                self.mainCollectionView.reloadData()
+                let sectionIndex = MainSection.categories.rawValue
+                self.mainCollectionView.reloadSections(IndexSet(integer: sectionIndex))
             }
             .store(in: &cancellables)
 
@@ -75,7 +76,8 @@ final class MainViewController: ScannerEnabledViewController {
             .receive(on: RunLoop.main)
             .sink { [weak self] _ in
                 guard let self = self else { return }
-                self.mainCollectionView.reloadData()
+                let sectionIndex = MainSection.promotions.rawValue
+                self.mainCollectionView.reloadSections(IndexSet(integer: sectionIndex))
             }
             .store(in: &cancellables)
 
@@ -84,7 +86,8 @@ final class MainViewController: ScannerEnabledViewController {
             .receive(on: RunLoop.main)
             .sink { [weak self] _ in
                 guard let self = self else { return }
-                self.mainCollectionView.reloadData()
+                let sectionIndex = MainSection.stores.rawValue
+                self.mainCollectionView.reloadSections(IndexSet(integer: sectionIndex))
             }
             .store(in: &cancellables)
     }
@@ -125,6 +128,15 @@ extension MainViewController: UICollectionViewDataSource {
 
             let headerName = viewModel.getTitleFor(section: mainSection)
             header.configure(with: headerName)
+
+            if mainSection == .promotions {
+                header.isUserInteractionEnabled = viewModel.didFetchProducts
+            }
+
+            if mainSection == .stores {
+                header.isUserInteractionEnabled = viewModel.didFetchStores
+            }
+
             return header
         } else if kind == UICollectionView.elementKindSectionFooter {
             // Обработка подвала
@@ -153,7 +165,6 @@ extension MainViewController: UICollectionViewDataSource {
                 return UICollectionViewCell()
             }
             guard let category = viewModel.getCategoryUIModel(for: indexPath.row) else {
-                ErrorHandler.handle(error: .customError("Ошибка получения категории во вью модели"))
                 return cell
             }
             cell.configure(with: category)
@@ -164,8 +175,8 @@ extension MainViewController: UICollectionViewDataSource {
                                                                 for: indexPath) as? PromotionCell else {
                 return UICollectionViewCell()
             }
-            guard let promotion = viewModel.getPromotion(for: indexPath.row) else {
-                ErrorHandler.handle(error: .customError("Ошибка получения акции во вью модели"))
+            guard let promotion = viewModel.getPromotion(for: indexPath.row)
+            else {
                 return cell
             }
             cell.configure(with: promotion)
@@ -175,8 +186,9 @@ extension MainViewController: UICollectionViewDataSource {
                                                                 for: indexPath) as? StoresCell else {
                 return UICollectionViewCell()
             }
-            let store = viewModel.getStore(for: indexPath.row)
-            cell.configure(with: store)
+            if let store = viewModel.getStore(for: indexPath.row) {
+                cell.configure(with: store)
+            }
             return cell
         }
     }
@@ -186,9 +198,12 @@ extension MainViewController: UICollectionViewDataSource {
 
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.section == 0 {
-            let category = viewModel.getCategory(for: indexPath.row)
+        if indexPath.section == 0,
+           let category = viewModel.getCategory(for: indexPath.row) {
             self.coordinator?.navigateToCategoryScreen(with: category)
+        } else if indexPath.section == 1,
+                  let product = viewModel.getProduct(for: indexPath.row) {
+            self.coordinator?.navigateToProductScreen(for: product)
         } else {
             print("Для других ячеек обработка нажатия будет реализована позже")
         }

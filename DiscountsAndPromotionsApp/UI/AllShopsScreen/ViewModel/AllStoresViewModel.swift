@@ -2,42 +2,26 @@ import Foundation
 import Combine
 
 final class AllStoresViewModel: AllStoresViewModelProtocol {
+    private var stores = [ChainStore]()
 
-    private (set) var storesUpdate = PassthroughSubject<[Store], Never>()
-
-    private var stores = [Store]() {
-        didSet {
-            storesUpdate.send(stores)
-        }
-    }
-
-    private var dataService: DataServiceProtocol
+    private var storesService: StoreNetworkServiceProtocol
     private var cancellables = Set<AnyCancellable>()
 
-    init(dataService: DataServiceProtocol) {
-        self.dataService = dataService
-        setupBindings()
+    init(storesService: StoreNetworkServiceProtocol) {
+        self.storesService = storesService
     }
 
     func getNumberOfItems() -> Int {
-        return stores.count
+        return storesService.chainListUpdate.value.count
     }
 
     func getTitle() -> String {
         return NSLocalizedString("Shops", tableName: "MainFlow", comment: "")
     }
 
-    func getStore(for index: Int) -> StoreUIModel {
-        let store = stores[index]
-        return StoreUIModel(store: store)
-    }
-
-    private func setupBindings() {
-        dataService.actualStoreList
-            .sink { [weak self] storeList in
-                guard let self = self else { return }
-                self.stores = storeList
-            }
-            .store(in: &cancellables)
+    func getStore(for index: Int) -> StoreUIModel? {
+        guard index < storesService.chainListUpdate.value.count else { return nil }
+        let store = storesService.chainListUpdate.value[index]
+        return StoreUIModel(name: store.name, logo: store.logo)
     }
 }

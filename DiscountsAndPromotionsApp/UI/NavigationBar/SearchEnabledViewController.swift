@@ -18,7 +18,7 @@ class SearchEnabledViewController: CherryCustomViewController {
     }
 
     private func setupSearchBar() {
-        searchBar.searchTextField.backgroundColor = .cherryWhite
+        searchBar.searchTextField.backgroundColor = .cherryLightBlue
         let placeholderAttributes = [NSAttributedString.Key.font: CherryFonts.inputSmall,
                                      NSAttributedString.Key.foregroundColor: UIColor.cherryGrayBlue]
         let textAttributes = [NSAttributedString.Key.font: CherryFonts.inputSmall]
