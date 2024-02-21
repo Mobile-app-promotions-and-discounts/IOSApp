@@ -118,7 +118,7 @@ final class SelectionCityViewController: SearchEnabledViewController {
     }
 
     @objc private func backAction() {
-        self.dismiss(animated: true)
+        coordinator?.dismissVC(self)
     }
 
     private func setupView() {

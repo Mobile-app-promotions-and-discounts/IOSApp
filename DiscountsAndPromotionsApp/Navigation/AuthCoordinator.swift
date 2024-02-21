@@ -83,6 +83,10 @@ final class AuthCoordinator: Coordinator {
         mainCoordinator?.navigateToMainScreen()
     }
 
+    func dismissVC(_ viewController: UIViewController) {
+        viewController.dismiss(animated: true)
+    }
+
     private func setupNavigationController() {
         navigationController.navigationBar.isHidden = true
         navigationController.view.layer.cornerRadius =  12

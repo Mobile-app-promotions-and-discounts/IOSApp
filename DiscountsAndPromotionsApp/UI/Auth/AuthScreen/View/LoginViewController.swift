@@ -94,16 +94,20 @@ final class LoginViewController: AuthParentViewController {
         viewModel.isUserAuthorizedUpdate
             .receive(on: RunLoop.main)
             .sink { [weak self] isAuthorized in
-                if isAuthorized {
-                    self?.dismiss(animated: true)
-                    self?.coordinator?.navigateToMainScreen()
-                }
+                self?.isNavigateToMainScreen(isAuthorized)
             }.store(in: &cancellables)
 
         viewModel.validToSubmit
             .receive(on: DispatchQueue.main)
             .assign(to: \.isUserInteractionEnabled, on: loginButton)
             .store(in: &cancellables)
+    }
+
+    private func isNavigateToMainScreen(_ isAuthorized: Bool) {
+        if isAuthorized {
+            coordinator?.dismissVC(self)
+            coordinator?.navigateToMainScreen()
+        }
     }
 
     @objc private func navigateToRecoveryScreen() {
