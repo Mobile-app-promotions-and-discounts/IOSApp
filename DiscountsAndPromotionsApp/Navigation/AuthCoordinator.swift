@@ -42,6 +42,7 @@ final class AuthCoordinator: Coordinator {
     func navigateToPrivacyWebView(from viewController: UIViewController) {
         let privacyWebViewVC = WebViewViewController(titleName: L10n.WebView.termsAndPrivacy,
                                                      webViewURL: .termsAndPrivacy)
+        privacyWebViewVC.coordinator = self
         privacyWebViewVC.modalPresentationStyle = .overFullScreen
         viewController.present(privacyWebViewVC, animated: true)
     }
@@ -93,4 +94,10 @@ final class AuthCoordinator: Coordinator {
         navigationController.view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
     }
 
+}
+
+extension AuthCoordinator: WebViewCoordinator {
+    func dismissWebView(_ viewController: UIViewController) {
+        dismissVC(viewController)
+    }
 }

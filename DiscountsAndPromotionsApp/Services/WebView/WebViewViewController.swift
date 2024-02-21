@@ -8,6 +8,7 @@ final class WebViewViewController: UIViewController {
     private let titleName: String
     private let webViewURL: WebViewURL
     private var backButtonAction: (() -> Void)?
+    weak var coordinator: WebViewCoordinator?
 
     private let viewState = CurrentValueSubject<ViewState, Never>(.empty)
     private var cancellables = Set<AnyCancellable>()
@@ -141,7 +142,7 @@ final class WebViewViewController: UIViewController {
 
     @objc private func buttonAction() {
         guard let backButtonAction else {
-            self.dismiss(animated: true)
+            coordinator?.dismissWebView(self)
             return
         }
         backButtonAction()
