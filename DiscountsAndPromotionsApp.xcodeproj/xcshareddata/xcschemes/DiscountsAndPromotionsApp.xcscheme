@@ -50,6 +50,10 @@
             ReferencedContainer = "container:DiscountsAndPromotionsApp.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <LocationScenarioReference
+         identifier = "../../DiscountsAndPromotionsApp/Services/Geoposition/Route.gpx"
+         referenceType = "0">
+      </LocationScenarioReference>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"

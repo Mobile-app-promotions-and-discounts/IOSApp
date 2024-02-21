@@ -39,4 +39,8 @@ class CherryCustomViewController: UIViewController {
     private func defaultBackAction() {
         backAction()
     }
+
+    func showBackButton() {
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
+    }
 }

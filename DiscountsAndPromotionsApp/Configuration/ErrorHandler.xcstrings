@@ -6,13 +6,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Authorization error"
+            "value" : "Invalid email or password"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ошибка при авторизации"
+            "value" : "Неверный email или пароль"
           }
         }
       }
@@ -66,6 +66,23 @@
         }
       }
     },
+    "locationSettingError" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open access to geolocation in your device settings"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Откройте доступ к геолокации в настройках устройства"
+          }
+        }
+      }
+    },
     "networkError" : {
       "localizations" : {
         "en" : {
@@ -94,6 +111,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Проблема при обработке данных"
+          }
+        }
+      }
+    },
+    "registrationError" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registration error. Enter a correct email or a more complex password."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ошибка регистрации. Введите корректный email или более сложный пароль."
           }
         }
       }

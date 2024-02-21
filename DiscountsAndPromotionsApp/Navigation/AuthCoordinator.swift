@@ -24,8 +24,11 @@ final class AuthCoordinator: Coordinator {
         loginViewController.coordinator = self
         navigationController.viewControllers = [loginViewController]
         navigationController.modalPresentationStyle = .custom
-        navigationController.transitioningDelegate = viewController as? any UIViewControllerTransitioningDelegate
+        navigationController.transitioningDelegate = viewController as? any
+        UIViewControllerTransitioningDelegate
         viewController.present(navigationController, animated: true)
+///        ВРЕМЕННО ДЛЯ РАБОТЫ CLLManager
+//        navigateToSuccessScreen()
     }
 
     func navigateToRegistrationScreen() {
@@ -34,6 +37,14 @@ final class AuthCoordinator: Coordinator {
         let registerViewController = RegistrationViewController(viewModel: registrationViewModel)
         registerViewController.coordinator = self
         navigationController.pushViewController(registerViewController, animated: true)
+    }
+
+    func navigateToPrivacyWebView(from viewController: UIViewController) {
+        let privacyWebViewVC = WebViewViewController(titleName: L10n.WebView.termsAndPrivacy,
+                                                     webViewURL: .termsAndPrivacy)
+        privacyWebViewVC.coordinator = self
+        privacyWebViewVC.modalPresentationStyle = .overFullScreen
+        viewController.present(privacyWebViewVC, animated: true)
     }
 
     func navigateToSuccessScreen() {
@@ -60,12 +71,21 @@ final class AuthCoordinator: Coordinator {
         navigationController.popViewController(animated: true)
     }
 
-    func navigateToGeopositionScreen() {
-        // TODO: - в следующем спринте
+    func navigateToGeopositionScreen(from viewController: UIViewController) {
+        let navController = GenericNavigationController()
+        let selectionCityViewModel = SelectionCityViewModel(authService: authService)
+        let selectionCityVC = SelectionCityViewController(viewModel: selectionCityViewModel)
+        navController.viewControllers = [selectionCityVC]
+        navController.modalPresentationStyle = .overFullScreen
+        viewController.present(navController, animated: true)
     }
 
     func navigateToMainScreen() {
         mainCoordinator?.navigateToMainScreen()
+    }
+
+    func dismissVC(_ viewController: UIViewController) {
+        viewController.dismiss(animated: true)
     }
 
     private func setupNavigationController() {
@@ -74,4 +94,10 @@ final class AuthCoordinator: Coordinator {
         navigationController.view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
     }
 
+}
+
+extension AuthCoordinator: WebViewCoordinator {
+    func dismissWebView(_ viewController: UIViewController) {
+        dismissVC(viewController)
+    }
 }

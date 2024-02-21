@@ -1,10 +1,3 @@
-//
-//  UIKit_ext..swift
-//  DiscountsAndPromotionsApp
-//
-//  Created by Александр Кудряшов on 02.02.2024.
-//
-
 import UIKit
 
 extension UILabel {
