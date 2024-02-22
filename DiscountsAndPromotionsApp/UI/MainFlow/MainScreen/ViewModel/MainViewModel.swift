@@ -63,6 +63,9 @@ final class MainViewModel: MainViewModelProtocol {
         productService.getRandomOffers()
         storesService.fetchChains()
         categoryService.fetchCategories()
+
+        productService.getProduct(productID: 13)
+        print(NetworkBaseConfiguration.accessTokenHeader())
     }
 
     func numberOfItems(inSection section: MainSection) -> Int {

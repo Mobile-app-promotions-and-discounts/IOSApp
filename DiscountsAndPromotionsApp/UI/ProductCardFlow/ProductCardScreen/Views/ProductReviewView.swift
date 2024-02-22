@@ -52,7 +52,14 @@ final class ProductReviewView: UIView {
     // MARK: - UI
     // отрисовка интерфейса когда меняется состояние
     private func configureUI() {
-
+//        switch state {
+//        case .fetchingReview:
+//            <#code#>
+//        case .notReviewed:
+//            <#code#>
+//        case .reviewed:
+//            <#code#>
+//        }
     }
 
     private func configureView() {

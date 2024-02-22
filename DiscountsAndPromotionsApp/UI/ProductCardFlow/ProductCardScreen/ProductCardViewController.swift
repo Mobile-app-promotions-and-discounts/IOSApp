@@ -91,6 +91,8 @@ final class ProductCardViewController: UIViewController {
         originalNavBarAppearance = navigationController?.navigationBar.standardAppearance.copy()
         setupProductNavigationBar()
         navigationController?.setNavigationBarHidden(false, animated: false)
+
+        self.hidesBottomBarWhenPushed = true
     }
 
     override func viewDidLoad() {

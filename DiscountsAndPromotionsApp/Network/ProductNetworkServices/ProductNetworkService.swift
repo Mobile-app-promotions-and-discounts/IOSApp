@@ -226,7 +226,7 @@ extension ProductNetworkService {
 
     private func fetchProduct(productID: Int) async {
         guard let urlRequest = requestConstructor.makeRequest(endpoint: .getProduct,
-                                                              additionalPath: "\(productID)",
+                                                              additionalPath: "\(productID)/",
                                                               headers: NetworkBaseConfiguration.accessTokenHeader(),
                                                               parameters: nil) else {
             ErrorHandler.handle(error: AppError.customError("invalid request"))
