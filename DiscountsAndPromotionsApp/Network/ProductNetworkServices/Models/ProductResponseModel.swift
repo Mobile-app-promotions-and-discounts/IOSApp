@@ -18,11 +18,13 @@ struct ProductResponseModel: Codable {
     let stores: ProductsInStore?
     let isFavorited: Bool
     let images: ImageListResponseModel
+    let myReview: String?
 
     enum CodingKeys: String, CodingKey {
         case id, name, rating, category, description, barcode, stores, images
         case isFavorited = "is_favorited"
         case mainImage = "main_image"
+        case myReview = "my_review"
     }
 
     func convertToProductModel() -> Product {
@@ -60,7 +62,8 @@ struct ProductResponseModel: Codable {
                        image: image,
                        rating: modelRating,
                        offers: offers,
-                       isFavorite: isFavorited)
+                       isFavorite: isFavorited,
+                       myReview: myReview)
     }
 }
 

@@ -9,6 +9,14 @@ struct ProductReviewModel: Codable {
     let user: String?
     let text: String
     let score: Int
+    let priductID: String?
+    let productName: String?
+
+    enum CodingKeys: String, CodingKey {
+        case user, text, score
+        case priductID = "product_id"
+        case productName = "product_name"
+    }
 }
 
 typealias ProductReviews = [ProductReviewModel]

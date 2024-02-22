@@ -2,10 +2,22 @@ import UIKit
 import SnapKit
 import Combine
 
-class ProductReviewView: UIView {
+final class ProductReviewView: UIView {
+    enum ReviewState {
+        case fetchingReview
+        case notReviewed
+        case reviewed
+    }
+
     var viewModel: ProductReviewViewModelProtocol? {
         didSet {
             setupBindings()
+        }
+    }
+
+    var state: ReviewState = .fetchingReview {
+        didSet {
+            configureUI()
         }
     }
 
@@ -23,7 +35,7 @@ class ProductReviewView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureView()
-        setupBindings()
+        setupInnerBindings()
         setupTitleLabel()
         setupStarsStackView()
         setupReviewTextView()
@@ -35,6 +47,12 @@ class ProductReviewView: UIView {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    // MARK: - UI
+    // отрисовка интерфейса когда меняется состояние
+    private func configureUI() {
+
     }
 
     private func configureView() {
@@ -153,16 +171,29 @@ class ProductReviewView: UIView {
 //        }
     }
 
+    // MARK: - Bindings
     private func setupBindings() {
         viewModel?.didPublishReview
             .receive(on: DispatchQueue.main)
             .sink { [weak self] didPublishReview in
                 if didPublishReview {
-                    self?.reviewSent()
+                    self?.state = .fetchingReview
+                    self?.viewModel?.fetchReviewText()
                 }
             }
             .store(in: &cancellables)
 
+        viewModel?.didFetchReview
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] didFetchReview in
+                if didFetchReview {
+                    self?.state = .reviewed
+                }
+            }
+            .store(in: &cancellables)
+    }
+
+    private func setupInnerBindings() {
         reviewTextView.beginEditingPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
@@ -189,11 +220,12 @@ class ProductReviewView: UIView {
             .store(in: &cancellables)
     }
 
-    private func reviewSent() {
-        reviewTextView.text = "Ваш отзыв"
-        reviewTextView.textColor = UIColor.cherryGrayBlue.withAlphaComponent(1)
-        reviewTextView.isUserInteractionEnabled = true
-    }
+    // TODO: переписать
+//    private func reviewSent() {
+//        reviewTextView.text = "Ваш отзыв"
+//        reviewTextView.textColor = UIColor.cherryGrayBlue.withAlphaComponent(1)
+//        reviewTextView.isUserInteractionEnabled = true
+//    }
 
     private func updateStarRating(_ rating: Int) {
         for (index, button) in starsStackView.arrangedSubviews.enumerated() {
@@ -207,6 +239,8 @@ class ProductReviewView: UIView {
     func configure(with name: String) {
         titleLabel.text = "Как вам «\(name)» ?"
     }
+
+    // MARK: - Actions
 
     @objc private func cancelButtonTapped() {
         // Действие для кнопки "Отмена"
