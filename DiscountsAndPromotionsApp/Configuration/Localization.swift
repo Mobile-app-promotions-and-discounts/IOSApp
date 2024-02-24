@@ -45,4 +45,21 @@ enum L10n {
     enum WebView {
         static let termsAndPrivacy = NSLocalizedString("termsAndPrivacy", tableName: "WebViewFlow", comment: "")
     }
+    enum Profile {
+        enum Main {
+            static let exitProfile = NSLocalizedString("ExitProfile", tableName: "ProfileFlow", comment: "")
+            static let deleteProfile = NSLocalizedString("DeleteAccount", tableName: "ProfileFlow", comment: "")
+        }
+        enum Edit {
+            static let done = NSLocalizedString("Done", tableName: "ProfileFlow", comment: "")
+            static let cansel = NSLocalizedString("Cancel", tableName: "ProfileFlow", comment: "")
+            static let changeAvatar = NSLocalizedString("ChoosePhoto", tableName: "ProfileFlow", comment: "")
+            static let firstName = NSLocalizedString("FirstName", tableName: "ProfileFlow", comment: "")
+            static let lastName = NSLocalizedString("LastName", tableName: "ProfileFlow", comment: "")
+            static let phone = NSLocalizedString("Phone", tableName: "ProfileFlow", comment: "")
+            static let email = "Email"
+            static let birthdate = NSLocalizedString("Birthdate", tableName: "ProfileFlow", comment: "")
+            static let gender = NSLocalizedString("Gender", tableName: "ProfileFlow", comment: "")
+        }
+    }
 }

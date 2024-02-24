@@ -20,7 +20,7 @@ final class EditProfileView: UIView {
 
     private lazy var changeAvatarLabel: UILabel = {
         let changeAvatarLabel = UILabel()
-        changeAvatarLabel.text = NSLocalizedString("ChoosePhoto", tableName: "ProfileFlow", comment: "")
+        changeAvatarLabel.text = L10n.Profile.Edit.changeAvatar
         changeAvatarLabel.font = CherryFonts.textLarge
         changeAvatarLabel.textColor = .cherryBlue
         changeAvatarLabel.textAlignment = .center
@@ -32,33 +32,33 @@ final class EditProfileView: UIView {
 
     private lazy var firstNameTextField: TextField = {
         let firstNameTextField = TextField()
-        firstNameTextField.placeholder = NSLocalizedString("FirstName", tableName: "ProfileFlow", comment: "")
+        firstNameTextField.placeholder = L10n.Profile.Edit.firstName
         return firstNameTextField
     }()
 
     private lazy var lastNameTextField: TextField = {
         let lastNameTextField = TextField()
-        lastNameTextField.placeholder = NSLocalizedString("LastName", tableName: "ProfileFlow", comment: "")
+        lastNameTextField.placeholder = L10n.Profile.Edit.lastName
         return lastNameTextField
     }()
 
     private lazy var phoneTextField: TextField = {
         let phoneTextField = TextField()
-        phoneTextField.placeholder = NSLocalizedString("Phone", tableName: "ProfileFlow", comment: "")
+        phoneTextField.placeholder = L10n.Profile.Edit.phone
         phoneTextField.delegate = self
         return phoneTextField
     }()
 
     private lazy var emailTextField: TextField = {
         let emailTextField = TextField()
-        emailTextField.placeholder = "Email"
+        emailTextField.placeholder = L10n.Profile.Edit.email
         emailTextField.isUserInteractionEnabled = false
         return emailTextField
     }()
 
     private lazy var birthdateTextField: TextField = {
         let birthdateTextField = TextField()
-        birthdateTextField.placeholder = NSLocalizedString("Birthdate", tableName: "ProfileFlow", comment: "")
+        birthdateTextField.placeholder = L10n.Profile.Edit.birthdate
         birthdateTextField.datePicker(target: self,
                                       doneAction: #selector(datePickerDoneAction),
                                       cancelAction: #selector(datePickerCancelAction),
@@ -69,7 +69,7 @@ final class EditProfileView: UIView {
 
     private lazy var genderTextField: TextField = {
         let genderTextField = TextField()
-        genderTextField.placeholder = NSLocalizedString("Gender", tableName: "ProfileFlow", comment: "")
+        genderTextField.placeholder = L10n.Profile.Edit.gender
         let tapAction = UITapGestureRecognizer(target: self, action: #selector(chooseGenderDidTap(_:)))
         genderTextField.isUserInteractionEnabled = true
         genderTextField.addGestureRecognizer(tapAction)

@@ -14,13 +14,13 @@ final class EditProfileViewController: UIViewController, UINavigationControllerD
 
     // MARK: - Layout elements
     private lazy var cancelButton = UIBarButtonItem(
-        title: NSLocalizedString("Cancel", tableName: "ProfileFlow", comment: ""),
+        title: L10n.Profile.Edit.cansel,
         style: .plain,
         target: self,
         action: #selector(didTapCancelButton))
 
     private lazy var doneButton = UIBarButtonItem(
-        title: NSLocalizedString("Done", tableName: "ProfileFlow", comment: ""),
+        title: L10n.Profile.Edit.done,
         style: .plain,
         target: self,
         action: #selector(didTapDoneButton))
@@ -30,6 +30,7 @@ final class EditProfileViewController: UIViewController, UINavigationControllerD
         super.viewDidLoad()
 
         setupNavBar()
+        /*
         guard let profile = viewModel.profile else { return }
         self.view = EditProfileView(frame: .zero, viewController: self, profile: profile)
 
@@ -41,6 +42,7 @@ final class EditProfileViewController: UIViewController, UINavigationControllerD
                 view?.setAvatarImage(image: image)
             }
             .store(in: &avatarUpdated)
+         */
     }
 
     init(viewModel: ProfileViewModelProtocol) {
