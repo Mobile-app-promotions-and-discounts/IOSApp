@@ -15,9 +15,9 @@ final class RatingView: UIView {
 
     private lazy var reviewsButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "chevron.forward"), for: .normal)
+        button.setImage(UIImage.icForward, for: .normal)
         button.tintColor = .black
-        button.backgroundColor = .cherryLightBlue
+        button.backgroundColor = .cherryLightBlueCard
         button.isUserInteractionEnabled = true
         return button
     }()
@@ -42,7 +42,7 @@ final class RatingView: UIView {
     }
 
     private func setupLayout() {
-        backgroundColor = .cherryLightBlue
+        backgroundColor = .cherryLightBlueCard
         layer.cornerRadius = CornerRadius.regular.cgFloat()
         starsStackView.axis = .horizontal
         starsStackView.distribution = .fillEqually

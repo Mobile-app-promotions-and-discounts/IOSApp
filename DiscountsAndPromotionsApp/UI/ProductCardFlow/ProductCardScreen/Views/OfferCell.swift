@@ -67,7 +67,7 @@ class OfferTableViewCell: UITableViewCell {
     private func setupBackgroundView() {
         contentView.addSubview(backgroundViewBoard)
         contentView.backgroundColor = .cherryWhite
-        backgroundViewBoard.backgroundColor = .cherryLightBlue
+        backgroundViewBoard.backgroundColor = .cherryLightBlueCard
         backgroundViewBoard.layer.cornerRadius = CornerRadius.regular.cgFloat()
         backgroundViewBoard.clipsToBounds = true
     }

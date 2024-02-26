@@ -300,7 +300,7 @@ final class ProductCardViewController: UIViewController {
             }
             $0.layer.cornerRadius = 16
         }
-        backButton.setImage(UIImage.back, for: .normal)
+        backButton.setImage(UIImage.icBack, for: .normal)
         backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
 
@@ -391,7 +391,7 @@ extension ProductCardViewController: UITableViewDelegate {
         headerLabel.translatesAutoresizingMaskIntoConstraints = false
         headerLabel.text = "Предложения магазинов"
         headerLabel.font = CherryFonts.headerLarge
-        headerLabel.textColor = .black
+        headerLabel.textColor = .cherryBlack
 
         headerView.addSubview(headerLabel)
 

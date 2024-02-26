@@ -8,10 +8,18 @@ final class GenericNavigationController: UINavigationController {
         setupNavBar()
     }
 
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        // Проверяем, изменилась ли цветовая схема
+        if self.traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+            setupNavBar()
+        }
+    }
+
     private func setupNavBar() {
         let imageSize = CGSize(width: navigationBar.frame.width, height: navigationBar.frame.width)
         let image = makeNavBackground(size: imageSize,
-                                      color: .cherryWhite,
+                                      color: .cherryNavBarWhite,
                                       cornerRadius: CornerRadius.regular.cgFloat())
 
         let standardAppearance = UINavigationBarAppearance()

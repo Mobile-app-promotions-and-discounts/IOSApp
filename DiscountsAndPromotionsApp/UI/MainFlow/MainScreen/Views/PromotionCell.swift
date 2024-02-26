@@ -7,7 +7,7 @@ final class PromotionCell: UICollectionViewCell {
 
     private lazy var productImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = .cherryWhite
+        imageView.backgroundColor = .cherryAlwaysWhite
         imageView.layer.cornerRadius = CornerRadius.small.cgFloat()
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFit
@@ -25,7 +25,7 @@ final class PromotionCell: UICollectionViewCell {
 
     private lazy var discountLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .cherryBlack
+        label.textColor = .cherryAlwaysBlack
         label.font = CherryFonts.textSmall
         return label
     }()
