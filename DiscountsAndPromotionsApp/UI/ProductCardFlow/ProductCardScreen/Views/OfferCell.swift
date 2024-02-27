@@ -95,7 +95,7 @@ class OfferTableViewCell: UITableViewCell {
         discountView.layer.cornerRadius = 11
         discountView.clipsToBounds = true
         discountView.layer.borderWidth = 1
-        discountView.layer.borderColor = UIColor.cherryGray.cgColor
+        discountView.layer.borderColor = UIColor.cherryStroke.cgColor
         discountView.backgroundColor = .cherryYellow2
     }
 
@@ -136,7 +136,7 @@ class OfferTableViewCell: UITableViewCell {
         priceLabel.font = CherryFonts.textMedium
         priceLabel.textColor = .cherryBlack
         originalPriceLabel.font = CherryFonts.textMedium
-        originalPriceLabel.textColor = .cherryGray
+        originalPriceLabel.textColor = .cherryBlueGray
         originalPriceLabel.attributedText = NSAttributedString(
             string: "...",
             attributes: [NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.single.rawValue]

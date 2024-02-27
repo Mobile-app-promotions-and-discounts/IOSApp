@@ -67,6 +67,7 @@ final class ProductReviewView: UIView {
 
     private func configFetchingReview() {
         updateHeader()
+        reviewTextView.backgroundColor = .cherryLightBlue
         reviewTextView.textColor = .cherryGrayBlue.withAlphaComponent(0.5)
         reviewTextView.isUserInteractionEnabled = false
         submitButton.isUserInteractionEnabled = false
@@ -77,6 +78,7 @@ final class ProductReviewView: UIView {
 
     private func configNotReviewed() {
         updateHeader()
+        reviewTextView.backgroundColor = .cherryLightBlue
         reviewTextView.text = "Ваш отзыв"
         reviewTextView.textColor = UIColor.cherryGrayBlue.withAlphaComponent(1)
         reviewTextView.isUserInteractionEnabled = true
@@ -88,8 +90,9 @@ final class ProductReviewView: UIView {
 
     private func configReviewed() {
         updateHeader()
+        reviewTextView.backgroundColor = .clear
         reviewTextView.text = viewModel?.reviewText.value
-        reviewTextView.textColor = .cherryGrayBlue.withAlphaComponent(1)
+        reviewTextView.textColor = .cherryBlack.withAlphaComponent(1)
         reviewTextView.isUserInteractionEnabled = false
         submitButton.isUserInteractionEnabled = false
         submitButton.alpha = 0
