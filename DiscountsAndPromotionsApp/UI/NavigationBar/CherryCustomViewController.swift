@@ -33,6 +33,19 @@ class CherryCustomViewController: UIViewController {
         if self != navigationController?.viewControllers[0] {
             navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
         }
+
+        let standardAppearance = UINavigationBarAppearance()
+        standardAppearance.configureWithOpaqueBackground()
+        standardAppearance.backgroundColor = UIColor.cherryWhite
+
+        let titleAttributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: UIColor.cherryBlack,
+            .font: CherryFonts.headerMedium as Any
+        ]
+        standardAppearance.titleTextAttributes = titleAttributes
+
+        navigationController?.navigationBar.standardAppearance = standardAppearance
+        navigationController?.navigationBar.compactAppearance = standardAppearance
     }
 
     @objc

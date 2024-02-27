@@ -29,7 +29,6 @@ final class ReviewsViewController: CherryCustomViewController {
     private func setupUI() {
         view.backgroundColor = .cherryLightBlue
         navigationItem.title = viewModel.product?.name ?? "Отзывы"
-
         setupTable()
     }
 

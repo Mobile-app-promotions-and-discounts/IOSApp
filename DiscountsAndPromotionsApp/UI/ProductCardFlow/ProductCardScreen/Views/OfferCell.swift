@@ -101,7 +101,7 @@ class OfferTableViewCell: UITableViewCell {
 
     private func configureGoToStoreButton() {
         var config = UIButton.Configuration.plain()
-        config.image = UIImage(named: "ic_storeArrow")
+        config.image = .icStoreArrow
         config.imagePlacement = .trailing
         config.imagePadding = 4
         config.baseForegroundColor = UIColor.cherryBlack
@@ -136,7 +136,7 @@ class OfferTableViewCell: UITableViewCell {
         priceLabel.font = CherryFonts.textMedium
         priceLabel.textColor = .cherryBlack
         originalPriceLabel.font = CherryFonts.textMedium
-        originalPriceLabel.textColor = .cherryGray
+        originalPriceLabel.textColor = .cherryBlueGray
         originalPriceLabel.attributedText = NSAttributedString(
             string: "...",
             attributes: [NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.single.rawValue]

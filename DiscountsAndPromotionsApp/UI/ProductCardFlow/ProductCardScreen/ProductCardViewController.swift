@@ -282,7 +282,7 @@ final class ProductCardViewController: UIViewController {
         standardAppearance.backgroundColor = UIColor.cherryWhite
 
         let titleAttributes: [NSAttributedString.Key: Any] = [
-            .foregroundColor: UIColor.black,
+            .foregroundColor: UIColor.cherryBlack,
             .font: CherryFonts.headerMedium as Any
         ]
         standardAppearance.titleTextAttributes = titleAttributes

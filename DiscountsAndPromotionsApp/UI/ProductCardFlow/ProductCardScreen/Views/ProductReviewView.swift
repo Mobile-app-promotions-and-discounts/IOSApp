@@ -73,7 +73,7 @@ class ProductReviewView: UIView {
 
     private func setupReviewTextView() {
         reviewTextView.font = CherryFonts.textMedium
-        reviewTextView.textColor = .cherryGrayBlue
+        reviewTextView.textColor = .cherryStarGrayBlue
         reviewTextView.backgroundColor = .cherryLightBlueCard
         reviewTextView.text = "Ваш отзыв"
         reviewTextView.layer.cornerRadius = 5
