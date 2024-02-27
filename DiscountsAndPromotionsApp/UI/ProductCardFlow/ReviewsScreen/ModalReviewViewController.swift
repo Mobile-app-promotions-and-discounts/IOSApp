@@ -69,7 +69,7 @@ final class ModalReviewViewController: UIViewController {
         mainView.addSubview(reviewButton)
         reviewButton.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(insets)
-            make.bottom.equalTo(view.safeAreaLayoutGuide)
+            make.bottom.equalTo(view.keyboardLayoutGuide.snp.top).offset(-16)
             make.height.equalTo(51)
         }
     }

@@ -12,6 +12,7 @@ final class ProductReviewView: UIView {
     var viewModel: ProductReviewViewModelProtocol? {
         didSet {
             setupBindings()
+            state = .fetchingReview
         }
     }
 
@@ -30,6 +31,7 @@ final class ProductReviewView: UIView {
     private let submitButton = UIButton(type: .system)
 
     private var rating: Int = 0
+    private var productName: String = ""
     private var previousText: String = ""
 
     override init(frame: CGRect) {
@@ -52,16 +54,64 @@ final class ProductReviewView: UIView {
     // MARK: - UI
     // отрисовка интерфейса когда меняется состояние
     private func configureUI() {
-//        switch state {
-//        case .fetchingReview:
-//            <#code#>
-//        case .notReviewed:
-//            <#code#>
-//        case .reviewed:
-//            <#code#>
-//        }
+        switch state {
+        case .fetchingReview:
+            configFetchingReview()
+            viewModel?.fetchReviewText()
+        case .notReviewed:
+            configNotReviewed()
+        case .reviewed:
+            configReviewed()
+        }
     }
 
+    private func configFetchingReview() {
+        updateHeader()
+        reviewTextView.textColor = .cherryGrayBlue.withAlphaComponent(0.5)
+        reviewTextView.isUserInteractionEnabled = false
+        submitButton.isUserInteractionEnabled = false
+        submitButton.alpha = 0.5
+        starsStackView.isUserInteractionEnabled = false
+        starsStackView.alpha = 0.5
+    }
+
+    private func configNotReviewed() {
+        updateHeader()
+        reviewTextView.text = "Ваш отзыв"
+        reviewTextView.textColor = UIColor.cherryGrayBlue.withAlphaComponent(1)
+        reviewTextView.isUserInteractionEnabled = true
+        submitButton.isUserInteractionEnabled = true
+        submitButton.alpha = 1
+        starsStackView.isUserInteractionEnabled = true
+        starsStackView.alpha = 1
+    }
+
+    private func configReviewed() {
+        updateHeader()
+        reviewTextView.text = viewModel?.reviewText.value
+        reviewTextView.textColor = .cherryGrayBlue.withAlphaComponent(1)
+        reviewTextView.isUserInteractionEnabled = false
+        submitButton.isUserInteractionEnabled = false
+        submitButton.alpha = 0
+        if let rating = viewModel?.rating.value {
+            updateStarRating(rating)
+        }
+        starsStackView.isUserInteractionEnabled = false
+        starsStackView.alpha = 1
+    }
+
+    private func updateHeader() {
+        switch state {
+        case .fetchingReview:
+            titleLabel.text = "Как вам «\(productName)»?"
+        case .notReviewed:
+            titleLabel.text = "Как вам «\(productName)»?"
+        case .reviewed:
+            titleLabel.text = "Отзыв на «\(productName)»"
+        }
+    }
+
+    // MARK: - первоначальная настройка UI
     private func configureView() {
         backgroundColor = .cherryLightBlue
         layer.cornerRadius = CornerRadius.large.cgFloat()
@@ -185,7 +235,6 @@ final class ProductReviewView: UIView {
             .sink { [weak self] didPublishReview in
                 if didPublishReview {
                     self?.state = .fetchingReview
-                    self?.viewModel?.fetchReviewText()
                 }
             }
             .store(in: &cancellables)
@@ -193,8 +242,10 @@ final class ProductReviewView: UIView {
         viewModel?.didFetchReview
             .receive(on: DispatchQueue.main)
             .sink { [weak self] didFetchReview in
+                guard let self,
+                let reviewText = viewModel?.reviewText.value else { return }
                 if didFetchReview {
-                    self?.state = .reviewed
+                    self.state = reviewText.isEmpty ? .notReviewed : .reviewed
                 }
             }
             .store(in: &cancellables)
@@ -227,13 +278,6 @@ final class ProductReviewView: UIView {
             .store(in: &cancellables)
     }
 
-    // TODO: переписать
-//    private func reviewSent() {
-//        reviewTextView.text = "Ваш отзыв"
-//        reviewTextView.textColor = UIColor.cherryGrayBlue.withAlphaComponent(1)
-//        reviewTextView.isUserInteractionEnabled = true
-//    }
-
     private func updateStarRating(_ rating: Int) {
         for (index, button) in starsStackView.arrangedSubviews.enumerated() {
             if let button = button as? UIButton {
@@ -244,7 +288,8 @@ final class ProductReviewView: UIView {
     }
 
     func configure(with name: String) {
-        titleLabel.text = "Как вам «\(name)» ?"
+        productName = name
+        updateHeader()
     }
 
     // MARK: - Actions
@@ -265,8 +310,7 @@ final class ProductReviewView: UIView {
            reviewRating != 0,
            !reviewTextView.text.isEmpty {
             viewModel?.submitReview.send((reviewRating, reviewTextView.text))
-            reviewTextView.textColor = .cherryGrayBlue.withAlphaComponent(0.5)
-            reviewTextView.isUserInteractionEnabled = false
+            state = .fetchingReview
             }
         }
 }
