@@ -1,8 +1,23 @@
 import UIKit
 
 class AuthParentViewController: UIViewController {
-
     weak var coordinator: AuthCoordinator?
+
+    private enum Const {
+        enum View {
+            static let cornerRadius: CGFloat = 12
+        }
+        enum TitleLable {
+            static let topOffset: CGFloat = 32
+            static let horizontalInsert: CGFloat = 65
+        }
+        enum BackButton {
+            static let leadingOffset: CGFloat = 16
+            static let topOffset: CGFloat = 35
+            static let heightWight: CGFloat = 24
+        }
+    }
+
     private let titleName: String?
     private let isAddBackButton: Bool
 
@@ -39,6 +54,7 @@ class AuthParentViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         setupConstraints()
+        configureApperance()
     }
 
     private func setupView() {
@@ -73,19 +89,7 @@ class AuthParentViewController: UIViewController {
         }
     }
 
-    private enum Const {
-        enum View {
-            static let cornerRadius: CGFloat = 12
-        }
-        enum TitleLable {
-            static let topOffset: CGFloat = 32
-            static let horizontalInsert: CGFloat = 65
-        }
-        enum BackButton {
-            static let leadingOffset: CGFloat = 16
-            static let topOffset: CGFloat = 35
-            static let heightWight: CGFloat = 24
-        }
+    private func configureApperance() {
+        view.backgroundColor = .cherryWhiteEmptyScreen
     }
-
 }
