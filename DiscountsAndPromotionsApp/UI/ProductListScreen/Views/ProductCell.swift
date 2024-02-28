@@ -44,7 +44,7 @@ final class ProductCell: UICollectionViewCell {
 
     private lazy var productImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = .cherryWhite
+        imageView.backgroundColor = .cherryAlwaysWhite
         imageView.layer.cornerRadius = CornerRadius.small.cgFloat()
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFit
@@ -53,7 +53,7 @@ final class ProductCell: UICollectionViewCell {
 
     private lazy var discountBGView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.cherryWhite.withAlphaComponent(0.8)
+        view.backgroundColor = UIColor.cherryYellow2
         view.layer.cornerRadius = CornerRadius.regular.cgFloat()
         view.layer.borderColor = UIColor.cherryBlack.withAlphaComponent(0.15).cgColor
         view.layer.borderWidth = 1
@@ -62,7 +62,7 @@ final class ProductCell: UICollectionViewCell {
 
     private lazy var discountLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .cherryBlack
+        label.textColor = .cherryAlwaysBlack
         label.font = CherryFonts.headerSmall
         return label
     }()
@@ -168,7 +168,7 @@ final class ProductCell: UICollectionViewCell {
     }
 
     private func setupViews() {
-        contentView.backgroundColor = .cherryLightBlue
+        contentView.backgroundColor = .cherryLightBlueCard
         contentView.layer.cornerRadius = CornerRadius.regular.cgFloat()
 
         [productImageView,
