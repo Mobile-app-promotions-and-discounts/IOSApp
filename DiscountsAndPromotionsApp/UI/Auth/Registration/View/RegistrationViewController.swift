@@ -3,9 +3,24 @@ import SnapKit
 import UIKit
 
 final class RegistrationViewController: AuthParentViewController {
+    private enum Const {
+        enum TextFieldsStack {
+            static let spacing: CGFloat = 8
+            static let topOffset: CGFloat = 82
+            static let horizontalInset: CGFloat = 16
+            static let height: CGFloat = 158
+        }
+        enum RegisterButton {
+            static let bottomInset: CGFloat = 24
+            static let height: CGFloat = 51
+            static let horizontalInset: CGFloat = 16
+        }
+        enum PrivatePolicyLabelTap {
+            static let bottomOffset: CGFloat = -12
+        }
+    }
 
     private let viewModel: RegistrationViewModelProtocol
-
     private var cancellables: Set<AnyCancellable>
 
     private lazy var inputEmailField: InputUserDataField = {
@@ -90,7 +105,6 @@ final class RegistrationViewController: AuthParentViewController {
     }
 
     private func bindingOn() {
-
         viewModel.validToSubmit
             .receive(on: DispatchQueue.main)
             .assign(to: \.isUserInteractionEnabled, on: registrationButton)
@@ -179,29 +193,14 @@ final class RegistrationViewController: AuthParentViewController {
         viewModel.didTapLoginButton()
     }
 
-    private enum Const {
-        enum TextFieldsStack {
-            static let spacing: CGFloat = 8
-            static let topOffset: CGFloat = 82
-            static let horizontalInset: CGFloat = 16
-            static let height: CGFloat = 158
-        }
-        enum RegisterButton {
-            static let bottomInset: CGFloat = 24
-            static let height: CGFloat = 51
-            static let horizontalInset: CGFloat = 16
-        }
-        enum PrivatePolicyLabelTap {
-            static let bottomOffset: CGFloat = -12
-        }
+    private func configureApperance() {
+        view.backgroundColor = .cherryWhiteEmptyScreen
     }
-
 }
 
 // MARK: - UITextFieldDelegate
 
 extension RegistrationViewController: UITextFieldDelegate {
-
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
     }
@@ -209,5 +208,4 @@ extension RegistrationViewController: UITextFieldDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
-
 }

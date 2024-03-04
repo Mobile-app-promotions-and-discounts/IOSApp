@@ -6,7 +6,7 @@ class CherryCustomViewController: UIViewController {
             return UIButton()
         }
         let backButton = UIButton(type: .system)
-        backButton.tintColor = .cherryGrayBlue
+        backButton.tintColor = .cherrySBPlaceholder
         backButton.setImage(.icBack, for: .normal)
         backButton.addTarget(self,
                              action: #selector(defaultBackAction),

@@ -3,9 +3,27 @@ import SnapKit
 import Combine
 
 final class LoginViewController: AuthParentViewController {
+    private enum Const {
+        enum TextFieldsStack {
+            static let spacing: CGFloat = 8
+            static let topOffset: CGFloat = 82
+            static let horizontalInset: CGFloat = 16
+            static let height: CGFloat = 158
+        }
+        enum ButtonStack {
+            static let spacing: CGFloat = 4
+            static let horizontalInset: CGFloat = 16
+            static let bottomInset: CGFloat = 24
+            static let height: CGFloat = 106
+        }
+        enum PasswordButtom {
+            static let topOffset: CGFloat = 4
+            static let leadingOffset: CGFloat = 16
+            static let height: CGFloat = 19
+        }
+    }
 
     private let viewModel: LoginViewModelProtocol
-
     private var cancellables: Set<AnyCancellable>
 
     private lazy var inputEmailField: InputUserDataField = {
@@ -90,7 +108,6 @@ final class LoginViewController: AuthParentViewController {
     }
 
     private func bindingOn() {
-
         viewModel.isUserAuthorizedUpdate
             .receive(on: RunLoop.main)
             .sink { [weak self] isAuthorized in
@@ -167,32 +184,11 @@ final class LoginViewController: AuthParentViewController {
             $0.height.equalTo(Const.ButtonStack.height)
         }
     }
-
-    private enum Const {
-        enum TextFieldsStack {
-            static let spacing: CGFloat = 8
-            static let topOffset: CGFloat = 82
-            static let horizontalInset: CGFloat = 16
-            static let height: CGFloat = 158
-        }
-        enum ButtonStack {
-            static let spacing: CGFloat = 4
-            static let horizontalInset: CGFloat = 16
-            static let bottomInset: CGFloat = 24
-            static let height: CGFloat = 106
-        }
-        enum PasswordButtom {
-            static let topOffset: CGFloat = 4
-            static let leadingOffset: CGFloat = 16
-            static let height: CGFloat = 19
-        }
-    }
 }
 
 // MARK: - UITextFieldDelegate
 
 extension LoginViewController: UITextFieldDelegate {
-
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
     }
@@ -200,5 +196,4 @@ extension LoginViewController: UITextFieldDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
-
 }
