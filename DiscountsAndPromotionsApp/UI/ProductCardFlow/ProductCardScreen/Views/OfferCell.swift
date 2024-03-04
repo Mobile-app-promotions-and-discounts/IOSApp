@@ -95,7 +95,7 @@ class OfferTableViewCell: UITableViewCell {
         discountView.layer.cornerRadius = 11
         discountView.clipsToBounds = true
         discountView.layer.borderWidth = 1
-        discountView.layer.borderColor = UIColor.cherryGray.cgColor
+        discountView.layer.borderColor = UIColor.cherryStroke.cgColor
         discountView.backgroundColor = .cherryYellow2
     }
 

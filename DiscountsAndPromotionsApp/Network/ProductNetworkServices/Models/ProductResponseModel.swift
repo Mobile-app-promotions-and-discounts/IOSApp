@@ -18,10 +18,12 @@ struct ProductResponseModel: Codable {
     let stores: ProductsInStore?
     let isFavorited: Bool
     let images: ImageListResponseModel
+    let myReview: MyProductReview?
 
     enum CodingKeys: String, CodingKey {
         case id, name, rating, category, description, barcode, stores, images
         case isFavorited = "is_favorited"
+        case myReview = "my_review"
         case mainImage = "main_image"
     }
 
@@ -60,7 +62,8 @@ struct ProductResponseModel: Codable {
                        image: image,
                        rating: modelRating,
                        offers: offers,
-                       isFavorite: isFavorited)
+                       isFavorite: isFavorited,
+                       myReview: self.myReview?.text)
     }
 }
 

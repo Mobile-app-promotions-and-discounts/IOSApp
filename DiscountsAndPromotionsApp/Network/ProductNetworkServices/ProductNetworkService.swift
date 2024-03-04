@@ -61,7 +61,8 @@ actor ProductNetworkService: ProductNetworkServiceProtocol {
                                                barcode: "",
                                                stores: [],
                                                isFavorited: false,
-                                               images: []) {
+                                               images: [],
+                                               myReview: nil) {
         didSet {
             productUpdate.send(product)
         }
@@ -225,7 +226,7 @@ extension ProductNetworkService {
 
     private func fetchProduct(productID: Int) async {
         guard let urlRequest = requestConstructor.makeRequest(endpoint: .getProduct,
-                                                              additionalPath: "\(productID)",
+                                                              additionalPath: "\(productID)/",
                                                               headers: NetworkBaseConfiguration.accessTokenHeader(),
                                                               parameters: nil) else {
             ErrorHandler.handle(error: AppError.customError("invalid request"))
@@ -330,7 +331,8 @@ extension ProductNetworkService {
                                             barcode: $0.barcode,
                                             stores: $0.stores,
                                             isFavorited: isFavorite.1,
-                                            images: $0.images)
+                                            images: $0.images,
+                                            myReview: $0.myReview)
             } else {
                 return $0
             }

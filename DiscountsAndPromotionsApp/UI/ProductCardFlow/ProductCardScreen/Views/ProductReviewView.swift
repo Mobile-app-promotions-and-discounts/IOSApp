@@ -2,10 +2,23 @@ import UIKit
 import SnapKit
 import Combine
 
-class ProductReviewView: UIView {
+final class ProductReviewView: UIView {
+    enum ReviewState {
+        case fetchingReview
+        case notReviewed
+        case reviewed
+    }
+
     var viewModel: ProductReviewViewModelProtocol? {
         didSet {
             setupBindings()
+            state = .fetchingReview
+        }
+    }
+
+    var state: ReviewState = .fetchingReview {
+        didSet {
+            configureUI()
         }
     }
 
@@ -18,12 +31,13 @@ class ProductReviewView: UIView {
     private let submitButton = UIButton(type: .system)
 
     private var rating: Int = 0
+    private var productName: String = ""
     private var previousText: String = ""
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureView()
-        setupBindings()
+        setupInnerBindings()
         setupTitleLabel()
         setupStarsStackView()
         setupReviewTextView()
@@ -37,6 +51,70 @@ class ProductReviewView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
+    // MARK: - UI
+    // отрисовка интерфейса когда меняется состояние
+    private func configureUI() {
+        switch state {
+        case .fetchingReview:
+            configFetchingReview()
+            viewModel?.fetchReviewText()
+        case .notReviewed:
+            configNotReviewed()
+        case .reviewed:
+            configReviewed()
+        }
+    }
+
+    private func configFetchingReview() {
+        updateHeader()
+        reviewTextView.backgroundColor = .cherryLightBlue
+        reviewTextView.textColor = .cherryGrayBlue.withAlphaComponent(0.5)
+        reviewTextView.isUserInteractionEnabled = false
+        submitButton.isUserInteractionEnabled = false
+        submitButton.alpha = 0.5
+        starsStackView.isUserInteractionEnabled = false
+        starsStackView.alpha = 0.5
+    }
+
+    private func configNotReviewed() {
+        updateHeader()
+        reviewTextView.backgroundColor = .cherryLightBlue
+        reviewTextView.text = "Ваш отзыв"
+        reviewTextView.textColor = UIColor.cherryGrayBlue.withAlphaComponent(1)
+        reviewTextView.isUserInteractionEnabled = true
+        submitButton.isUserInteractionEnabled = true
+        submitButton.alpha = 1
+        starsStackView.isUserInteractionEnabled = true
+        starsStackView.alpha = 1
+    }
+
+    private func configReviewed() {
+        updateHeader()
+        reviewTextView.backgroundColor = .clear
+        reviewTextView.text = viewModel?.reviewText.value
+        reviewTextView.textColor = .cherryBlack.withAlphaComponent(1)
+        reviewTextView.isUserInteractionEnabled = false
+        submitButton.isUserInteractionEnabled = false
+        submitButton.alpha = 0
+        if let rating = viewModel?.rating.value {
+            updateStarRating(rating)
+        }
+        starsStackView.isUserInteractionEnabled = false
+        starsStackView.alpha = 1
+    }
+
+    private func updateHeader() {
+        switch state {
+        case .fetchingReview:
+            titleLabel.text = "Как вам «\(productName)»?"
+        case .notReviewed:
+            titleLabel.text = "Как вам «\(productName)»?"
+        case .reviewed:
+            titleLabel.text = "Отзыв на «\(productName)»"
+        }
+    }
+
+    // MARK: - первоначальная настройка UI
     private func configureView() {
         backgroundColor = .cherryLightBlue
         layer.cornerRadius = CornerRadius.large.cgFloat()
@@ -153,16 +231,30 @@ class ProductReviewView: UIView {
 //        }
     }
 
+    // MARK: - Bindings
     private func setupBindings() {
         viewModel?.didPublishReview
             .receive(on: DispatchQueue.main)
             .sink { [weak self] didPublishReview in
                 if didPublishReview {
-                    self?.reviewSent()
+                    self?.state = .fetchingReview
                 }
             }
             .store(in: &cancellables)
 
+        viewModel?.didFetchReview
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] didFetchReview in
+                guard let self,
+                let reviewText = viewModel?.reviewText.value else { return }
+                if didFetchReview {
+                    self.state = reviewText.isEmpty ? .notReviewed : .reviewed
+                }
+            }
+            .store(in: &cancellables)
+    }
+
+    private func setupInnerBindings() {
         reviewTextView.beginEditingPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
@@ -189,12 +281,6 @@ class ProductReviewView: UIView {
             .store(in: &cancellables)
     }
 
-    private func reviewSent() {
-        reviewTextView.text = "Ваш отзыв"
-        reviewTextView.textColor = UIColor.cherryGrayBlue.withAlphaComponent(1)
-        reviewTextView.isUserInteractionEnabled = true
-    }
-
     private func updateStarRating(_ rating: Int) {
         for (index, button) in starsStackView.arrangedSubviews.enumerated() {
             if let button = button as? UIButton {
@@ -205,8 +291,11 @@ class ProductReviewView: UIView {
     }
 
     func configure(with name: String) {
-        titleLabel.text = "Как вам «\(name)» ?"
+        productName = name
+        updateHeader()
     }
+
+    // MARK: - Actions
 
     @objc private func cancelButtonTapped() {
         // Действие для кнопки "Отмена"
@@ -224,8 +313,7 @@ class ProductReviewView: UIView {
            reviewRating != 0,
            !reviewTextView.text.isEmpty {
             viewModel?.submitReview.send((reviewRating, reviewTextView.text))
-            reviewTextView.textColor = .cherryGrayBlue.withAlphaComponent(0.5)
-            reviewTextView.isUserInteractionEnabled = false
+            state = .fetchingReview
             }
         }
 }

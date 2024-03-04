@@ -31,8 +31,11 @@ final class ProductCardViewModel {
         print("IS FAVORITE" + "\(product.id) is \(product.isFavorite)")
         self.productService = productService
         self.ratingViewModel = RatingViewViewModel(rating: product.rating ?? 0.0)
-        self.reviewViewViewModel = ProductReviewViewModel(productName: product.name)
-        self.priceInfoViewModel = PriceInfoViewViewModel(product: product, productService: productService)
+        self.reviewViewViewModel = ProductReviewViewModel(productName: product.name,
+                                                          productID: product.id,
+                                                          productService: productService)
+        self.priceInfoViewModel = PriceInfoViewViewModel(product: product,
+                                                         productService: productService)
 
         setupBindings()
         productService.getReviewsForProduct(id: product.id, page: 1)
