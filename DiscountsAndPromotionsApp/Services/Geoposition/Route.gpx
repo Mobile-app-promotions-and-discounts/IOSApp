@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<gpx version="1.1" creator="Xcode">
+
+    <wpt lat="55.431136" lon="37.544994">
+      <name>WP001</name>
+      <time>2023-03-27T18:28:04Z</time>
+    </wpt>
+    <wpt lat="55.501316" lon="37.564553">
+      <name>WP002</name>
+      <time>2023-03-27T18:30:21Z</time>
+    </wpt>
+    <wpt lat="55.570398" lon="37.475490">
+      <name>WP003</name>
+      <time>2023-03-27T18:31:40Z</time>
+    </wpt>
+    <wpt lat="55.679135" lon="37.263654">
+      <name>WP004</name>
+      <time>2023-03-27T18:31:54Z</time>
+    </wpt>
+    <wpt lat="55.723057" lon="37.364717">
+      <name>WP005</name>
+      <time>2023-03-27T18:33:38Z</time>
+    </wpt>
+    <wpt lat="55.820371" lon="37.319472">
+      <name>WP006</name>
+      <time>2023-03-27T18:35:20Z</time>
+    </wpt>
+    <wpt lat="55.867430" lon="37.395488">
+      <name>WP007</name>
+      <time>2023-03-27T18:39:03Z</time>
+    </wpt>
+    <wpt lat="55.889360" lon="37.444848">
+      <name>WP008</name>
+      <time>2023-03-27T18:42:05Z</time>
+    </wpt>
+    <wpt lat="55.933302" lon="37.514222">
+      <name>WP009</name>
+      <time>2023-03-27T18:44:36Z</time>
+    </wpt>
+    <wpt lat="55.909969" lon="37.736740">
+      <name>WP010</name>
+      <time>2023-03-27T18:44:40Z</time>
+    </wpt>
+    <wpt lat="55.918954" lon="37.815208">
+      <name>WP011</name>
+      <time>2023-03-27T18:45:49Z</time>
+    </wpt>
+    <wpt lat="55.920219" lon="37.991525">
+      <name>WP012</name>
+      <time>2023-03-27T18:46:02Z</time>
+    </wpt>
+    <wpt lat="55.797006" lon="37.938121">
+      <name>WP013</name>
+      <time>2023-03-27T18:46:16Z</time>
+    </wpt>
+    <wpt lat="55.746442" lon="38.009046">
+      <name>WP014</name>
+      <time>2023-03-27T18:47:06Z</time>
+    </wpt>
+    <wpt lat="55.676747" lon="37.893327">
+      <name>WP015</name>
+      <time>2023-03-27T18:48:12Z</time>
+    </wpt>
+    <wpt lat="55.597478" lon="38.119803">
+      <name>WP016</name>
+      <time>2023-03-27T18:52:57Z</time>
+    </wpt>
+    <wpt lat="55.567583" lon="38.224997">
+      <name>WP017</name>
+      <time>2023-03-27T18:53:15Z</time>
+    </wpt>
+    <wpt lat="55.437170" lon="37.767994">
+      <name>WP018</name>
+      <time>2023-03-27T18:54:02Z</time>
+    </wpt>
+    <wpt lat="55.557037" lon="37.708758">
+      <name>WP019</name>
+      <time>2023-03-27T18:54:17Z</time>
+    </wpt>
+    <wpt lat="55.755821" lon="37.617635">
+      <name>WP020</name>
+      <time>2023-03-27T18:55:34Z</time>
+    </wpt>
+    
+</gpx>

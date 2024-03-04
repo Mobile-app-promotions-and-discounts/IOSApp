@@ -9,8 +9,8 @@ enum AppError: Error, Equatable {
     case locationError
     case profileError(String)
     case customError(String)
-    case authorizationError
     case registrationError
+    case locationSettingError
 }
 
 struct CancellationError: Error {
@@ -18,10 +18,11 @@ struct CancellationError: Error {
 }
 
 final class ErrorHandler {
-    static func handle(error: AppError) {
+    static func handle(error: AppError, handler: (() -> Void)? = nil) {
         print("Ошибка: \(error)")
         showAlert(title: NSLocalizedString("error", tableName: "ErrorHandler", comment: ""),
-                  message: message(for: error))
+                  message: message(for: error),
+                  handler: handler)
     }
 
     private static func message(for error: AppError) -> String {
@@ -40,17 +41,21 @@ final class ErrorHandler {
             return error
         case .customError(let message):
             return message
-        case .authorizationError:
-            return L10n.Authorization.authorizationError
         case .registrationError:
-            return L10n.Registration.registrationErrorTitle
+            return NSLocalizedString("registrationError", tableName: "ErrorHandler", comment: "")
+        case .locationSettingError:
+            return NSLocalizedString("locationSettingError", tableName: "ErrorHandler", comment: "")
         }
     }
 
-    private static func showAlert(title: String, message: String) {
+    private static func showAlert(title: String, message: String, handler: (() -> Void)? = nil) {
         DispatchQueue.main.async {
             let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
+                if let handler = handler {
+                    handler()
+                }
+            }))
 
             UIViewController.topMostViewController()?.present(alert, animated: true)
         }

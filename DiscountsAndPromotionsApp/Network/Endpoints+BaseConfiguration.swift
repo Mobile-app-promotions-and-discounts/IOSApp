@@ -101,3 +101,8 @@ struct NetworkBaseConfiguration {
         return ["Authorization": "Bearer \(token)"]
     }
 }
+
+// MARK: - URL для WebView страниц
+enum WebViewURL: String {
+    case termsAndPrivacy = "https://yandex.ru/legal/confidential/?from=footer"
+}

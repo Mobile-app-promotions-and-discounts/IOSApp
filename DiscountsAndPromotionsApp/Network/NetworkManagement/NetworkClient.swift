@@ -21,7 +21,7 @@ final class NetworkClient: NetworkClientProtocol {
         case 400:
             throw AppError.registrationError
         case 401:
-            throw AppError.authorizationError
+            throw AppError.authError
         default:
             do {
                 let error = try decoder.decode(NetworkErrorDescriptionModel.self, from: data)

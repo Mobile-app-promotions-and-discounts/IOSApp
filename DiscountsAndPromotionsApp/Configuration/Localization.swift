@@ -12,7 +12,6 @@ enum L10n {
         static let forgotPasswordTitle = NSLocalizedString("forgotPassword", tableName: "AuthFlow", comment: "")
         static let loginTitle = NSLocalizedString("login", tableName: "AuthFlow", comment: "")
         static let registerTitle = NSLocalizedString("register", tableName: "AuthFlow", comment: "")
-        static let authorizationError = NSLocalizedString("authorizationError", tableName: "AuthFlow", comment: "")
     }
     enum Registration {
         static let entryTitle = NSLocalizedString("entry", tableName: "RegistrationFlow", comment: "")
@@ -21,7 +20,6 @@ enum L10n {
         static let privacyPolicyTitle = NSLocalizedString("privacyPolicyTitle", tableName: "RegistrationFlow", comment: "")
         static let privacyPolicy = NSLocalizedString("privacyPolicy", tableName: "RegistrationFlow", comment: "")
         static let registrationTitle = NSLocalizedString("registration", tableName: "RegistrationFlow", comment: "")
-        static let registrationErrorTitle = NSLocalizedString("registrationError", tableName: "RegistrationFlow", comment: "")
     }
     enum Location {
         static let welcome = NSLocalizedString("welcome", tableName: "LocationFlow", comment: "")
@@ -43,5 +41,8 @@ enum L10n {
         static let title = NSLocalizedString("title", tableName: "RecoveryEndFlow", comment: "")
         static let newPassword = NSLocalizedString("newPassword", tableName: "RecoveryEndFlow", comment: "")
         static let sign = NSLocalizedString("sign", tableName: "RecoveryEndFlow", comment: "")
+    }
+    enum WebView {
+        static let termsAndPrivacy = NSLocalizedString("termsAndPrivacy", tableName: "WebViewFlow", comment: "")
     }
 }

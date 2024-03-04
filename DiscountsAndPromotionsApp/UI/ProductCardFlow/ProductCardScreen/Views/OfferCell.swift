@@ -67,7 +67,7 @@ class OfferTableViewCell: UITableViewCell {
     private func setupBackgroundView() {
         contentView.addSubview(backgroundViewBoard)
         contentView.backgroundColor = .cherryWhite
-        backgroundViewBoard.backgroundColor = .cherryLightBlue
+        backgroundViewBoard.backgroundColor = .cherryLightBlueCard
         backgroundViewBoard.layer.cornerRadius = CornerRadius.regular.cgFloat()
         backgroundViewBoard.clipsToBounds = true
     }
@@ -101,7 +101,7 @@ class OfferTableViewCell: UITableViewCell {
 
     private func configureGoToStoreButton() {
         var config = UIButton.Configuration.plain()
-        config.image = UIImage(named: "ic_storeArrow")
+        config.image = .icStoreArrow
         config.imagePlacement = .trailing
         config.imagePadding = 4
         config.baseForegroundColor = UIColor.cherryBlack

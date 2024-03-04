@@ -14,11 +14,14 @@ struct SegmentedControlPublisher: Publisher {
     }
 
     func receive<S>(subscriber: S) where S: Subscriber, S.Failure == Failure, S.Input == Output {
-        let subscription = SegmentedControlSubscription(subscriber: subscriber, control: control, event: event)
+        let subscription = SegmentedControlSubscription(subscriber: subscriber,
+                                                        control: control,
+                                                        event: event)
         subscriber.receive(subscription: subscription)
     }
 
-    private final class SegmentedControlSubscription<S: Subscriber>: Subscription where S.Input == Int, S.Failure == Never {
+    private final class SegmentedControlSubscription<S: Subscriber>: Subscription where
+    S.Input == Int, S.Failure == Never {
         private var subscriber: S?
         private let control: UISegmentedControl
         private let event: UIControl.Event

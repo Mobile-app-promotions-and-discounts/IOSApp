@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "About" : {
+
+    },
     "Birthdate" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -67,6 +70,9 @@
           }
         }
       }
+    },
+    "Delete" : {
+
     },
     "DeleteAccount" : {
       "localizations" : {
@@ -172,6 +178,9 @@
         }
       }
     },
+    "Geolocation" : {
+
+    },
     "LastName" : {
       "localizations" : {
         "en" : {
@@ -187,6 +196,9 @@
           }
         }
       }
+    },
+    "Locating" : {
+
     },
     "MyReviews" : {
       "extractionState" : "manual",
@@ -244,6 +256,9 @@
         }
       }
     },
+    "Search" : {
+
+    },
     "Support" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -254,6 +269,9 @@
           }
         }
       }
+    },
+    "Unknown" : {
+
     }
   },
   "version" : "1.0"

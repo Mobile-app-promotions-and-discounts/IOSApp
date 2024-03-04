@@ -85,7 +85,7 @@ class PriceInfoView: UIView {
     }
 
     private func setupWorstOriginPriceLabel() {
-        worstOriginPrice.textColor = .gray
+        worstOriginPrice.textColor = .cherryBlack
         worstOriginPrice.font = CherryFonts.textMedium
         worstOriginPrice.attributedText = NSAttributedString(
             string: "...",
@@ -95,7 +95,7 @@ class PriceInfoView: UIView {
     }
 
     private func setupBestDiscountPriceLabel() {
-        bestDiscountPrice.textColor = .black
+        bestDiscountPrice.textColor = .cherryBlack
         bestDiscountPrice.font = CherryFonts.headerExtraLarge
         bestDiscountPrice.text = "от ..."
         addSubview(bestDiscountPrice)

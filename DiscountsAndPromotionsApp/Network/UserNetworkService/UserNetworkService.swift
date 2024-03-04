@@ -40,9 +40,10 @@ actor UserNetworkService: UserNetworkServiceProtocol {
     }
 
     private func getUser() async {
+        let headers = NetworkBaseConfiguration.accessTokenHeader()
         guard let urlRequest = requestConstructor.makeRequest(endpoint: .getUser,
                                                               additionalPath: nil,
-                                                              headers: NetworkBaseConfiguration.accessTokenHeader(),
+                                                              headers: headers,
                                                               parameters: nil) else {
             ErrorHandler.handle(error: AppError.customError("invalid request"))
             return
@@ -118,9 +119,10 @@ actor UserNetworkService: UserNetworkServiceProtocol {
             "current_password": password
         ]
 
+        let headers = NetworkBaseConfiguration.accessTokenHeader()
         guard let urlRequest = requestConstructor.makeRequest(endpoint: .deleteUser,
                                                               additionalPath: "\(id)/",
-                                                              headers: NetworkBaseConfiguration.accessTokenHeader(),
+                                                              headers: headers,
                                                               parameters: parameters) else {
             ErrorHandler.handle(error: AppError.customError("invalid request"))
             return
@@ -147,9 +149,11 @@ actor UserNetworkService: UserNetworkServiceProtocol {
     }
 
     private func requestUserEdits(_ newUserParameters: [String: Any], id: Int) async {
+
+        let headers = NetworkBaseConfiguration.accessTokenHeader()
         guard let urlRequest = requestConstructor.makeRequest(endpoint: .deleteUser,
                                                               additionalPath: "\(id)/",
-                                                              headers: NetworkBaseConfiguration.accessTokenHeader(),
+                                                              headers: headers,
                                                               parameters: newUserParameters) else {
             ErrorHandler.handle(error: AppError.customError("invalid request"))
             return

@@ -18,7 +18,7 @@ class SearchEnabledViewController: CherryCustomViewController {
     }
 
     private func setupSearchBar() {
-        searchBar.searchTextField.backgroundColor = .cherryLightBlue
+        searchBar.searchTextField.backgroundColor = .cherryLightBlueSearch
         let placeholderAttributes = [NSAttributedString.Key.font: CherryFonts.inputSmall,
                                      NSAttributedString.Key.foregroundColor: UIColor.cherryGrayBlue]
         let textAttributes = [NSAttributedString.Key.font: CherryFonts.inputSmall]
@@ -26,8 +26,10 @@ class SearchEnabledViewController: CherryCustomViewController {
         searchBar.searchTextField.defaultTextAttributes = textAttributes as [NSAttributedString.Key: Any]
         searchBar.searchTextField.textColor = .cherryBlack
         searchBar.searchTextField.typingAttributes = textAttributes as [NSAttributedString.Key: Any]
-        searchBar.searchTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("searchPlaceholder", tableName: "MainFlow", comment: ""),
-                                                                             attributes: placeholderAttributes as [NSAttributedString.Key: Any])
+        let text = NSLocalizedString("searchPlaceholder", tableName: "MainFlow", comment: "")
+        searchBar.searchTextField.attributedPlaceholder = NSAttributedString(string: text,
+                                                                             attributes: placeholderAttributes as
+                                                                             [NSAttributedString.Key: Any])
         searchBar.setImage(.searchIcon, for: .search, state: .normal)
         searchBar.setImage(.icClose, for: .clear, state: .normal)
         searchBar.backgroundColor = .clear

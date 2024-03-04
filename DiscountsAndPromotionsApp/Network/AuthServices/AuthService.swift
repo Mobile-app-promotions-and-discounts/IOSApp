@@ -75,7 +75,9 @@ actor AuthService: AuthServiceProtocol {
     // MARK: - Проверить, что токен действителен
     nonisolated func verifyToken() {
         Task {
-            if !userDefaults.bool(forKey: "isTokenSaved") { await clearStoredTokens() }
+            if !userDefaults.bool(forKey: "isTokenSaved") {
+                await clearStoredTokens()
+            }
             await requestVerification()
         }
     }
