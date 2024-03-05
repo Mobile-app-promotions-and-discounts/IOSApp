@@ -1,6 +1,22 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "AddToFavorites" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add to favorites"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "В избранное"
+          }
+        }
+      }
+    },
     "Favorites" : {
       "localizations" : {
         "en" : {
@@ -13,6 +29,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Избранное"
+          }
+        }
+      }
+    },
+    "RemoveFromFavorites" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove from favorites"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Убрать из избранного"
           }
         }
       }
