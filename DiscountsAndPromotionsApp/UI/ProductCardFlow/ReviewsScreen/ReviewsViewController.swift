@@ -37,9 +37,9 @@ final class ReviewsViewController: CherryCustomViewController {
 
     private func setupUI() {
         view.backgroundColor = .cherryLightBlue
-        navigationItem.title = viewModel.product?.name ?? NSLocalizedString("Reviews",
-                                                                            tableName: "ProductFlow",
-                                                                            comment: "")
+//        navigationItem.title = viewModel.product?.name ?? NSLocalizedString("Reviews",
+//                                                                            tableName: "ProductFlow",
+//                                                                            comment: "")
         setupViews()
         setupBindings()
     }
@@ -48,7 +48,7 @@ final class ReviewsViewController: CherryCustomViewController {
         reviewsTable.delegate = self
         reviewsTable.dataSource = self
         reviewsTable.register(ReviewCell.self, forCellReuseIdentifier: ReviewCell.reuseIdentifier)
-        reviewsTable.register(ReviewRatingHeader.self, forHeaderFooterViewReuseIdentifier: ReviewRatingHeader.reuseIdentifier)
+//        reviewsTable.register(ReviewRatingHeader.self, forHeaderFooterViewReuseIdentifier: ReviewRatingHeader.reuseIdentifier)
 
         view.addSubview(reviewButton)
         reviewButton.snp.makeConstraints { make in
@@ -77,7 +77,8 @@ final class ReviewsViewController: CherryCustomViewController {
 
 extension ReviewsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.reviews.count
+//        viewModel.reviews.count
+        10
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -88,16 +89,16 @@ extension ReviewsViewController: UITableViewDelegate, UITableViewDataSource {
         125
     }
 
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: ReviewRatingHeader.reuseIdentifier) as? ReviewRatingHeader,
-              let product = viewModel.product else { return nil }
-        header.configureFor(rating: product.rating ?? 0, reviewCount: viewModel.reviews.count)
-        return header
-    }
+//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+////        guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: ReviewRatingHeader.reuseIdentifier) as? ReviewRatingHeader,
+//////              let product = viewModel.product else { return nil }
+//////        header.configureFor(rating: product.rating ?? 0, reviewCount: viewModel.reviews.count)
+////        return header
+//    }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ReviewCell.reuseIdentifier, for: indexPath) as? ReviewCell else { return UITableViewCell() }
-        cell.configure(for: viewModel.reviews[indexPath.row])
+//        cell.configure(for: viewModel.reviews[indexPath.row])
         return cell
     }
 }

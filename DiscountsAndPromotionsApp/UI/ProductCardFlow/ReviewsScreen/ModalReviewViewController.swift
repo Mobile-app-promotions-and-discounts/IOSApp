@@ -7,7 +7,7 @@ final class ModalReviewViewController: UIViewController {
 
     private let insets = UIEdgeInsets(top: 10, left: 16, bottom: 10, right: 16)
 
-    private lazy var reviewView = ProductReviewView()
+//    private lazy var reviewView = ProductReviewView()
 
     private lazy var reviewButton = {
         let button = PrimaryButton(type: .custom)
@@ -41,36 +41,36 @@ final class ModalReviewViewController: UIViewController {
     override func viewDidLoad() {
         view.backgroundColor = .clear
 
-        setupViews()
+//        setupViews()
     }
 
-    private func setupViews() {
-        view.addSubview(handle)
-        handle.snp.makeConstraints { make in
-            make.width.equalTo(60)
-            make.height.equalTo(5)
-            make.centerX.top.equalToSuperview()
-        }
-
-        view.addSubview(mainView)
-        mainView.snp.makeConstraints { make in
-            make.leading.trailing.bottom.equalToSuperview()
-            make.top.equalTo(handle.snp.bottom).offset(4)
-        }
-
-        mainView.addSubview(reviewView)
-        reviewView.backgroundColor = .clear
-        reviewView.snp.makeConstraints { make in
-            make.top.leading.trailing.equalToSuperview()
-        }
-        viewModel.setupProductReviewView(reviewView)
-        viewModel.configureReviewView(reviewView)
-
-        mainView.addSubview(reviewButton)
-        reviewButton.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(insets)
-            make.bottom.equalTo(view.keyboardLayoutGuide.snp.top).offset(-16)
-            make.height.equalTo(51)
-        }
-    }
+//    private func setupViews() {
+//        view.addSubview(handle)
+//        handle.snp.makeConstraints { make in
+//            make.width.equalTo(60)
+//            make.height.equalTo(5)
+//            make.centerX.top.equalToSuperview()
+//        }
+//
+//        view.addSubview(mainView)
+//        mainView.snp.makeConstraints { make in
+//            make.leading.trailing.bottom.equalToSuperview()
+//            make.top.equalTo(handle.snp.bottom).offset(4)
+//        }
+//
+//        mainView.addSubview(reviewView)
+//        reviewView.backgroundColor = .clear
+//        reviewView.snp.makeConstraints { make in
+//            make.top.leading.trailing.equalToSuperview()
+//        }
+//        viewModel.setupProductReviewView(reviewView)
+//        viewModel.configureReviewView(reviewView)
+//
+//        mainView.addSubview(reviewButton)
+//        reviewButton.snp.makeConstraints { make in
+//            make.leading.trailing.equalToSuperview().inset(insets)
+//            make.bottom.equalTo(view.keyboardLayoutGuide.snp.top).offset(-16)
+//            make.height.equalTo(51)
+//        }
+//    }
 }

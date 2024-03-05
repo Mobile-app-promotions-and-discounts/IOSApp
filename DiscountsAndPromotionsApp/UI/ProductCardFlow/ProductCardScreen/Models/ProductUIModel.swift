@@ -1,8 +1,9 @@
-//
-//  ProductUIModel.swift
-//  DiscountsAndPromotionsApp
-//
-//  Created by Pavel Afanasev on 05.03.2024.
-//
+import UIKit
 
-import Foundation
+struct ProductUIModel {
+    let image: String?
+
+    init(product: Product) {
+        self.image = product.image?.mainImage
+    }
+}

@@ -98,6 +98,69 @@ final class CollectionLayoutProvider {
         return layout
     }
 
+    // Функция создания макета для экрана деталей продукта
+    func createProductCardLayout() -> UICollectionViewLayout {
+        let layout = UICollectionViewCompositionalLayout { [weak self] (sectionIndex, _) ->
+            NSCollectionLayoutSection? in
+            guard
+                let self = self,
+                let productCardSection = ProductCardSections(rawValue: sectionIndex) else {
+                return nil
+            }
+            switch productCardSection {
+            case .imageAndDescription:
+                return self.createImageAndDescriptionSection()
+            case .storeOffers:
+                return self.createCategoriesSection()
+            case .reviews:
+                return self.createCategoriesSection()
+            }
+        }
+        return layout
+    }
+
+    private func createImageAndDescriptionSection() -> NSCollectionLayoutSection {
+        // Элемент для изображения
+        let imageItem = NSCollectionLayoutItem(
+            layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                               heightDimension: .fractionalHeight(1.0)))
+
+        // Группа для изображения
+        let imageGroup = NSCollectionLayoutGroup.horizontal(
+            layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                               heightDimension: .absolute(300)),
+            subitem: imageItem, count: 1)
+
+        // Элементы для заголовка и отзывов. Размеры не указаны и потребуются дополнительные настройки
+        // в зависимости от вашего дизайна. Пример для заголовка:
+        let titleItem = NSCollectionLayoutItem(
+            layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                               heightDimension: .estimated(50))) // Используйте .estimated для динамического изменения размера
+
+        // Пример для ячейки с отзывами:
+        let reviewItem = NSCollectionLayoutItem(
+            layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                               heightDimension: .estimated(61))) // Примерная высота, может потребоваться настройка
+
+        // Группа для объединения заголовка и отзывов
+        let bottomGroupItems = [titleItem, reviewItem]
+        let bottomGroup = NSCollectionLayoutGroup.vertical(
+            layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                               heightDimension: .estimated(111)), // Высота оставшейся части
+            subitems: bottomGroupItems)
+
+        // Главная группа, объединяющая изображение и нижние элементы
+        let mainGroup = NSCollectionLayoutGroup.vertical(
+            layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                               heightDimension: .absolute(411)), // Общая высота секции
+            subitems: [imageGroup, bottomGroup])
+
+        // Создание секции с главной группой
+        let section = NSCollectionLayoutSection(group: mainGroup)
+
+        return section
+    }
+
     // Создание секции категорий
     private func createCategoriesSection() -> NSCollectionLayoutSection {
         // Элементы для первых двух строк
