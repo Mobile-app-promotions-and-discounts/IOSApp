@@ -22,8 +22,10 @@ final class ProfileScreenCoordinator: Coordinator {
     }
 
     func navigateToEditProfileScreen() {
-        let editProfileViewController = EditProfileViewController(viewModel: profileViewModel)
+        let viewModel = EditProfileViewModel()
+        let editProfileViewController = EditProfileViewController(viewModel: viewModel)
         editProfileViewController.coordinator = self
+        editProfileViewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(editProfileViewController, animated: true)
     }
 

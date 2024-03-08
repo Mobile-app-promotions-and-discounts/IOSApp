@@ -1,13 +1,14 @@
+import Combine
 import Foundation
 
 struct ProfileUIModel {
-    let avatar: String?
-    let firstName: String?
-    let lastName: String?
-    let phone: String?
+    var avatar: String?
+    var firstName: String?
+    var lastName: String?
+    var phone: String?
     let email: String
-    let birthdate: String?
-    let gender: GenderModel?
+    var birthdate: String?
+    var gender: GenderModel
 
     static let example = ProfileUIModel(
         avatar: "https://mews.biggeek.ru/wp-content/uploads/2020/06/sidjb3splvissqug-1536x798.jpg",

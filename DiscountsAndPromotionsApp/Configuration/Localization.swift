@@ -56,10 +56,22 @@ enum L10n {
             static let changeAvatar = NSLocalizedString("ChoosePhoto", tableName: "ProfileFlow", comment: "")
             static let firstName = NSLocalizedString("FirstName", tableName: "ProfileFlow", comment: "")
             static let lastName = NSLocalizedString("LastName", tableName: "ProfileFlow", comment: "")
+            static let commentToName = NSLocalizedString("CommentToName", tableName: "ProfileFlow", comment: "")
             static let phone = NSLocalizedString("Phone", tableName: "ProfileFlow", comment: "")
             static let email = "Email"
             static let birthdate = NSLocalizedString("Birthdate", tableName: "ProfileFlow", comment: "")
             static let gender = NSLocalizedString("Gender", tableName: "ProfileFlow", comment: "")
+            static let exit = NSLocalizedString("Exit", tableName: "ProfileFlow", comment: "")
+            enum ChangeAvatar {
+                static let camera = NSLocalizedString("Camera", tableName: "ProfileFlow", comment: "")
+                static let gallery = NSLocalizedString("Gallery", tableName: "ProfileFlow", comment: "")
+                static let delete = NSLocalizedString("DeletePhoto", tableName: "ProfileFlow", comment: "")
+            }
+            enum Gender {
+                static let man = NSLocalizedString("GenderMan", tableName: "ProfileFlow", comment: "")
+                static let woman = NSLocalizedString("GenderWoman", tableName: "ProfileFlow", comment: "")
+                static let notChoosen = NSLocalizedString("GenderNotChoosen", tableName: "ProfileFlow", comment: "")
+            }
         }
     }
 }

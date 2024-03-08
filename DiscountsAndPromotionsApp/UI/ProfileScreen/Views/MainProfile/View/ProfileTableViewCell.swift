@@ -5,7 +5,7 @@ final class ProfileTableViewCell: UITableViewCell {
 
     // MARK: - Public properties
     static let identifier = "ProfileTableViewCell"
-    
+
     var propertyModel: ProfilePropertyUIModel? {
         didSet {
             nameLabel.text = propertyModel?.name
@@ -48,7 +48,7 @@ final class ProfileTableViewCell: UITableViewCell {
     }()
 
     private lazy var arrowImageView = UIImageView(image: .buttonDisclosure)
-    
+
     // MARK: - Lifecicle
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super .init(style: style, reuseIdentifier: reuseIdentifier)
@@ -58,7 +58,7 @@ final class ProfileTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     // MARK: - Public methods
     func configure(propertyModel: ProfilePropertyUIModel) {
         self.propertyModel = propertyModel
@@ -68,7 +68,7 @@ final class ProfileTableViewCell: UITableViewCell {
         commentLabel.text = comment
         commentLabel.isHidden = false
     }
-    
+
     // MARK: - Layout Setting
     private func setupViewAndConstraints() {
         self.backgroundColor = .cherryWhite

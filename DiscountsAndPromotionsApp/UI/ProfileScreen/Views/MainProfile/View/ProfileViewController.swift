@@ -81,7 +81,7 @@ final class ProfileViewController: UIViewController {
         })
         config.baseBackgroundColor = .cherryWhite
         config.baseForegroundColor = .cherryBlack
-        config.titlePadding = 12
+        config.titlePadding = 1
         button.configuration = config
         button.contentHorizontalAlignment = .left
         button.addTarget(self, action: #selector(exitAccountDidTap), for: .touchUpInside)
@@ -163,7 +163,7 @@ final class ProfileViewController: UIViewController {
             coordinator?.navigateToAboutAppScreen()
         }
     }
-    
+
     // MARK: - Private Layout Setting
     private func setupView() {
         self.navigationController?.navigationBar.isHidden = true
