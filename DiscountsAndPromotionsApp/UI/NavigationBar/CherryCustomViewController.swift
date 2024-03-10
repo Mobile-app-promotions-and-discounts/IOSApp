@@ -6,7 +6,7 @@ class CherryCustomViewController: UIViewController {
             return UIButton()
         }
         let backButton = UIButton(type: .system)
-        backButton.tintColor = .cherryGrayBlue
+        backButton.tintColor = .cherrySBPlaceholder
         backButton.setImage(.icBack, for: .normal)
         backButton.addTarget(self,
                              action: #selector(defaultBackAction),
@@ -30,9 +30,23 @@ class CherryCustomViewController: UIViewController {
     private func setupUI() {
         view.backgroundColor = .cherryLightBlue
         navigationItem.hidesBackButton = true
+        navigationController?.navigationBar.standardAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.cherryBlack]
         if self != navigationController?.viewControllers[0] {
             navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
         }
+
+        let standardAppearance = UINavigationBarAppearance()
+        standardAppearance.configureWithOpaqueBackground()
+        standardAppearance.backgroundColor = UIColor.cherryWhite
+
+        let titleAttributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: UIColor.cherryBlack,
+            .font: CherryFonts.headerMedium as Any
+        ]
+        standardAppearance.titleTextAttributes = titleAttributes
+
+        navigationController?.navigationBar.standardAppearance = standardAppearance
+        navigationController?.navigationBar.compactAppearance = standardAppearance
     }
 
     @objc

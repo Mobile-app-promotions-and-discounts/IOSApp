@@ -81,7 +81,7 @@ final class EmptyOnScreenView: UIView {
     }
 
     private func setupViews() {
-        backgroundColor = .cherryWhite
+        backgroundColor = .cherryWhiteEmptyScreen
 
         [emptyCherryImageView, titleLabel, mainButton].forEach { addSubview($0) }
 

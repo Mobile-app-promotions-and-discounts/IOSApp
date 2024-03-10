@@ -28,11 +28,11 @@ final class SecondaryButton: UIButton {
 
     private func setBackgroundColor() {
         if !isUserInteractionEnabled {
-            backgroundColor = .cherryWhite
+            backgroundColor = .cherryWhiteEmptyScreen
             titleLabel?.textColor = .cherryPrimaryDisabled
             layer.borderColor = UIColor.cherryPrimaryDisabled.cgColor
         } else {
-            backgroundColor = isHighlighted ? .cherryLightBlue : .cherryWhite
+            backgroundColor = isHighlighted ? .cherryLightBlue : .cherryWhiteEmptyScreen
             titleLabel?.textColor = .cherryMainAccent
             layer.borderColor = UIColor.cherryMainAccent.cgColor
         }

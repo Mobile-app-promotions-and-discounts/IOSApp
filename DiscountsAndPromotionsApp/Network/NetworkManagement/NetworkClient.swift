@@ -9,12 +9,17 @@ final class NetworkClient: NetworkClientProtocol {
 
         let statusCode = (response as? HTTPURLResponse)?.statusCode ?? 400
         print(statusCode)
+<<<<<<< HEAD
         // data.printAsJSON()
+=======
+//        data.printAsJSON()
+>>>>>>> dev
         switch statusCode {
         case 200..<300:
             do {
                 return try decoder.decode(T.self, from: data)
-            } catch {
+            } catch let error {
+                print(error)
                 throw AppError.parsingError
             }
         case 400:
@@ -36,7 +41,11 @@ final class NetworkClient: NetworkClientProtocol {
 
         let statusCode = (response as? HTTPURLResponse)?.statusCode ?? 400
         print(statusCode)
+<<<<<<< HEAD
         // data.printAsJSON()
+=======
+//        data.printAsJSON()
+>>>>>>> dev
 
         switch statusCode {
         case 200..<300:

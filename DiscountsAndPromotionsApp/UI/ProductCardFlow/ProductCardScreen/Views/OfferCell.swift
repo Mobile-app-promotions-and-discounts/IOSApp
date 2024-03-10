@@ -67,7 +67,7 @@ class OfferTableViewCell: UITableViewCell {
     private func setupBackgroundView() {
         contentView.addSubview(backgroundViewBoard)
         contentView.backgroundColor = .cherryWhite
-        backgroundViewBoard.backgroundColor = .cherryLightBlue
+        backgroundViewBoard.backgroundColor = .cherryLightBlueCard
         backgroundViewBoard.layer.cornerRadius = CornerRadius.regular.cgFloat()
         backgroundViewBoard.clipsToBounds = true
     }
@@ -95,13 +95,13 @@ class OfferTableViewCell: UITableViewCell {
         discountView.layer.cornerRadius = 11
         discountView.clipsToBounds = true
         discountView.layer.borderWidth = 1
-        discountView.layer.borderColor = UIColor.cherryGray.cgColor
+        discountView.layer.borderColor = UIColor.cherryStroke.cgColor
         discountView.backgroundColor = .cherryYellow2
     }
 
     private func configureGoToStoreButton() {
         var config = UIButton.Configuration.plain()
-        config.image = UIImage(named: "ic_storeArrow")
+        config.image = .icStoreArrow
         config.imagePlacement = .trailing
         config.imagePadding = 4
         config.baseForegroundColor = UIColor.cherryBlack
@@ -136,7 +136,7 @@ class OfferTableViewCell: UITableViewCell {
         priceLabel.font = CherryFonts.textMedium
         priceLabel.textColor = .cherryBlack
         originalPriceLabel.font = CherryFonts.textMedium
-        originalPriceLabel.textColor = .cherryGray
+        originalPriceLabel.textColor = .cherryBlueGray
         originalPriceLabel.attributedText = NSAttributedString(
             string: "...",
             attributes: [NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.single.rawValue]

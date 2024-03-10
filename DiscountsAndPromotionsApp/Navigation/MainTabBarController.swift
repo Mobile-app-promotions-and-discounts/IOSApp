@@ -37,7 +37,7 @@ final class MainTabBarController: UITabBarController {
         tabBar.backgroundImage = UIImage()
         tabBar.shadowImage = UIImage()
         tabBar.tintColor = .cherryMainAccent
-        tabBar.unselectedItemTintColor = .cherryGrayBlue
+        tabBar.unselectedItemTintColor = .cherrySBPlaceholder
         tabBar.backgroundColor = .cherryWhite
         tabBar.layer.cornerRadius = cornerRadius
         tabBar.clipsToBounds = true

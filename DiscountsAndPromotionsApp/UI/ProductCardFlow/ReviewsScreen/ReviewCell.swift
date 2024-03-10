@@ -8,7 +8,7 @@ final class ReviewCell: UITableViewCell {
 
     private lazy var reviewBackground = {
         let background = UIView()
-        background.backgroundColor = UIColor.cherryLightBlue
+        background.backgroundColor = UIColor.cherryLightBlueCard
         background.layer.cornerRadius = CornerRadius.regular.cgFloat()
         return background
     }()

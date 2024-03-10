@@ -2,6 +2,25 @@ import UIKit
 import SnapKit
 
 final class InputUserDataField: UIView {
+    private enum Constants {
+        enum TextField {
+            static let cornerRadius: CGFloat = 10
+            static let borderWidth: CGFloat =  1
+            static let makeIndent: CGFloat = 12
+            static let height: CGFloat = 52
+            static let topOffset: CGFloat = 4
+        }
+
+        enum Button {
+            static let widthHeidth: CGFloat = 20
+            enum Insets {
+                static let top: CGFloat = 0
+                static let left: CGFloat = -16
+                static let bottom: CGFloat = 0
+                static let right: CGFloat = 0
+            }
+        }
+    }
 
     private let textFieldDelegate: UITextFieldDelegate
 
@@ -51,6 +70,7 @@ final class InputUserDataField: UIView {
         let textField = UITextField()
         textField.font = CherryFonts.textMedium
         textField.textColor = .cherryBlack
+        textField.backgroundColor = .cherryWhiteBlack
         textField.autocapitalizationType = .none
         textField.layer.cornerRadius = Constants.TextField.cornerRadius
         textField.layer.borderWidth = Constants.TextField.borderWidth
@@ -115,24 +135,5 @@ final class InputUserDataField: UIView {
         showHidePasswordButton.setImage(
             inputDataTextField.isSecureTextEntry ? .icEyeOpen : .icEyeClosed, for: .normal
         )
-    }
-
-    private enum Constants {
-        enum TextField {
-            static let cornerRadius: CGFloat = 10
-            static let borderWidth: CGFloat =  1
-            static let makeIndent: CGFloat = 12
-            static let height: CGFloat = 52
-            static let topOffset: CGFloat = 4
-        }
-        enum Button {
-            static let widthHeidth: CGFloat = 20
-            enum Insets {
-                static let top: CGFloat = 0
-                static let left: CGFloat = -16
-                static let bottom: CGFloat = 0
-                static let right: CGFloat = 0
-            }
-        }
     }
 }

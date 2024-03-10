@@ -23,6 +23,34 @@
         }
       }
     },
+    "NewReview" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add a review"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Оставить отзыв"
+          }
+        }
+      }
+    },
+    "Reviews" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отзывы"
+          }
+        }
+      }
+    },
     "Shop's Offers" : {
       "extractionState" : "manual",
       "localizations" : {
