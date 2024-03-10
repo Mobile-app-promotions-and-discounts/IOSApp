@@ -9,7 +9,7 @@ extension Date {
 
     static let backendDateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy.MM.dd"
+        formatter.dateFormat = "yyyy-MM-dd"
         return formatter
     }()
 
@@ -17,7 +17,16 @@ extension Date {
         return Date.backendDateFormatter.date(from: dateString)
     }
 
+    static func convertFromUIString(_ dateString: String) -> Date? {
+        return Date.uiDateFormatter.date(from: dateString)
+    }
+
     func customFormatted() -> String {
         return Date.uiDateFormatter.string(from: self)
     }
+
+    func convertToBackendString() -> String {
+        return Date.backendDateFormatter.string(from: self)
+    }
+
 }

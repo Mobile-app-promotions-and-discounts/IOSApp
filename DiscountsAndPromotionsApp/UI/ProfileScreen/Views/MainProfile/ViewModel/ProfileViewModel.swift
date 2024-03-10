@@ -3,31 +3,31 @@ import UIKit
 
 final class ProfileViewModel: ProfileViewModelProtocol {
 
-    var profile: CurrentValueSubject<ProfileUIModel, Never>
+    // MARK: - Public properties
+    private(set) var profile: CurrentValueSubject<ProfileUIModel, Never>
+
+    // MARK: - Private properties
     private let properties = ProfilePropertyUIModel.allCases
+    private let userNetworkService: UserNetworkServiceProtocol
+    private var profileUpdated = Set<AnyCancellable>()
 
-    @Published private(set) var error: Error?
-
-//    let networkService = UserNetworkService.shared
-
-    var profileUpdated = Set<AnyCancellable>()
-
-    init() {
+    // MARK: - Init
+    init(userNetworkService: UserNetworkServiceProtocol) {
+        self.userNetworkService = userNetworkService
         self.profile = CurrentValueSubject(ProfileUIModel.example)
     }
 
-    // MARK: - Public Methods
-
+    // MARK: - Public Method
     func viewDidLoad() {
-        // getProfileData()
+         getProfileData()
     }
 
     func viewWillAppear() {
-        // подписаться на обновления
+        bindingOn()
     }
 
     func viewWillDisapear() {
-        // отписаться от обновлений
+        bindingOff()
     }
 
     func getTableViewCount() -> Int {
@@ -38,23 +38,22 @@ final class ProfileViewModel: ProfileViewModelProtocol {
         return properties[index]
     }
 
+    // MARK: - Private methods
     private func getProfileData() {
-//        networkService.fetchUser()
+        userNetworkService.fetchUser()
     }
 
-    func putProfileData(profile: ProfileModel) {
-        /*
-        guard let id = profile.id,
-              let id = Int(id) else { return }
-        networkService.editUser(
-            [
-                "phone": profile.phone ?? "",
-                "foto": "https://cs5.pikabu.ru/post_img/2014/09/18/8/1411040079_1214254849.jpg",
-                "first_name": profile.firstName ?? "",
-                "last_name": profile.lastName ?? ""
-            ],
-            id: Int(id)
-        )
-         */
+    private func bindingOn() {
+        userNetworkService.user
+            .receive(on: RunLoop.main)
+            .sink { [weak self] userModel in
+                let profileUIModel = ProfileUIModel(networkModel: userModel)
+                self?.profile.send(profileUIModel)
+            }.store(in: &profileUpdated)
     }
+
+    private func bindingOff() {
+        profileUpdated.removeAll()
+    }
+
 }

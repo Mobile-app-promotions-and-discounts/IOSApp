@@ -159,6 +159,7 @@ final class EditProfileViewController: UIViewController, UINavigationControllerD
                              cancelAction: #selector(datePickerCancelAction),
                              deleteAction: #selector(datePickerDeleteAction),
                              datePickerMode: .date)
+        textField.tag = 4
         return textField
     }()
 
@@ -247,9 +248,8 @@ final class EditProfileViewController: UIViewController, UINavigationControllerD
 
     @objc
     private func didTapDoneButton() {
-//        let view = self.view as? EditProfileView
-//        guard let profile = view?.collectFieldsToProfile() else { return }
-//        self.coordinator?.exit(hideNavBar: true)
+        viewModel.changeProfile()
+        self.coordinator?.exit(hideNavBar: true)
     }
     @objc func tapToScroll() {
         view.endEditing(true)
@@ -257,7 +257,6 @@ final class EditProfileViewController: UIViewController, UINavigationControllerD
 
     @objc
     private func changeAvatarDidTap(_ sender: UITapGestureRecognizer) {
-        // через координатор надо
         present(ChangeAvatarViewController(), animated: true)
     }
 
@@ -303,7 +302,11 @@ final class EditProfileViewController: UIViewController, UINavigationControllerD
 
     @objc
     private func exitAction() {
-        // Exit
+        AlertPresenter.showAlert(title: L10n.Profile.Main.exitAlert,
+                                 message: nil,
+                                 textButton: L10n.Profile.Main.exit) {
+            self.coordinator?.navigateToExitAccountScreen()
+        }
     }
 
     @objc func keyboardWillShow(notification: Notification) {
@@ -320,8 +323,11 @@ final class EditProfileViewController: UIViewController, UINavigationControllerD
         scrollView.contentInset = UIEdgeInsets.zero
     }
 
-    private func validateProfile(profile: ProfileModel) {
-        // TODO: add validation
+    private func notificationKeyboard() {
+        NotificationCenter.default.addObserver(self,selector:#selector(self.keyboardWillShow),
+                                               name:UIResponder.keyboardDidShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self,selector: #selector(self.keyboardWillHide),
+                                               name:UIResponder.keyboardDidHideNotification, object: nil)
     }
 
     private func bindingOn() {
@@ -334,13 +340,6 @@ final class EditProfileViewController: UIViewController, UINavigationControllerD
 
     private func bindingOff() {
         avatarUpdated.removeAll()
-    }
-
-    private func notificationKeyboard() {
-        NotificationCenter.default.addObserver(self,selector:#selector(self.keyboardWillShow),
-                                               name:UIResponder.keyboardDidShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self,selector: #selector(self.keyboardWillHide),
-                                               name:UIResponder.keyboardDidHideNotification, object: nil)
     }
 
     private func updateProfileModel(_ updateModel: ProfileUIModel) {

@@ -17,7 +17,9 @@ enum L10n {
         static let entryTitle = NSLocalizedString("entry", tableName: "RegistrationFlow", comment: "")
         static let emailTitle = NSLocalizedString("email", tableName: "RegistrationFlow", comment: "")
         static let passwordTitle = NSLocalizedString("password", tableName: "RegistrationFlow", comment: "")
-        static let privacyPolicyTitle = NSLocalizedString("privacyPolicyTitle", tableName: "RegistrationFlow", comment: "")
+        static let privacyPolicyTitle = NSLocalizedString("privacyPolicyTitle",
+                                                          tableName: "RegistrationFlow",
+                                                          comment: "")
         static let privacyPolicy = NSLocalizedString("privacyPolicy", tableName: "RegistrationFlow", comment: "")
         static let registrationTitle = NSLocalizedString("registration", tableName: "RegistrationFlow", comment: "")
     }
@@ -49,6 +51,12 @@ enum L10n {
         enum Main {
             static let exitProfile = NSLocalizedString("ExitProfile", tableName: "ProfileFlow", comment: "")
             static let deleteProfile = NSLocalizedString("DeleteAccount", tableName: "ProfileFlow", comment: "")
+            static let exitAlert = NSLocalizedString("WantExit", tableName: "ProfileFlow", comment: "")
+            static let exit = NSLocalizedString("Exit", tableName: "ProfileFlow", comment: "")
+            static let cansel = NSLocalizedString("Cancel", tableName: "ProfileFlow", comment: "")
+            static let deletingAccount = NSLocalizedString("DeletingAccount", tableName: "ProfileFlow", comment: "")
+            static let wantDelete = NSLocalizedString("WantDelete", tableName: "ProfileFlow", comment: "")
+            static let delete = NSLocalizedString("Delete", tableName: "ProfileFlow", comment: "")
         }
         enum Edit {
             static let done = NSLocalizedString("Done", tableName: "ProfileFlow", comment: "")

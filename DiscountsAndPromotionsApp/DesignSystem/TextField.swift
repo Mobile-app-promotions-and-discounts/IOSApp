@@ -61,7 +61,8 @@ final class TextField: UITextField {
 
         let datePicker = UIDatePicker(frame: .zero)
         datePicker.datePickerMode = datePickerMode
-        datePicker.preferredDatePickerStyle = .inline
+        datePicker.preferredDatePickerStyle = .wheels
+        datePicker.maximumDate = Date()
         self.inputView = datePicker
 
         let toolBar = UIToolbar(frame: CGRect(x: 0,

@@ -119,6 +119,7 @@ final class ProfileViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewModel.viewDidLoad()
         setupView()
         setupConstraints()
     }
@@ -141,12 +142,22 @@ final class ProfileViewController: UIViewController {
 
     @objc
     private func deleteAccountDidTap() {
-        coordinator?.navigateToDeleteAccountScreen()
+
+        AlertPresenter.showAlert(title: L10n.Profile.Main.deletingAccount,
+                                 message: L10n.Profile.Main.wantDelete,
+                                 textButton: L10n.Profile.Main.delete) {
+            self.coordinator?.navigateToDeleteAccountScreen()
+        }
+
     }
 
     @objc
     private func exitAccountDidTap() {
-        coordinator?.navigateToExitAccountScreen()
+        AlertPresenter.showAlert(title: L10n.Profile.Main.exitAlert,
+                                 message: nil,
+                                 textButton: L10n.Profile.Main.exit) {
+            self.coordinator?.navigateToExitAccountScreen()
+        }
     }
 
     private func chooseProperty(_ model: ProfilePropertyUIModel) {
@@ -202,7 +213,7 @@ final class ProfileViewController: UIViewController {
         propertyTableView.snp.makeConstraints {
             $0.top.equalTo(avatarImage.snp.bottom)
                 .offset(Const.TableView.topOffset)
-            $0.height.equalTo(260)
+            $0.height.equalTo(Const.TableView.height)
             $0.leading.trailing.equalToSuperview()
                 .inset(Const.insetH)
         }
@@ -237,7 +248,7 @@ final class ProfileViewController: UIViewController {
     private func updateProfile(_ profileUIModel: ProfileUIModel) {
         if let avatarString = profileUIModel.avatar {
             let url = URL(string: avatarString)
-            avatarImage.kf.setImage(with: url)
+            avatarImage.kf.setImage(with: url, placeholder: UIImage.avatar)
         } else {
             avatarImage.image = .avatar
         }
@@ -277,6 +288,7 @@ final class ProfileViewController: UIViewController {
         enum TableView {
             static let spacing: CGFloat = 8
             static let topOffset: CGFloat = 20
+            static let height: CGFloat = 260
         }
         enum ExitButton {
             static let topOffset: CGFloat = 20

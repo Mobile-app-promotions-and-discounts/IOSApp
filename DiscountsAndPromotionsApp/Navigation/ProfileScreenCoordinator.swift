@@ -1,16 +1,17 @@
 import UIKit
 
 final class ProfileScreenCoordinator: Coordinator {
-    let profileViewModel = ProfileViewModel()
-
+    private let userNetworkService: UserNetworkServiceProtocol
     var childCoordinators = [Coordinator]()
     var navigationController: UINavigationController
 
-    init(navigationController: UINavigationController) {
+    init(navigationController: UINavigationController, userNetworkService: UserNetworkServiceProtocol) {
         self.navigationController = navigationController
+        self.userNetworkService = userNetworkService
     }
 
     func start() {
+        let profileViewModel = ProfileViewModel(userNetworkService: userNetworkService)
         let profileViewController = ProfileViewController(viewModel: profileViewModel)
         profileViewController.coordinator = self
         navigationController.pushViewController(profileViewController, animated: false)
@@ -22,7 +23,7 @@ final class ProfileScreenCoordinator: Coordinator {
     }
 
     func navigateToEditProfileScreen() {
-        let viewModel = EditProfileViewModel()
+        let viewModel = EditProfileViewModel(userNetworkService: userNetworkService)
         let editProfileViewController = EditProfileViewController(viewModel: viewModel)
         editProfileViewController.coordinator = self
         editProfileViewController.hidesBottomBarWhenPushed = true
@@ -30,6 +31,7 @@ final class ProfileScreenCoordinator: Coordinator {
     }
 
     func navigateToRegionScreen() {
+        let profileViewModel = ProfileViewModel(userNetworkService: userNetworkService)
         let regionViewController = RegionViewController(viewModel: profileViewModel)
         regionViewController.coordinator = self
         navigationController.pushViewController(regionViewController, animated: true)

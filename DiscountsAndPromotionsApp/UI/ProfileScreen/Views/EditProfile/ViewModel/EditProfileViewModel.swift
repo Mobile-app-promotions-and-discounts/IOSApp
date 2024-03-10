@@ -3,18 +3,20 @@ import Foundation
 
 final class EditProfileViewModel: EditProfileViewModelProtocol {
 
+    // MARK: - Public properties
     private(set) var profile: CurrentValueSubject <ProfileUIModel,Never>
-    private var canselable = Set<AnyCancellable>()
 
-    init() {
-        self.profile = CurrentValueSubject(ProfileUIModel.example)
+    // MARK: - Private properties
+    private var canselable = Set<AnyCancellable>()
+    private let userNetworkService: UserNetworkServiceProtocol
+
+    // MARK: - Init
+    init(userNetworkService: UserNetworkServiceProtocol) {
+        self.userNetworkService = userNetworkService
+        self.profile = CurrentValueSubject(ProfileUIModel.emptyModel)
     }
 
     // MARK: - Public methods
-    func viewDidLoad() {
-        // Закгрузка из сети
-    }
-
     func viewWillAppear() {
         bindingOn()
     }
@@ -28,7 +30,8 @@ final class EditProfileViewModel: EditProfileViewModelProtocol {
         case 0: profile.value.firstName = text
         case 1: profile.value.lastName = text
         case 2: profile.value.phone = text
-        case 3: break // profile.value.email = text
+        case 3: break // profile.value.email = text //Изменение email отключено
+        case 4: profile.value.birthdate = text
         default: break
         }
     }
@@ -37,9 +40,18 @@ final class EditProfileViewModel: EditProfileViewModelProtocol {
         profile.value.gender = gender
     }
 
+    func changeProfile() {
+        userNetworkService.editUser(profile.value)
+    }
+
     // MARK: - Private methods
     private func bindingOn() {
-        // связь с сервером
+        userNetworkService.user
+            .receive(on: RunLoop.main)
+            .sink { [weak self] userModel in
+                let profileUIModel = ProfileUIModel(networkModel: userModel)
+                self?.profile.send(profileUIModel)
+            }.store(in: &canselable)
     }
 
     private func bindingOff() {
