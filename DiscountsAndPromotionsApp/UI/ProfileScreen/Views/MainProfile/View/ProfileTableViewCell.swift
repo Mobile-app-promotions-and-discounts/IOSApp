@@ -18,7 +18,11 @@ final class ProfileTableViewCell: UITableViewCell {
     }
 
     // MARK: - Layout elements
-    private lazy var logoImageView = UIImageView()
+    private lazy var logoImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.tintColor = .cherryGrayBlueButton
+        return imageView
+    }()
 
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
@@ -47,7 +51,11 @@ final class ProfileTableViewCell: UITableViewCell {
         return stackView
     }()
 
-    private lazy var arrowImageView = UIImageView(image: .buttonDisclosure)
+    private lazy var arrowImageView: UIImageView = {
+        let imageView = UIImageView(image: .buttonDisclosure)
+        imageView.tintColor = .cherryGrayBlueButton
+        return imageView
+    }()
 
     // MARK: - Lifecicle
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {

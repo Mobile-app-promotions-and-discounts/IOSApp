@@ -9,11 +9,8 @@ final class NetworkClient: NetworkClientProtocol {
 
         let statusCode = (response as? HTTPURLResponse)?.statusCode ?? 400
         print(statusCode)
-<<<<<<< HEAD
-        // data.printAsJSON()
-=======
 //        data.printAsJSON()
->>>>>>> dev
+
         switch statusCode {
         case 200..<300:
             do {
@@ -41,11 +38,7 @@ final class NetworkClient: NetworkClientProtocol {
 
         let statusCode = (response as? HTTPURLResponse)?.statusCode ?? 400
         print(statusCode)
-<<<<<<< HEAD
-        // data.printAsJSON()
-=======
 //        data.printAsJSON()
->>>>>>> dev
 
         switch statusCode {
         case 200..<300:

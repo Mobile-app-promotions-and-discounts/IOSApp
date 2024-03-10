@@ -18,6 +18,7 @@ final class ProfileViewController: UIViewController {
         let image = UIImage.editButton
         editButton.setImage(image, for: .normal)
         editButton.addTarget(self, action: #selector(editDidTap), for: .touchUpInside)
+        editButton.tintColor = .cherryGrayBlueButton
         return editButton
     }()
 
