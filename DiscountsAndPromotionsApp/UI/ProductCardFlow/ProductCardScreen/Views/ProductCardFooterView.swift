@@ -47,39 +47,6 @@ final class ProductCardFooterView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-//    func bindViewModel() {
-//        viewModel?.pricePublisher
-//            .map { "\($0) ₽" }
-//            .receive(on: DispatchQueue.main)
-//            .sink { [weak self] price in
-//                self?.worstOriginPrice.text = price}
-//            .store(in: &cancellables)
-//        
-//        viewModel?.discountPricePublisher
-//            .map { "от \($0) ₽"}
-//            .receive(on: DispatchQueue.main)
-//            .sink { [weak self] discountPrice in
-//                self?.bestDiscountPrice.text = discountPrice
-//            }
-//            .store(in: &cancellables)
-//        
-//        toFavoritesButton.publisher(for: .touchUpInside)
-//            .sink { [weak self] _ in
-//                self?.viewModel?.addToFavorites.send()
-//                self?.viewModel?.toggleFavorite()
-//                self?.updateFavoritesButtonState()
-//            }
-//            .store(in: &cancellables)
-//        
-//        updateFavoritesButtonState()
-//    }
-
-//    private func updateFavoritesButtonState() {
-//        if let isFavorite = viewModel?.isFavorite {
-//            toFavoritesButton.isSelected = isFavorite
-//        }
-//    }
-
     @objc
     private func addToFavoritesTapped() {
         addToFavoritesButton.isSelected.toggle()

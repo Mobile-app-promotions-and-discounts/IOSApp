@@ -2,5 +2,5 @@ import Foundation
 import Combine
 
 protocol ProductCardViewModelProtocol {
-    func getUIModel() -> ProductUIModel?
+    var sectionCells: [[ProductCardCellType]] { get }
 }

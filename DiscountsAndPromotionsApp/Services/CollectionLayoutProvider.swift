@@ -99,21 +99,19 @@ final class CollectionLayoutProvider {
     }
 
     // Функция создания макета для экрана деталей продукта
-    func createProductCardLayout() -> UICollectionViewLayout {
-        let layout = UICollectionViewCompositionalLayout { [weak self] (sectionIndex, _) ->
-            NSCollectionLayoutSection? in
-            guard
-                let self = self,
-                let productCardSection = ProductCardSections(rawValue: sectionIndex) else {
-                return nil
-            }
-            switch productCardSection {
-            case .imageAndDescription:
+    func createProductCardLayout(sectionCells: [[ProductCardCellType]]) -> UICollectionViewLayout {
+        let layout = UICollectionViewCompositionalLayout { [weak self] (sectionIndex, _) -> NSCollectionLayoutSection? in
+            guard let self = self else { return nil }
+            // Определение секции на основе индекса
+            switch sectionIndex {
+            case 0:
                 return self.createImageAndDescriptionSection()
-            case .storeOffers:
-                return self.createCategoriesSection()
-            case .reviews:
-                return self.createCategoriesSection()
+            case 1:
+                return self.createImageAndDescriptionSection()
+            case 2:
+                return self.createImageAndDescriptionSection()
+            default:
+                return nil
             }
         }
         return layout
@@ -123,7 +121,7 @@ final class CollectionLayoutProvider {
         // Элемент для изображения
         let imageItem = NSCollectionLayoutItem(
             layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                               heightDimension: .fractionalHeight(1.0)))
+                                               heightDimension: .absolute(300)))
 
         // Группа для изображения
         let imageGroup = NSCollectionLayoutGroup.horizontal(
@@ -131,33 +129,30 @@ final class CollectionLayoutProvider {
                                                heightDimension: .absolute(300)),
             subitem: imageItem, count: 1)
 
-        // Элементы для заголовка и отзывов. Размеры не указаны и потребуются дополнительные настройки
-        // в зависимости от вашего дизайна. Пример для заголовка:
+        // Элемент для заголовка
         let titleItem = NSCollectionLayoutItem(
             layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                               heightDimension: .estimated(50))) // Используйте .estimated для динамического изменения размера
+                                               heightDimension: .estimated(78)))
 
-        // Пример для ячейки с отзывами:
+        // Элемент для рейтинга
         let reviewItem = NSCollectionLayoutItem(
             layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                               heightDimension: .estimated(61))) // Примерная высота, может потребоваться настройка
+                                               heightDimension: .estimated(60)))
 
-        // Группа для объединения заголовка и отзывов
-        let bottomGroupItems = [titleItem, reviewItem]
-        let bottomGroup = NSCollectionLayoutGroup.vertical(
+        // Группа для заголовка и рейтинга
+        let titleReviewGroup = NSCollectionLayoutGroup.vertical(
             layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                               heightDimension: .estimated(111)), // Высота оставшейся части
-            subitems: bottomGroupItems)
+                                               heightDimension: .estimated(138)),
+            subitems: [titleItem, reviewItem])
 
-        // Главная группа, объединяющая изображение и нижние элементы
+        // Главная группа, объединяющая изображение и нижние элементы (заголовок и рейтинг)
         let mainGroup = NSCollectionLayoutGroup.vertical(
             layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                               heightDimension: .absolute(411)), // Общая высота секции
-            subitems: [imageGroup, bottomGroup])
+                                               heightDimension: .estimated(438)),
+            subitems: [imageGroup, titleReviewGroup])
 
         // Создание секции с главной группой
         let section = NSCollectionLayoutSection(group: mainGroup)
-
         return section
     }
 

@@ -27,8 +27,8 @@ final class ProductImageCell: UICollectionViewCell {
         productImageView.image = nil
     }
 
-    func configure(with model: ProductUIModel) {
-        if let imageString = model.image,
+    func configure(with model: ProductImageUIModel) {
+        if let imageString = model.imageURL,
            let imageURL = URL(string: imageString) {
             productImageView.kf.setImage(with: imageURL,
                                        options: [

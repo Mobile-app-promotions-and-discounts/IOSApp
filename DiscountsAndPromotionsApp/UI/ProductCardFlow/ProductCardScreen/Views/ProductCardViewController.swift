@@ -28,18 +28,11 @@ final class ProductCardViewController: UIViewController {
     }()
 
     private lazy var productCardCollectionView: UICollectionView = {
-        let layout = layoutProvider.createProductCardLayout()
+        let layout = layoutProvider.createProductCardLayout(sectionCells: viewModel.sectionCells)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.showsVerticalScrollIndicator = false
         collectionView.register(ProductImageCell.self, forCellWithReuseIdentifier: ProductImageCell.reuseIdentifier)
-        //        collectionView.register(PromotionCell.self, forCellWithReuseIdentifier: PromotionCell.reuseIdentifier)
-        //        collectionView.register(MainHeaderView.self,
-        //                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-        //                                withReuseIdentifier: MainHeaderView.reuseIdentifier)
-        //        collectionView.register(FooterView.self,
-        //                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
-        //                                withReuseIdentifier: FooterView.reuseIdentifier)
-        //        collectionView.register(StoresCell.self, forCellWithReuseIdentifier: StoresCell.reuseIdentifier)
+        collectionView.register(ProductNameCell.self, forCellWithReuseIdentifier: ProductNameCell.reuseIdentifier)
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.backgroundColor = .cherryLightBlue
@@ -112,50 +105,33 @@ final class ProductCardViewController: UIViewController {
 
 extension ProductCardViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 3
+        return viewModel.sectionCells.count
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        switch section {
-        case 0:
-            return 3
-        default:
+        guard section >= 0 && section < viewModel.sectionCells.count else {
             return 0
         }
+        return viewModel.sectionCells[section].count
     }
 
-    func collectionView(_ collectionView: UICollectionView,
-                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cellType = viewModel.sectionCells[indexPath.section][indexPath.row]
 
-        guard let cardSection = ProductCardSections(rawValue: indexPath.row) else {
-            return UICollectionViewCell()
-        }
-
-        switch cardSection {
-        case .imageAndDescription:
-            guard
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductImageCell.reuseIdentifier,
-                                                                for: indexPath) as? ProductImageCell,
-                let productUIModel = viewModel.getUIModel()
-            else {
-                fatalError("Unable to dequeue ProductImageCell")
-
-            }
-            cell.configure(with: productUIModel)
-            return cell
-        case .storeOffers:
+        switch cellType {
+        case .image(let model):
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductImageCell.reuseIdentifier,
                                                                 for: indexPath) as? ProductImageCell else {
-                fatalError("Unable to dequeue ProductImageCell")
-
+                fatalError("Ошибка каста ProductImageCell")
             }
+            cell.configure(with: model)
             return cell
-        case .reviews:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductImageCell.reuseIdentifier,
-                                                                for: indexPath) as? ProductImageCell else {
-                fatalError("Unable to dequeue ProductImageCell")
-
+        case .name(let model):
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductNameCell.reuseIdentifier,
+                                                                for: indexPath) as? ProductNameCell else {
+                fatalError("Ошибка каста ProductNameCell")
             }
+            cell.configure(with: model)
             return cell
         }
     }
