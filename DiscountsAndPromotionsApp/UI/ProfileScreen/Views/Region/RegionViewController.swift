@@ -1,5 +1,4 @@
 import UIKit
-import CoreLocation
 import Combine
 
 final class RegionViewController: UIViewController {
@@ -15,12 +14,11 @@ final class RegionViewController: UIViewController {
                 name: Notification.Name("updateLocation"),
                 object: location
             )
-            self.regionButton.buttonTitle.text = location
+            self.regionButton.setTitle(location, for: .normal)
             UserDefaults.standard.setValue(location, forKey: "storedLocation")
         }
     }
 
-    private var locationManager: CLLocationManager?
     private var locationKey = "locationEnabled"
 
     private var manualLocation = Set<AnyCancellable>()
@@ -40,14 +38,15 @@ final class RegionViewController: UIViewController {
         action: nil
     )
 
-    private lazy var regionButton: ProfileAssetButton = {
-        let regionButton = ProfileAssetButton()
-        regionButton.backgroundColor = .cherryLightBlue
-        regionButton.buttonImage.image = .buttonRegionGreen
-        regionButton.buttonTitle.text = UserDefaults.standard.string(forKey: locationKey) ??
+    private lazy var regionButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .cherryLightBlue
+        button.setImage(.buttonRegionGreen, for: .normal)
+        let text = UserDefaults.standard.string(forKey: locationKey) ??
         NSLocalizedString("Unknown", tableName: "ProfileFlow", comment: "")
-        regionButton.addTarget(self, action: #selector(regionDidTap), for: .touchUpInside)
-        return regionButton
+        button.setTitle(text, for: .normal)
+        button.addTarget(self, action: #selector(regionDidTap), for: .touchUpInside)
+        return button
     }()
 
     private lazy var locationLabel: TextField = {
@@ -76,14 +75,9 @@ final class RegionViewController: UIViewController {
         addRegionButton()
         addLocationControls()
 
-        locationManager = CLLocationManager()
-        locationManager?.delegate = self
-
         let locationAllowed = UserDefaults.standard.bool(forKey: locationKey)
         locationSwitch.isOn = locationAllowed
-        if locationAllowed { locationManager?.requestLocation() }
         if let location = UserDefaults.standard.string(forKey: "storedLocation") {
-            regionButton.buttonTitle.text = location
         }
 
         NotificationCenter.default
@@ -92,7 +86,6 @@ final class RegionViewController: UIViewController {
                 self.location = object.object as? String
                 self.locationSwitch.isOn = false
                 UserDefaults.standard.set(false, forKey: self.locationKey)
-                self.locationManager?.stopUpdatingLocation()
             }
             .store(in: &manualLocation)
 
@@ -126,14 +119,6 @@ final class RegionViewController: UIViewController {
     @objc
     private func locationDidSwitch() {
         UserDefaults.standard.set(locationSwitch.isOn, forKey: locationKey)
-
-        if locationSwitch.isOn {
-            regionButton.buttonTitle.text = NSLocalizedString("Locating", tableName: "ProfileFlow", comment: "")
-            locationManager?.requestWhenInUseAuthorization()
-            locationManager?.requestLocation()
-        } else {
-            locationManager?.stopUpdatingLocation()
-        }
     }
 
     @objc
@@ -163,23 +148,4 @@ final class RegionViewController: UIViewController {
             make.centerY.equalTo(locationLabel)
         }
     }
-}
-
-extension RegionViewController: CLLocationManagerDelegate {
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let location = locations.last else { return }
-        location.fetchCityAndCountry(completion: { city, _, _ in
-            self.location = city
-        })
-    }
-
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        ErrorHandler.handle(error: .locationError)
-    }
-}
-
-extension CLLocation {
-    func fetchCityAndCountry(completion: @escaping (_ city: String?, _ country: String?, _ error: Error?) -> Void) {
-            CLGeocoder().reverseGeocodeLocation(self) { completion($0?.first?.locality, $0?.first?.country, $1) }
-        }
 }

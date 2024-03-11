@@ -195,13 +195,14 @@ extension SelectionCityViewController: UITableViewDataSource {
     }
 }
 
-// MARK: - UITextFieldDelegate
+// MARK: - UITableViewDelegate
 extension SelectionCityViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = citiesTableView.cellForRow(at: indexPath) as? CityTableViewCell else { return }
         viewModel.selectCity(cell.tag)
     }
+
 }
 
 // MARK: - UITextFieldDelegate
@@ -220,7 +221,6 @@ extension SelectionCityViewController: UITextFieldDelegate {
 }
 
 // MARK: - UISearchBarDelegate
-
 extension SelectionCityViewController {
 
     func searchBar(_: UISearchBar, textDidChange: String) {

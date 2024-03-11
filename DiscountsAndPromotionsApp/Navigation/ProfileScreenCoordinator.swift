@@ -1,16 +1,17 @@
 import UIKit
 
 final class ProfileScreenCoordinator: Coordinator {
-    let profileViewModel = ProfileViewModel()
-
+    private let userNetworkService: UserNetworkServiceProtocol
     var childCoordinators = [Coordinator]()
     var navigationController: UINavigationController
 
-    init(navigationController: UINavigationController) {
+    init(navigationController: UINavigationController, userNetworkService: UserNetworkServiceProtocol) {
         self.navigationController = navigationController
+        self.userNetworkService = userNetworkService
     }
 
     func start() {
+        let profileViewModel = ProfileViewModel(userNetworkService: userNetworkService)
         let profileViewController = ProfileViewController(viewModel: profileViewModel)
         profileViewController.coordinator = self
         navigationController.pushViewController(profileViewController, animated: false)
@@ -22,12 +23,15 @@ final class ProfileScreenCoordinator: Coordinator {
     }
 
     func navigateToEditProfileScreen() {
-        let editProfileViewController = EditProfileViewController(viewModel: profileViewModel)
+        let viewModel = EditProfileViewModel(userNetworkService: userNetworkService)
+        let editProfileViewController = EditProfileViewController(viewModel: viewModel)
         editProfileViewController.coordinator = self
+        editProfileViewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(editProfileViewController, animated: true)
     }
 
     func navigateToRegionScreen() {
+        let profileViewModel = ProfileViewModel(userNetworkService: userNetworkService)
         let regionViewController = RegionViewController(viewModel: profileViewModel)
         regionViewController.coordinator = self
         navigationController.pushViewController(regionViewController, animated: true)
@@ -56,6 +60,13 @@ final class ProfileScreenCoordinator: Coordinator {
     func navigateToSupportScreen() {
         // Заглушка до реализации функционала
         let alert = UIAlertController(title: "Support", message: "💬", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .cancel))
+        navigationController.present(alert, animated: true)
+    }
+
+    func navigateToAboutAppScreen() {
+        // Заглушка до реализации функционала
+        let alert = UIAlertController(title: "About", message: "📁", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .cancel))
         navigationController.present(alert, animated: true)
     }

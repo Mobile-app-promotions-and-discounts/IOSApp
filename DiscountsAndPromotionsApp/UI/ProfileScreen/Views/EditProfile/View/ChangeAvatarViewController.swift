@@ -4,12 +4,25 @@ import Combine
 
 final class ChangeAvatarViewController: UIViewController {
 
+    // MARK: - Constants
+    private enum Const {
+        enum View {
+            static let cornerRadius: CGFloat = 20
+        }
+        enum Stack {
+            static let spacing: CGFloat = 4
+            static let topInset: CGFloat = 24
+            static let bottomInset: CGFloat = 31
+            static let insetH: CGFloat = 16
+        }
+    }
+
     // MARK: - Private properties
     var avatarUpdated = Set<AnyCancellable>()
 
     private lazy var cameraButton: CameraButton = {
         let cameraButton = CameraButton()
-        cameraButton.setTitle(NSLocalizedString("Camera", tableName: "ProfileFlow", comment: ""), for: .normal)
+        cameraButton.setTitle(L10n.Profile.Edit.ChangeAvatar.camera, for: .normal)
         cameraButton.addAction(UIAction(handler: { [weak self] _ in
             self?.takePhoto(fromCamera: true)
         }), for: .touchUpInside)
@@ -18,7 +31,7 @@ final class ChangeAvatarViewController: UIViewController {
 
     private lazy var galleryButton: CameraButton = {
         let galleryButton = CameraButton()
-        galleryButton.setTitle(NSLocalizedString("Gallery", tableName: "ProfileFlow", comment: ""), for: .normal)
+        galleryButton.setTitle(L10n.Profile.Edit.ChangeAvatar.gallery, for: .normal)
         galleryButton.addAction(UIAction(handler: { [weak self] _ in
             self?.takePhoto(fromCamera: false)
         }), for: .touchUpInside)
@@ -27,7 +40,7 @@ final class ChangeAvatarViewController: UIViewController {
 
     private lazy var deleteButton: CameraButton = {
         let deleteButton = CameraButton()
-        deleteButton.setTitle(NSLocalizedString("DeletePhoto", tableName: "ProfileFlow", comment: ""), for: .normal)
+        deleteButton.setTitle(L10n.Profile.Edit.ChangeAvatar.delete, for: .normal)
         deleteButton.setTitleColor(.cherryMainAccent, for: .normal)
         deleteButton.addAction(UIAction(handler: { [weak self] _ in
             NotificationCenter.default.post(
@@ -42,17 +55,25 @@ final class ChangeAvatarViewController: UIViewController {
     private lazy var buttonsStack: UIStackView = {
         let buttonsStack = UIStackView()
         buttonsStack.axis = .vertical
-        buttonsStack.spacing = 4
+        buttonsStack.spacing = Const.Stack.spacing
         buttonsStack.distribution = .fillEqually
         return buttonsStack
     }()
 
     // MARK: - Lifecycle
+    init() {
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.view.backgroundColor = .cherryWhite
-        self.view.layer.cornerRadius = 20
+        self.view.layer.cornerRadius = Const.View.cornerRadius
 
         if #available(iOS 16.0, *) {
             self.sheetPresentationController?.detents = [UISheetPresentationController.Detent.custom { _ in 216 }]
@@ -61,16 +82,6 @@ final class ChangeAvatarViewController: UIViewController {
         }
 
         addButtons()
-    }
-
-    // MARK: - Lifecycle
-    init() {
-        super.init(nibName: nil, bundle: nil)
-
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 
     // MARK: - Private Methods
@@ -88,9 +99,12 @@ final class ChangeAvatarViewController: UIViewController {
     private func addButtons() {
         self.view.addSubview(buttonsStack)
         buttonsStack.snp.makeConstraints { make in
-            make.top.equalTo(view).inset(24)
-            make.bottom.equalTo(view).inset(31)
-            make.leading.trailing.equalTo(view).inset(16)
+            make.top.equalTo(view)
+                .inset(Const.Stack.topInset)
+            make.bottom.equalTo(view)
+                .inset(Const.Stack.bottomInset)
+            make.leading.trailing.equalTo(view)
+                .inset(Const.Stack.insetH)
         }
         [cameraButton,
          galleryButton,
@@ -100,6 +114,7 @@ final class ChangeAvatarViewController: UIViewController {
     }
 }
 
+// MARK: - UIImagePickerControllerDelegate, UINavigationControllerDelegate
 extension ChangeAvatarViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(
         _ picker: UIImagePickerController,

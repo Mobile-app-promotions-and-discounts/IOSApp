@@ -54,7 +54,7 @@ final class RegistrationViewModel: RegistrationViewModelProtocol {
     }
 
     private func bindingOn() {
-        userNetworkService.userUpdate
+        userNetworkService.user
             .receive(on: DispatchQueue.main)
             .sink { [weak self] userResponseModel in
                 guard let password = self?.userPassword.value else {

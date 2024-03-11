@@ -2,11 +2,11 @@ import Combine
 import Foundation
 
 protocol UserNetworkServiceProtocol {
-    var userUpdate: PassthroughSubject<UserResponseModel, Never> { get }
+    var user: CurrentValueSubject<UserResponseModel, Never> { get }
 
     func registerUser(_ user: UserRequestModel)
     func deleteUser(id: Int, password: String)
-    func editUser(_ newUserParameters: [String: Any], id: Int)
+    func editUser(_ profileModel: ProfileUIModel)
     func fetchUser()
 }
 
@@ -15,23 +15,13 @@ actor UserNetworkService: UserNetworkServiceProtocol {
     nonisolated private let networkClient: NetworkClientProtocol
     nonisolated private let requestConstructor: NetworkRequestConstructorProtocol
 
-    nonisolated let userUpdate = PassthroughSubject<UserResponseModel, Never>()
-    private var user = UserResponseModel(phone: "",
-                                         role: "",
-                                         foto: "",
-                                         firstName: "",
-                                         lastName: "",
-                                         id: 0,
-                                         username: "") {
-        didSet {
-            userUpdate.send(user)
-        }
-    }
+    nonisolated let user: CurrentValueSubject<UserResponseModel, Never>
 
     init(networkClient: NetworkClientProtocol,
          requestConstructor: NetworkRequestConstructorProtocol = NetworkRequestConstructor.shared) {
         self.networkClient = networkClient
         self.requestConstructor = requestConstructor
+        self.user = CurrentValueSubject(UserResponseModel.emptyModel)
     }
 
     // MARK: - Получить данные пользователя
@@ -51,9 +41,8 @@ actor UserNetworkService: UserNetworkServiceProtocol {
 
         do {
             let userResponse: UserResponseModel = try await networkClient.request(for: urlRequest)
-                print(userResponse)
                 print("User info obtained successfully")
-                user = userResponse
+                user.send(userResponse)
         } catch let error {
             print("Error getting user: \(error.localizedDescription)")
 
@@ -75,7 +64,6 @@ actor UserNetworkService: UserNetworkServiceProtocol {
             "username": user.username,
             "password": user.password
         ]
-        print(userParameters)
 
         guard let urlRequest = requestConstructor.makeRequest(endpoint: .newUser,
                                                               additionalPath: nil,
@@ -87,17 +75,18 @@ actor UserNetworkService: UserNetworkServiceProtocol {
 
         do {
             let userResponse: UserShotResponseModel = try await networkClient.request(for: urlRequest)
-            print(userResponse)
             print("Registration successful")
-            let userResponseModel = UserResponseModel(phone: self.user.phone,
-                                                      role: self.user.role,
-                                                      foto: self.user.foto,
-                                                      firstName: self.user.firstName,
-                                                      lastName: self.user.lastName,
+            let userResponseModel = UserResponseModel(phone: self.user.value.phone,
+                                                      role: self.user.value.role,
+                                                      photo: self.user.value.photo,
+                                                      firstName: self.user.value.firstName,
+                                                      lastName: self.user.value.lastName,
+                                                      gender: self.user.value.gender,
+                                                      dateOfBirth: self.user.value.dateOfBirth,
                                                       id: userResponse.id,
                                                       username: userResponse.username)
 
-            self.user = userResponseModel
+            self.user.send(userResponseModel)
         } catch let error {
             print("Registration error: \(error.localizedDescription)")
 
@@ -144,14 +133,16 @@ actor UserNetworkService: UserNetworkServiceProtocol {
     }
 
     // MARK: - Отредактировать пользователя (передать новые ключи + значения)
-    nonisolated func editUser(_ newUserParameters: [String: Any], id: Int) {
-        Task { await requestUserEdits(newUserParameters, id: id) }
+    nonisolated func editUser(_ profileModel: ProfileUIModel) {
+        let params = profileModel.getParametres(from: user.value)
+        Task { await requestUserEdits(params, id: user.value.id) }
     }
 
     private func requestUserEdits(_ newUserParameters: [String: Any], id: Int) async {
 
+        guard !newUserParameters.isEmpty else { return }
         let headers = NetworkBaseConfiguration.accessTokenHeader()
-        guard let urlRequest = requestConstructor.makeRequest(endpoint: .deleteUser,
+        guard let urlRequest = requestConstructor.makeRequest(endpoint: .editUser,
                                                               additionalPath: "\(id)/",
                                                               headers: headers,
                                                               parameters: newUserParameters) else {
@@ -161,10 +152,9 @@ actor UserNetworkService: UserNetworkServiceProtocol {
 
         do {
             let userResponse: UserResponseModel = try await networkClient.request(for: urlRequest)
-            print(userResponse)
             print("User info edited")
 
-            self.user = userResponse
+            self.user.send(userResponse)
         } catch let error {
             print("User info editing error: \(error.localizedDescription)")
 
