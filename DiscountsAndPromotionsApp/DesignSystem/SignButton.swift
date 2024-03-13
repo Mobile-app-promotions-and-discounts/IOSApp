@@ -9,12 +9,6 @@ final class SignButton: UIButton {
       }
     }
 
-    override var isSelected: Bool {
-        didSet {
-            self.setNeedsUpdateConfiguration()
-        }
-    }
-
     override var isUserInteractionEnabled: Bool {
         didSet {
             self.setNeedsUpdateConfiguration()
@@ -70,8 +64,6 @@ final class SignButton: UIButton {
 
     private func setBackgroundColor() -> UIColor {
         if !isUserInteractionEnabled {
-            return .cherryPrimaryDisabled
-        } else if isSelected {
             return .cherryPrimaryDisabled
         } else {
             return isHighlighted ? .cherryPrimaryPressed : .cherryMainAccent
