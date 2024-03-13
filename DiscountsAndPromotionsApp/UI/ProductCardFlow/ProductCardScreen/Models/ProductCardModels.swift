@@ -1,10 +1,14 @@
 import UIKit
 
+enum ProductCardSections: Int, CaseIterable {
+    case imagesAndReviews
+}
+
 // Определение enum для типов ячеек с ассоциированными значениями для данных конфигурации
 enum ProductCardCellType {
     case image(ProductImageUIModel)
     case name(ProductTitleUIModel)
-
+    case reviewsInfo(ProductReviewsInfoUIModel)
 }
 
 // Модели данных для каждого типа ячейки
@@ -24,4 +28,12 @@ struct ProductTitleUIModel {
     }
 }
 
-struct ProductReviewsInfoUIModel {}
+struct ProductReviewsInfoUIModel {
+    let rating: Double
+    let reviewsCount: Int
+
+    init(product: Product, reviewsCount: Int) {
+        self.rating = product.rating ?? 0
+        self.reviewsCount = reviewsCount
+    }
+}

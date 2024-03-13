@@ -3,7 +3,7 @@ import UIKit
 
 final class ModalReviewViewController: UIViewController {
     weak var coordinator: ProductCardEnabledCoordinatorProtocol?
-    private var viewModel: ProductCardViewModel
+    private var viewModel: ProductCardViewModelProtocol
 
     private let insets = UIEdgeInsets(top: 10, left: 16, bottom: 10, right: 16)
 
@@ -29,7 +29,7 @@ final class ModalReviewViewController: UIViewController {
         return mainView
     }()
 
-    init(viewModel: ProductCardViewModel) {
+    init(viewModel: ProductCardViewModelProtocol) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }

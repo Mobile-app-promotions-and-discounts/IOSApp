@@ -99,16 +99,13 @@ final class CollectionLayoutProvider {
     }
 
     // Функция создания макета для экрана деталей продукта
-    func createProductCardLayout(sectionCells: [[ProductCardCellType]]) -> UICollectionViewLayout {
+    func createProductCardLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { [weak self] (sectionIndex, _) -> NSCollectionLayoutSection? in
-            guard let self = self else { return nil }
-            // Определение секции на основе индекса
-            switch sectionIndex {
-            case 0:
-                return self.createImageAndDescriptionSection()
-            case 1:
-                return self.createImageAndDescriptionSection()
-            case 2:
+            guard let self = self,
+                  let productCardSection = ProductCardSections(rawValue: sectionIndex)
+            else { return nil }
+            switch productCardSection {
+            case .imagesAndReviews:
                 return self.createImageAndDescriptionSection()
             default:
                 return nil

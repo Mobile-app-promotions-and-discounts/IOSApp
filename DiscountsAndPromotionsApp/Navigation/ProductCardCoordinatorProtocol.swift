@@ -1,17 +1,17 @@
 import UIKit
 
 protocol ProductCardEnabledCoordinatorProtocol: Coordinator, AnyObject {
-    func navigateToReviewsScreen(viewModel: ProductCardViewModel)
+    func navigateToReviewsScreen(viewModel: ProductCardViewModelProtocol)
 }
 
 extension ProductCardEnabledCoordinatorProtocol {
-    func navigateToReviewsScreen(viewModel: ProductCardViewModel) {
+    func navigateToReviewsScreen(viewModel: ProductCardViewModelProtocol) {
         let reviewsVC = ReviewsViewController(viewModel: viewModel)
         reviewsVC.coordinator = self
         navigationController.pushViewController(reviewsVC, animated: true)
     }
 
-    func showModalReviewController(viewModel: ProductCardViewModel) {
+    func showModalReviewController(viewModel: ProductCardViewModelProtocol) {
         let modalVC = ModalReviewViewController(viewModel: viewModel)
         modalVC.coordinator = self
         modalVC.modalPresentationStyle = .pageSheet

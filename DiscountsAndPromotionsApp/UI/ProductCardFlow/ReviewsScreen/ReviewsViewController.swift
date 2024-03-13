@@ -5,7 +5,7 @@ final class ReviewsViewController: CherryCustomViewController {
     weak var coordinator: ProductCardEnabledCoordinatorProtocol?
 
     private let insets = UIEdgeInsets(top: 10, left: 16, bottom: 10, right: 16)
-    private var viewModel: ProductCardViewModel
+    private var viewModel: ProductCardViewModelProtocol
     private var cancellables = Set<AnyCancellable>()
 
     private lazy var reviewsTable = {
@@ -21,7 +21,7 @@ final class ReviewsViewController: CherryCustomViewController {
         return button
     }()
 
-    init(viewModel: ProductCardViewModel) {
+    init(viewModel: ProductCardViewModelProtocol) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }

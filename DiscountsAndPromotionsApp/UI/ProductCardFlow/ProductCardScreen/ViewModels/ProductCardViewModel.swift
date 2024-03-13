@@ -2,26 +2,62 @@ import Foundation
 import Combine
 
 final class ProductCardViewModel: ProductCardViewModelProtocol {
+    var numberOfSections: Int {
+        return ProductCardSections.allCases.count
+    }
+
+    var sectionCellsPublisher: AnyPublisher<[[ProductCardCellType]], Never> {
+        sectionCells.eraseToAnyPublisher()
+    }
+
+    var reviewsCountHasChanged = PassthroughSubject<Void, Never>()
+
     private let productService: ProductNetworkServiceProtocol
     private let product: Product
+
+    private var sectionCells = CurrentValueSubject<[[ProductCardCellType]], Never>([])
     private var cancellables: Set<AnyCancellable> = []
 
-    // Массив для хранения данных о секциях и ячейках
-    private (set) var sectionCells: [[ProductCardCellType]] = []
+    private var sectionCellsValue = [[ProductCardCellType]]() {
+        didSet {
+            sectionCells.send(sectionCellsValue)
+        }
+    }
+
+    private var reviewsCountValue: Int = 0 {
+        didSet {
+            reviewsCountHasChanged.send()
+        }
+    }
 
     init(product: Product, productService: ProductNetworkServiceProtocol) {
         self.productService = productService
         self.product = product
-        prepareSectionsAndCellsModels()
         setupBindings()
+        productService.getReviewsForProduct(id: product.id, page: 1)
     }
 
-    private func setupBindings() {}
+    func numberOfItems(inSection section: ProductCardSections) -> Int {
+        switch section {
+        case .imagesAndReviews:
+            return 3
+        }
+    }
 
-    private func prepareSectionsAndCellsModels() {
-        var newSectionCells: [[ProductCardCellType]] = []
-        newSectionCells.append([.image(getImage()), .name(getName())])
-        sectionCells = newSectionCells
+    func cellTypes(forSection section: ProductCardSections) -> [ProductCardCellType] {
+        switch section {
+        case .imagesAndReviews:
+            return [.image(getImage()), .name(getName()), .reviewsInfo(getReviewsInfo())]
+        }
+    }
+
+    private func setupBindings() {
+        productService.reviewCountUpdate
+            .sink { [weak self] reviewCount in
+                self?.reviewsCountValue = reviewCount
+
+            }
+            .store(in: &cancellables)
     }
 
     private func getImage() -> ProductImageUIModel {
@@ -30,5 +66,9 @@ final class ProductCardViewModel: ProductCardViewModelProtocol {
 
     private func getName() -> ProductTitleUIModel {
         return ProductTitleUIModel(product: product)
+    }
+
+    private func getReviewsInfo() -> ProductReviewsInfoUIModel {
+        return ProductReviewsInfoUIModel(product: product, reviewsCount: self.reviewsCountValue)
     }
 }
