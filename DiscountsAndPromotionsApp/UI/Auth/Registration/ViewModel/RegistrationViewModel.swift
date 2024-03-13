@@ -5,6 +5,7 @@ final class RegistrationViewModel: RegistrationViewModelProtocol {
     private(set) var userEmail: CurrentValueSubject<String, Never>
     private(set) var userPassword: CurrentValueSubject<String, Never>
     private(set) var isUserAuthorizatedUpdate: PassthroughSubject<Bool, Never>
+    private(set) var networkActive: CurrentValueSubject<Bool, Never>
     private var cancellables: Set<AnyCancellable>
 
     var validToSubmit: AnyPublisher<Bool, Never> {
@@ -22,12 +23,14 @@ final class RegistrationViewModel: RegistrationViewModelProtocol {
         self.userEmail = CurrentValueSubject("")
         self.userPassword = CurrentValueSubject("")
         self.isUserAuthorizatedUpdate = PassthroughSubject<Bool, Never>()
+        self.networkActive = CurrentValueSubject(false)
         self.cancellables = Set<AnyCancellable>()
         self.userNetworkService = userNetworkService
         self.authService = authService
     }
 
     func didTapLoginButton() {
+        networkActive.send(true)
         let userModel = UserRequestModel(username: userEmail.value,
                                          password: userPassword.value)
         userNetworkService.registerUser(userModel)
@@ -57,17 +60,25 @@ final class RegistrationViewModel: RegistrationViewModelProtocol {
         userNetworkService.user
             .receive(on: DispatchQueue.main)
             .sink { [weak self] userResponseModel in
-                guard let password = self?.userPassword.value else {
+                guard let password = self?.userPassword.value,
+                      !password.isEmpty else {
                     return
                 }
                 self?.getAutorizated(userName: userResponseModel.username,
                                      password: password)
             }.store(in: &cancellables)
 
+        userNetworkService.userIsChange
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.networkActive.send(false)
+            }.store(in: &cancellables)
+
         authService.isTokenValidUpdate
             .receive(on: DispatchQueue.main)
             .sink { [weak self] isAutorizated in
                 self?.isUserAuthorizatedUpdate.send(isAutorizated)
+                self?.networkActive.send(false)
             }.store(in: &cancellables)
     }
 
@@ -76,6 +87,7 @@ final class RegistrationViewModel: RegistrationViewModelProtocol {
     }
 
     private func getAutorizated(userName: String, password: String) {
+        networkActive.send(true)
         let userRequestModel = UserRequestModel(username: userName,
                                                 password: password)
         authService.getToken(for: userRequestModel)

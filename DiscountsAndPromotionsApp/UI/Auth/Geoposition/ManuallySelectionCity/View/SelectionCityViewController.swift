@@ -121,6 +121,11 @@ final class SelectionCityViewController: SearchEnabledViewController {
         coordinator?.dismissVC(self)
     }
 
+    private func navigateToMainScreen() {
+        coordinator?.dismissVC(self)
+        coordinator?.navigateToMainScreen()
+    }
+
     private func setupView() {
         view.backgroundColor = .cherryWhite
         showBackButton()
@@ -201,6 +206,7 @@ extension SelectionCityViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = citiesTableView.cellForRow(at: indexPath) as? CityTableViewCell else { return }
         viewModel.selectCity(cell.tag)
+        navigateToMainScreen()
     }
 
 }

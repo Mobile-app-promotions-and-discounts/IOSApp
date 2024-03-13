@@ -3,6 +3,7 @@ import Foundation
 
 protocol UserNetworkServiceProtocol {
     var user: CurrentValueSubject<UserResponseModel, Never> { get }
+    var userIsChange: PassthroughSubject <Bool, Never> { get }
 
     func registerUser(_ user: UserRequestModel)
     func deleteUser(id: Int, password: String)
@@ -16,12 +17,14 @@ actor UserNetworkService: UserNetworkServiceProtocol {
     nonisolated private let requestConstructor: NetworkRequestConstructorProtocol
 
     nonisolated let user: CurrentValueSubject<UserResponseModel, Never>
+    nonisolated let userIsChange: PassthroughSubject <Bool, Never>
 
     init(networkClient: NetworkClientProtocol,
          requestConstructor: NetworkRequestConstructorProtocol = NetworkRequestConstructor.shared) {
         self.networkClient = networkClient
         self.requestConstructor = requestConstructor
         self.user = CurrentValueSubject(UserResponseModel.emptyModel)
+        self.userIsChange = PassthroughSubject()
     }
 
     // MARK: - Получить данные пользователя
@@ -43,9 +46,10 @@ actor UserNetworkService: UserNetworkServiceProtocol {
             let userResponse: UserResponseModel = try await networkClient.request(for: urlRequest)
                 print("User info obtained successfully")
                 user.send(userResponse)
+                userIsChange.send(true)
         } catch let error {
             print("Error getting user: \(error.localizedDescription)")
-
+            userIsChange.send(false)
             if let error = error as? AppError {
                 ErrorHandler.handle(error: error)
             } else {
@@ -87,8 +91,10 @@ actor UserNetworkService: UserNetworkServiceProtocol {
                                                       username: userResponse.username)
 
             self.user.send(userResponseModel)
+            self.userIsChange.send(true)
         } catch let error {
             print("Registration error: \(error.localizedDescription)")
+            userIsChange.send(false)
 
             if let error = error as? AppError {
                 ErrorHandler.handle(error: error)
@@ -119,11 +125,12 @@ actor UserNetworkService: UserNetworkServiceProtocol {
 
         do {
             let _: URLResponse = try await networkClient.request(for: urlRequest)
+            userIsChange.send(true)
             print("Account successfuly deleted")
             // TODO: - отработать действия при удалении аккаунта
         } catch let error {
             print("Account deletion error: \(error.localizedDescription)")
-
+            userIsChange.send(false)
             if let error = error as? AppError {
                 ErrorHandler.handle(error: error)
             } else {
@@ -155,8 +162,10 @@ actor UserNetworkService: UserNetworkServiceProtocol {
             print("User info edited")
 
             self.user.send(userResponse)
+            userIsChange.send(true)
         } catch let error {
             print("User info editing error: \(error.localizedDescription)")
+            userIsChange.send(false)
 
             if let error = error as? AppError {
                 ErrorHandler.handle(error: error)

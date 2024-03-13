@@ -58,9 +58,8 @@ final class LoginViewController: AuthParentViewController {
         return button
     }()
 
-    private lazy var loginButton: UIButton = {
-        let button = PrimaryButton()
-        button.setTitle(L10n.Authorization.loginTitle, for: .normal)
+    private lazy var loginButton: SignButton = {
+        let button = SignButton(title: L10n.Authorization.loginTitle)
         button.addTarget(self, action: #selector(loginAction), for: .touchUpInside)
         return button
     }()
@@ -118,12 +117,26 @@ final class LoginViewController: AuthParentViewController {
             .receive(on: DispatchQueue.main)
             .assign(to: \.isUserInteractionEnabled, on: loginButton)
             .store(in: &cancellables)
+
+        viewModel.networkActive
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isActive in
+                self?.networkIsActive(isActive)
+            }
+            .store(in: &cancellables)
     }
 
     private func isNavigateToMainScreen(_ isAuthorized: Bool) {
         if isAuthorized {
             coordinator?.dismissVC(self)
             coordinator?.navigateToMainScreen()
+        }
+    }
+
+    private func networkIsActive(_ isActive: Bool) {
+        loginButton.isShowIndicator = isActive
+        if let window = self.keyWindow {
+            window.isUserInteractionEnabled = !isActive
         }
     }
 

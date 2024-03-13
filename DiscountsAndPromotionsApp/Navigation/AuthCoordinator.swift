@@ -75,12 +75,14 @@ final class AuthCoordinator: Coordinator {
         let navController = GenericNavigationController()
         let selectionCityViewModel = SelectionCityViewModel(authService: authService)
         let selectionCityVC = SelectionCityViewController(viewModel: selectionCityViewModel)
+        selectionCityVC.coordinator = self
         navController.viewControllers = [selectionCityVC]
         navController.modalPresentationStyle = .overFullScreen
         viewController.present(navController, animated: true)
     }
 
     func navigateToMainScreen() {
+        navigationController.dismiss(animated: true)
         mainCoordinator?.navigateToMainScreen()
     }
 

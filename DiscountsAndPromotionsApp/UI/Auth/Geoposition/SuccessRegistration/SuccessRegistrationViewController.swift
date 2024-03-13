@@ -89,7 +89,6 @@ final class SuccessRegistrationViewController: AuthParentViewController {
     }
 
     private func navigateToMainScreen() {
-        coordinator?.dismissVC(self)
         coordinator?.navigateToMainScreen()
     }
 

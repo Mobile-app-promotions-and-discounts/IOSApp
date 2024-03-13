@@ -6,6 +6,7 @@ protocol RegistrationViewModelProtocol {
     var userPassword: CurrentValueSubject<String, Never> { get }
     var isUserAuthorizatedUpdate: PassthroughSubject<Bool, Never> { get }
     var validToSubmit: AnyPublisher<Bool, Never> { get }
+    var networkActive: CurrentValueSubject<Bool, Never> { get }
 
     func didTapLoginButton()
     func didTapPrivacyPolicy()
