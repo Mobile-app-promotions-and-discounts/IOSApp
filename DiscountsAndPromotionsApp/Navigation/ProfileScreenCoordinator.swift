@@ -79,13 +79,6 @@ final class ProfileScreenCoordinator: Coordinator {
         navigationController.present(alert, animated: true)
     }
 
-    func navigateToDeleteAccountScreen() {
-        // Заглушка до реализации функционала
-        let alert = UIAlertController(title: "Delete account", message: "☠️", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .cancel))
-        navigationController.present(alert, animated: true)
-    }
-
     func navigateToExitAccountScreen() {
         mainCoordinator?.navigateToAuthScreen()
     }

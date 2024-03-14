@@ -19,10 +19,6 @@ final class NetworkClient: NetworkClientProtocol {
                 print(error)
                 throw AppError.parsingError
             }
-        case 400:
-            throw AppError.registrationError
-        case 401:
-            throw AppError.authError
         default:
             do {
                 let error = try decoder.decode(NetworkErrorDescriptionModel.self, from: data)

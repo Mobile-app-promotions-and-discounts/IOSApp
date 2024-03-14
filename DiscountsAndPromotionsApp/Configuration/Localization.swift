@@ -57,6 +57,7 @@ enum L10n {
             static let deletingAccount = NSLocalizedString("DeletingAccount", tableName: "ProfileFlow", comment: "")
             static let wantDelete = NSLocalizedString("WantDelete", tableName: "ProfileFlow", comment: "")
             static let delete = NSLocalizedString("Delete", tableName: "ProfileFlow", comment: "")
+            static let forDeletingAccount = NSLocalizedString("ForDeletingAccount", tableName: "ProfileFlow", comment: "")
         }
         enum Edit {
             static let done = NSLocalizedString("Done", tableName: "ProfileFlow", comment: "")

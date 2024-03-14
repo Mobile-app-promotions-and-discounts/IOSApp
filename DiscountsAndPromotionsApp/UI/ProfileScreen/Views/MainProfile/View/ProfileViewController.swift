@@ -147,9 +147,8 @@ final class ProfileViewController: UIViewController {
         AlertPresenter.showAlert(title: L10n.Profile.Main.deletingAccount,
                                  message: L10n.Profile.Main.wantDelete,
                                  textButton: L10n.Profile.Main.delete) { [weak self] in
-            self?.coordinator?.navigateToDeleteAccountScreen()
+            self?.showAlertForDeleteAccount()
         }
-
     }
 
     @objc
@@ -157,8 +156,21 @@ final class ProfileViewController: UIViewController {
         AlertPresenter.showAlert(title: L10n.Profile.Main.exitAlert,
                                  message: nil,
                                  textButton: L10n.Profile.Main.exit) { [weak self] in
-            self?.viewModel.exitAccount()
-            self?.coordinator?.navigateToExitAccountScreen()
+            self?.exitView()
+        }
+    }
+
+    private func exitView() {
+        viewModel.exitAccount()
+        coordinator?.navigateToExitAccountScreen()
+    }
+
+    private func showAlertForDeleteAccount() {
+        AlertPresenter.showAlertWithTextFiel(title: L10n.Profile.Main.deletingAccount,
+                                             message: L10n.Profile.Main.forDeletingAccount,
+                                             placeholder: nil,
+                                             textButton: L10n.Profile.Main.delete) { [weak self] text in
+            self?.viewModel.deleteAccount(password: text)
         }
     }
 
@@ -243,6 +255,14 @@ final class ProfileViewController: UIViewController {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] profileUIModel in
                 self?.updateProfile(profileUIModel)
+            }.store(in: &subscriptions)
+
+        viewModel.userIsDelete
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isDelete in
+                if isDelete {
+                    self?.exitView()
+                }
             }.store(in: &subscriptions)
 
     }

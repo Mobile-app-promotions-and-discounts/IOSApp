@@ -199,6 +199,23 @@
         }
       }
     },
+    "ForDeletingAccount" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To delete your account, enter your password"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Для удаления аккаунта введите пароль"
+          }
+        }
+      }
+    },
     "Gallery" : {
       "extractionState" : "manual",
       "localizations" : {

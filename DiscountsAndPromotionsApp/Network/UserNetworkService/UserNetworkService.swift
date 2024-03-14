@@ -4,9 +4,10 @@ import Foundation
 protocol UserNetworkServiceProtocol {
     var user: CurrentValueSubject<UserResponseModel, Never> { get }
     var userIsChange: PassthroughSubject <Bool, Never> { get }
+    var userIsDelete: PassthroughSubject <Bool, Never> { get }
 
     func registerUser(_ user: UserRequestModel)
-    func deleteUser(id: Int, password: String)
+    func deleteUser(password: String)
     func editUser(_ profileModel: ProfileUIModel)
     func fetchUser()
 }
@@ -18,6 +19,7 @@ actor UserNetworkService: UserNetworkServiceProtocol {
 
     nonisolated let user: CurrentValueSubject<UserResponseModel, Never>
     nonisolated let userIsChange: PassthroughSubject <Bool, Never>
+    nonisolated let userIsDelete: PassthroughSubject <Bool, Never>
 
     init(networkClient: NetworkClientProtocol,
          requestConstructor: NetworkRequestConstructorProtocol = NetworkRequestConstructor.shared) {
@@ -25,6 +27,7 @@ actor UserNetworkService: UserNetworkServiceProtocol {
         self.requestConstructor = requestConstructor
         self.user = CurrentValueSubject(UserResponseModel.emptyModel)
         self.userIsChange = PassthroughSubject()
+        self.userIsDelete = PassthroughSubject()
     }
 
     // MARK: - Получить данные пользователя
@@ -50,11 +53,7 @@ actor UserNetworkService: UserNetworkServiceProtocol {
         } catch let error {
             print("Error getting user: \(error.localizedDescription)")
             userIsChange.send(false)
-            if let error = error as? AppError {
-                ErrorHandler.handle(error: error)
-            } else {
-                ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
-            }
+            networkHandler(error: error, appError: .getUserError)
         }
     }
 
@@ -92,21 +91,18 @@ actor UserNetworkService: UserNetworkServiceProtocol {
 
             self.user.send(userResponseModel)
             self.userIsChange.send(true)
+
         } catch let error {
             print("Registration error: \(error.localizedDescription)")
             userIsChange.send(false)
 
-            if let error = error as? AppError {
-                ErrorHandler.handle(error: error)
-            } else {
-                ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
-            }
+            networkHandler(error: error, appError: .registrationError)
         }
     }
 
     // MARK: - Удалить пользователя
-    nonisolated func deleteUser(id: Int, password: String) {
-        Task { await requestDeleteUser(id: id, password: password) }
+    nonisolated func deleteUser(password: String) {
+        Task { await requestDeleteUser(id: user.value.id, password: password) }
     }
 
     func requestDeleteUser(id: Int, password: String) async {
@@ -126,16 +122,15 @@ actor UserNetworkService: UserNetworkServiceProtocol {
         do {
             let _: URLResponse = try await networkClient.request(for: urlRequest)
             userIsChange.send(true)
+            userIsDelete.send(true)
+
             print("Account successfuly deleted")
-            // TODO: - отработать действия при удалении аккаунта
+
         } catch let error {
             print("Account deletion error: \(error.localizedDescription)")
             userIsChange.send(false)
-            if let error = error as? AppError {
-                ErrorHandler.handle(error: error)
-            } else {
-                ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
-            }
+
+            networkHandler(error: error, appError: .deleteAccountError)
         }
     }
 
@@ -167,11 +162,15 @@ actor UserNetworkService: UserNetworkServiceProtocol {
             print("User info editing error: \(error.localizedDescription)")
             userIsChange.send(false)
 
-            if let error = error as? AppError {
-                ErrorHandler.handle(error: error)
-            } else {
-                ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
-            }
+            networkHandler(error: error, appError: .editUserError)
+        }
+    }
+
+    private func networkHandler(error: Error, appError: AppError) {
+        if error as? AppError != nil {
+            ErrorHandler.handle(error: appError)
+        } else {
+            ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
         }
     }
 }

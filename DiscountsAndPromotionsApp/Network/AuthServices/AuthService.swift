@@ -65,7 +65,7 @@ actor AuthService: AuthServiceProtocol {
 
             isTokenValid = false
             if let error = error as? AppError {
-                ErrorHandler.handle(error: error)
+                ErrorHandler.handle(error: .authError)
             } else {
                 ErrorHandler.handle(error: AppError.customError(error.localizedDescription))
             }
