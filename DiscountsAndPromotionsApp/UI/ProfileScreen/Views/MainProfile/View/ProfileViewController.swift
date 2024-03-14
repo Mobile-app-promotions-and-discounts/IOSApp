@@ -146,8 +146,8 @@ final class ProfileViewController: UIViewController {
 
         AlertPresenter.showAlert(title: L10n.Profile.Main.deletingAccount,
                                  message: L10n.Profile.Main.wantDelete,
-                                 textButton: L10n.Profile.Main.delete) {
-            self.coordinator?.navigateToDeleteAccountScreen()
+                                 textButton: L10n.Profile.Main.delete) { [weak self] in
+            self?.coordinator?.navigateToDeleteAccountScreen()
         }
 
     }
@@ -156,8 +156,9 @@ final class ProfileViewController: UIViewController {
     private func exitAccountDidTap() {
         AlertPresenter.showAlert(title: L10n.Profile.Main.exitAlert,
                                  message: nil,
-                                 textButton: L10n.Profile.Main.exit) {
-            self.coordinator?.navigateToExitAccountScreen()
+                                 textButton: L10n.Profile.Main.exit) { [weak self] in
+            self?.viewModel.exitAccount()
+            self?.coordinator?.navigateToExitAccountScreen()
         }
     }
 

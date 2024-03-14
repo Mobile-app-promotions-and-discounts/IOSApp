@@ -10,4 +10,5 @@ protocol ProfileViewModelProtocol: AnyObject {
 
     func getTableViewCount() -> Int
     func getTableViewConfigure(_ index: Int) -> ProfilePropertyUIModel
+    func exitAccount()
 }

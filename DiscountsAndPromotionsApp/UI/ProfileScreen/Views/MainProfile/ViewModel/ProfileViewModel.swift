@@ -9,11 +9,14 @@ final class ProfileViewModel: ProfileViewModelProtocol {
     // MARK: - Private properties
     private let properties = ProfilePropertyUIModel.allCases
     private let userNetworkService: UserNetworkServiceProtocol
+    private let authService: AuthServiceProtocol
     private var profileUpdated = Set<AnyCancellable>()
 
     // MARK: - Init
-    init(userNetworkService: UserNetworkServiceProtocol) {
+    init(userNetworkService: UserNetworkServiceProtocol,
+         authService: AuthServiceProtocol) {
         self.userNetworkService = userNetworkService
+        self.authService = authService
         self.profile = CurrentValueSubject(ProfileUIModel.example)
     }
 
@@ -36,6 +39,10 @@ final class ProfileViewModel: ProfileViewModelProtocol {
 
     func getTableViewConfigure(_ index: Int) -> ProfilePropertyUIModel {
         return properties[index]
+    }
+
+    func exitAccount() {
+        authService.logout()
     }
 
     // MARK: - Private methods

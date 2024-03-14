@@ -1,17 +1,24 @@
 import UIKit
 
 final class ProfileScreenCoordinator: Coordinator {
+
     private let userNetworkService: UserNetworkServiceProtocol
+    private let authService: AuthServiceProtocol
+    weak var mainCoordinator: MainCoordinator?
     var childCoordinators = [Coordinator]()
     var navigationController: UINavigationController
 
-    init(navigationController: UINavigationController, userNetworkService: UserNetworkServiceProtocol) {
+    init(navigationController: UINavigationController,
+         userNetworkService: UserNetworkServiceProtocol,
+         authService: AuthServiceProtocol) {
         self.navigationController = navigationController
         self.userNetworkService = userNetworkService
+        self.authService = authService
     }
 
     func start() {
-        let profileViewModel = ProfileViewModel(userNetworkService: userNetworkService)
+        let profileViewModel = ProfileViewModel(userNetworkService: userNetworkService,
+                                                authService: authService)
         let profileViewController = ProfileViewController(viewModel: profileViewModel)
         profileViewController.coordinator = self
         navigationController.pushViewController(profileViewController, animated: false)
@@ -31,7 +38,8 @@ final class ProfileScreenCoordinator: Coordinator {
     }
 
     func navigateToRegionScreen() {
-        let profileViewModel = ProfileViewModel(userNetworkService: userNetworkService)
+        let profileViewModel = ProfileViewModel(userNetworkService: userNetworkService,
+                                                authService: authService)
         let regionViewController = RegionViewController(viewModel: profileViewModel)
         regionViewController.coordinator = self
         navigationController.pushViewController(regionViewController, animated: true)
@@ -79,9 +87,6 @@ final class ProfileScreenCoordinator: Coordinator {
     }
 
     func navigateToExitAccountScreen() {
-        // Заглушка до реализации функционала
-        let alert = UIAlertController(title: "Exit account", message: "👋🏻", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .cancel))
-        navigationController.present(alert, animated: true)
+        mainCoordinator?.navigateToAuthScreen()
     }
 }
