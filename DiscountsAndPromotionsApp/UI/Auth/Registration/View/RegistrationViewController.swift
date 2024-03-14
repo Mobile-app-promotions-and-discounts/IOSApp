@@ -68,9 +68,8 @@ final class RegistrationViewController: AuthParentViewController {
         return label
     }()
 
-    private lazy var registrationButton: UIButton = {
-        let button = PrimaryButton()
-        button.setTitle(L10n.Registration.registrationTitle, for: .normal)
+    private lazy var registrationButton: SignButton = {
+        let button = SignButton(title: L10n.Registration.registrationTitle)
         button.addTarget(self, action: #selector(registerAction), for: .touchUpInside)
         return button
     }()
@@ -110,6 +109,12 @@ final class RegistrationViewController: AuthParentViewController {
             .assign(to: \.isUserInteractionEnabled, on: registrationButton)
             .store(in: &cancellables)
 
+        viewModel.networkActive
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isActive in
+                self?.networkIsActive(isActive)
+            }.store(in: &cancellables)
+
         viewModel.isUserAuthorizatedUpdate
             .receive(on: DispatchQueue.main)
             .sink { [weak self] isAutorizated in
@@ -123,6 +128,13 @@ final class RegistrationViewController: AuthParentViewController {
 
     private func backButtonAction() {
         backButton.addTarget(self, action: #selector(backAction), for: .touchUpInside)
+    }
+
+    private func networkIsActive(_ isActive: Bool) {
+        registrationButton.isShowIndicator = isActive
+        if let window = self.keyWindow {
+            window.isUserInteractionEnabled = !isActive
+        }
     }
 
     private func setupConstraints() {

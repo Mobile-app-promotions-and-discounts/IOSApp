@@ -6,6 +6,7 @@ final class LoginViewModel: LoginViewModelProtocol {
     private(set) var isUserAuthorizedUpdate: PassthroughSubject<Bool, Never>
     private(set) var userEmail: CurrentValueSubject<String, Never>
     private(set) var userPassword: CurrentValueSubject<String, Never>
+    private(set) var networkActive: CurrentValueSubject<Bool, Never>
 
     var validToSubmit: AnyPublisher<Bool, Never> {
         return Publishers.CombineLatest(userEmail, userPassword)
@@ -23,6 +24,7 @@ final class LoginViewModel: LoginViewModelProtocol {
         self.isUserAuthorizedUpdate = PassthroughSubject<Bool, Never>()
         self.userEmail = CurrentValueSubject("")
         self.userPassword = CurrentValueSubject("")
+        self.networkActive = CurrentValueSubject(false)
         self.cancellables = Set<AnyCancellable>()
         self.authService = AuthService(networkClient: NetworkClient())
     }
@@ -52,6 +54,7 @@ final class LoginViewModel: LoginViewModelProtocol {
     }
 
     private func checkUserAuthData() {
+        networkActive.send(true)
         let userModel = UserRequestModel(username: userEmail.value,
                                          password: userPassword.value)
         authService.getToken(for: userModel)
@@ -61,6 +64,7 @@ final class LoginViewModel: LoginViewModelProtocol {
         authService.isTokenValidUpdate
             .sink { [weak self] isUpdate in
                 self?.isUserAuthorizedUpdate.send(isUpdate)
+                self?.networkActive.send(false)
             }.store(in: &cancellables)
     }
 
