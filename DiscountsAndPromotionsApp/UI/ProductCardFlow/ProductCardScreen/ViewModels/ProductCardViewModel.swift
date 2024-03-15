@@ -41,6 +41,8 @@ final class ProductCardViewModel: ProductCardViewModelProtocol {
         switch section {
         case .imagesAndReviews:
             return 3
+        case .storeOffers:
+            return 2 // Заменить на тайтл + офферы
         }
     }
 
@@ -48,6 +50,17 @@ final class ProductCardViewModel: ProductCardViewModelProtocol {
         switch section {
         case .imagesAndReviews:
             return [.image(getImage()), .name(getName()), .reviewsInfo(getReviewsInfo())]
+        case .storeOffers:
+            return [.storeOffers, .storeOffers]
+        }
+    }
+
+    func getTitleFor(section: ProductCardSections) -> String {
+        switch section {
+        case .imagesAndReviews:
+            return ""
+        case .storeOffers:
+            return NSLocalizedString("Shop's Offers", tableName: "ProductFlow", comment: "")
         }
     }
 
@@ -65,7 +78,7 @@ final class ProductCardViewModel: ProductCardViewModelProtocol {
     }
 
     private func getName() -> ProductTitleUIModel {
-        return ProductTitleUIModel(product: product)
+        return ProductTitleUIModel(name: product.name)
     }
 
     private func getReviewsInfo() -> ProductReviewsInfoUIModel {

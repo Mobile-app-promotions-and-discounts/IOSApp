@@ -57,18 +57,18 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Предложения Магазинов"
+            "value" : "Предложения магазинов"
           }
         }
       }
     },
-    "To Shop" : {
+    "ToShopSite" : {
       "extractionState" : "manual",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "В Магазин"
+            "value" : "На сайт магазина"
           }
         }
       }

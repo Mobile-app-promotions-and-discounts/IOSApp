@@ -53,6 +53,12 @@ final class ProductReviewsInfoCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        cancellable?.cancel()
+        cancellable = nil
+    }
+
     @objc
     private func openReviewsButtonTapped() {
         openReviewsButtonTappedPublisher.send()

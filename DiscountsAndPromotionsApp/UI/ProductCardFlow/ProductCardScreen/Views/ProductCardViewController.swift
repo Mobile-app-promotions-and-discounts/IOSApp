@@ -35,6 +35,13 @@ final class ProductCardViewController: UIViewController {
         collectionView.register(ProductImageCell.self, forCellWithReuseIdentifier: ProductImageCell.reuseIdentifier)
         collectionView.register(ProductNameCell.self, forCellWithReuseIdentifier: ProductNameCell.reuseIdentifier)
         collectionView.register(ProductReviewsInfoCell.self, forCellWithReuseIdentifier: ProductReviewsInfoCell.reuseIdentifier)
+        collectionView.register(ProductStoreOfferCell.self, forCellWithReuseIdentifier: ProductStoreOfferCell.reuseIdentifier)
+        collectionView.register(ProductCardHeaderView.self,
+                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                                withReuseIdentifier: ProductCardHeaderView.reuseIdentifier)
+        collectionView.register(FooterView.self,
+                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
+                                withReuseIdentifier: FooterView.reuseIdentifier)
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.backgroundColor = .cherryLightBlue
@@ -137,6 +144,38 @@ extension ProductCardViewController: UICollectionViewDataSource {
         return viewModel.numberOfItems(inSection: productCardSection)
     }
 
+    func collectionView(_ collectionView: UICollectionView,
+                        viewForSupplementaryElementOfKind kind: String,
+                        at indexPath: IndexPath) -> UICollectionReusableView {
+        if kind == UICollectionView.elementKindSectionHeader {
+            // Обработка заголовка
+            guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+                                                                               withReuseIdentifier: ProductCardHeaderView.reuseIdentifier,
+                                                                               for: indexPath) as? ProductCardHeaderView else {
+                return UICollectionReusableView()
+            }
+
+            guard let productSection = ProductCardSections(rawValue: indexPath.section) else {
+                return UICollectionReusableView()
+            }
+
+            let headerName = viewModel.getTitleFor(section: productSection)
+            header.configure(with: headerName)
+            return header
+        } else if kind == UICollectionView.elementKindSectionFooter {
+            // Обработка подвала
+            guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+                                                                               withReuseIdentifier: FooterView.reuseIdentifier,
+                                                                               for: indexPath) as? FooterView else {
+                return UICollectionReusableView()
+            }
+
+            return footer
+        }
+
+        return UICollectionReusableView()
+    }
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let productCardSection = ProductCardSections(rawValue: indexPath.section) else {
             return UICollectionViewCell()
@@ -170,6 +209,12 @@ extension ProductCardViewController: UICollectionViewDataSource {
                     self.coordinator?.navigateToReviewsScreen(viewModel: viewModel)
                 }
             cell.configure(with: model)
+            return cell
+        case .storeOffers:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductStoreOfferCell.reuseIdentifier, for: indexPath) as? ProductStoreOfferCell else {
+                fatalError("Ошибка каста ProductStoreOfferCell")
+            }
+            // TODO: настройка
             return cell
         }
     }

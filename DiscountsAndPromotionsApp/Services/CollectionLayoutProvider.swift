@@ -107,10 +107,12 @@ final class CollectionLayoutProvider {
             switch productCardSection {
             case .imagesAndReviews:
                 return self.createImageAndDescriptionSection()
-            default:
-                return nil
+            case .storeOffers:
+                return self.createStoreOffersSection()
             }
         }
+        layout.register(SectionBackgroundView.self,
+                        forDecorationViewOfKind: NSStringFromClass(SectionBackgroundView.self))
         return layout
     }
 
@@ -150,6 +152,28 @@ final class CollectionLayoutProvider {
 
         // Создание секции с главной группой
         let section = NSCollectionLayoutSection(group: mainGroup)
+        section.contentInsets.bottom = 12
+        return section
+    }
+
+    private func createStoreOffersSection() -> NSCollectionLayoutSection {
+        let offerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                               heightDimension: .absolute(64))
+        let offerItem = NSCollectionLayoutItem(layoutSize: offerSize)
+        let offerGroup = NSCollectionLayoutGroup.vertical(layoutSize: offerSize, subitems: [offerItem])
+
+        let section = NSCollectionLayoutSection(group: offerGroup)
+        section.interGroupSpacing = 4
+        section.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: Constants.sectionInset, bottom: 12, trailing: Constants.sectionInset)
+
+        // Декоративный элемент и границы секции
+        let backgroundDecoration = NSCollectionLayoutDecorationItem.background(
+            elementKind: NSStringFromClass(SectionBackgroundView.self)
+        )
+        section.decorationItems = [backgroundDecoration]
+
+        // Добавляем заголовок и подвал
+        addBoundarySupplementaryItems(to: section)
         return section
     }
 
