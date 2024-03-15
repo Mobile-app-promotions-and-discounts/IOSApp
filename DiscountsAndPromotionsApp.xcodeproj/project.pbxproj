@@ -23,6 +23,10 @@
 		7F2137DC2B500393006B680C /* LocationFlow.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7F2137DB2B500393006B680C /* LocationFlow.xcstrings */; };
 		7F2137DE2B516E65006B680C /* AuthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F2137DD2B516E65006B680C /* AuthCoordinator.swift */; };
 		7F2137E02B517265006B680C /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F2137DF2B517265006B680C /* AuthViewController.swift */; };
+		7F5B88DB2BA42F5A00563979 /* AboutAppViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F5B88DA2BA42F5A00563979 /* AboutAppViewController.swift */; };
+		7F5B88DD2BA42F7200563979 /* AboutAppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F5B88DC2BA42F7200563979 /* AboutAppViewModel.swift */; };
+		7F5B88DF2BA42F8A00563979 /* AboutAppViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F5B88DE2BA42F8A00563979 /* AboutAppViewModelProtocol.swift */; };
+		7F5B88E32BA438A500563979 /* AboutAppTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F5B88E22BA438A500563979 /* AboutAppTableViewCell.swift */; };
 		7F8A3FF82B7DE56600FF0EDC /* WebViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F8A3FF72B7DE56600FF0EDC /* WebViewViewController.swift */; };
 		7F8A3FFA2B7E11EA00FF0EDC /* WebViewFlow.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7F8A3FF92B7E11EA00FF0EDC /* WebViewFlow.xcstrings */; };
 		7F8A3FFE2B7F702200FF0EDC /* GeoposiotionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F8A3FFD2B7F702200FF0EDC /* GeoposiotionService.swift */; };
@@ -239,6 +243,10 @@
 		7F2137DB2B500393006B680C /* LocationFlow.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = LocationFlow.xcstrings; sourceTree = "<group>"; };
 		7F2137DD2B516E65006B680C /* AuthCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCoordinator.swift; sourceTree = "<group>"; };
 		7F2137DF2B517265006B680C /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
+		7F5B88DA2BA42F5A00563979 /* AboutAppViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutAppViewController.swift; sourceTree = "<group>"; };
+		7F5B88DC2BA42F7200563979 /* AboutAppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutAppViewModel.swift; sourceTree = "<group>"; };
+		7F5B88DE2BA42F8A00563979 /* AboutAppViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutAppViewModelProtocol.swift; sourceTree = "<group>"; };
+		7F5B88E22BA438A500563979 /* AboutAppTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutAppTableViewCell.swift; sourceTree = "<group>"; };
 		7F8A3FF72B7DE56600FF0EDC /* WebViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewViewController.swift; sourceTree = "<group>"; };
 		7F8A3FF92B7E11EA00FF0EDC /* WebViewFlow.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = WebViewFlow.xcstrings; sourceTree = "<group>"; };
 		7F8A3FFD2B7F702200FF0EDC /* GeoposiotionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoposiotionService.swift; sourceTree = "<group>"; };
@@ -535,6 +543,33 @@
 			path = Geoposition;
 			sourceTree = "<group>";
 		};
+		7F5B88D92BA42F1800563979 /* AboutApp */ = {
+			isa = PBXGroup;
+			children = (
+				7F5B88E02BA42F9600563979 /* ViewModel */,
+				7F5B88E12BA42FA300563979 /* View */,
+			);
+			path = AboutApp;
+			sourceTree = "<group>";
+		};
+		7F5B88E02BA42F9600563979 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				7F5B88DC2BA42F7200563979 /* AboutAppViewModel.swift */,
+				7F5B88DE2BA42F8A00563979 /* AboutAppViewModelProtocol.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		7F5B88E12BA42FA300563979 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				7F5B88DA2BA42F5A00563979 /* AboutAppViewController.swift */,
+				7F5B88E22BA438A500563979 /* AboutAppTableViewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		7F8A3FFF2B8384F100FF0EDC /* Geoposition */ = {
 			isa = PBXGroup;
 			children = (
@@ -750,6 +785,7 @@
 				BC6046162B1E4B7900536EB3 /* MainProfile */,
 				BC6046132B1E4B7900536EB3 /* EditProfile */,
 				D059EB902B205F18004C8A1A /* Region */,
+				7F5B88D92BA42F1800563979 /* AboutApp */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1533,6 +1569,7 @@
 				927EC3042B1F94EF005C100B /* UIImage+Extensions.swift in Sources */,
 				92787F662B1F133C0045B678 /* SplashViewController.swift in Sources */,
 				7F04A70C2B88AE180008BA97 /* ProfileViewModelProtocol.swift in Sources */,
+				7F5B88DB2BA42F5A00563979 /* AboutAppViewController.swift in Sources */,
 				BCAC6B982B24DE0800AD5C96 /* SearchResultsViewModel.swift in Sources */,
 				BCCF50112B1B4AF10067A552 /* ProductCell.swift in Sources */,
 				92787F7D2B2199840045B678 /* InputUserDataField.swift in Sources */,
@@ -1554,6 +1591,7 @@
 				BCCF50292B1B4E4C0067A552 /* UITextView+Extension.swift in Sources */,
 				BC0545722B1D274D008D65A3 /* SearchCaterory.swift in Sources */,
 				BCCF50172B1B4AF10067A552 /* FavoritesViewModel.swift in Sources */,
+				7F5B88DF2BA42F8A00563979 /* AboutAppViewModelProtocol.swift in Sources */,
 				BC6046212B1E4B7900536EB3 /* ProfileViewModel.swift in Sources */,
 				BC70C8EE2B70B8C400991087 /* PromotionsScreenViewModel.swift in Sources */,
 				BC93BB692B0BC313008BE2AD /* ScanFlowCoordinator.swift in Sources */,
@@ -1577,6 +1615,7 @@
 				7F2137D52B4E92CA006B680C /* RegistrationViewController.swift in Sources */,
 				BE70C22D2B20965F004FD1E9 /* SortsHeaderView.swift in Sources */,
 				BCCF500D2B1B4AF10067A552 /* ScanViewController.swift in Sources */,
+				7F5B88E32BA438A500563979 /* AboutAppTableViewCell.swift in Sources */,
 				BCAA6D022B4F138D007C6FB4 /* StarsRatingRegularView.swift in Sources */,
 				BCD4B4802B31759100539CD1 /* StoreNetworkService.swift in Sources */,
 				BCAA6D002B4F0B1D007C6FB4 /* ReviewRatingHeader.swift in Sources */,
@@ -1614,6 +1653,7 @@
 				BCAA6CFE2B4EFE42007C6FB4 /* CherryCustomViewController.swift in Sources */,
 				7FA46CE12B6CF03300820A39 /* UILabel+Extension.swift in Sources */,
 				92787FA82B21EEE00045B678 /* LoginViewModelProtocol.swift in Sources */,
+				7F5B88DD2BA42F7200563979 /* AboutAppViewModel.swift in Sources */,
 				BCCF50212B1B4AF10067A552 /* RatingView.swift in Sources */,
 				D02E38722B25DB4500B3D27E /* ChooseRegionViewController.swift in Sources */,
 				7FCB3DB62B69669300EC20E7 /* RecoveryEndViewModel.swift in Sources */,

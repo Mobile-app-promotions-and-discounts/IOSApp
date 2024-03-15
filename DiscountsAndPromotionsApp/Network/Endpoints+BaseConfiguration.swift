@@ -103,6 +103,20 @@ struct NetworkBaseConfiguration {
 }
 
 // MARK: - URL для WebView страниц
-enum WebViewURL: String {
-    case termsAndPrivacy = "https://yandex.ru/legal/confidential/?from=footer"
+enum WebViewURL: String, CaseIterable {
+    // TODO: - Заменить ссылки на правильные
+    case aboutUs = "https://yandex.ru/legal/rules/"
+    case termsOfUse = "https://yandex.ru/legal/uchebnik_termsofuse/"
+    case privacyPolicy = "https://yandex.ru/legal/confidential/"
+
+    var name: String {
+        switch self {
+        case .aboutUs:
+            L10n.WebView.aboutUs
+        case .termsOfUse:
+            L10n.WebView.termsOfUse
+        case .privacyPolicy:
+            L10n.WebView.privacyPolicy
+        }
+    }
 }

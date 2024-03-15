@@ -74,12 +74,25 @@ final class ProfileScreenCoordinator: Coordinator {
 
     func navigateToAboutAppScreen() {
         // Заглушка до реализации функционала
-        let alert = UIAlertController(title: "About", message: "📁", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .cancel))
-        navigationController.present(alert, animated: true)
+        let viewModel = AboutAppViewModel()
+        let vc = AboutAppViewController(viewModel: viewModel)
+        vc.coordinator = self
+        vc.hidesBottomBarWhenPushed = true
+        navigationController.pushViewController(vc, animated: true)
     }
 
     func navigateToExitAccountScreen() {
         mainCoordinator?.navigateToAuthScreen()
+    }
+
+    func navigateBack() {
+        navigationController.popViewController(animated: true)
+    }
+
+    func navigateToWebView(to webView: WebViewURL) {
+        let webViewVC = WebViewViewController(webViewURL: webView) { [weak self] in
+            self?.navigateBack()
+        }
+        navigationController.pushViewController(webViewVC, animated: true)
     }
 }

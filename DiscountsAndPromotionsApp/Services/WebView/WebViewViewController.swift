@@ -49,10 +49,10 @@ final class WebViewViewController: UIViewController {
         return activityIndicator
     }()
 
-    init(titleName: String,
+    init(titleName: String? = nil,
          webViewURL: WebViewURL,
          backButtonAction: ( () -> Void)? = nil) {
-        self.titleName = titleName
+        self.titleName = titleName ?? webViewURL.name
         self.webViewURL = webViewURL
         self.backButtonAction = backButtonAction
         super.init(nibName: nil, bundle: nil)
@@ -146,11 +146,13 @@ final class WebViewViewController: UIViewController {
             return
         }
         backButtonAction()
+        self.navigationController?.isNavigationBarHidden = false
     }
 
     private func setupView() {
         view.backgroundColor = .cherryWhite
         webView.navigationDelegate = self
+        self.navigationController?.isNavigationBarHidden = true
     }
 
     private func setupConstraints() {

@@ -11,6 +11,23 @@
         }
       }
     },
+    "AboutApp" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "About app"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "О приложении"
+          }
+        }
+      }
+    },
     "Birthdate" : {
       "extractionState" : "manual",
       "localizations" : {
