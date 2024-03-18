@@ -52,10 +52,10 @@ final class ProfileScreenCoordinator: Coordinator {
     }
 
     func navigateToReviewsScreen() {
-        // Заглушка до реализации функционала
-        let alert = UIAlertController(title: "Reviews", message: "⭐️⭐️⭐️⭐️⭐️", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .cancel))
-        navigationController.present(alert, animated: true)
+        let vm = MyReviewViewModel()
+        let vc = MyReviewViewController(viewModel: vm)
+        vc.coordinator = self
+        navigationController.pushViewController(vc, animated: true)
     }
 
     func navigateToNotificationsScreen() {

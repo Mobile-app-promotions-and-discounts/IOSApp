@@ -27,6 +27,11 @@
 		7F5B88DD2BA42F7200563979 /* AboutAppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F5B88DC2BA42F7200563979 /* AboutAppViewModel.swift */; };
 		7F5B88DF2BA42F8A00563979 /* AboutAppViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F5B88DE2BA42F8A00563979 /* AboutAppViewModelProtocol.swift */; };
 		7F5B88E32BA438A500563979 /* AboutAppTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F5B88E22BA438A500563979 /* AboutAppTableViewCell.swift */; };
+		7F5B88E82BA486D900563979 /* MyReviewViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F5B88E72BA486D900563979 /* MyReviewViewModelProtocol.swift */; };
+		7F5B88EA2BA486F100563979 /* MyReviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F5B88E92BA486F100563979 /* MyReviewViewModel.swift */; };
+		7F5B88EC2BA4873200563979 /* MyReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F5B88EB2BA4873200563979 /* MyReviewViewController.swift */; };
+		7F5B88EF2BA4875B00563979 /* MyReviewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F5B88EE2BA4875B00563979 /* MyReviewTableViewCell.swift */; };
+		7F5B88F22BA487BC00563979 /* MyReviewUIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F5B88F12BA487BC00563979 /* MyReviewUIModel.swift */; };
 		7F8A3FF82B7DE56600FF0EDC /* WebViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F8A3FF72B7DE56600FF0EDC /* WebViewViewController.swift */; };
 		7F8A3FFA2B7E11EA00FF0EDC /* WebViewFlow.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7F8A3FF92B7E11EA00FF0EDC /* WebViewFlow.xcstrings */; };
 		7F8A3FFE2B7F702200FF0EDC /* GeoposiotionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F8A3FFD2B7F702200FF0EDC /* GeoposiotionService.swift */; };
@@ -247,6 +252,11 @@
 		7F5B88DC2BA42F7200563979 /* AboutAppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutAppViewModel.swift; sourceTree = "<group>"; };
 		7F5B88DE2BA42F8A00563979 /* AboutAppViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutAppViewModelProtocol.swift; sourceTree = "<group>"; };
 		7F5B88E22BA438A500563979 /* AboutAppTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutAppTableViewCell.swift; sourceTree = "<group>"; };
+		7F5B88E72BA486D900563979 /* MyReviewViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewViewModelProtocol.swift; sourceTree = "<group>"; };
+		7F5B88E92BA486F100563979 /* MyReviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewViewModel.swift; sourceTree = "<group>"; };
+		7F5B88EB2BA4873200563979 /* MyReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewViewController.swift; sourceTree = "<group>"; };
+		7F5B88EE2BA4875B00563979 /* MyReviewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewTableViewCell.swift; sourceTree = "<group>"; };
+		7F5B88F12BA487BC00563979 /* MyReviewUIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewUIModel.swift; sourceTree = "<group>"; };
 		7F8A3FF72B7DE56600FF0EDC /* WebViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewViewController.swift; sourceTree = "<group>"; };
 		7F8A3FF92B7E11EA00FF0EDC /* WebViewFlow.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = WebViewFlow.xcstrings; sourceTree = "<group>"; };
 		7F8A3FFD2B7F702200FF0EDC /* GeoposiotionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoposiotionService.swift; sourceTree = "<group>"; };
@@ -570,6 +580,42 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		7F5B88E42BA4849D00563979 /* MyReview */ = {
+			isa = PBXGroup;
+			children = (
+				7F5B88F02BA487A500563979 /* Model */,
+				7F5B88E52BA4869900563979 /* ViewModel */,
+				7F5B88E62BA486A400563979 /* View */,
+			);
+			path = MyReview;
+			sourceTree = "<group>";
+		};
+		7F5B88E52BA4869900563979 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				7F5B88E72BA486D900563979 /* MyReviewViewModelProtocol.swift */,
+				7F5B88E92BA486F100563979 /* MyReviewViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		7F5B88E62BA486A400563979 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				7F5B88EB2BA4873200563979 /* MyReviewViewController.swift */,
+				7F5B88EE2BA4875B00563979 /* MyReviewTableViewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		7F5B88F02BA487A500563979 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				7F5B88F12BA487BC00563979 /* MyReviewUIModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		7F8A3FFF2B8384F100FF0EDC /* Geoposition */ = {
 			isa = PBXGroup;
 			children = (
@@ -784,6 +830,7 @@
 			children = (
 				BC6046162B1E4B7900536EB3 /* MainProfile */,
 				BC6046132B1E4B7900536EB3 /* EditProfile */,
+				7F5B88E42BA4849D00563979 /* MyReview */,
 				D059EB902B205F18004C8A1A /* Region */,
 				7F5B88D92BA42F1800563979 /* AboutApp */,
 			);
@@ -1577,6 +1624,7 @@
 				BEBA94512B14E4B900ABE1AD /* UIViewController+Extension.swift in Sources */,
 				92787F762B1FAC110045B678 /* StrokeLabel.swift in Sources */,
 				BC6046092B1E3CAB00536EB3 /* MainHeaderView.swift in Sources */,
+				7F5B88EF2BA4875B00563979 /* MyReviewTableViewCell.swift in Sources */,
 				BCCF500C2B1B4AF10067A552 /* ScanFrameView.swift in Sources */,
 				BEBA916E2B0A9F9500C2DE96 /* ProductModels.swift in Sources */,
 				BC0C557E2B62DB070093437E /* SearchEnabledCoordinatorProtocol.swift in Sources */,
@@ -1589,6 +1637,7 @@
 				BC6045FD2B1E3B2E00536EB3 /* PromotionVisualsService.swift in Sources */,
 				92AEAD582B2CAAC200F1C7A3 /* ProductCardViewModel.swift in Sources */,
 				BCCF50292B1B4E4C0067A552 /* UITextView+Extension.swift in Sources */,
+				7F5B88EC2BA4873200563979 /* MyReviewViewController.swift in Sources */,
 				BC0545722B1D274D008D65A3 /* SearchCaterory.swift in Sources */,
 				BCCF50172B1B4AF10067A552 /* FavoritesViewModel.swift in Sources */,
 				7F5B88DF2BA42F8A00563979 /* AboutAppViewModelProtocol.swift in Sources */,
@@ -1616,6 +1665,7 @@
 				BE70C22D2B20965F004FD1E9 /* SortsHeaderView.swift in Sources */,
 				BCCF500D2B1B4AF10067A552 /* ScanViewController.swift in Sources */,
 				7F5B88E32BA438A500563979 /* AboutAppTableViewCell.swift in Sources */,
+				7F5B88F22BA487BC00563979 /* MyReviewUIModel.swift in Sources */,
 				BCAA6D022B4F138D007C6FB4 /* StarsRatingRegularView.swift in Sources */,
 				BCD4B4802B31759100539CD1 /* StoreNetworkService.swift in Sources */,
 				BCAA6D002B4F0B1D007C6FB4 /* ReviewRatingHeader.swift in Sources */,
@@ -1663,6 +1713,7 @@
 				BCCF501F2B1B4AF10067A552 /* PriceInfoView.swift in Sources */,
 				BE007AF72B399D9600BCFDCF /* EmptyOnScreenView.swift in Sources */,
 				7F04A7082B8890B40008BA97 /* ProfilePropertyUIModel.swift in Sources */,
+				7F5B88EA2BA486F100563979 /* MyReviewViewModel.swift in Sources */,
 				D059EB922B205F3F004C8A1A /* RegionViewController.swift in Sources */,
 				BCAC6B772B223C4100AD5C96 /* NetworkClient.swift in Sources */,
 				7FA46CEB2B737F5B00820A39 /* SelectionCityViewModelProtocol.swift in Sources */,
@@ -1685,6 +1736,7 @@
 				92787F792B1FBCE00045B678 /* LoginViewController.swift in Sources */,
 				BCCF50202B1B4AF10067A552 /* OfferCell.swift in Sources */,
 				7F04A7042B874FF30008BA97 /* GenderModel.swift in Sources */,
+				7F5B88E82BA486D900563979 /* MyReviewViewModelProtocol.swift in Sources */,
 				7FA46CF42B739EFC00820A39 /* CityTableViewCell.swift in Sources */,
 				BCD4B4772B2F5DDE00539CD1 /* StoreChainResponseModel.swift in Sources */,
 				BCCF50052B1B4AF10067A552 /* StoresCell.swift in Sources */,
