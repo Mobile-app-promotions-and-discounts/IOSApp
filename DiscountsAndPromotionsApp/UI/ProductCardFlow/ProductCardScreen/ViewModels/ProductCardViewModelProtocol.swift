@@ -9,4 +9,5 @@ protocol ProductCardViewModelProtocol {
     func numberOfItems(inSection section: ProductCardSections) -> Int
     func cellTypes(forSection section: ProductCardSections) -> [ProductCardCellType]
     func getTitleFor(section: ProductCardSections) -> String
+    func getModelFor(item: Int) -> ProductStoreOfferUIModel
 }

@@ -42,7 +42,7 @@ final class ProductCardViewModel: ProductCardViewModelProtocol {
         case .imagesAndReviews:
             return 3
         case .storeOffers:
-            return 2 // Заменить на тайтл + офферы
+            return product.offers.count
         }
     }
 
@@ -51,7 +51,7 @@ final class ProductCardViewModel: ProductCardViewModelProtocol {
         case .imagesAndReviews:
             return [.image(getImage()), .name(getName()), .reviewsInfo(getReviewsInfo())]
         case .storeOffers:
-            return [.storeOffers, .storeOffers]
+            return self.generateStoreOffersList(count: product.offers.count)
         }
     }
 
@@ -64,13 +64,24 @@ final class ProductCardViewModel: ProductCardViewModelProtocol {
         }
     }
 
+    func getModelFor(item: Int) -> ProductStoreOfferUIModel {
+        return ProductStoreOfferUIModel(offer: product.offers[item])
+    }
+
     private func setupBindings() {
         productService.reviewCountUpdate
             .sink { [weak self] reviewCount in
                 self?.reviewsCountValue = reviewCount
-
             }
             .store(in: &cancellables)
+    }
+
+    private func generateStoreOffersList(count: Int) -> [ProductCardCellType] {
+        var funcResult = [ProductCardCellType]()
+        for _ in 1...count {
+            funcResult.append(.storeOffers)
+        }
+        return funcResult
     }
 
     private func getImage() -> ProductImageUIModel {

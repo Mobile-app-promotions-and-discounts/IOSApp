@@ -1,11 +1,14 @@
 import UIKit
 import SnapKit
 import Combine
+import Kingfisher
 
 final class ProductStoreOfferCell: UICollectionViewCell {
     static let reuseIdentifier = "ProductStoreOfferCell"
 
-    var cancellables = Set<AnyCancellable>()
+    private (set) var openStoreSiteButtonTappedPublisher = PassthroughSubject<String, Never>()
+
+    var cancellable: AnyCancellable?
 
     private let bgView: UIView = {
         let view = UIView()
@@ -14,9 +17,11 @@ final class ProductStoreOfferCell: UICollectionViewCell {
         return view
     }()
 
-    private let logoImageView: UIImageView = {
+    private lazy var logoImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = .okeiLogo
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.cornerRadius = 14
+        imageView.clipsToBounds = true
         return imageView
     }()
 
@@ -24,7 +29,6 @@ final class ProductStoreOfferCell: UICollectionViewCell {
         let label = UILabel()
         label.font = CherryFonts.headerMedium
         label.textColor = .cherryBlack
-        label.text = "Пятерочка"
         return label
     }()
 
@@ -32,7 +36,6 @@ final class ProductStoreOfferCell: UICollectionViewCell {
         let label = UILabel()
         label.font = CherryFonts.headerSmall
         label.textColor = .cherryBlack
-        label.text = "ул. Ленина, д. 4, строение 7"
         return label
     }()
 
@@ -50,7 +53,6 @@ final class ProductStoreOfferCell: UICollectionViewCell {
         let label = UILabel()
         label.font = CherryFonts.textMedium
         label.textColor = .cherryBlack
-        label.text = "170 ₽"
         label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         label.setContentCompressionResistancePriority(.required, for: .horizontal)
         return label
@@ -59,7 +61,6 @@ final class ProductStoreOfferCell: UICollectionViewCell {
     private let discountLabel: UILabel = {
         let label = UILabel()
         label.textColor = .cherryAlwaysBlack
-        label.text = "–99%"
         label.font = CherryFonts.textSmall
         return label
     }()
@@ -79,7 +80,7 @@ final class ProductStoreOfferCell: UICollectionViewCell {
         label.font = CherryFonts.textMedium
         // Создаем атрибутированную строку с атрибутом перечеркивания
         let attributeString = NSMutableAttributedString(
-            string: "200 ₽",
+            string: "",
             attributes: [NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.single.rawValue]
         )
         label.attributedText = attributeString
@@ -105,6 +106,8 @@ final class ProductStoreOfferCell: UICollectionViewCell {
         stackView.addArrangedSubview(priceStackView)
         return stackView
     }()
+
+    private var storeURL: String?
 
     private lazy var goToStoreButton: UIButton = {
         let button = UIButton()
@@ -141,12 +144,31 @@ final class ProductStoreOfferCell: UICollectionViewCell {
     }
 
     override func prepareForReuse() {
-        cancellables.removeAll()
+        super.prepareForReuse()
+        cancellable?.cancel()
+        cancellable = nil
+    }
+
+    func configure(with model: ProductStoreOfferUIModel) {
+        print(model.storeAdress)
+        if let logoURL = URL(string: model.storeLogo ?? "") {
+            logoImageView.kf.setImage(with: logoURL)
+        }
+        self.storeNameLabel.text = model.storeName
+        self.addressLabel.text = model.storeAdress
+        self.storeURL = model.storeURLadress
+        self.priceLabel.text = String(model.finalPrice)
+        self.discountLabel.text = model.discounValue
+        self.originalPriceLabel.text = String(model.oldPrice)
     }
 
     @objc
     private func goToStoreCard() {
-        print("goToStoreCard")
+        guard let url = storeURL else {
+            ErrorHandler.handle(error: .customError("Ошибка присвоения адреса сайта"))
+            return
+        }
+        openStoreSiteButtonTappedPublisher.send(url)
     }
 
     private func setupViews() {

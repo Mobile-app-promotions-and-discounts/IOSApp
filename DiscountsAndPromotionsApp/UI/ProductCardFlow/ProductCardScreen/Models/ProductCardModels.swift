@@ -37,11 +37,21 @@ struct ProductReviewsInfoUIModel {
 }
 
 struct ProductStoreOfferUIModel {
-    let storeLogo: String
+    let storeLogo: String?
     let storeName: String
     let storeAdress: String
-    let finalPrice: String
-    let discounValue: String
-    let oldPrice: String
-    let storeURLadress: String
+    let finalPrice: Double
+    let discounValue: String?
+    let oldPrice: Double
+    let storeURLadress: String?
+
+    init(offer: Offer) {
+        self.storeLogo = offer.store.chainStore?.logo
+        self.storeName = offer.store.name
+        self.storeAdress = offer.store.location.street
+        self.finalPrice = offer.price
+        self.discounValue = offer.discount?.formattedDiscountString()
+        self.oldPrice = offer.initialPrice
+        self.storeURLadress = offer.store.chainStore?.website
+    }
 }

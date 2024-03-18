@@ -187,21 +187,21 @@ extension ProductCardViewController: UICollectionViewDataSource {
         case .image(let model):
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductImageCell.reuseIdentifier,
                                                                 for: indexPath) as? ProductImageCell else {
-                fatalError("Ошибка каста ProductImageCell")
+                return UICollectionViewCell()
             }
             cell.configure(with: model)
             return cell
         case .name(let model):
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductNameCell.reuseIdentifier,
                                                                 for: indexPath) as? ProductNameCell else {
-                fatalError("Ошибка каста ProductNameCell")
+                return UICollectionViewCell()
             }
             cell.configure(with: model)
             return cell
         case .reviewsInfo(let model):
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductReviewsInfoCell.reuseIdentifier,
                                                                 for: indexPath) as? ProductReviewsInfoCell else {
-                fatalError("Ошибка каста ProductReviewsInfoCell")
+                return UICollectionViewCell()
             }
             cell.cancellable = cell.openReviewsButtonTappedPublisher
                 .sink { [weak self] in
@@ -211,10 +211,17 @@ extension ProductCardViewController: UICollectionViewDataSource {
             cell.configure(with: model)
             return cell
         case .storeOffers:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductStoreOfferCell.reuseIdentifier, for: indexPath) as? ProductStoreOfferCell else {
-                fatalError("Ошибка каста ProductStoreOfferCell")
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductStoreOfferCell.reuseIdentifier,
+                                                                for: indexPath) as? ProductStoreOfferCell else {
+                return UICollectionViewCell()
             }
-            // TODO: настройка
+            let model = viewModel.getModelFor(item: indexPath.row)
+            cell.configure(with: model)
+            cell.cancellable = cell.openStoreSiteButtonTappedPublisher
+                .sink(receiveValue: { [weak self] url in
+                    guard let self = self else { return }
+                    self.coordinator?.openURL(urlString: url)
+                })
             return cell
         }
     }
