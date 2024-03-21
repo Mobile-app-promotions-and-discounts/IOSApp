@@ -125,6 +125,7 @@ final class MyReviewViewController: UIViewController {
 
 // MARK: - UITableViewDataSource
 extension MyReviewViewController: UITableViewDataSource {
+
     func numberOfSections(in tableView: UITableView) -> Int {
         return viewModel.getMyReviewsCount()
     }
@@ -163,22 +164,27 @@ extension MyReviewViewController: UITableViewDelegate {
         return Const.TableView.cellHeight
     }
 
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-            return true
+    func tableView(_ tableView: UITableView,
+                   trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+
+        // edit
+        let edit = UIContextualAction(style: .normal, title: nil) { [weak self] _, _, completionHandler in
+            self?.viewModel.editReview(index: indexPath.section)
+            completionHandler(true)
+        }
+        edit.image = .cellEdit
+        edit.backgroundColor = .cherryGray
+
+        // delete
+        let delete = UIContextualAction(style: .normal, title: nil) { [weak self] _, _, completionHandler in
+            self?.viewModel.deleteReview(index: indexPath.section)
+            completionHandler(true)
+        }
+        delete.image = .cellDelete
+        delete.backgroundColor = .cherryMainAccent
+
+        let swipe = UISwipeActionsConfiguration(actions: [delete,edit])
+        return swipe
     }
 
-    func tableView(_ tableView: UITableView,
-                   editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-            return .delete // или .insert для редактирования
-    }
-    
-    func tableView(_ tableView: UITableView,
-                   commit editingStyle: UITableViewCell.EditingStyle,
-                   forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Ваш код для удаления ячейки
-        } else if editingStyle == .insert {
-            // Ваш код для редактирования ячейки
-        }
-    }
 }

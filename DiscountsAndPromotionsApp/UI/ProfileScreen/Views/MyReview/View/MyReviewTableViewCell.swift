@@ -62,8 +62,10 @@ final class MyReviewTableViewCell: UITableViewCell {
 
     // MARK: - Layout Setting
     private func setupViewAndConstraints() {
-        self.backgroundColor = .cherryLightBlue
-        self.layer.cornerRadius = Const.cornerRadius
+        self.backgroundColor = .clear
+        self.contentView.backgroundColor = .cherryLightBlue
+        self.contentView.layer.cornerRadius = Const.cornerRadius
+        self.contentView.clipsToBounds = true
         self.selectionStyle = .none
 
         [reviewImageView,

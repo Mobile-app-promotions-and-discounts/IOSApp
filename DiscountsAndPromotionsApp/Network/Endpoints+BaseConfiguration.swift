@@ -27,6 +27,9 @@ enum Endpoint {
     // reviews
     case getProductReviews
     case postNewReview
+    case getMyReviews
+    case deleteMyReview
+    case editMyReview
 
     var URL: String {
         var path = NetworkBaseConfiguration.baseURL
@@ -51,6 +54,8 @@ enum Endpoint {
             path += "/api/v1/products/"
         case .getFavorites:
             path += "/api/v1/products/favorites/"
+        case .getMyReviews, .deleteMyReview, .editMyReview:
+            path += "/api/v1/my-reviews/"
         }
         return path
     }
@@ -73,11 +78,12 @@ enum Endpoint {
                 .getStoreChain,
                 .getStoreChains,
                 .getFavorites,
-                .getProductReviews:
+                .getProductReviews,
+                .getMyReviews:
             return .get
-        case .deleteUser, .removeFromFavorites:
+        case .deleteUser, .removeFromFavorites, .deleteMyReview:
             return .delete
-        case .editUser:
+        case .editUser, .editMyReview:
             return .patch
         }
     }
