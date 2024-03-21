@@ -13,6 +13,7 @@ final class MainCoordinator: Coordinator {
     private let categoryNetworkService: CategoryNetworkServiceProtocol
     private let productNetworkService: ProductNetworkServiceProtocol
     private let storesNetworkService: StoreNetworkServiceProtocol
+    private let myReviewsService: MyReviewServiceProtocol
 
     init(navigationController: UINavigationController, networkClient: NetworkClientProtocol = NetworkClient()) {
         self.dataService = MockDataService()
@@ -23,8 +24,10 @@ final class MainCoordinator: Coordinator {
         self.authService = AuthService(networkClient: networkClient)
         self.userNetworkService = UserNetworkService(networkClient: networkClient)
         self.categoryNetworkService = CategoryNetworkService(networkClient: networkClient)
-        self.productNetworkService = ProductNetworkService(networkClient: networkClient, categoryService: categoryNetworkService)
+        self.productNetworkService = ProductNetworkService(networkClient: networkClient,
+                                                           categoryService: categoryNetworkService)
         self.storesNetworkService = StoreNetworkService(networkClient: networkClient)
+        self.myReviewsService = MyReviewService(networkClient: networkClient)
 
         self.navigationController = navigationController
         self.navigationController.navigationBar.isHidden = true
@@ -53,7 +56,6 @@ final class MainCoordinator: Coordinator {
 
     private func configureChildCoordinators(with  tabBarController: MainTabBarController) {
         // MARK: - Создание и запуск дочерних координаторов
-        childCoordinators.removeAll()
         let scanCoordinator = ScanFlowCoordinator(navigationController: navigationController,
                                                   productService: productNetworkService,
                                                   profileService: profileService)
@@ -76,13 +78,15 @@ final class MainCoordinator: Coordinator {
         let profileScreenCoordinator = ProfileScreenCoordinator(
             navigationController: UINavigationController(),
             userNetworkService: userNetworkService,
-            authService: authService)
+            authService: authService,
+            myReviewsService: myReviewsService)
         profileScreenCoordinator.mainCoordinator = self
 
         mainScreenCoordinator.start()
         favoritesScreenCoordinator.start()
         profileScreenCoordinator.start()
 
+        childCoordinators.removeAll()
         childCoordinators.append(contentsOf: [mainScreenCoordinator,
                                               favoritesScreenCoordinator,
                                               profileScreenCoordinator] as [Coordinator])

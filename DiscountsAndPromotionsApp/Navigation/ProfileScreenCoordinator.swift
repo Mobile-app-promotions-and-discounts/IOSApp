@@ -4,16 +4,19 @@ final class ProfileScreenCoordinator: Coordinator {
 
     private let userNetworkService: UserNetworkServiceProtocol
     private let authService: AuthServiceProtocol
+    private let myReviewsService: MyReviewServiceProtocol
     weak var mainCoordinator: MainCoordinator?
     var childCoordinators = [Coordinator]()
     var navigationController: UINavigationController
 
     init(navigationController: UINavigationController,
          userNetworkService: UserNetworkServiceProtocol,
-         authService: AuthServiceProtocol) {
+         authService: AuthServiceProtocol,
+         myReviewsService: MyReviewServiceProtocol) {
         self.navigationController = navigationController
         self.userNetworkService = userNetworkService
         self.authService = authService
+        self.myReviewsService = myReviewsService
     }
 
     func start() {
@@ -52,7 +55,7 @@ final class ProfileScreenCoordinator: Coordinator {
     }
 
     func navigateToReviewsScreen() {
-        let vm = MyReviewViewModel()
+        let vm = MyReviewViewModel(myReviewsService: myReviewsService)
         let vc = MyReviewViewController(viewModel: vm)
         vc.coordinator = self
         navigationController.pushViewController(vc, animated: true)

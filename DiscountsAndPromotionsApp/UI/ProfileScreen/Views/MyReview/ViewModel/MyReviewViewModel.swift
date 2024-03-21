@@ -4,21 +4,26 @@ import Foundation
 final class MyReviewViewModel: MyReviewViewModelProtocol {
 
     // MARK: - Public properties
-    var title: CurrentValueSubject<String, Never>
-    var myReviews: CurrentValueSubject<[MyReviewUIModel], Never>
+    private(set) var title: CurrentValueSubject<String, Never>
+    private(set) var myReviews: CurrentValueSubject<[MyReviewUIModel], Never>
+    private(set) var isLoading: CurrentValueSubject<Bool, Never>
 
     // MARK: - Private properties
     private let name = L10n.Profile.Main.Property.myReview
     private var canselable = Set<AnyCancellable>()
 
-    init() {
+    private let myReviewsService: MyReviewServiceProtocol
+
+    init(myReviewsService: MyReviewServiceProtocol) {
         self.title = CurrentValueSubject(name)
-        self.myReviews = CurrentValueSubject(MyReviewUIModel.examples)
+        self.myReviews = CurrentValueSubject([])
+        self.myReviewsService = myReviewsService
+        self.isLoading = myReviewsService.isLoading
     }
 
     // MARK: - Public methods
-    func viewDidLoad() {
-        fetchReviews()
+    func fetchMyReviews() {
+        myReviewsService.fetchMyReviews()
     }
 
     func viewWillAppear() {
@@ -38,32 +43,42 @@ final class MyReviewViewModel: MyReviewViewModelProtocol {
     }
 
     func deleteReview(index: Int) {
-        //
+        myReviewsService.deleteMyReview(id: index)
     }
 
     func editReview(index: Int) {
-        //
+        let params = ["":""]
+        // myReviewsService.editReview(params, id: index)
     }
 
     // MARK: - Private methods
     private func bindingOn() {
-        // подписаться на обновления сервера
+        myReviewsService.myReviews
+            .sink { [weak self] netModels in
+                guard let self else { return }
+                let uiModels = netModels.compactMap { self.convertNetToUIModel(to: $0) }
+                self.myReviews.send(uiModels)
+                if netModels.count > 0 {
+                     self.title.send(self.name + " (\(rewiewCounterString(netModels.count)))")
+                }
+            }.store(in: &canselable)
     }
 
     private func bindingOff() {
         canselable.removeAll()
     }
 
-    private func fetchReviews() {
-        // запрос на сервер
+    private func convertNetToUIModel(to netModel: MyReviewNetModel) -> MyReviewUIModel {
+        MyReviewUIModel.init(id: netModel.id,
+                             name: netModel.productName,
+                             comment: netModel.text,
+                             rating: netModel.score,
+                             imageURLString: nil) // в ответе от сервера пока нет картинки
     }
 
-    private func deleteReviews() {
-        // запрос на удаление с сервера
-    }
-
-    private func editReview() {
-        // запрос на редактирование на сервер
+    private func rewiewCounterString(_ number: Int) -> String {
+        return String.localizedStringWithFormat(NSLocalizedString("countOfReview", comment: "rewiew count"),
+                                                number)
     }
 
 }

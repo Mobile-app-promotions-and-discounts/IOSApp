@@ -4,8 +4,9 @@ import Foundation
 protocol MyReviewViewModelProtocol {
     var title: CurrentValueSubject<String,Never> { get }
     var myReviews: CurrentValueSubject<[MyReviewUIModel], Never> { get }
+    var isLoading: CurrentValueSubject<Bool, Never> { get }
 
-    func viewDidLoad()
+    func fetchMyReviews()
     func viewWillAppear()
     func viewWillDisappear()
 

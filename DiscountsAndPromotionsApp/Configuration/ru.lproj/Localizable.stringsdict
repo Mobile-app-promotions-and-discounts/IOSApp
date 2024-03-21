@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>countOfReview</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@format@</string>
+		<key>format</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>zero</key>
+			<string>Нет отзывов</string>
+			<key>one</key>
+			<string>%d отзыв</string>
+			<key>two</key>
+			<string>%d отзыва</string>
+			<key>few</key>
+			<string>%d отзыва</string>
+			<key>many</key>
+			<string>%d отзывов</string>
+			<key>other</key>
+			<string>%d отзывов</string>
+		</dict>
+	</dict>
+</dict>
+</plist>

@@ -22,12 +22,25 @@ final class MyReviewViewController: UIViewController {
         tableView.register(MyReviewTableViewCell.self,
                            forCellReuseIdentifier: MyReviewTableViewCell.identifier)
         tableView.allowsMultipleSelection = false
-        tableView.isScrollEnabled = false
         tableView.backgroundColor = .clear
         tableView.separatorStyle = .none
+        tableView.refreshControl = refreshControl
         tableView.dataSource = self
         tableView.delegate = self
         return tableView
+    }()
+
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView(style: .large)
+        activityIndicator.color = .cherryMainAccent
+        activityIndicator.hidesWhenStopped = true
+        return activityIndicator
+    }()
+
+    private lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(fetchReviews), for: .valueChanged)
+        return refreshControl
     }()
 
     // MARK: - Lifecicle
@@ -42,7 +55,7 @@ final class MyReviewViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel.viewDidLoad()
+        viewModel.fetchMyReviews()
         setupView()
         setupConstraints()
     }
@@ -50,11 +63,13 @@ final class MyReviewViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewModel.viewWillAppear()
+        bindingOn()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         viewModel.viewWillDisappear()
+        bindingOff()
     }
 
     // MARK: - Private methods
@@ -75,10 +90,30 @@ final class MyReviewViewController: UIViewController {
             .sink { [weak self] name in
                 self?.title = name
             }.store(in: &canselable)
+
+        viewModel.isLoading
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isLoading in
+                self?.isShowActivityIndicator(isLoading)
+            }.store(in: &canselable)
     }
 
     private func bindingOff() {
         canselable.removeAll()
+    }
+
+    private func isShowActivityIndicator(_ isLoading: Bool) {
+        if isLoading == true {
+            activityIndicator.startAnimating()
+        } else {
+            activityIndicator.stopAnimating()
+        }
+    }
+
+    @objc
+    private func fetchReviews() {
+        viewModel.fetchMyReviews()
+        refreshControl.endRefreshing()
     }
 
     // MARK: - Private Layout Setting
@@ -90,7 +125,7 @@ final class MyReviewViewController: UIViewController {
     private func setupNavBar() {
         self.navigationController?.navigationBar.isHidden = false
         navigationItem.leftBarButtonItem = backButton
-        self.title = L10n.Profile.Main.Property.myReview
+        self.title = viewModel.title.value
         if let navigationBar = navigationController?.navigationBar {
             let attributes: [NSAttributedString.Key: Any] = [
                 NSAttributedString.Key.foregroundColor: UIColor.cherryBlack,
@@ -102,6 +137,8 @@ final class MyReviewViewController: UIViewController {
 
     private func setupConstraints() {
         view.addSubview(tableView)
+        tableView.addSubview(refreshControl)
+        view.addSubview(activityIndicator)
 
         tableView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
@@ -110,13 +147,17 @@ final class MyReviewViewController: UIViewController {
                 .inset(Const.TableView.itsetH)
             $0.bottom.equalToSuperview()
         }
+
+        activityIndicator.snp.makeConstraints {
+            $0.center.equalToSuperview()
+        }
     }
 
     private enum Const {
         enum TableView {
             static let separatorHeight: CGFloat = 8
             static let cellHeight: CGFloat = 115
-            static let topInset: CGFloat = 26
+            static let topInset: CGFloat = 0
             static let itsetH: CGFloat = 16
         }
     }
@@ -155,9 +196,9 @@ extension MyReviewViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let headerView = UIView()
-        headerView.backgroundColor = UIColor.clear
-        return headerView
+        let footerView = UIView()
+        footerView.backgroundColor = UIColor.clear
+        return footerView
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -177,7 +218,9 @@ extension MyReviewViewController: UITableViewDelegate {
 
         // delete
         let delete = UIContextualAction(style: .normal, title: nil) { [weak self] _, _, completionHandler in
-            self?.viewModel.deleteReview(index: indexPath.section)
+            if let id = self?.viewModel.myReviews.value[indexPath.section].id {
+                self?.viewModel.deleteReview(index: id)
+            }
             completionHandler(true)
         }
         delete.image = .cellDelete
