@@ -116,6 +116,22 @@ final class MyReviewViewController: UIViewController {
         refreshControl.endRefreshing()
     }
 
+    private func editReview(_ index: Int) {
+        // временно, нужно вынести в координатор
+        let myReviewService = MyReviewService(networkClient: NetworkClient())
+        let vm = EditReviewViewModel(id: index, myReviewService: myReviewService)
+        let vc = EditReviewViewController(viewModel: vm)
+
+        if let sheet = vc.sheetPresentationController {
+                sheet.detents = [.medium()]
+                sheet.largestUndimmedDetentIdentifier = .medium
+                sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+                sheet.prefersEdgeAttachedInCompactHeight = true
+                sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
+            }
+            present(vc, animated: true, completion: nil)
+    }
+
     // MARK: - Private Layout Setting
     private func setupView() {
         view.backgroundColor = .cherryWhite
@@ -210,7 +226,8 @@ extension MyReviewViewController: UITableViewDelegate {
 
         // edit
         let edit = UIContextualAction(style: .normal, title: nil) { [weak self] _, _, completionHandler in
-            self?.viewModel.editReview(index: indexPath.section)
+
+            self?.editReview(indexPath.section)
             completionHandler(true)
         }
         edit.image = .cellEdit

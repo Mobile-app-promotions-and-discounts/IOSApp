@@ -19,6 +19,12 @@
 		7F130AFE2BAC44260028CA99 /* MyReviewsNetworkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F130AFD2BAC44260028CA99 /* MyReviewsNetworkModel.swift */; };
 		7F130B002BAC44700028CA99 /* MyReviewNetModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F130AFF2BAC44700028CA99 /* MyReviewNetModel.swift */; };
 		7F130B032BAC92D70028CA99 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 7F130B052BAC92D70028CA99 /* Localizable.stringsdict */; };
+		7F130B0C2BAD96830028CA99 /* EditReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F130B0B2BAD96830028CA99 /* EditReviewViewController.swift */; };
+		7F130B102BADA21E0028CA99 /* EditReviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F130B0F2BADA21E0028CA99 /* EditReviewViewModel.swift */; };
+		7F130B122BADA2790028CA99 /* EditReviewViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F130B112BADA2790028CA99 /* EditReviewViewModelProtocol.swift */; };
+		7F130B172BADA7940028CA99 /* EditReviewUImodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F130B162BADA7940028CA99 /* EditReviewUImodel.swift */; };
+		7F130B192BADBE150028CA99 /* TouchRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F130B182BADBE150028CA99 /* TouchRatingView.swift */; };
+		7F130B1B2BADE94C0028CA99 /* ReviewTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F130B1A2BADE94C0028CA99 /* ReviewTextView.swift */; };
 		7F2137D12B4E9256006B680C /* RegistrationViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F2137D02B4E9256006B680C /* RegistrationViewModelProtocol.swift */; };
 		7F2137D32B4E9283006B680C /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F2137D22B4E9283006B680C /* RegistrationViewModel.swift */; };
 		7F2137D52B4E92CA006B680C /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F2137D42B4E92CA006B680C /* RegistrationViewController.swift */; };
@@ -249,6 +255,12 @@
 		7F130AFF2BAC44700028CA99 /* MyReviewNetModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewNetModel.swift; sourceTree = "<group>"; };
 		7F130B042BAC92D70028CA99 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = ru; path = ru.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		7F130B082BAC946A0028CA99 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
+		7F130B0B2BAD96830028CA99 /* EditReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditReviewViewController.swift; sourceTree = "<group>"; };
+		7F130B0F2BADA21E0028CA99 /* EditReviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditReviewViewModel.swift; sourceTree = "<group>"; };
+		7F130B112BADA2790028CA99 /* EditReviewViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditReviewViewModelProtocol.swift; sourceTree = "<group>"; };
+		7F130B162BADA7940028CA99 /* EditReviewUImodel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditReviewUImodel.swift; sourceTree = "<group>"; };
+		7F130B182BADBE150028CA99 /* TouchRatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TouchRatingView.swift; path = DiscountsAndPromotionsApp/DesignSystem/TouchRatingView.swift; sourceTree = SOURCE_ROOT; };
+		7F130B1A2BADE94C0028CA99 /* ReviewTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ReviewTextView.swift; path = DiscountsAndPromotionsApp/DesignSystem/ReviewTextView.swift; sourceTree = SOURCE_ROOT; };
 		7F2137D02B4E9256006B680C /* RegistrationViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModelProtocol.swift; sourceTree = "<group>"; };
 		7F2137D22B4E9283006B680C /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
 		7F2137D42B4E92CA006B680C /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
@@ -530,6 +542,51 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		7F130B0D2BAD9E0B0028CA99 /* EditReview */ = {
+			isa = PBXGroup;
+			children = (
+				7F130B152BADA77B0028CA99 /* Model */,
+				7F130B142BADA3600028CA99 /* View */,
+				7F130B132BADA3490028CA99 /* ViewModel */,
+			);
+			path = EditReview;
+			sourceTree = "<group>";
+		};
+		7F130B0E2BAD9E140028CA99 /* Review */ = {
+			isa = PBXGroup;
+			children = (
+				7F5B88F02BA487A500563979 /* Model */,
+				7F5B88E52BA4869900563979 /* ViewModel */,
+				7F5B88E62BA486A400563979 /* View */,
+			);
+			path = Review;
+			sourceTree = "<group>";
+		};
+		7F130B132BADA3490028CA99 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				7F130B0F2BADA21E0028CA99 /* EditReviewViewModel.swift */,
+				7F130B112BADA2790028CA99 /* EditReviewViewModelProtocol.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		7F130B142BADA3600028CA99 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				7F130B0B2BAD96830028CA99 /* EditReviewViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		7F130B152BADA77B0028CA99 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				7F130B162BADA7940028CA99 /* EditReviewUImodel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		7F2137CC2B4E8D25006B680C /* Auth */ = {
 			isa = PBXGroup;
 			children = (
@@ -610,9 +667,8 @@
 		7F5B88E42BA4849D00563979 /* MyReview */ = {
 			isa = PBXGroup;
 			children = (
-				7F5B88F02BA487A500563979 /* Model */,
-				7F5B88E52BA4869900563979 /* ViewModel */,
-				7F5B88E62BA486A400563979 /* View */,
+				7F130B0E2BAD9E140028CA99 /* Review */,
+				7F130B0D2BAD9E0B0028CA99 /* EditReview */,
 			);
 			path = MyReview;
 			sourceTree = "<group>";
@@ -1325,6 +1381,8 @@
 				BC93BB712B0C814F008BE2AD /* PrimaryButton.swift */,
 				7FC9F0662BA1ADB700C5C63D /* SignButton.swift */,
 				BC07231A2B1A6A5C00EF82B8 /* SecondaryButton.swift */,
+				7F130B182BADBE150028CA99 /* TouchRatingView.swift */,
+				7F130B1A2BADE94C0028CA99 /* ReviewTextView.swift */,
 				D059EB992B2253FE004C8A1A /* CameraButton.swift */,
 				BC93BB732B0C8166008BE2AD /* ScannerNavButton.swift */,
 				BC6046222B1E4BC600536EB3 /* TextField.swift */,
@@ -1646,6 +1704,7 @@
 				7FCB3D2F2B56A0DB00EC20E7 /* UserShotResponseModel.swift in Sources */,
 				927EC3042B1F94EF005C100B /* UIImage+Extensions.swift in Sources */,
 				92787F662B1F133C0045B678 /* SplashViewController.swift in Sources */,
+				7F130B122BADA2790028CA99 /* EditReviewViewModelProtocol.swift in Sources */,
 				7F04A70C2B88AE180008BA97 /* ProfileViewModelProtocol.swift in Sources */,
 				7F5B88DB2BA42F5A00563979 /* AboutAppViewController.swift in Sources */,
 				BCAC6B982B24DE0800AD5C96 /* SearchResultsViewModel.swift in Sources */,
@@ -1654,6 +1713,7 @@
 				92787FAC2B21F0950045B678 /* LoginViewModel.swift in Sources */,
 				BEBA94512B14E4B900ABE1AD /* UIViewController+Extension.swift in Sources */,
 				92787F762B1FAC110045B678 /* StrokeLabel.swift in Sources */,
+				7F130B0C2BAD96830028CA99 /* EditReviewViewController.swift in Sources */,
 				BC6046092B1E3CAB00536EB3 /* MainHeaderView.swift in Sources */,
 				7F5B88EF2BA4875B00563979 /* MyReviewTableViewCell.swift in Sources */,
 				BCCF500C2B1B4AF10067A552 /* ScanFrameView.swift in Sources */,
@@ -1663,6 +1723,7 @@
 				7F2137E02B517265006B680C /* AuthViewController.swift in Sources */,
 				BCAA6CF92B4E7177007C6FB4 /* ReviewCell.swift in Sources */,
 				BCCF501A2B1B4AF10067A552 /* RatingViewViewModel .swift in Sources */,
+				7F130B172BADA7940028CA99 /* EditReviewUImodel.swift in Sources */,
 				BCCF50062B1B4AF10067A552 /* PromotionCell.swift in Sources */,
 				7F04A7022B874FB60008BA97 /* ProfileUIModel.swift in Sources */,
 				BC6045FD2B1E3B2E00536EB3 /* PromotionVisualsService.swift in Sources */,
@@ -1702,6 +1763,7 @@
 				BCAA6D002B4F0B1D007C6FB4 /* ReviewRatingHeader.swift in Sources */,
 				BCCF501B2B1B4AF10067A552 /* ProductReviewViewModel.swift in Sources */,
 				7FA46CE72B737E7A00820A39 /* SelectionCityViewController.swift in Sources */,
+				7F130B1B2BADE94C0028CA99 /* ReviewTextView.swift in Sources */,
 				BC0C557D2B62DB070093437E /* ProductCardCoordinatorProtocol.swift in Sources */,
 				BCCF50192B1B4AF10067A552 /* FavoritesViewController.swift in Sources */,
 				7F2137D32B4E9283006B680C /* RegistrationViewModel.swift in Sources */,
@@ -1712,6 +1774,7 @@
 				7F04A7002B862D7A0008BA97 /* WebViewCoordinator.swift in Sources */,
 				7F8A3FFE2B7F702200FF0EDC /* GeoposiotionService.swift in Sources */,
 				7F8A40032B8385AC00FF0EDC /* GeopositionStatus.swift in Sources */,
+				7F130B102BADA21E0028CA99 /* EditReviewViewModel.swift in Sources */,
 				BCD4B4752B2F5DA600539CD1 /* LocationResponseModel.swift in Sources */,
 				BCCF501C2B1B4AF10067A552 /* PriceInfoViewModel.swift in Sources */,
 				BC6046252B1E4C0100536EB3 /* Date+Extension.swift in Sources */,
@@ -1775,6 +1838,7 @@
 				7FCB3DB42B69659E00EC20E7 /* RecoveryEndViewModelProtocol.swift in Sources */,
 				BCAC6B7D2B223C4100AD5C96 /* TokenResponseModel.swift in Sources */,
 				BE70C22B2B1E5E43004FD1E9 /* CategoryUIModel.swift in Sources */,
+				7F130B192BADBE150028CA99 /* TouchRatingView.swift in Sources */,
 				92787F722B1F5F5F0045B678 /* Localization.swift in Sources */,
 				BC6046052B1E3C9E00536EB3 /* CategoryCell.swift in Sources */,
 				BC93BB6B2B0BCBF1008BE2AD /* StringBarcodeExtension.swift in Sources */,

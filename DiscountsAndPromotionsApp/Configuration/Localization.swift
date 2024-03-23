@@ -92,6 +92,10 @@ enum L10n {
                 static let woman = NSLocalizedString("GenderWoman", tableName: "ProfileFlow", comment: "")
                 static let notChoosen = NSLocalizedString("GenderNotChoosen", tableName: "ProfileFlow", comment: "")
             }
+            enum Review {
+                static let editingReview = NSLocalizedString("EditingReview", tableName: "ProfileFlow", comment: "")
+                static let editReview = NSLocalizedString("EditReview", tableName: "ProfileFlow", comment: "")
+            }
         }
     }
 }
