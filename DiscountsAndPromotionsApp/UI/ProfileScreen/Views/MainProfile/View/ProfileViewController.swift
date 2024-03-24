@@ -128,6 +128,7 @@ final class ProfileViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         viewModel.viewWillAppear()
         bindingOn()
+        self.navigationController?.navigationBar.isHidden = true
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -143,7 +144,6 @@ final class ProfileViewController: UIViewController {
 
     @objc
     private func deleteAccountDidTap() {
-
         AlertPresenter.showAlert(title: L10n.Profile.Main.deletingAccount,
                                  message: L10n.Profile.Main.wantDelete,
                                  textButton: L10n.Profile.Main.delete) { [weak self] in
@@ -191,7 +191,6 @@ final class ProfileViewController: UIViewController {
 
     // MARK: - Private Layout Setting
     private func setupView() {
-        self.navigationController?.navigationBar.isHidden = true
         view.backgroundColor = .cherryWhite
     }
 

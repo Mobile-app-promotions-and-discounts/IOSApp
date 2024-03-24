@@ -10,6 +10,7 @@ final class MyReviewViewController: UIViewController {
     private var viewModel: MyReviewViewModelProtocol
     private var canselable = Set<AnyCancellable>()
 
+    // MARK: - Private layout properties
     private lazy var backButton = UIBarButtonItem(
         image: UIImage(named: "ic_back")?.withTintColor(.cherryBlack).withRenderingMode(.alwaysOriginal),
         style: .plain,
@@ -117,19 +118,8 @@ final class MyReviewViewController: UIViewController {
     }
 
     private func editReview(_ index: Int) {
-        // временно, нужно вынести в координатор
-        let myReviewService = MyReviewService(networkClient: NetworkClient())
-        let vm = EditReviewViewModel(id: index, myReviewService: myReviewService)
-        let vc = EditReviewViewController(viewModel: vm)
-
-        if let sheet = vc.sheetPresentationController {
-                sheet.detents = [.medium()]
-                sheet.largestUndimmedDetentIdentifier = .medium
-                sheet.prefersScrollingExpandsWhenScrolledToEdge = false
-                sheet.prefersEdgeAttachedInCompactHeight = true
-                sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
-            }
-            present(vc, animated: true, completion: nil)
+        let reviewId = viewModel.getMyReviewModel(index: index).id
+        coordinator?.navigateToEditReviewScreen(from: self, id: reviewId)
     }
 
     // MARK: - Private Layout Setting
@@ -245,6 +235,17 @@ extension MyReviewViewController: UITableViewDelegate {
 
         let swipe = UISwipeActionsConfiguration(actions: [delete,edit])
         return swipe
+    }
+
+}
+
+// MARK: - Exitension UIViewControllerTransitioningDelegate
+extension MyReviewViewController: UIViewControllerTransitioningDelegate {
+
+    func presentationController(forPresented presented: UIViewController,
+                                presenting: UIViewController?,
+                                source: UIViewController) -> UIPresentationController? {
+        PresentationController(presentedViewController: presented, presenting: presenting)
     }
 
 }

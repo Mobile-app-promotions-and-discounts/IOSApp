@@ -61,6 +61,17 @@ final class ProfileScreenCoordinator: Coordinator {
         navigationController.pushViewController(vc, animated: true)
     }
 
+    func navigateToEditReviewScreen(from viewController: UIViewController, id: Int) {
+        let vm = EditReviewViewModel(id: id, myReviewService: myReviewsService)
+        let vc = EditReviewViewController(viewModel: vm)
+        vc.coordinator = self
+        vc.modalPresentationStyle = .custom
+        if let presenterVC = (viewController as? UIViewControllerTransitioningDelegate) {
+            vc.transitioningDelegate = presenterVC
+            viewController.present(vc, animated: true, completion: nil)
+        }
+    }
+
     func navigateToNotificationsScreen() {
         // Заглушка до реализации функционала
         let alert = UIAlertController(title: "Notifications", message: "📳", preferredStyle: .alert)
@@ -76,7 +87,6 @@ final class ProfileScreenCoordinator: Coordinator {
     }
 
     func navigateToAboutAppScreen() {
-        // Заглушка до реализации функционала
         let viewModel = AboutAppViewModel()
         let vc = AboutAppViewController(viewModel: viewModel)
         vc.coordinator = self
@@ -90,6 +100,10 @@ final class ProfileScreenCoordinator: Coordinator {
 
     func navigateBack() {
         navigationController.popViewController(animated: true)
+    }
+
+    func dissmiss(viewController: UIViewController) {
+        viewController.dismiss(animated: true)
     }
 
     func navigateToWebView(to webView: WebViewURL) {

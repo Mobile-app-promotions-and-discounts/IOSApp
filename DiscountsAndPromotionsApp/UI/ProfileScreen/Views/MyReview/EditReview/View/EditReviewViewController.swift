@@ -1,10 +1,4 @@
-//
-//  EditReviewViewController.swift
-//  DiscountsAndPromotionsApp
-//
-//  Created by Александр Кудряшов on 22.03.2024.
-//
-
+import Combine
 import UIKit
 
 class EditReviewViewController: UIViewController {
@@ -38,7 +32,10 @@ class EditReviewViewController: UIViewController {
     var coordinator: ProfileScreenCoordinator?
     let viewModel: EditReviewViewModelProtocol
 
-    // MARK: - Private properies
+    // MARK: - Private properties
+    private var canselable = Set<AnyCancellable>()
+
+    // MARK: - Private Layout properies
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = L10n.Profile.Edit.Review.editingReview
@@ -56,12 +53,12 @@ class EditReviewViewController: UIViewController {
         return button
     }()
 
-    private lazy var ratingView = TouchRatingView(rating: viewModel.model.value.rating,
+    private lazy var ratingView = TouchRatingView(rating: viewModel.model.rating,
                                                   maxRating: 5)
 
     private lazy var photoImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = viewModel.model.value.image
+        imageView.image = viewModel.model.image
         imageView.contentMode = .scaleAspectFit
         imageView.layer.cornerRadius = Const.cornerRadius
         return imageView
@@ -69,7 +66,7 @@ class EditReviewViewController: UIViewController {
 
     private lazy var commentTextView: ReviewTextView = {
         let textView = ReviewTextView(delegate: self,
-                                      text: viewModel.model.value.comment) { [weak self] in
+                                      text: viewModel.model.comment) { [weak self] in
             self?.addPhotoAction()
         }
         textView.layer.cornerRadius = Const.cornerRadius
@@ -107,10 +104,20 @@ class EditReviewViewController: UIViewController {
         setupConstraints()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        bindingOn()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        bindingOff()
+    }
+
     // MARK: - Pivate methods
     @objc
     private func closeView() {
-
+        coordinator?.dissmiss(viewController: self)
     }
 
     private func addPhotoAction() {
@@ -119,12 +126,38 @@ class EditReviewViewController: UIViewController {
 
     @objc
     private func editAction() {
-        editButton.isShowIndicator = true
         viewModel.editReview()
-        // временное решение для проверки
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
-            self?.editButton.isShowIndicator = false
-        }
+        viewModel.isLoading
+            .receive(on: DispatchQueue.main)
+            .sink { [ weak self ] isLoading in
+                if isLoading == false {
+                    self?.closeView()
+                }
+            }
+            .store(in: &canselable)
+    }
+
+    private func bindingOn() {
+        viewModel.isChange
+            .receive(on: DispatchQueue.main)
+            .assign(to: \.isUserInteractionEnabled, on: editButton)
+            .store(in: &canselable)
+
+        viewModel.isLoading
+            .receive(on: DispatchQueue.main)
+            .assign(to: \.isShowIndicator, on: editButton)
+            .store(in: &canselable)
+
+        ratingView.rating
+            .receive(on: DispatchQueue.main)
+            .sink { [ weak self ] newRating in
+                self?.viewModel.editRating(newRating)
+            }
+            .store(in: &canselable)
+    }
+
+    private func bindingOff() {
+        canselable.removeAll()
     }
 
     // MARK: - Private layout setting
@@ -185,5 +218,13 @@ class EditReviewViewController: UIViewController {
 
 // MARK: - UITextViewDelegate
 extension EditReviewViewController: UITextViewDelegate {
+
+    func textViewDidChange(_ textView: UITextView) {
+        viewModel.editComment(textView.text)
+    }
+
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
 
 }

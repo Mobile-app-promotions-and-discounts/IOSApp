@@ -6,7 +6,7 @@ final class MyReviewTableViewCell: UITableViewCell {
     // MARK: - Public properties
     static let identifier = "MyReviewTableViewCell"
 
-    // MARK: - Layout elements
+    // MARK: - Private layout properies
     private lazy var reviewImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.cornerRadius = Const.cornerRadius

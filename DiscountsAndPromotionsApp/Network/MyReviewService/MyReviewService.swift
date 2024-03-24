@@ -103,11 +103,11 @@ actor MyReviewService: MyReviewServiceProtocol {
         do {
             let reviewModel: MyReviewNetModel = try await networkClient.request(for: urlRequest)
             print("Review is edited")
-            isLoading.send(false)
 
             if let index = myReviews.value.firstIndex(where: {$0.id == reviewModel.id }) {
                 myReviews.value[index] = reviewModel
             }
+            isLoading.send(false)
 
         } catch let error {
             print("Review editing error: \(error.localizedDescription)")

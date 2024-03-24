@@ -1,10 +1,11 @@
+import Combine
 import SnapKit
 import UIKit
 
 final class TouchRatingView: UIView {
 
     // MARK: - Public properties
-    var rating: Int
+    var rating: CurrentValueSubject<Int,Never>
     let maxRating: Int
 
     // MARK: - Private properies
@@ -21,7 +22,7 @@ final class TouchRatingView: UIView {
         }
         let stackView = UIStackView(arrangedSubviews: buttons)
         stackView.axis = .horizontal
-        stackView.spacing = 2
+        stackView.spacing = Const.spacing
         stackView.alignment = .center
         stackView.distribution = .equalSpacing
         return stackView
@@ -29,7 +30,7 @@ final class TouchRatingView: UIView {
 
     // MARK: - Lifecicle
     init(rating: Int, maxRating: Int) {
-        self.rating = rating
+        self.rating = CurrentValueSubject(rating)
         self.maxRating = maxRating
         super .init(frame: CGRect())
         setupView()
@@ -41,11 +42,11 @@ final class TouchRatingView: UIView {
 
     // MARK: - Private methods
     private func checkImage(currentIndex: Int) -> UIImage {
-        currentIndex <= rating ? .icBigStarFill : .icBigStar
+        currentIndex <= rating.value ? .icBigStarFill : .icBigStar
     }
 
     @objc private func touchButton(_ sender: UIButton) {
-        self.rating = sender.tag
+        self.rating.send(sender.tag)
         redrawButtons()
     }
 
@@ -72,6 +73,7 @@ final class TouchRatingView: UIView {
     private enum Const {
         static let width: CGFloat = 128
         static let height: CGFloat = 24
+        static let spacing: CGFloat = 2
     }
 
 }
