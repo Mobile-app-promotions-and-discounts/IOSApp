@@ -128,6 +128,7 @@ final class ProfileViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         viewModel.viewWillAppear()
         bindingOn()
+        self.navigationController?.navigationBar.isHidden = true
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -143,21 +144,33 @@ final class ProfileViewController: UIViewController {
 
     @objc
     private func deleteAccountDidTap() {
-
         AlertPresenter.showAlert(title: L10n.Profile.Main.deletingAccount,
                                  message: L10n.Profile.Main.wantDelete,
-                                 textButton: L10n.Profile.Main.delete) {
-            self.coordinator?.navigateToDeleteAccountScreen()
+                                 textButton: L10n.Profile.Main.delete) { [weak self] in
+            self?.showAlertForDeleteAccount()
         }
-
     }
 
     @objc
     private func exitAccountDidTap() {
         AlertPresenter.showAlert(title: L10n.Profile.Main.exitAlert,
                                  message: nil,
-                                 textButton: L10n.Profile.Main.exit) {
-            self.coordinator?.navigateToExitAccountScreen()
+                                 textButton: L10n.Profile.Main.exit) { [weak self] in
+            self?.exitView()
+        }
+    }
+
+    private func exitView() {
+        viewModel.exitAccount()
+        coordinator?.navigateToExitAccountScreen()
+    }
+
+    private func showAlertForDeleteAccount() {
+        AlertPresenter.showAlertWithTextFiel(title: L10n.Profile.Main.deletingAccount,
+                                             message: L10n.Profile.Main.forDeletingAccount,
+                                             placeholder: nil,
+                                             textButton: L10n.Profile.Main.delete) { [weak self] text in
+            self?.viewModel.deleteAccount(password: text)
         }
     }
 
@@ -178,7 +191,6 @@ final class ProfileViewController: UIViewController {
 
     // MARK: - Private Layout Setting
     private func setupView() {
-        self.navigationController?.navigationBar.isHidden = true
         view.backgroundColor = .cherryWhite
     }
 
@@ -242,6 +254,14 @@ final class ProfileViewController: UIViewController {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] profileUIModel in
                 self?.updateProfile(profileUIModel)
+            }.store(in: &subscriptions)
+
+        viewModel.userIsDelete
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isDelete in
+                if isDelete {
+                    self?.exitView()
+                }
             }.store(in: &subscriptions)
 
     }

@@ -10,15 +10,15 @@ import UIKit
     var name: String {
         switch self {
         case .region:
-            NSLocalizedString("Region", tableName: "ProfileFlow", comment: "")
+            L10n.Profile.Main.Property.region
         case .myReview:
-            NSLocalizedString("MyReviews", tableName: "ProfileFlow", comment: "")
+            L10n.Profile.Main.Property.myReview
         case .notification:
-            NSLocalizedString("Notifications", tableName: "ProfileFlow", comment: "")
+            L10n.Profile.Main.Property.notification
         case .support:
-            NSLocalizedString("Support", tableName: "ProfileFlow", comment: "")
+            L10n.Profile.Main.Property.support
         case .aboutApp:
-            NSLocalizedString("About", tableName: "ProfileFlow", comment: "")
+            L10n.Profile.Main.Property.aboutApp
         }
     }
 

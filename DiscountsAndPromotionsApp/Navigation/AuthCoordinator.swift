@@ -40,11 +40,12 @@ final class AuthCoordinator: Coordinator {
     }
 
     func navigateToPrivacyWebView(from viewController: UIViewController) {
-        let privacyWebViewVC = WebViewViewController(titleName: L10n.WebView.termsAndPrivacy,
-                                                     webViewURL: .termsAndPrivacy)
+        let privacyWebViewVC = WebViewViewController(titleName: L10n.WebView.privacyPolicy,
+                                                     webViewURL: .privacyPolicy)
         privacyWebViewVC.coordinator = self
         privacyWebViewVC.modalPresentationStyle = .overFullScreen
-        viewController.present(privacyWebViewVC, animated: true)
+        let navController = UINavigationController(rootViewController: privacyWebViewVC)
+        viewController.present(navController, animated: true)
     }
 
     func navigateToSuccessScreen() {

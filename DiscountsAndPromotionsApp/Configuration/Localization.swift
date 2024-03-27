@@ -46,9 +46,20 @@ enum L10n {
     }
     enum WebView {
         static let termsAndPrivacy = NSLocalizedString("termsAndPrivacy", tableName: "WebViewFlow", comment: "")
+        static let aboutUs = NSLocalizedString("aboutUs", tableName: "WebViewFlow", comment: "")
+        static let privacyPolicy = NSLocalizedString("privacyPolicy", tableName: "WebViewFlow", comment: "")
+        static let termsOfUse = NSLocalizedString("termsOfUse", tableName: "WebViewFlow", comment: "")
     }
     enum Profile {
         enum Main {
+            enum Property {
+                static let region = NSLocalizedString("Region", tableName: "ProfileFlow", comment: "")
+                static let myReview = NSLocalizedString("MyReviews", tableName: "ProfileFlow", comment: "")
+                static let notification = NSLocalizedString("Notifications", tableName: "ProfileFlow", comment: "")
+                static let support = NSLocalizedString("Support", tableName: "ProfileFlow", comment: "")
+                static let aboutApp = NSLocalizedString("AboutApp", tableName: "ProfileFlow", comment: "")
+            }
+            static let about = NSLocalizedString("About", tableName: "ProfileFlow", comment: "")
             static let exitProfile = NSLocalizedString("ExitProfile", tableName: "ProfileFlow", comment: "")
             static let deleteProfile = NSLocalizedString("DeleteAccount", tableName: "ProfileFlow", comment: "")
             static let exitAlert = NSLocalizedString("WantExit", tableName: "ProfileFlow", comment: "")
@@ -57,6 +68,7 @@ enum L10n {
             static let deletingAccount = NSLocalizedString("DeletingAccount", tableName: "ProfileFlow", comment: "")
             static let wantDelete = NSLocalizedString("WantDelete", tableName: "ProfileFlow", comment: "")
             static let delete = NSLocalizedString("Delete", tableName: "ProfileFlow", comment: "")
+            static let forDeletingAccount = NSLocalizedString("ForDeletingAccount", tableName: "ProfileFlow", comment: "")
         }
         enum Edit {
             static let done = NSLocalizedString("Done", tableName: "ProfileFlow", comment: "")
@@ -79,6 +91,10 @@ enum L10n {
                 static let man = NSLocalizedString("GenderMan", tableName: "ProfileFlow", comment: "")
                 static let woman = NSLocalizedString("GenderWoman", tableName: "ProfileFlow", comment: "")
                 static let notChoosen = NSLocalizedString("GenderNotChoosen", tableName: "ProfileFlow", comment: "")
+            }
+            enum Review {
+                static let editingReview = NSLocalizedString("EditingReview", tableName: "ProfileFlow", comment: "")
+                static let editReview = NSLocalizedString("EditReview", tableName: "ProfileFlow", comment: "")
             }
         }
     }

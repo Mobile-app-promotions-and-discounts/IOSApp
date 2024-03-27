@@ -11,6 +11,13 @@ enum AppError: Error, Equatable {
     case customError(String)
     case registrationError
     case locationSettingError
+    case deleteAccountError
+    case getUserError
+    case editUserError
+    // отзывы
+    case getMyReviewsError
+    case editMyReviewError
+    case deleteMyReviewError
 }
 
 struct CancellationError: Error {
@@ -45,6 +52,18 @@ final class ErrorHandler {
             return NSLocalizedString("registrationError", tableName: "ErrorHandler", comment: "")
         case .locationSettingError:
             return NSLocalizedString("locationSettingError", tableName: "ErrorHandler", comment: "")
+        case .deleteAccountError:
+            return NSLocalizedString("deleteAccount", tableName: "ErrorHandler", comment: "")
+        case .getUserError:
+            return NSLocalizedString("getUser", tableName: "ErrorHandler", comment: "")
+        case .editUserError:
+            return NSLocalizedString("editUser", tableName: "ErrorHandler", comment: "")
+        case .getMyReviewsError:
+            return NSLocalizedString("getMyReview", tableName: "ErrorHandler", comment: "")
+        case .editMyReviewError:
+            return NSLocalizedString("editMyReview", tableName: "ErrorHandler", comment: "")
+        case .deleteMyReviewError:
+            return NSLocalizedString("deleteMyReview", tableName: "ErrorHandler", comment: "")
         }
     }
 

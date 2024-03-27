@@ -14,25 +14,12 @@ final class WebViewViewController: UIViewController {
     private var cancellables = Set<AnyCancellable>()
     private var webViewProgressObservation: NSKeyValueObservation?
 
-    private lazy var titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = titleName
-        label.font = CherryFonts.headerLarge
-        label.setLineSpacing(lineHeightMultiple: 0.9)
-        label.numberOfLines = 0
-        label.textAlignment = .center
-        label.textColor = .cherryBlack
-        return label
-    }()
-
-    private lazy var backButton: UIButton = {
-        let button = UIButton()
-        let image = UIImage(named: "ic_back") ?? UIImage()
-        button.setImage(image, for: .normal)
-        button.tintColor = .cherryBlack
-        button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
-        return button
-    }()
+    private lazy var backButton = UIBarButtonItem(
+        image: UIImage(named: "ic_back")?.withTintColor(.cherryBlack).withRenderingMode(.alwaysOriginal),
+        style: .plain,
+        target: self,
+        action: #selector(buttonAction)
+    )
 
     private lazy var webView = WKWebView()
 
@@ -49,10 +36,10 @@ final class WebViewViewController: UIViewController {
         return activityIndicator
     }()
 
-    init(titleName: String,
+    init(titleName: String? = nil,
          webViewURL: WebViewURL,
          backButtonAction: ( () -> Void)? = nil) {
-        self.titleName = titleName
+        self.titleName = titleName ?? webViewURL.name
         self.webViewURL = webViewURL
         self.backButtonAction = backButtonAction
         super.init(nibName: nil, bundle: nil)
@@ -65,6 +52,7 @@ final class WebViewViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        setupNavBar()
         setupConstraints()
         observeWebView()
         loadWebView()
@@ -153,30 +141,26 @@ final class WebViewViewController: UIViewController {
         webView.navigationDelegate = self
     }
 
+    private func setupNavBar() {
+        self.navigationController?.navigationBar.isHidden = false
+        navigationItem.leftBarButtonItem = backButton
+        self.title = titleName
+        if let navigationBar = navigationController?.navigationBar {
+            let attributes: [NSAttributedString.Key: Any] = [
+                NSAttributedString.Key.foregroundColor: UIColor.cherryBlack,
+                NSAttributedString.Key.font: CherryFonts.headerLarge as Any
+            ]
+            navigationBar.titleTextAttributes = attributes
+        }
+    }
+
     private func setupConstraints() {
-        [backButton,
-         titleLabel,
-         progressView,
+        [progressView,
          webView,
          activityIndicator].forEach { view.addSubview($0) }
 
-        backButton.snp.makeConstraints {
-            $0.centerY.equalTo(titleLabel.snp.centerY)
-            $0.leading.equalToSuperview()
-                .offset(Const.BackButton.leadingOffset)
-            $0.height.width.equalTo(Const.BackButton.heightWight)
-        }
-
-        titleLabel.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-                .inset(Const.TitleLable.topOffset)
-            $0.leading.trailing.equalToSuperview()
-                .inset(Const.TitleLable.horizontalInsert)
-        }
-
         progressView.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
                 .offset(Const.Progressview.topOffset)
             $0.height.equalTo(Const.Progressview.height)
             $0.trailing.leading.equalToSuperview()
@@ -194,14 +178,6 @@ final class WebViewViewController: UIViewController {
     }
 
     private enum Const {
-        enum TitleLable {
-            static let topOffset: CGFloat = 12
-            static let horizontalInsert: CGFloat = 56
-        }
-        enum BackButton {
-            static let leadingOffset: CGFloat = 16
-            static let heightWight: CGFloat = 24
-        }
         enum Progressview {
             static let topOffset: CGFloat = 2
             static let height: CGFloat = 2
