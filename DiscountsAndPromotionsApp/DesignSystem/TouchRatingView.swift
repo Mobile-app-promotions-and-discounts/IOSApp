@@ -5,10 +5,10 @@ import UIKit
 final class TouchRatingView: UIView {
 
     // MARK: - Public properties
-    var rating: CurrentValueSubject<Int,Never>
-    let maxRating: Int
+    private(set) var rating: CurrentValueSubject<Int,Never>
 
     // MARK: - Private properies
+    private let maxRating: Int
     private lazy var buttons: [UIButton] = []
 
     private lazy var buttonsStackView: UIStackView = {
